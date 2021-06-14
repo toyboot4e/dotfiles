@@ -1,0 +1,123 @@
+# using fzf to browse commits: https://junegunn.kr/2015/03/browsing-git-commits-with-fzf
+
+[core]
+    quotePath = false
+    # unicode compability between Mac and Linux
+    precomposeunicode = true
+    editor = nvim -u ~/dotfiles/editor/vim/mini.vim
+    # enable cash return at the end of lines
+    # whitespace = cr-at-eol
+
+[init]
+    defaultBranch = main
+
+[filter "lfs"]
+   required = true
+   clean = git-lfs clean -- %f
+   smudge = git-lfs smudge --skip -- %f
+   process = git-lfs filter-process --skip
+
+[user]
+    name = toyboot4e
+    email = toyboot4e@gmail.com
+
+[color]
+    ui = auto
+
+[grep]
+    linenumber = true
+    # ERE (extended regular expression)
+    patternType = extended
+
+[pull]
+    ff = only
+
+[alias]
+    re = restore
+    sw = switch
+
+    a = add
+
+    b   = branch
+    be  = branch --edit-description
+    bm  = branch --merged
+    bnm = branch --no-merged
+
+    c   = commit
+    ca  = commit --amend
+    cm  = commit --message
+    cam = commit --amend --message
+    cma = commit --message --amend
+
+    co = checkout
+
+    d   = diff
+    ds  = diff --staged     # if remote is old
+    dcr = diff --cached -R  # if remote is new
+    dc  = diff --cached     # same as --staged
+    dsr = diff --staged -R
+
+    f   = fetch --all
+    fd  = ! git ls | rg --smart-case
+    g   = grep
+    man = help
+
+    l   = lol --all
+    h   = his --all
+    lol = log --graph --pretty=format:'%C(yellow)%h %Creset%s%C(auto)%d %C(cyan)(%an)' --date=format:'%y/%m/%d'
+    his = log --graph --pretty=format:'%C(cyan)%cd %C(yellow)%h %Creset%s%C(auto)%d %C(cyan)(%an)' --date=format:'%y/%m/%d'
+
+    lf  = lol --first-parent
+    hf  = his --first-parent
+
+    m = merge
+
+    ls  = ls-files
+    ls-ignored = ls-files --others --i --exclude-standard
+    # list files in a branch
+    lsb = ls-tree -r --name-only
+
+    r   = remote
+    rmc = rm --cached
+
+    s   = status --short
+    sub = submodule
+
+    t   = tag
+    w   = whatchanged
+
+    ########################################
+    # hub
+
+    url = "! _f() { hub browse --url ; } ; _f"
+    new = "! _f() { hub create -p && git push -u origin main ; } ; _f"
+
+    ########################################
+    # custom commands
+
+    root = "git rev-parse --show-toplevel"
+    exe = "git config --global alias.exec '!exec '"
+    # partial add
+    p = "! _f() { git add -N \"$1\" git add -p ; } ; _f"
+    rename = "! _f() { git mv \"$1\"{,/../\"$2\"} ; } ; _f"
+
+[pager]
+    log  = nl -v 0 | less -iMRX
+    diff = delta
+    show = less -iMRX --pattern='^diff '
+
+[interactive]
+   diffFilter = delta --color-only
+
+[diff "japanese"]
+    wordRegex = [^\\x80-\\xbf][\\x80-\\xbf]*
+
+[delta]
+    # this is unfortunate if the diff is short though
+    navigate = true
+    line-numbers = true
+
+[delta "magit-delta"]
+    # whitespace-error-style = green reverse  # or whatever
+    # FIXME: not working
+    line-numbers = false

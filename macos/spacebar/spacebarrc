@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+spacebar -m config text_font         "Helvetica Neue:Bold:12.0"
+spacebar -m config icon_font         "Font Awesome 5 Free:Solid:12.0"
+
+spacebar -m config background_color  0xff202020
+spacebar -m config foreground_color  0xffa8a8a8
+
+# Visit the font awesome website and find your favorite icons:
+# https://fontawesome.com/start
+# and click "Copy unicode". (it should be right to an icon e.g. "f120")
+# I manually convert it into a UTF-8 character with:
+# http://www.ltg.ed.ac.uk/~richard/utf-8.cgi?input=f120&mode=hex
+
+spacebar -m config space_icon_strip  I II III IV V VI VII VIII IX X
+# spacebar -m config space_icon_strip  II III IV V VI VII VIII IX X
+spacebar -m config power_icon_strip   
+spacebar -m config space_icon        
+spacebar -m config clock_icon        
+
+# set_spacebar_fontsize() {
+#     size="$1"
+#     pad=$(($size+14))
+#     spacebar -m config text_font "Helvetica Neue:Bold:${size}"
+#     spacebar -m config icon_font "Font Awesome 5 Free:Solid:${size}.0"
+#     yabai -m config top_padding  "${pad}"
+# }
+# set_spacebar_fontsize 12
+
+echo "spacebar configuration loaded.."
+

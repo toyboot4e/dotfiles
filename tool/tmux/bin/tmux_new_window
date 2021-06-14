@@ -1,0 +1,10 @@
+#!/bin/sh
+
+tmux new-window -c '#{pane_current_path}' -n "$name"
+# split-window -h -l 5 # bottom pane with five lines
+
+# tmux new-session -s "mySession" -d
+# tmux split-window -h
+# tmux split-window -v
+# tmux -2 attach-session -d
+
