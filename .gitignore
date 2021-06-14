@@ -1,0 +1,15 @@
+.DS_Store
+
+**/**private**
+book/
+
+# mpv
+watch_later
+
+# qutebrowser
+quickmarks
+
+Sessions.vim
+
+# emacs
+
