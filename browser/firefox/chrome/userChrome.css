@@ -1,0 +1,76 @@
+/* ~/Library/Application Support/Firefox/Profiles/<name_of_your_profile>/chrome/userChrome.css */
+
+/* Hide address bar and addon icons */
+/* DO NOT USE THIS IF YOU CANT DO WITHOUT THEM */
+/* #TabsToolbar {visibility: collapse;} */
+/* #navigator-toolbox {visibility: collapse;} */
+
+/* Hide the tab bar */
+#TabsToolbar {
+  visibility: collapse !important;
+}
+
+/* Hide the header of the side bar (Tree Style Tab only) */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]
+  #sidebar-header {
+  display: none;
+}
+
+/* Based on: https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules */
+
+/* Smaller padding left */
+tab-item:not(.pinned) {
+  padding-left: 0px !important;
+}
+
+/* Favicon of pending (unloaded) tabs */
+tab-item.discarded tab-favicon {
+  opacity: 0.5 !important;
+}
+
+/* Colors */
+tab-item {
+  color: #707070;
+  background-color: #202020;
+  height: 16px;
+}
+tab-item.active {
+  color: #202020;
+  border-left: 4px solid #84edb9;
+}
+tab-item.active .label-content {
+  font-weight: bold;
+  font-size: 14px;
+}
+tab-item.active tab-twisty,
+tab-item.active .label-content,
+tab-item.active tab-counter {
+  color: #fff;
+}
+
+/* Numbering */
+tab-item .extra-items-container {
+  z-index: unset !important;
+}
+tab-item .extra-items-container::after {
+  background: Highlight;
+  color: HighlightText;
+  content: counter(vtabs);
+  font-size: x-small;
+  right: 0.2em;
+  padding: 0.2em;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0.2em;
+
+  z-index: 1000;
+}
+
+/*
+c.colors.tabs.odd.fg = '#707070'
+c.colors.tabs.odd.bg = '#202020'
+c.colors.tabs.selected.odd.fg = '#d5c4a1'
+c.colors.tabs.selected.odd.bg = '#202020'
+*/
+
+/* TODO: change tab height and the fontsize (smaller) */

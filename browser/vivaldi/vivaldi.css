@@ -1,0 +1,15 @@
+/* 1. Visit `vivaldi://experiments` and check "Allow for using CSS modifications" */
+/* 2. Open preferences and set the "CUSTOM UI MODIFICATIONS" directory */
+/* 3. Add this file to the directory and restart Vivaldi */
+
+/* Hide title bar */
+#header { display: none; }
+
+/* Set panel width */
+#panels-container { width: 220px !important; }
+
+/* Hide header of panels (https://forum.vivaldi.net/topic/39358/hide-header-title-for-vivaldi-panels) */
+.panel > header h1  { display: none; }
+.panel > header     { padding-top: 0; padding-bottom: 0; }
+.webpanel-header h1 { display: initial !important; }
+

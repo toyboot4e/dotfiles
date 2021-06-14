@@ -1,0 +1,133 @@
+# ~/.w3m/keymap
+
+# Good reference of w3m commands:
+# https://github.com/tokuhirom/w3m/blob/master/doc/README.func
+
+# TODO: deploying downloader from w3m
+
+# --------------------------------------------------------------------------------
+# Reload
+
+keymap r RELOAD # reloads page
+keymap R REINIT # reloads config
+
+# --------------------------------------------------------------------------------
+# Moving around
+
+# cursor
+keymap l MOVE_RIGHT
+keymap h MOVE_LEFT
+keymap j MOVE_DOWN
+keymap k MOVE_UP
+
+keymap w NEXT_WORD
+keymap b PREV_WORD
+
+keymap \^,C-a LINE_BEGIN
+keymap $,C-e LINE_END
+
+keymap < SHIFT_LEFT
+keymap > SHIFT_RIGHT
+
+# scrolling
+keymap C-e UP
+keymap C-y DOWN
+
+keymap d   NEXT_PAGE
+keymap u   PREV_PAGE
+keymap C-d NEXT_PAGE
+keymap C-u PREV_PAGE
+keymap C-f NEXT_PAGE
+keymap C-b PREV_PAGE
+
+# jumping
+keymap Z CENTER_H
+keymap z CENTER_V
+keymap gg BEGIN
+keymap G END
+
+# tab
+keymap [ PREV_TAB
+keymap ] NEXT_TAB
+keymap t NEW_TAB
+keymap T TAB_MENU
+keymap x CLOSE_TAB
+
+# URL
+keymap TAB NEXT_LINK
+keymap SHIFT-TAB PREV_LINK
+
+# bookmark
+keymap B VIEW_BOOKMARK
+keymap a ADD_BOOKMARK
+
+# --------------------------------------------------------------------------------
+# Control
+
+# history
+keymap u UNDO
+keymap C-r REDO
+keymap L NEXT
+keymap H BACK
+keymap P PREV
+
+# URL
+keymap o GOTO
+keymap O TAB_GOTO
+
+# page
+keymap i  INFO
+
+# link
+keymap p   PEEK_LINK
+keymap C-g LINE_INFO
+
+# copy current URL (macOS only)
+keymap yy  EXEC_SHELL "printenv | grep 'W3M_URL' | cut -d'=' -f2 | 'grep -v '^$' | pbcopy"
+
+# keymap Enter GOTO_LINK
+keymap C-t TAB_LINK
+keymap s   TAB_LINK
+# keymap C-s SAVE_LINK
+
+
+# search
+keymap / ISEARCH
+keymap ? ISEARCH_BACK
+keymap n SEARCH_NEXT
+keymap N SEARCH_PREV
+
+# dictionay
+keymap C-w DICT_WORD
+keymap C-W DICT_WORD_AT
+
+# image
+keymap V  VIEW_IMAGE
+# keymap V  PEEK_IMG
+keymap ESC-i SAVE_IMAGE
+
+# mark operation
+keymap m MARK
+keymap M MARK_WORD
+# keymap M  MARK_URL
+
+keymap . NEXT_MARK
+keymap , PREV_MARK
+keymap  \"  REG_MARK
+
+# misc
+keymap \\ MENU
+# keymap H HELP
+keymap ESC-o OPTIONS
+keymap ESC-k COOKIE
+keymap ESC-h HISTORY
+keymap ESC-c COMMAND
+keymap ! EXEC_SHELL
+keymap ESC-z INTERRUPT
+keymap C    CHARSET
+
+# stream
+keymap @ READ_SHELL
+keymap # PIPE_SHELL
+keymap |   PIPE_BUF
+
