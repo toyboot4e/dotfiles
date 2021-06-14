@@ -1,0 +1,28 @@
+= Evil Emacs
+:posframe: https://github.com/tumashu/posframe[posframe]
+
+:use-package: https://github.com/jwiegley/use-package
+
+:evil: https://github.com/emacs-evil/evil[Evil]
+
+:consult: https://github.com/minad/consult[consult]
+:projetile: https://github.com/bbatsov/projectile[projectile]
+:lsp-mode: https://github.com/emacs-lsp/lsp-mode[lsp-mode]
+
+I'm using Emacs like Vim on terminal.
+
+== NOTE: Lacking features on terminal
+
+* icons
+* floating window ({posframe})
+* clipboard register
+
+== Framework
+
+* `package.el` and {use-package}
+
+== Dependent packages (mainly)
+
+* {evil} configuration
+* consult , {projectile} and {lsp-mode}
+
