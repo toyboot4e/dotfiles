@@ -36,16 +36,13 @@
 
         "elisp/ide-ui.el"                ;; Intelligence
         "elisp/ide-langs.el"             ;; Intelligence for specific laguages
+        "elisp/ide-consult.el"           ;; Intelligence
         "elisp/markup.el"                ;; Tiny language supports
         "elisp/web.el"                   ;; Web support
-
-        ;; "elisp/ide-ivy.el"               ;; Intelligence
-        "elisp/ide-consult.el"           ;; Intelligence
 
         ;; configuration
         "elisp/hydra.el"                 ;; Hydras
         "elisp/keymap.el"                ;; Key mappings
-        ;; "elisp/keymap-ivy.el"            ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
 
         "elisp/private.el"               ;; Private code, like API tokens
