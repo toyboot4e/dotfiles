@@ -1,0 +1,37 @@
+= dotfiles
+:kitty: https://sw.kovidgoyal.net/kitty/[Kitty]
+:tmux: https://github.com/tmux/tmux[tmux]
+:nerd: https://github.com/ryanoasis/nerd-fonts[Nerd Font]
+:evil: https://github.com/emacs-evil/evil[Evil]
+:fish: https://fishshell.com/[fish]
+
+:quteb: https://qutebrowser.org/[qutebrowser]
+:w3m: http://w3m.sourceforge.net/[w3m]
+
+:yabai: https://github.com/koekeishiya/yabai[yabai]
+:skhd: https://github.com/koekeishiya/skhd[skhd]
+:spacebar: https://github.com/somdoron/spacebar[spacebar]
+:karabiner: https://karabiner-elements.pqrs.org/[Karabiner-Elements]
+
+:rg: https://github.com/BurntSushi/ripgrep[ripgrep]
+:fd: https://github.com/sharkdp/fd[fd]
+:as-tree: https://github.com/jez/as-tree[as-tree]
+:bat: https://github.com/sharkdp/bat[bat]
+:exa: https://github.com/ogham/exa[exa]
+:delta: https://github.com/delta-io/delta[delta]
+
+I'm on macOS. I followed the cool https://github.com/koekeishiya/dotfiles[dotfiles] for colors.
+
+== List
+
+|===
+| Terminal | {kitty} with {tmux}
+| Font     | SourceCodePro  {nerd}
+| Editors  | NeoVim and {evil} Emacs
+| Shells   | bash and {fish}
+| Browsers | {quteb}, firefox and {w3m}
+| macOS    | {yabai}, {skhd}, {spacebar} and {karabiner}
+|===
+
+{rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
+
