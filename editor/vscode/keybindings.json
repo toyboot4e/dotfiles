@@ -1,0 +1,43 @@
+[
+    // Unfortunatelly, we can't use `:` for key mappings
+    // --------------------------------------------------------------------------------
+    // TERMINAL PANE
+    { // toggle termianl focus (1/2)
+        "key": "cmd+`",
+        "command": "workbench.action.terminal.focus"
+    },
+    { // toggle termianl focus (2/2)
+        "key": "cmd+`",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    },
+    { // focus problems
+        "key": "cmd+k cmd+p",
+        "command": "workbench.action.problems.focus"
+    },
+    // size
+    { // toggle terminal size
+        "key": "cmd+shift+p",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    // --------------------------------------------------------------------------------
+    // GENERIC MODES
+    { // toggle zen mode
+        "key": "cmd+k z",
+        "command": "workbench.action.toggleZenMode"
+    },
+    // --------------------------------------------------------------------------------
+    // Navigation
+    { // switch VSCode instance
+        "key": "shift+cmd+w",
+        "command": "workbench.action.quickSwitchWindow"
+    },
+    { // save withot formatting
+        "key": "cmd+ctrl+s",
+        "command": "workbench.action.files.saveWithoutFormatting"
+    },
+    { // switch VSCode instance
+        "key": "shift+cmd+w",
+        "command": "workbench.action.quickSwitchWindow"
+    },
+]

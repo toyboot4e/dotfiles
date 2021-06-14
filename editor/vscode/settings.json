@@ -1,0 +1,452 @@
+{
+  // Do not format `settings.json` (mainly for Vim mappings)
+  "editor.formatOnSave": false,
+  "editor.formatOnType": true,
+  "[rust]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "matklad.rust-analyzer"
+  },
+  "[csharp]": { "editor.formatOnSave": true },
+  "[c]": { "editor.formatOnSave": true },
+  "[cpp]": { "editor.formatOnSave": true },
+  "[dart]": {
+      "editor.formatOnSave": true,
+      "editor.rulers": [100],
+  },
+
+  // this should work..
+  // "files.associations": { "**/setting.json": "plaintext" },
+  // "[json]": { "editor.formatOnSave": false },
+
+  // --------------------------------------------------------------------------------
+  // CustomizeUI (remove title bar)
+  //
+  // Run `Enable monkey patch` from the command pallet
+  //
+  "window.titleBarStyle": "native",
+  "customizeUI.titleBar": "frameless",
+  // TODO: make the tab thinner
+
+  // --------------------------------------------------------------------------------
+  // Custom CSS (to remove window decoration on macOS)
+  //
+  // https://github.com/be5invis/vscode-custom-css
+  //
+  // Setting up on macOS:
+  //
+  // ```
+  // $ sudo chown -R (whoami) '/Applications/Visual Studio Code.app/Contents/MacOS/Electron'
+  // $ sudo code
+  // $ // Reload Custom CSS and JD
+  // ```
+  "vscode_custom_css.policy": true,
+
+  // --------------------------------------------------------------------------------
+  // Editor
+  //
+  // never show number of references
+  "editor.codeLens": false,
+  // format
+  "editor.tabSize": 4,
+  "editor.autoClosingQuotes": "never",
+  "editor.autoClosingBrackets": "never",
+  // character display
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  // explorer
+  "explorer.autoReveal": false, // use `F2` or  `Files: Reveal Active Files in Side Bar`
+  // GUI
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  // else
+  "extensions.autoUpdate": true,
+
+  // --------------------------------------------------------------------------------
+  // NAVIGATION
+  //
+  "workbench.sideBar.location": "right",
+  "editor.minimap.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.iconTheme": "vscode-great-icons", // pretty nice
+  // ?
+  "workbench.activityBar.visible": true,
+  "workbench.statusBar.visible": true,
+
+  // --------------------------------------------------------------------------------
+  // THEME
+  //
+  // Color
+  "workbench.colorTheme": "Smyck",
+  "window.zoomLevel": -1, // USE SMALLER UI
+  // Font
+  "editor.fontFamily": "SauceCodePro Nerd Font",
+  "editor.fontSize": 13.0,
+  "editor.letterSpacing": 0.00,
+  "editor.lineHeight": 18,
+  "terminal.integrated.fontSize": 13.5,
+
+  // --------------------------------------------------------------------------------
+  // Modes
+  "zenMode.fullScreen": false,
+
+  // --------------------------------------------------------------------------------
+  // Files
+  "files.trimTrailingWhitespace": true,
+  "[markdown, txt]": {
+    "files.trimTrailingWhitespace": false,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.idea": true,
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/target": true
+  },
+
+  // --------------------------------------------------------------------------------
+  // Paths
+  //
+  // shell
+  "terminal.integrated.shell.osx": "/usr/local/bin/fish",
+  "terminal.integrated.automationShell.osx": "/bin/bash",
+  "terminal.integrated.shell.linux": "/usr/local/bin/fish",
+  "terminal.integrated.automationShell.linux": "/bin/bash",
+  // Vim
+  "vim.neovimPath": "/usr/local/bin/nvim",
+
+  // --------------------------------------------------------------------------------
+  // Languages
+  //
+  // Rust
+  "rust-analyzer.updates.askBeforeDownload": false,
+  "rust-analyzer.inlayHints.typeHints": false,
+  "rust-analyzer.inlayHints.chainingHints": true,
+  "rust-analyzer.inlayHints.parameterHints": false,
+  "rust-analyzer.inlayHints.maxLength": null,
+  // C++
+  "cmake.configureOnOpen": false,
+
+  // --------------------------------------------------------------------------------
+  // Vim
+
+  "vim.searchHighlightColor": "rgba(150, 255, 150, 0.5)",
+  "vim.useCtrlKeys": true, // overrides VSCode's bindings with prefix `Ctrl`
+  "vim.visualstar": true, // search with selected text using `*`
+  "vim.leader": "<Space>",
+  // See F1 > `Preferences: Open Keyboard Shortcut References (JSON)` etc.
+  "vim.insertModeKeyBindingsNonRecursive": [
+    // Emacs-like
+    {
+      "before": [ "<C-a>" ],
+      "after": [ "<C-o>", "^" ]
+    },
+    {
+      "before": [ "<C-e>" ],
+      "after": [ "<C-o>", "$" ]
+    },
+    // `C-o`
+    {
+      "before": [ "<C-w>" ],
+      "after": [ "<C-o>", "<C-w>" ]
+    },
+    // save
+    {
+      // TODO: get it work
+      "before": [ "<C-s>" ],
+      "commands": [ "workbench.action.files.save" ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    // `<`, `>` to indent
+    {
+      "before": [ ">" ],
+      "commands": [ "editor.action.indentLines" ]
+    },
+    {
+      "before": [ "<" ],
+      "commands": [ "editor.action.outdentLines" ]
+    },
+    // no yank
+    {
+      "before": [ "x" ],
+      "after": [ "\"", "_", "x" ]
+    },
+    // v to expand region to scope
+    {
+      "before": [ "v" ],
+      "commands": [ "expand_region" ] },
+    {
+      "before": [ "V" ],
+      "commands": [ "undo_expand_region" ]
+    }
+  ],
+
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // --------------------------------------------------------------------------------
+    // FIX DEFAULTS
+    {
+      // Y -> y$
+      "before": [ "Y" ],
+      "after": [ "y", "$" ]
+    },
+    {
+      // x -> _x
+      "before": [ "x" ],
+      "after": [ "\"", "_", "x" ]
+    },
+    {
+      // s -> _s
+      "before": [ "s" ],
+      "after": [ "\"", "_", "s" ]
+    },
+    {
+      // _ -> "_
+      "before": [ "_" ],
+      "after": [ "\"", "_" ]
+    },
+    {
+      // + -> "+
+      "before": [ "+" ],
+      "after": [ "\"", "+" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // CHANGE DEDAULTS
+    // peek
+    {
+      // peek definiton
+      "before": [ "g", "p" ],
+      "commands": [ "editor.action.peekDefinition" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // []
+    // new line
+    { // new line down
+      "before": [ "]", "<Space>" ],
+      "after": [ "o", "Esc" ]
+    },
+    {
+      "before": [ "[", "<Space>" ],
+      "after": [ "O", "Esc" ]
+    },
+    // window
+    {
+      "before": [ "]", "w" ],
+      "after": [ "C-w", "w" ]
+    },
+    { // FIXME: somehow C-w W not working
+      "before": [ "[", "w" ],
+      "after": [ "C-w", "w" ]
+    },
+    // tabs
+    {
+      // previous tab
+      "before": [ "[", "t" ],
+      "commands": [ ":tabprevious" ]
+    },
+    {
+      // next tab
+      "before": [ "]", "t" ],
+      "commands": [ ":tabnext" ]
+    },
+    {
+      // first tab
+      "before": [ "[", "T" ],
+      "commands": [ ":tabfirst" ]
+    },
+    {
+      // last tab
+      "before": [ "]", "T" ],
+      "commands": [ ":tablast" ]
+    },
+    {
+      // previous tab
+      "before": [ "[", "b" ],
+      "commands": [ ":tabprevious" ]
+    },
+    {
+      // next tab
+      "before": [ "]", "b" ],
+      "commands": [ ":tabnext" ]
+    },
+    {
+      // first tab
+      "before": [ "[", "B" ],
+      "commands": [ ":tabfirst" ]
+    },
+    {
+      // last tab
+      "before": [ "]", "B" ],
+      "commands": [ ":tablast" ]
+    },
+    { // fold
+      "before": [ "[", "f" ],
+      "commands": [ { "command": "editor.fold" }
+      ]
+    },
+    {
+      // unfold
+      "before": [ "]", "f" ],
+      "commands": [ { "command": "editor.unfold" } ]
+    },
+    // markers; diagnostics
+    {
+      // previous marker
+      "before": [ "[", "g" ],
+      "commands": [ "editor.action.marker.prevInFiles" ]
+    },
+    {
+      // next marker
+      "before": [ "]", "g" ],
+      "commands": [ "editor.action.marker.nextInFiles" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // SHORTCUTS
+    {
+      // show hover
+      "before": [ "K" ],
+      "commands": [ "editor.action.showHover" ]
+    },
+    {
+      // quit
+      "before": [ "<Leader>", "c" ],
+      "commands": [ ":q" ]
+    },
+    {
+      // quit
+      "before": [ "<Leader>", "q" ],
+      "commands": [ ":q" ]
+    },
+    {
+      // toggle comment
+      "before": [ "<Leader>", "/" ],
+      "commands": [ "editor.action.commentLine" ]
+    },
+
+    // {
+      // "before": ["alt", "`"],
+      // "command": "workbench.action.terminal.focus"
+    // },
+    // {
+      // "before": ["alt", "`"],
+      // "command": "workbench.action.focusActiveEditorGroup",
+      // "when": "terminalFocus"
+    // },
+
+    // --------------------------------------------------------------------------------
+    // ADDITIONAL COMMANDS
+    //
+    // refactor / rich features
+    { // rename
+      "before": [ "<Leader>", "r" ],
+      "commands": [ "editor.action.rename" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // MODES
+    {
+      // zen mode
+      "before": [ "<Leader>", "z" ],
+      "commands": [ "workbench.action.toggleZenMods" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // WINDOW COMMANDS
+    // C-w wasd to split
+    {
+      "before": [ "C-w", "a" ],
+      "commands": [ "workbench.action.splitEditorLeft" ]
+    },
+    {
+      "before": [ "C-w", "d" ],
+      "commands": [ "workbench.action.splitEditorRight" ]
+    },
+    {
+      "before": [ "C-w", "w" ],
+      "commands": [ "workbench.action.splitEditorUp" ]
+    },
+    {
+      "before": [ "C-w", "s" ],
+      "commands": [ "workbench.action.splitEditorDown" ]
+    },
+    // <Space> wasd to split
+    {
+      "before": [ "<Leader>", "s", "a" ],
+      "commands": [ "workbench.action.splitEditorLeft" ]
+    },
+    {
+      "before": [ "<Leader>", "s", "d" ],
+      "commands": [ "workbench.action.splitEditorRight" ]
+    },
+    {
+      "before": [ "<Leader>", "s", "w" ],
+      "commands": [ "workbench.action.splitEditorUp" ]
+    },
+    {
+      "before": [ "<Leader>", "s", "s" ],
+      "commands": [ "workbench.action.splitEditorDown" ]
+    },
+
+    // --------------------------------------------------------------------------------
+    // Case coersion
+    // `crs` doesn't work in VSCodeCim
+    // {
+    //   "before": [ "c", "r", "s" ],
+    //   "commands": [ "extension.changeCase.snake" ],
+    // },
+    {
+      "before": [ " ", "s" ],
+      "commands": [ "extension.changeCase.snake" ],
+    },
+
+    // --------------------------------------------------------------------------------
+    // JAPANESE
+    // `<C-j`> for `、`, `<C-l>` for `。`
+    // f, F
+    {
+      "before": [ "f", "<C-l>" ],
+      "after": [ "f", "。" ]
+    },
+    {
+      "before": [ "f", "<C-j>" ],
+      "after": [ "f", "、" ]
+    },
+    {
+      "before": [ "F", "<C-l>" ],
+      "after": [ "F", "。" ]
+    },
+    {
+      "before": [ "F", "<C-j>" ],
+      "after": [ "f", "、" ]
+    },
+    // t, T
+    {
+      "before": [ "t", "<C-l>" ],
+      "after": [ "t", "。" ]
+    },
+    {
+      "before": [ "t", "<C-j>" ],
+      "after": [ "t", "、" ]
+    },
+    {
+      "before": [ "T", "<C-l>" ],
+      "after": [ "T", "。" ]
+    },
+    {
+      "before": [ "T", "<C-j>" ],
+      "after": [ "T", "、" ]
+    }
+  ],
+  "workbench.startupEditor": "newUntitledFile",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "dart.checkForSdkUpdates": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}
