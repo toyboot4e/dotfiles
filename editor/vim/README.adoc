@@ -1,0 +1,9 @@
+= Vim
+:vim-plug: https://github.com/junegunn/vim-plug
+
+I'm using NeoVim. My configuration is outdated.
+
+== Framework
+
+* {vim-plug}
+

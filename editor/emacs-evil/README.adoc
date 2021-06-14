@@ -1,13 +1,23 @@
 = Evil Emacs
 :posframe: https://github.com/tumashu/posframe[posframe]
 
-:use-package: https://github.com/jwiegley/use-package
+:use-package: https://github.com/jwiegley/use-package[use-package]
 
 :evil: https://github.com/emacs-evil/evil[Evil]
 
 :consult: https://github.com/minad/consult[consult]
-:projetile: https://github.com/bbatsov/projectile[projectile]
+:projectile: https://github.com/bbatsov/projectile[projectile]
+:company: https://github.com/company-mode/company-mode[company]
 :lsp-mode: https://github.com/emacs-lsp/lsp-mode[lsp-mode]
+
+:centaur-tabs: https://github.com/ema2159/centaur-tabs[centaur-tabs]
+:neotree: https://github.com/jaypei/emacs-neotree[neotree]
+
+:magit: https://github.com/magit/magit[magit]
+:olivetti: https://github.com/rnkn/olivetti[olivetti]
+
+:vterm: https://github.com/akermu/emacs-libvterm/[vterm]
+:elfeed: https://github.com/skeeto/elfeed[elfeed]
 
 I'm using Emacs like Vim on terminal.
 
@@ -23,6 +33,15 @@ I'm using Emacs like Vim on terminal.
 
 == Dependent packages (mainly)
 
-* {evil} configuration
-* consult , {projectile} and {lsp-mode}
+In addition to {evil},
+
+* {consult}, {projectile}, {company} and {lsp-mode}
+* {centaur-tabs}, {neotree} and `tab-bar-mode`
+* {magit} and {olivetti}
+* `org-mode`
+
+== TODOs
+
+* {vterm}
+* {elfeed}
 
