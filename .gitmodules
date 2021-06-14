@@ -1,0 +1,15 @@
+[submodule "editor/emacs/local/awesome-tab"]
+	path = editor/emacs-evil/local/awesome-tab
+	url = https://github.com/manateelazycat/awesome-tab
+[submodule "editor/emacs/local/metal-mode"]
+	path = editor/emacs-evil/local/metal-mode
+	url = https://github.com/masfj/metal-mode
+[submodule "editor/emacs/local/smyx"]
+	path = editor/emacs-evil/local/smyx
+	url = https://github.com/tacit7/smyx
+[submodule "editor/emacs/snippets/adoc-mode-yasnippet"]
+	path = editor/emacs-evil/snippets/adoc-mode-yasnippet
+	url = https://github.com/nicorikken/adoc-mode-yasnippet
+[submodule "editor/emacs/local/odin-mode"]
+	path = editor/emacs-evil/local/odin-mode
+	url = https://github.com/mattt-b/odin-mode
