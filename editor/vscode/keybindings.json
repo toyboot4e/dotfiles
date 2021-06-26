@@ -1,33 +1,54 @@
 [
-    // Unfortunatelly, we can't use `:` for key mappings
+    // NOTE: we can't use `:` for key mappings unfortunately
     // --------------------------------------------------------------------------------
     // TERMINAL PANE
+
     { // toggle termianl focus (1/2)
-        "key": "cmd+`",
-        "command": "workbench.action.terminal.focus"
+        "key": "cmd+;",
+        "command": "workbench.action.terminal.focus",
+        "when": "editorFocus"
     },
     { // toggle termianl focus (2/2)
-        "key": "cmd+`",
+        "key": "cmd+;",
         "command": "workbench.action.focusActiveEditorGroup",
         "when": "terminalFocus"
     },
-    { // focus problems
-        "key": "cmd+k cmd+p",
-        "command": "workbench.action.problems.focus"
-    },
+
+    // { // focus problems
+    //     "key": "cmd+k cmd+p",
+    //     "command": "workbench.action.problems.focus"
+    // },
+
     // size
     { // toggle terminal size
         "key": "cmd+shift+p",
         "command": "workbench.action.toggleMaximizedPanel"
     },
+
     // --------------------------------------------------------------------------------
-    // GENERIC MODES
-    { // toggle zen mode
-        "key": "cmd+k z",
-        "command": "workbench.action.toggleZenMode"
+    // VIM-ONLY
+
+    // { // toggle comment
+    //     "key": " /",
+    //     "command": "editor.action.commentLine"
+    // },
+
+    {
+      "key": "cmd+k",
+      "when": "!sideBarFocus",
+      "command": "workbench.action.focusSideBar"
     },
+    {
+      "key": "cmd+k",
+      "when": "sideBarFocus",
+      "command": "workbench.action.focusActiveEditorGroup"
+    },
+
+
+    // focus sidebar
     // --------------------------------------------------------------------------------
     // Navigation
+
     { // switch VSCode instance
         "key": "shift+cmd+w",
         "command": "workbench.action.quickSwitchWindow"

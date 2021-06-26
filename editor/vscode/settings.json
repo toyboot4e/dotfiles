@@ -76,8 +76,7 @@
   // THEME
   //
   // Color
-  "workbench.colorTheme": "Smyck",
-  "window.zoomLevel": -1, // USE SMALLER UI
+  "workbench.colorTheme": "Smyck", // USE SMALLER UI
   // Font
   "editor.fontFamily": "SauceCodePro Nerd Font",
   "editor.fontSize": 13.0,
@@ -184,11 +183,41 @@
   ],
 
   "vim.normalModeKeyBindingsNonRecursive": [
+    //  --------------------------------------------------------------------------------
+    // sidebar
+    { // reveal
+      "before": [ "<Leader>", "n" ],
+      "commands": [ "workbench.files.action.showActiveFileInExplorer" ]
+    },
+    // press `cmd+k` to toggle sidebar focus (c.f. `keybindings.json`)
+
+    // control
+    {
+      "before": "j",
+      "after": "down",
+      "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+      "before": "k",
+      "after": "up",
+      "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+      "before": "h",
+      "after": "left",
+      "when": "inQuickOpen"
+    },
+    {
+      "before": "l",
+      "after": "right",
+      "when": "inQuickOpen"
+    },
+
     // --------------------------------------------------------------------------------
     // FIX DEFAULTS
     {
       // Y -> y$
-      "before": [ "Y" ],
+      // "before": [ "Y" ],
       "after": [ "y", "$" ]
     },
     {
@@ -311,47 +340,33 @@
       "before": [ "K" ],
       "commands": [ "editor.action.showHover" ]
     },
+
     {
       // quit
       "before": [ "<Leader>", "c" ],
       "commands": [ ":q" ]
     },
+
     {
       // quit
       "before": [ "<Leader>", "q" ],
       "commands": [ ":q" ]
     },
-    {
-      // toggle comment
-      "before": [ "<Leader>", "/" ],
-      "commands": [ "editor.action.commentLine" ]
-    },
-
-    // {
-      // "before": ["alt", "`"],
-      // "command": "workbench.action.terminal.focus"
-    // },
-    // {
-      // "before": ["alt", "`"],
-      // "command": "workbench.action.focusActiveEditorGroup",
-      // "when": "terminalFocus"
-    // },
 
     // --------------------------------------------------------------------------------
-    // ADDITIONAL COMMANDS
-    //
-    // refactor / rich features
+    // MISC
     { // rename
       "before": [ "<Leader>", "r" ],
       "commands": [ "editor.action.rename" ]
     },
-
-    // --------------------------------------------------------------------------------
-    // MODES
+    { // kill buffer
+        "before": [ "<Leader>", "k"],
+        "commands": [ "workbench.action.closeActiveEditor" ]
+    },
     {
       // zen mode
       "before": [ "<Leader>", "z" ],
-      "commands": [ "workbench.action.toggleZenMods" ]
+      "commands": [ "workbench.action.toggleZenMode" ]
     },
 
     // --------------------------------------------------------------------------------
@@ -449,4 +464,5 @@
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "window.zoomLevel": -1,
 }
