@@ -36,6 +36,7 @@ DEFS is a plist associating completion categories to commands."
     )
 
 (progn ;; keymap for `consult-find-map'
+    ;; TODO: use it
     (defun toy/consult-backspace ()
         "Go up directory."
         (interactive)
@@ -78,6 +79,11 @@ DEFS is a plist associating completion categories to commands."
     (interactive)
     (affe-find (projectile-project-root) ". "))
 
+(defun toy/proj-grep ()
+    "Find a file from project files."
+    (interactive)
+    (affe-grep (projectile-project-root) ""))
+
 (evil-define-key 'normal 'toy/global-mode-map
     " ff" (_cd (call-interactively #'find-file))
     ;; " fF" #'projectile-find-file ;; TODO: add key mappings
@@ -91,6 +97,8 @@ DEFS is a plist associating completion categories to commands."
     " fl" #'consult-line
     " fo" #'consult-outline
     " fO" #'org-switchb
+    " fi" #'consult-imenu
+    " fd" #'consult-lsp-diagnostics
 
     ;; evil
     ;; " fm" #'consult-evil-marks
@@ -105,7 +113,7 @@ DEFS is a plist associating completion categories to commands."
     ;; in all buffer
     ;; " gB" #'
     " gr" #'affe-grep
-    " gR" #'consult-ripgrep
+    " gR" #'toy/proj-grep
     )
 
 ;; TODO: why do we have to use `define-key`?

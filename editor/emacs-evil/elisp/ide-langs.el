@@ -10,7 +10,9 @@
     ;; `rustic`, please don't format
     (setq rustic-format-trigger nil
           rustic-format-on-save nil
-          rustic-lsp-format t)
+          rustic-lsp-format t
+          lsp-rust-analyzer-server-display-inlay-hints t
+          )
 
     (defun toy/init-rustic ()
         (interactive)

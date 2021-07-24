@@ -328,8 +328,14 @@
     (evil-ex-define-cmd "qa[ll]" 'toy/evil-quit-all)
     )
 
+(defun toy/search-forward ()
+    (interactive)
+    (call-interactively #'evil-search-forward)
+    (toy/force-center))
+
 (evil-define-key 'normal 'toy/global-mode-map
     " ;" #'shell-command
+    " *" #'toy/search-forward
 
     " k" #'kill-this-buffer    ;; kill buffer
     " K" #'evil-delete-buffer  ;; kill buffer and :qclose the window
@@ -367,7 +373,7 @@
     ;; TODO: prefer fuzzy search
     " fo" #'org-switchb
 
-    " fg" #'consult-tabs-counsel-switch-group
+    " fg" #'centaur-tabs-switch-group
     )
 
 ;; ;; [o]rg-mode

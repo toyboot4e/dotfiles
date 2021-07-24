@@ -158,3 +158,7 @@
 
 ;; FIXME: color of selected item
 
+(use-package consult-lsp
+    :config
+    (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
+
