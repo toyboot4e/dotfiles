@@ -1,0 +1,83 @@
+#!/bin/bash
+# create symlinks to each dot fiels
+
+# vim-plug: https://github.com/junegunn/vim-plug
+
+# fisher: https://github.com/jorgebucaran/fisher
+# fzf: https://github.com/jethrokuan/fzf
+
+# chemacs2: https://github.com/plexus/chemacs2
+# git clone https://github.com/plexus/chemacs2 ~/.emacs.d
+
+cd ~/dotfiles || {
+    echo "~/dotfiles doesn't exist"
+    return 1
+}
+
+mkdir ~/.config/{fish,git,qutebrowser,vim,nvim,coc}
+mkdir ~/.config/{karabiner,yabai,spacebar}
+mkdir ~/.w3m
+
+_link() {
+    [ ! -e "$1" ] && {
+        echo "err: source file $1 doesn't exist" 1>&2
+        return 0
+    }
+
+    [ ! -e "$(dirname "$2")" ] && {
+        echo "err: dest dir $(dirname "$2") doesn't exist" 1>&2
+        return 0
+    }
+
+    [ -e "$2" ] && {
+        echo "# dest file \`$2\` already exists"
+        return 0
+    }
+
+    _root=~/dotfiles
+    ln -s "${_root}/${1}" "${2}"
+
+    echo "linked: \`$2\` -> \`$1\`"
+}
+
+# command line tools
+_link tool/git/config                ~/.config/git/config
+_link tool/tmux/.tmux.conf           ~/.tmux.conf
+
+# macOS
+_link macos/skhd/.skhdrc             ~/.skhdrc
+_link macos/yabai/yabairc            ~/.config/yabai/yabairc
+_link macos/spacebar/spacebarrc      ~/.config/spacebar/spacebarrc
+
+# Karabiner
+
+# terminal
+_link terminal/kitty                 ~/.config/kitty
+
+# shells
+_link shell/bash/.bashrc             ~/.bashrc
+_link shell/fish/config.fish         ~/.config/fish/config.fish
+
+# editors
+_link editor/vim/.vimrc              ~/.vimrc
+_link editor/vim/.vimrc              ~/.config/nvim/init.vim
+
+_link editor/.emacs-profile.el          ~/.emacs-profile.el
+
+# _link editor/emacs/conf              ~/.emacs.d/conf
+# _link editor/emacs/init.el           ~/.emacs.d/init.el
+# VSCode
+# Sublime
+
+# browsers
+_link browser/qutebrowser/config.py  ~/.qutebrowser/config.py
+_link browser/qutebrowser/quickmarks ~/.qutebrowser/quickmarks
+# _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
+# path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
+_link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
+
+_link browser/w3m/bookmark.html      ~/.w3m/bookmark.html
+_link browser/w3m/config             ~/.w3m/config
+_link browser/w3m/keymap             ~/.w3m/keymap
+# Firefox
+
