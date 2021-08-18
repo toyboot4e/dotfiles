@@ -121,3 +121,5 @@
     # whitespace-error-style = green reverse  # or whatever
     # FIXME: not working
     line-numbers = false
+[diff]
+	algorithm = histogram
