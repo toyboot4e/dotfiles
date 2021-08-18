@@ -68,7 +68,7 @@
     :commands (magit-todos-list)
     :after magit)
 
-;; not working well
+;; ;; not working well
 ;; (use-package magit-delta
 ;;     ;; https://github.com/dandavison/magit-delta
 ;;     :commands magit-delta-mode
@@ -153,9 +153,49 @@
 
         ;; else
         "q" #'neotree-hide          ;; quit
-        "z" #'neotree-stretch-toggle
+        ;; prefer `zz`
+        ;; "z" #'neotree-stretch-toggle
         (kbd "TAB") 'neotree-stretch-toggle
         )
+    )
+
+;; ------------------------------ GitHub ------------------------------
+
+(use-package git-link
+    :commands (git-link git-link-commit)
+    :config
+    (defun git-link-open-ln ()
+        (interactive)
+        (let ((git-link-open-in-browser t))
+            (call-interactively #'git-link)))
+
+    (defun git-link-today-ln ()
+        (interactive)
+        (let ((git-link-use-commit t))
+            (call-interactively #'git-link)))
+
+    (defun git-link-open-today-ln ()
+        (interactive)
+        (let ((git-link-use-commit t)
+              (git-link-open-in-browser t))
+            (call-interactively #'git-link)))
+
+    ;; no line number
+    (defun git-link-open ()
+        (interactive)
+        (let ((git-link-use-single-line-number t))
+            (git-link-open-ln)))
+
+    (defun git-link-open-today ()
+        (interactive)
+        (let ((git-link-use-single-line-number t))
+            (git-link-today-ln)))
+
+    (defun git-link-open-today ()
+        (interactive)
+        (let ((git-link-use-single-line-number t))
+            (git-link-open-today-ln)))
+
     )
 
 ;; ------------------------------ Workspace ------------------------------
@@ -295,6 +335,17 @@
         (kbd "RET") #'lsp-ui-imenu--visit
         )
     )
+
+;; (use-package imenu-list
+;;     :bind
+;;     ("<f10>" . imenu-list-smart-toggle)
+;;     ;; :custom-face
+;;     ;; (imenu-list-entry-face-1 ((t (:foreground "white"))))
+;;     :custom
+;;     (imenu-list-focus-after-activation t)
+;;     (imenu-list-auto-resize nil)
+;;     (imenu-list-size 0.15)
+;;     )
 
 ;; TODO: fix error somehow
 ;; (use-package lsp-treemacs

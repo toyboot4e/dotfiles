@@ -52,12 +52,13 @@ DEFS is a plist associating completion categories to commands."
                                       (+ 1 (point))))))
                     (kill-region p1 p2)))))
 
-    (defvar toy/consult-find-map
-        (let ((map (make-sparse-keymap)))
-            (define-key map (kbd "<DEL>") #'previous-history-element)
-            map))
+    ;; (defvar toy/consult-find-map
+    ;;     (let ((map (make-sparse-keymap)))
+    ;;         (define-key map (kbd "<DEL>") #'previous-history-element)
+    ;;         map))
 
-    (consult-customize consult-find :keymap toy/consult-find-map))
+    ;; (consult-customize consult-find :keymap toy/consult-find-map)
+    )
 
 ;; TODO: kill with C-k
 
@@ -86,19 +87,25 @@ DEFS is a plist associating completion categories to commands."
 
 (evil-define-key 'normal 'toy/global-mode-map
     " ff" (_cd (call-interactively #'find-file))
-    ;; " fF" #'projectile-find-file ;; TODO: add key mappings
     " fF" #'toy/proj-find
     " fb" #'consult-buffer
     " fB" #'consult-buffer-other-window
-    " fp" #'projectile-switch-project
+
     " fr" #'consult-recentf
     " fh" #'consult-history
     " fM" #'consult-mode-command
+
     " fl" #'consult-line
     " fo" #'consult-outline
     " fO" #'org-switchb
+
     " fi" #'consult-imenu
     " fd" #'consult-lsp-diagnostics
+    " fs" #'consult-lsp-symbols
+
+    " fp" #'projectile-switch-project
+    " fg" #'consult-ghq-find
+    " fD" #'consult-dir
 
     ;; evil
     ;; " fm" #'consult-evil-marks

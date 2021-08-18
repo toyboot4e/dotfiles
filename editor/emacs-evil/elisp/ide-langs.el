@@ -11,7 +11,9 @@
     (setq rustic-format-trigger nil
           rustic-format-on-save nil
           rustic-lsp-format t
-          lsp-rust-analyzer-server-display-inlay-hints t
+          ;; Don't show inlay hints for type parameters
+          ;; (sideline of diagnostics are still enabled)
+          lsp-rust-analyzer-server-display-inlay-hints nil
           )
 
     (defun toy/init-rustic ()
@@ -89,3 +91,22 @@
 (use-package idris-mode
     :hook (idirs-mode . lsp-deferred)
     )
+
+;; (use-package typescript
+;;     :mode ("\\.ts\\'" . typescript-mode))
+
+;; see `locals.el'
+;; (use-package tree-sitter
+;;     :config
+;;     ;; Replace the regex-based highlighting provided by font-lock-mode with
+;;     ;; tree-based syntax highlighting
+;;     ;; - limitedly:
+;;     ;; (add-hook 'rust-mode-hook #'tree-sitter-hl-mode)
+;;     ;; - globally:
+;;     (global-tree-sitter-mode)
+;;     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;;     ;; tree-sitter-hl-mode
+;;     )
+;; 
+;; (use-package tree-sitter-langs
+;;     :after tree-sitter)

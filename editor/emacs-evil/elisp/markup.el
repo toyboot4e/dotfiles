@@ -14,6 +14,22 @@
 ;;     "\C-y" #'yas-expand
 ;;     )
 
+;; ------------------------------ Translation ------------------------------
+
+(use-package google-translate
+    :custom
+    (google-translate-default-source-language "ja")
+    (google-translate-default-target-language "en")
+    :config
+    ;; (setq google-translate-translation-directions-alist
+    ;;       '(("jp" . "en") ("en" . "jp")))
+
+    ;; change backend (or else I got search failed error)
+    (defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130))
+    (setq google-translate-backend-method 'curl)
+
+    (require 'google-translate-smooth-ui))
+
 ;; ------------------------------ Configuration files ------------------------------
 
 (use-package gitignore-mode
