@@ -109,6 +109,12 @@
 [interactive]
    diffFilter = delta --color-only
 
+[diff]
+    algorithm = histogram
+    # use grah for just-moving diff
+    colorMoved = dimmed-zebra
+    colorMovedWS = allow-indentation-change
+
 [diff "japanese"]
     wordRegex = [^\\x80-\\xbf][\\x80-\\xbf]*
 
@@ -121,5 +127,3 @@
     # whitespace-error-style = green reverse  # or whatever
     # FIXME: not working
     line-numbers = false
-[diff]
-	algorithm = histogram
