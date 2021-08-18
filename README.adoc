@@ -13,6 +13,7 @@
 :spacebar: https://github.com/somdoron/spacebar[spacebar]
 :karabiner: https://karabiner-elements.pqrs.org/[Karabiner-Elements]
 
+:ghq: https://github.com/x-motemen/ghq[ghq]
 :rg: https://github.com/BurntSushi/ripgrep[ripgrep]
 :fd: https://github.com/sharkdp/fd[fd]
 :as-tree: https://github.com/jez/as-tree[as-tree]
@@ -33,5 +34,41 @@ I'm on macOS. I followed the cool https://github.com/koekeishiya/dotfiles[dotfil
 | macOS    | {yabai}, {skhd}, {spacebar} and {karabiner}
 |===
 
-{rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
+{ghq}, {rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
+
+== Installations (WIP)
+
+```sh
+$ # Rust
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ cargo install cargo-edit miri
+
+$ # rvm
+$ gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+$ \curl -sSL https://get.rvm.io | bash -s stable
+$ rvm install latest
+
+$ # asciidoctor
+$ gem install asciidoctor asciidoctor-diagram
+```
+
+=== macOS
+
+```sh
+$ brew install kitty git gh gqh z tealdeer fd ripgrep as-tree bat exa diff-so-fancy fzf git-delta
+$ brew install rust-analyzer
+$ brew install gnu-sed jq pup
+$ brew install ccls node make cmake go
+$ brew install --cask mpv
+$ brew install gnuplot
+$ brew install bandcamp-dl youtube-dl
+$ brew install llvm
+```
+
+```sh
+$ brew install emacs-plus --with-no-titlebar
+$ brew install yabai skhd spacebar
+$ brew install --cask karabiner-elements
+$ brew install --cask qutebrowser
+```
 

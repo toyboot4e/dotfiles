@@ -1,0 +1,6 @@
+= VSCode
+
+== Tips
+
+* https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name[Open symbol by name] (`Cmd+T` or `Cmd+P #`)
+

@@ -31,7 +31,7 @@ ctrl + shift + cmd + alt - w : open -a 'Terminal'
 ctrl + shift + cmd + alt - r : open -a 'Alacritty'
 
 # agenda
-# ctrl + shift + cmd + alt - d : open -a 'Visual Studio Code'
+ctrl + shift + cmd + alt - s : open -a 'Visual Studio Code'
 # ctrl + shift + cmd + alt - f : open -a 'Numbers'
 
 # SNS

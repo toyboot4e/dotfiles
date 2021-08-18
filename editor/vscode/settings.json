@@ -13,6 +13,17 @@
       "editor.formatOnSave": true,
       "editor.rulers": [100],
   },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "dart.checkForSdkUpdates": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+      "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 
   // this should work..
   // "files.associations": { "**/setting.json": "plaintext" },
@@ -193,23 +204,23 @@
 
     // control
     {
-      "before": "j",
-      "after": "down",
+      "before": [ "j" ],
+      "after": [ "down" ],
       "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
     },
     {
-      "before": "k",
-      "after": "up",
+      "before": [ "k" ],
+      "after": [ "up" ],
       "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
     },
     {
-      "before": "h",
-      "after": "left",
+      "before": [ "h" ],
+      "after": [ "left" ],
       "when": "inQuickOpen"
     },
     {
-      "before": "l",
-      "after": "right",
+      "before": [ "l" ],
+      "after": [ "right" ],
       "when": "inQuickOpen"
     },
 
@@ -456,13 +467,8 @@
       "after": [ "T", "、" ]
     }
   ],
+  // automatically added:
   "workbench.startupEditor": "newUntitledFile",
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "dart.checkForSdkUpdates": false,
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  "redhat.telemetry.enabled": false,
   "window.zoomLevel": -1,
 }

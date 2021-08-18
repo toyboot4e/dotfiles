@@ -62,7 +62,7 @@ _link shell/fish/config.fish         ~/.config/fish/config.fish
 _link editor/vim/.vimrc              ~/.vimrc
 _link editor/vim/.vimrc              ~/.config/nvim/init.vim
 
-_link editor/.emacs-profile.el          ~/.emacs-profile.el
+_link editor/.emacs-profiles.el      ~/.emacs-profiles.el
 
 # _link editor/emacs/conf              ~/.emacs.d/conf
 # _link editor/emacs/init.el           ~/.emacs.d/init.el
