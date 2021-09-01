@@ -1,13 +1,14 @@
 #!/bin/bash
 # create symlinks to each dot fiels
 
+# Install manually:
+# ----------------------------------------
 # vim-plug: https://github.com/junegunn/vim-plug
-
-# fisher: https://github.com/jorgebucaran/fisher
 # fzf: https://github.com/jethrokuan/fzf
-
-# chemacs2: https://github.com/plexus/chemacs2
+# tmux-fzf: https://github.com/sainnhe/tmux-fzf
 # git clone https://github.com/plexus/chemacs2 ~/.emacs.d
+# fisher: https://github.com/jorgebucaran/fisher
+# ----------------------------------------
 
 cd ~/dotfiles || {
     echo "~/dotfiles doesn't exist"
@@ -40,19 +41,12 @@ _link() {
     echo "linked: \`$2\` -> \`$1\`"
 }
 
+# terminal application
+_link terminal/kitty                 ~/.config/kitty
+
 # command line tools
 _link tool/git/config                ~/.config/git/config
 _link tool/tmux/.tmux.conf           ~/.tmux.conf
-
-# macOS
-_link macos/skhd/.skhdrc             ~/.skhdrc
-_link macos/yabai/yabairc            ~/.config/yabai/yabairc
-_link macos/spacebar/spacebarrc      ~/.config/spacebar/spacebarrc
-
-# Karabiner
-
-# terminal
-_link terminal/kitty                 ~/.config/kitty
 
 # shells
 _link shell/bash/.bashrc             ~/.bashrc
@@ -62,22 +56,41 @@ _link shell/fish/config.fish         ~/.config/fish/config.fish
 _link editor/vim/.vimrc              ~/.vimrc
 _link editor/vim/.vimrc              ~/.config/nvim/init.vim
 
+# chemacs2 (Emacs)
 _link editor/.emacs-profiles.el      ~/.emacs-profiles.el
 
 # _link editor/emacs/conf              ~/.emacs.d/conf
 # _link editor/emacs/init.el           ~/.emacs.d/init.el
+
+# w3m
+_link browser/w3m/bookmark.html      ~/.w3m/bookmark.html
+_link browser/w3m/config             ~/.w3m/config
+_link browser/w3m/keymap             ~/.w3m/keymap
+
+# --------------------------------------------------------------------------------
+# Mac-only apps
+
+_link macos/skhd/.skhdrc             ~/.skhdrc
+_link macos/yabai/yabairc            ~/.config/yabai/yabairc
+_link macos/spacebar/spacebarrc      ~/.config/spacebar/spacebarrc
+
+# Karabiner-Elements
+
+# --------------------------------------------------------------------------------
+# Mac-only paths
+
 # VSCode
+_link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
+_link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
+
 # Sublime
 
-# browsers
+# qitebrpwser
 _link browser/qutebrowser/config.py  ~/.qutebrowser/config.py
 _link browser/qutebrowser/quickmarks ~/.qutebrowser/quickmarks
 # _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
 # path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
 _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
 
-_link browser/w3m/bookmark.html      ~/.w3m/bookmark.html
-_link browser/w3m/config             ~/.w3m/config
-_link browser/w3m/keymap             ~/.w3m/keymap
 # Firefox
 

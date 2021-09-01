@@ -14,6 +14,7 @@
 :karabiner: https://karabiner-elements.pqrs.org/[Karabiner-Elements]
 
 :ghq: https://github.com/x-motemen/ghq[ghq]
+:gh: https://github.com/cli/cli[gh]
 :rg: https://github.com/BurntSushi/ripgrep[ripgrep]
 :fd: https://github.com/sharkdp/fd[fd]
 :as-tree: https://github.com/jez/as-tree[as-tree]
@@ -34,7 +35,7 @@ I'm on macOS. I followed the cool https://github.com/koekeishiya/dotfiles[dotfil
 | macOS    | {yabai}, {skhd}, {spacebar} and {karabiner}
 |===
 
-{ghq}, {rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
+{ghq}, {gh}, {rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
 
 == Installations (WIP)
 
@@ -55,7 +56,7 @@ $ gem install asciidoctor asciidoctor-diagram
 === macOS
 
 ```sh
-$ brew install kitty git gh gqh z tealdeer fd ripgrep as-tree bat exa diff-so-fancy fzf git-delta
+$ brew install kitty git gh gqh tmux z tealdeer fd ripgrep as-tree bat exa diff-so-fancy fzf git-delta
 $ brew install rust-analyzer
 $ brew install gnu-sed jq pup
 $ brew install ccls node make cmake go

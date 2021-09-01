@@ -1,6 +1,25 @@
 = VSCode
+:vscodevim: https://github.com/VSCodeVim/Vim[vscodevim]
+:ui: https://github.com/iocave/customize-ui[CustomizeUI]
 
 == Tips
 
 * https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name[Open symbol by name] (`Cmd+T` or `Cmd+P #`)
+
+== Plugins
+
+=== UI
+
+* {vscodevim} (see the plugin page for initialization)
++
+This is Vim
+
+* {ui}
++
+Hide title bar (macOS)
+
+=== Theme
+
+* Smyck (color scheme)
+* Rainbow Brackets
 
