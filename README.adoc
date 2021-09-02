@@ -27,6 +27,8 @@
 
 I'm on macOS. I followed the cool https://github.com/koekeishiya/dotfiles[dotfiles] for colors.
 
+image::readme/ss.png[]
+
 == List
 
 |===
