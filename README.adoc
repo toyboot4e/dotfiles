@@ -13,6 +13,9 @@
 :spacebar: https://github.com/somdoron/spacebar[spacebar]
 :karabiner: https://karabiner-elements.pqrs.org/[Karabiner-Elements]
 
+:simple-bar: https://github.com/Jean-Tinland/simple-bar[simple-bar]
+:uber: https://github.com/felixhageloh/uebersicht[Übersicht]
+
 :ghq: https://github.com/x-motemen/ghq[ghq]
 :gh: https://github.com/cli/cli[gh]
 :rg: https://github.com/BurntSushi/ripgrep[ripgrep]
@@ -32,7 +35,7 @@ I'm on macOS. I followed the cool https://github.com/koekeishiya/dotfiles[dotfil
 | Editors  | NeoVim and {evil} Emacs
 | Shells   | bash and {fish}
 | Browsers | {quteb}, firefox and {w3m}
-| macOS    | {yabai}, {skhd}, {spacebar} and {karabiner}
+| macOS    | {yabai}, {skhd}, {simple-bar} and {karabiner}
 |===
 
 {ghq}, {gh}, {rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, , GNU sed, GNU xargs and `rename`
@@ -68,8 +71,10 @@ $ brew install llvm
 
 ```sh
 $ brew install emacs-plus --with-no-titlebar
-$ brew install yabai skhd spacebar
+$ brew install yabai skhd
 $ brew install --cask karabiner-elements
 $ brew install --cask qutebrowser
 ```
+
+{simple-bar} and {uber}
 
