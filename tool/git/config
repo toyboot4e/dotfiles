@@ -127,3 +127,6 @@
     # whitespace-error-style = green reverse  # or whatever
     # FIXME: not working
     line-numbers = false
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
