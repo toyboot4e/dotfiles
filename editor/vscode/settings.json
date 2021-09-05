@@ -119,10 +119,20 @@
   // Paths
   //
   // shell
-  "terminal.integrated.shell.osx": "/usr/local/bin/fish",
   "terminal.integrated.automationShell.osx": "/bin/bash",
-  "terminal.integrated.shell.linux": "/usr/local/bin/fish",
+  "terminal.integrated.defaultProfile.osx": "fish",
+  "terminal.integrated.profiles.osx": {
+    "fish": {
+      "path": "/usr/local/bin/fish"
+    },
+  },
   "terminal.integrated.automationShell.linux": "/bin/bash",
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "terminal.integrated.profiles.linux": {
+    "fish": {
+      "path": "/usr/local/bin/fish"
+    },
+  },
   // Vim
   "vim.neovimPath": "/usr/local/bin/nvim",
 
@@ -342,6 +352,16 @@
       // next marker
       "before": [ "]", "g" ],
       "commands": [ "editor.action.marker.nextInFiles" ]
+    },
+    {
+      // previous change
+      "before": [ "[", "c" ],
+      "commands": [ "workbench.action.editor.previousChange" ]
+    },
+    {
+      // next change
+      "before": [ "]", "c" ],
+      "commands": [ "workbench.action.editor.nextChange" ]
     },
 
     // --------------------------------------------------------------------------------
