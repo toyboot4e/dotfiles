@@ -127,7 +127,7 @@
 (progn ;; Boostrap `use-package`
     ;; initialize packages (only once)
     (unless (bound-and-true-p package--initialized)
-        (setq package-enable-at-startup nil) (package-initialize))
+        (package-initialize))
 
     ;; install `use-package` if needed
     (unless (package-installed-p 'use-package)
@@ -170,6 +170,7 @@
     ;; NOTE: `smyx` is in `local` directory
     (require 'smyx-theme)
     (load-theme 'smyx t)
+    (require 'gitmole)
 
     ;; modeline
     (use-package doom-modeline
@@ -284,20 +285,21 @@
     (with-eval-after-load 'company (evil-collection-company-setup))
     (with-eval-after-load 'eww (evil-collection-eww-setup))
     (with-eval-after-load 'elfeed (evil-collection-elfeed-setup))
+    (with-eval-after-load 'markdown-mode (evil-collection-markdown-mode-setup))
 
     ;; TODO: needed?
     ;; (with-eval-after-load 'consult (evil-collection-consult-setup))
     ;; (with-eval-after-load 'embark (evil-collection-embark-setup))
 
-    ;; NOTE: magit changes `g` to `gr` (`magit-refresh`)
-    ;; [magit] add fold mappings (`z1`, `z2`, .., `za`, ..)
-    (setq evil-collection-magit-use-z-for-folds t)
     (with-eval-after-load 'magit
         (evil-define-key 'normal magit-mode-map
             ;; scolling
             "zz" #'evil-scroll-line-to-center
             "z-" #'evil-scroll-line-to-bottom
-            (kbd "z RET") #'evil-scroll-line-to-top)
+            (kbd "z RET") #'evil-scroll-line-to-top
+            ;; visit thing at point in other window
+            (kbd "SPC RET") #'magit-diff-visit-worktree-file-other-window)
+
         ;; scroll to the hunk after `gj` or `gk`
         (advice-add 'magit-section-forward :after
                     (lambda (&rest x) (evil-scroll-line-to-top (line-number-at-pos))))
@@ -308,8 +310,11 @@
         (advice-add 'magit-section-backward-sibling :after
                     (lambda (&rest x) (evil-scroll-line-to-top (line-number-at-pos))))
 
-        (evil-collection-magit-setup)
-        )
+        ;; [magit] add fold mappings (`z1`, `z2`, .., `za`, ..)
+        (setq evil-collection-magit-use-z-for-folds t)
+        ;; NOTE: magit changes `g` to `gr` (`magit-refresh`)
+
+        (evil-collection-magit-setup))
     )
 
 (progn ;; Interactive commands

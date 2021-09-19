@@ -104,7 +104,7 @@ DEFS is a plist associating completion categories to commands."
     " fs" #'consult-lsp-symbols
 
     " fp" #'projectile-switch-project
-    " fg" #'consult-ghq-find
+    " fG" #'consult-ghq-find
     " fD" #'consult-dir
 
     ;; evil

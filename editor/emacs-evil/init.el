@@ -1,9 +1,10 @@
-;; init.el
-
 (setq user-full-name    "toyboot4e"
       user-mail-address "toyboot4e@gmail.com")
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
+
+;; brew install emacs-plus --with-no-titlebar
+(setq frame-resize-pixelwise t)
 
 (progn
     ;; FIX to Evil
@@ -31,8 +32,8 @@
       '("elisp/gc.el"                    ;; GC settings for startup speed
 
         ;; packages
-        "local/locals.el"                ;; Local packages
         "elisp/evil.el"                  ;; Fundamentals
+        "local/locals.el"                ;; Local packages
 
         "elisp/ide-ui.el"                ;; Intelligence
         "elisp/ide-langs.el"             ;; Intelligence for specific laguages
@@ -53,7 +54,15 @@
     (set-fill-column 100)
     (auto-fill-mode))
 
-;; load the listed files
+;; Add `local/` to `load-path` recursively
+;; https://www.emacswiki.org/emacs/LoadPath
+(progn
+    (add-to-list 'load-path (concat user-emacs-directory "local"))
+    (let ((default-directory  (concat user-emacs-directory "local")))
+        (normal-top-level-add-subdirs-to-load-path))
+    )
+
+;; Load all of the listed files
 (dolist (x toy/init-files)
     (load-file (concat user-emacs-directory x)))
 

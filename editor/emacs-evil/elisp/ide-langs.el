@@ -42,32 +42,32 @@
     (use-package zig-mode
         ;; https://github.com/ziglang/zig-mode
         :mode ("\\.zig\\'" . zig-mode)
-        ;; TODO: enable lsp-mode and lsp-uo-mode automatially
-        :hook (zig-mode . lsp-deferred)
+        ;; :hook (zig-mode . lsp-deferred)
         :hook (zig-mode . flycheck-mode)
         :config
-        (remove-hook 'before-save-hook 'zig-before-save-hook t) 
-        )
+        (remove-hook 'before-save-hook 'zig-before-save-hook t)
+        (setq zig-format-on-save t)
+        ;; Don't show `*zig-fmt*` buffer, perferring `lsp-ui`
+        (setq zig-format-show-buffer t))
 
-    (flycheck-define-checker zig
-        "A zig syntax checker using the zig-fmt interpreter."
-        :command ("zig" "fmt" (eval (buffer-file-name)))
-        :error-patterns
-        ((error line-start (file-name) ":" line ":" column ": error: " (message) line-end))
-        :modes zig-mode)
-    (add-to-list 'flycheck-checkers 'zig)
+    ;; (flycheck-define-checker zig
+    ;;     "A zig syntax checker using the zig-fmt interpreter."
+    ;;     :command ("zig" "fmt" (eval (buffer-file-name)))
+    ;;     :error-patterns
+    ;;     ((error line-start (file-name) ":" line ":" column ": error: " (message) line-end))
+    ;;     :modes zig-mode)
+    ;; (add-to-list 'flycheck-checkers 'zig)
 
-    (setq toy/zls-path "~/dev/zig/zls/zig-cache/bin/zls")
+    ;; (setq lsp-zig-zls-executable "~/zls/zls")
 
-    ;; TODO: working?
-    ;; ZLS: https://github.com/zigtools/zls
-    (with-eval-after-load 'lsp-mode
-        (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
-        (lsp-register-client (make-lsp-client
-                              :new-connection (lsp-stdio-connection toy/zls-path)
-                              :major-modes '(zig-mode)
-                              :server-id 'zls))
-        )
+    ;; ;; ZLS: https://github.com/zigtools/zls
+    ;; (with-eval-after-load 'lsp-mode
+    ;;     (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+    ;;     (lsp-register-client (make-lsp-client
+    ;;                           :new-connection (lsp-stdio-connection lsp-zig-zls-executable)
+    ;;                           :major-modes '(zig-mode)
+    ;;                           :server-id 'zls))
+    ;;     )
     )
 
 (use-package ccls ;; C, C++
@@ -92,8 +92,13 @@
     :hook (idirs-mode . lsp-deferred)
     )
 
-;; (use-package typescript
-;;     :mode ("\\.ts\\'" . typescript-mode))
+;; (use-package html-ls)
+
+(use-package tide
+    :after (typescript-mode company flycheck)
+    :hook ((typescript-mode . tide-setup)
+           (typescript-mode . tide-hl-identifier-mode)
+           (before-save . tide-format-before-save)))
 
 ;; see `locals.el'
 ;; (use-package tree-sitter

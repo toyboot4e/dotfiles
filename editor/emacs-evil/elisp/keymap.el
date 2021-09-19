@@ -142,8 +142,17 @@
     (advice-add 'evil-backward-section-begin :after (lambda (&rest x) (toy/force-center)))
     )
 
-(progn ;; [Evil] `zz` after jump
+(progn ;; [Evil] Center cursor on jump
+    ;; ` and '
     (advice-add 'evil-goto-mark :after (lambda (&rest x) (toy/force-center)))
+    (advice-add 'evil-goto-mark-line :after (lambda (&rest x) (toy/force-center)))
+    ;; `C-o` and `C-i`
+    (advice-add 'evil-jump-backward :after (lambda (&rest x) (toy/force-center)))
+    (advice-add 'evil-jump-forward :after (lambda (&rest x) (toy/force-center)))
+    ;; `<number>G`
+    (advice-add 'evil-goto-line :after
+                (lambda (&rest count)
+                    (unless count (toy/force-center))))
     )
 
 ;; ------------------------------ Emacs-like ------------------------------
@@ -371,9 +380,23 @@
     " ft" #'tab-bar-switch-to-tab
 
     ;; TODO: prefer fuzzy search
-    " fo" #'org-switchb
+    " fO" #'org-switchb
 
     " fg" #'centaur-tabs-switch-group
+    )
+
+(defun toy/tr-buf ()
+    (interactive)
+    (google-translate-buffer)
+    (select-window (get-buffer-window "*Google Translate*"))
+    (search-forward "[Listen]" nil nil 1)
+    (read-only-mode -1)
+    (delete-region 1 (line-end-position)))
+
+;; t[r]anslate
+(evil-define-key 'normal 'toy/global-mode-map
+    " rb" #'toy/tr-buf
+    " rk" #'google-translate-at-point
     )
 
 ;; ;; [o]rg-mode

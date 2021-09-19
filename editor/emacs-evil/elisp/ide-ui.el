@@ -26,6 +26,9 @@
 
 ;; ------------------------------ Widgets ------------------------------
 
+;; some dependency needs it?
+(use-package popup)
+
 ;; Zoom in to a pane: https://github.com/emacsorphanage/zoom-window
 (use-package zoom-window
     :commands (darkroom-mode))
@@ -50,8 +53,9 @@
 (use-package magit
     ;; https://github.com/magit/magit
     :commands (magit)
+
     ;; NOTE: use Zen mode in `magit-status`
-    :hook (magit-status-mode  . olivetti-mode)
+    ;; :hook (magit-status-mode  . olivetti-mode)
     :config
     (evil-define-key 'normal 'magit-mode-map
         "zz" #'recenter-top-bottom
@@ -60,6 +64,10 @@
         (kbd "z RET") #'evil-scroll-line-to-top
         "zt" #'evil-scroll-line-to-top
         )
+
+    ;; show line numbers (NOT the line numbers of the corresponding source)
+    ;; (setq magit-disable-line-numbers t)
+    ;; (setq magit-section-disable-line-numbers t)
     )
 
 ;; add TODO list to magit
@@ -79,6 +87,11 @@
 ;;             "--features" "magit-delta"
 ;;             "--color-only"))
 ;;     )
+
+;; c.f. https://magit.vc/manual/forge/
+(use-package forge
+    :after magit
+    )
 
 (use-package centaur-tabs
     ;; https://github.com/ema2159/centaur-tabs

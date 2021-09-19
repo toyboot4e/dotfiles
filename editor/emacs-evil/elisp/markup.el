@@ -3,12 +3,13 @@
 ;; ------------------------------ Snippets ------------------------------
 
 ;; ;; TODO: yasnippet
-;; (use-package yasnippet
-;;     :defer 3 ;; takes a while to load, so do it async
-;;     :diminish yas-minor-mode
-;;     :config (yas-global-mode)
-;;     :custom (yas-prompt-functions '(yas-completing-prompt)))
-;; (use-package yasnippet-snippets)
+(use-package yasnippet
+    :defer 3 ;; takes a while to load, so do it async
+    :diminish yas-minor-mode
+    :config (yas-global-mode)
+    :custom (yas-prompt-functions '(yas-completing-prompt)))
+
+(use-package yasnippet-snippets)
 
 ;; (evil-define-key 'normal 'global
 ;;     "\C-y" #'yas-expand
@@ -70,18 +71,18 @@
         "z9" (_fn (outline-hide-sublevels 9))
         "z0" #'evil-open-folds))
 
-(use-package adoc-mode
-    ;; https://github.com/sensorflo/adoc-mode
-    ;; c.f. `evil-lion` to align table
-    :mode (("\\.adoc\\'" . adoc-mode))
-    :hook (adoc-mode . toy/init-adoc-mode)
-    :config
-    (defun toy/init-adoc-mode ()
-        (interactive)
-        (outline-minor-mode)
-        (setq-local electric-indent-mode nil))
-    ;; disable auto indentation (locally)
-    (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1))))
+    (use-package adoc-mode
+        ;; https://github.com/sensorflo/adoc-mode
+        ;; c.f. `evil-lion` to align table
+        :mode (("\\.adoc\\'" . adoc-mode))
+        :hook (adoc-mode . toy/init-adoc-mode)
+        :config
+        (defun toy/init-adoc-mode ()
+            (interactive)
+            (outline-minor-mode)
+            (setq-local electric-indent-mode nil))
+        ;; disable auto indentation (locally)
+        (add-hook 'LaTeX-mode-hook (lambda () (electric-indent-local-mode -1))))
 
 (evil-define-key 'normal outline-minor-mode-map
     "z1" (_fn (outline-hide-sublevels 3))
@@ -170,7 +171,8 @@
     ;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
     (setq org-agenda-files
           (mapcar (lambda (path) (concat org-directory path))
-                  '("/dev.org"
+                  '("/agenda.org"
+                    "/dev.org"
                     "/household.org"
                     "/read.org"
                     "/diary.org"

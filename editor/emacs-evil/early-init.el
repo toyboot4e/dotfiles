@@ -1,5 +1,8 @@
 ;; early-init.el
 
+;; prevent staright from loading package
+(setq package-enable-at-startup nil)
+
 (setq gc-cons-threshold most-positive-fixnum)
 (setq package-enable-at-startup nil)
 
