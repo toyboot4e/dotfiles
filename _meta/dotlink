@@ -1,12 +1,13 @@
-#!/bin/bash
-# create symlinks to each dot fiels
+#!/usr/bin/env bash
+# Create symlinks on macOS or Linux
+# NOTE: .tmux.conf is mac only for now
 
 # Install manually:
 # ----------------------------------------
 # vim-plug: https://github.com/junegunn/vim-plug
 # fzf: https://github.com/jethrokuan/fzf
 # tmux-fzf: https://github.com/sainnhe/tmux-fzf
-# git clone https://github.com/plexus/chemacs2 ~/.emacs.d
+# git: clone https://github.com/plexus/chemacs2 ~/.emacs.d
 # fisher: https://github.com/jorgebucaran/fisher
 # ----------------------------------------
 
@@ -16,7 +17,6 @@ cd ~/dotfiles || {
 }
 
 mkdir ~/.config/{fish,git,qutebrowser,vim,nvim,coc}
-mkdir ~/.config/{karabiner,yabai,spacebar}
 mkdir ~/.w3m
 
 _link() {
@@ -70,27 +70,45 @@ _link browser/w3m/keymap             ~/.w3m/keymap
 # --------------------------------------------------------------------------------
 # Mac-only apps
 
-_link macos/skhd/.skhdrc             ~/.skhdrc
-_link macos/yabai/yabairc            ~/.config/yabai/yabairc
-_link macos/spacebar/spacebarrc      ~/.config/spacebar/spacebarrc
+if [ "$(uname)" == 'darwin' ] ; then
+    mkdir ~/.config/{karabiner,yabai,spacebar}
 
-# Karabiner-Elements
+    _link macos/skhd/.skhdrc             ~/.skhdrc
+    _link macos/yabai/yabairc            ~/.config/yabai/yabairc
+    _link macos/spacebar/spacebarrc      ~/.config/spacebar/spacebarrc
 
-# --------------------------------------------------------------------------------
-# Mac-only paths
+    # Karabiner-Elements 
 
-# VSCode
-_link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
-_link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
+    # VSCode
+    _link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
+    _link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
+    
+    # Sublime
+    
+    # qutebrpwser
+    _link browser/qutebrowser/config.py  ~/.qutebrowser/config.py
+    _link browser/qutebrowser/quickmarks ~/.qutebrowser/quickmarks
+    # _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
+    # path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
+    _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
+    
+    # Firefox
+else
+    # Karabiner-Elements 
 
-# Sublime
-
-# qitebrpwser
-_link browser/qutebrowser/config.py  ~/.qutebrowser/config.py
-_link browser/qutebrowser/quickmarks ~/.qutebrowser/quickmarks
-# _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
-# path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
-_link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
-
-# Firefox
+    # VSCode
+    # _link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
+    # _link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
+    
+    # Sublime
+    
+    # qutebrpwser
+    _link browser/qutebrowser/config.py  ~/.config/qutebrowser/config.py
+    _link browser/qutebrowser/quickmarks ~/.config/qutebrowser/quickmarks
+    # _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
+    # path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
+    # _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
+    
+    # Firefox
+fi
 
