@@ -94,10 +94,10 @@ man() { command man -P 'less -isNMR' "$@" ; }
 mantable() { man "$@" | grep -v '^\s' | grep -v '^\s*$' | column ; }
 
 # cd
-..() { cd ../"$1"; }
-...() { cd ../../"$1"; }
-....() { cd ../../../"$1"; }
-.....() { cd ../../../../"$1"; }
+..() { cd ../"$1" ; }
+...() { cd ../../"$1" ; }
+....() { cd ../../../"$1" ; }
+.....() { cd ../../../../"$1" ; }
 
 # --------------------------------------------------------------------------------
 # System commands
@@ -105,24 +105,27 @@ mantable() { man "$@" | grep -v '^\s' | grep -v '^\s*$' | column ; }
 # cd -> pushd
 # TODO: cd with fzf
 cd() { command pushd "$@" > /dev/null ; }
-pd() { command popd "$@"; }
-mkcd() { mkdir -p -- "$@" && cd "$@"; }
+pd() { command popd "$@" ; }
+mkcd() { mkdir -p -- "$@" && cd "$@" ; }
 
 # view
-ls() { command ls -FG "$@"; }
-lsd() { command ls -FG "$@" | grep '/' | column; }
-lsn() { command ls "$@" | sort -n | column; }
-ll() { ls -lA "$@" ; }
+
+# FIXME: not working on NixOS?
+# ls() { command ls -FG "$@" ; }
+# ll() { ls -lA "$@" ; }
+
+lsd() { command ls -FG "$@" | grep '/' | column ; }
+lsn() { command ls "$@" | sort -n | column ; }
 
 if _exists tree ; then
-  tree() { command tree -CN "$@"; }
+  tree() { command tree -CN "$@" ; }
 fi
 
 # text
-pc() { command pbcopy "$@"; }
+pc() { command pbcopy "$@" ; }
 _alias less l
-less() { command less -iNMR "$@"; }
-grepc() { command grep --color=always "$@"; }
+less() { command less -iNMR "$@" ; }
+grepc() { command grep --color=always "$@" ; }
 
 # bat <- cat
 if _exists bat ; then
@@ -135,7 +138,7 @@ fi
 
 # exa <- ls, tree
 if _exists exa ; then
-  exa() { command exa -F "$@"; }
+  exa() { command exa -F "$@" ; }
   alias e='exa'
   alias el='exa -la'
   alias ea='exa -a'

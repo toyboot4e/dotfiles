@@ -94,11 +94,11 @@ if [ "$(uname)" == 'darwin' ] ; then
     
     # Firefox
 else
-    # Karabiner-Elements 
+    _link liunx/.xinitrc   "$HOME/.xinitrc"
 
     # VSCode
-    # _link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
-    # _link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
+    _link editor/vscode/settings.json   "$HOME/.config/Code/User/settings.json"
+    _link editor/vscode/keybindings.json   "$HOME/.config/Code/User/keybindings.json"
     
     # Sublime
     
