@@ -60,20 +60,34 @@
     fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
   };
 
+  # Set up Gnome + i3
+  # https://nixos.wiki/wiki/I3
+  # $ # enable per-monitor DPI scaling on Gnome:
+  # $ gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
   services.xserver = {
     enable = true;
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    # Enable i3
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-        i3status
-        i3lock
-        i3blocks #if you are planning on using i3blocks over i3status
-     ];
+
+    desktopManager = {
+      gnome.enable = true;
+      xterm.enable = false;
+    };
+
+    displayManager = {
+      gdm.enable = true;
+      defaultSession = "none+i3";
+    };
+    
+    windowManager = {
+      i3 = {
+        enable = true;
+        # package = pkgs.i3-gaps; 
+        extraPackages = with pkgs; [
+          dmenu
+          i3status
+          i3lock
+          i3blocks #if you are planning on using i3blocks over i3status
+       ];
+      };
     };
   };
 
@@ -81,10 +95,12 @@
     # System
     rxvt_unicode
     python3
+    python2
 
     # GUI
     qutebrowser firefox chromium
-    discord slack
+    # discord
+    slack
     vscode
     mpv
     gimp
@@ -104,7 +120,7 @@
     youtube-dl
     ripgrep fd bat delta exa as-tree
     tokei du-dust
-    ranger
+    zoxide ranger
     tealdeer
     w3m
 
