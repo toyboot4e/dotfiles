@@ -27,6 +27,13 @@ highlight CocErrorSign ctermfg=15 ctermbg=196
 highlight CocWarningSign ctermfg=0 ctermbg=172
 
 " ----------------------------------------
+" nvim-treesitter
+
+if has('nvim')
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
+
+" ----------------------------------------
 " omnisharp-vim + ALE (we let ALE only work for C# as declared in `omni.vim`)
 
 Plug 'OmniSharp/omnisharp-vim'
@@ -252,6 +259,7 @@ Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/gina.vim'
 
 " colorize nerdfonts with glyph-palette
 augroup my-glyph-palette

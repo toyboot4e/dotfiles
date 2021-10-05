@@ -171,7 +171,8 @@
     ;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
     (setq org-agenda-files
           (mapcar (lambda (path) (concat org-directory path))
-                  '("/agenda.org"
+                  '("/weekly.org"
+                    "/agenda.org"
                     "/dev.org"
                     "/household.org"
                     "/read.org"

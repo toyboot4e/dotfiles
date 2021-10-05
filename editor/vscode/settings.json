@@ -490,5 +490,9 @@
   // automatically added:
   "workbench.startupEditor": "newUntitledFile",
   "redhat.telemetry.enabled": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
   "window.zoomLevel": -1,
+  "zigLanguageClient.path": "/Users/tbm/zls/zls",
 }

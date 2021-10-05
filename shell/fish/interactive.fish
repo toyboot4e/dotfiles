@@ -1,21 +1,25 @@
 # referenced from: ~/.config/fish/config.fish
 
-# TODO:
-# source ~/.local/share/icons-in-terminal/icons.fish
-
 # TIP: do not use aliaes where it contains sub commands (after `env` or `command`)
 #      because there'll be recursive completion
-# TIP: run `user_path.fish` just once to set up environmental variable (universally)
+# TIP: run `user_path.fish` just once to set up the environmental variables universally
 
 # $ # enable tab completion with fzf
 # $ fisher add jethrokuan/fzf # https://github.com/jethrokuan/fzf
-# https://github.com/jethrokuan/fzf#commands
+# $ # https://github.com/jethrokuan/fzf#commands
 # $ set -U FZF_OPEN_COMMAND cd
 # $ set -U FZF_COMPLETE 2     # https://github.com/jethrokuan/fzf/wiki/FZF-Tab-Completions
+# $ # C-g for searchingghq repositories
+# $ fisher install decors/fish-ghq
 
-zoxide init fish | source
+# TODO: only if zoxide exists
+if type -q zoxide
+    zoxide init fish | source
+end
 
 alias reload "source $HOME/.config/fish/config.fish"
+
+# my packages
 source "$HOME/dotfiles/shell/fish/root_comp.fish"
 
 # this is required to let tmux use fish as a default shell

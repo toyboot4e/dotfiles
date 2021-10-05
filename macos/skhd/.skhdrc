@@ -37,6 +37,7 @@ ctrl + shift + cmd + alt - s : open -a 'Visual Studio Code'
 # SNS
 ctrl + shift + cmd + alt - f : open -a 'Discord'
 ctrl + shift + cmd + alt - g : open -a 'Slack'
+ctrl + shift + cmd + alt - h : open -a 'Zulip'
 
 # browsers
 ctrl + shift + cmd + alt - a : open -a 'Firefox'
@@ -59,7 +60,6 @@ ctrl + shift + cmd + alt - n : open -a 'Mail'
 
 # content viewers
 ctrl + shift + cmd + alt - p : open -a 'Preview'
-ctrl + shift + cmd + alt - u : open -a 'Skim'
 ctrl + shift + cmd + alt - i : open -a 'Music'         # it used to be [i]Tunes
 ctrl + shift + cmd + alt - k : open -a 'mpv'
 ctrl + shift + cmd + alt - j : open -a 'QuickTime Player'

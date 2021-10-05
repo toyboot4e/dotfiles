@@ -43,12 +43,14 @@
         ;; https://github.com/ziglang/zig-mode
         :mode ("\\.zig\\'" . zig-mode)
         ;; :hook (zig-mode . lsp-deferred)
-        :hook (zig-mode . flycheck-mode)
+        ;; :hook (zig-mode . flycheck-mode)
         :config
-        (remove-hook 'before-save-hook 'zig-before-save-hook t)
+        ;; (setq lsp-zig-zls-executable "~/zls/zls")
+        (setq lsp-zig-zls-executable "/Users/tbm/zls/zls")
+        ;; (remove-hook 'before-save-hook 'zig-before-save-hook t)
         (setq zig-format-on-save t)
         ;; Don't show `*zig-fmt*` buffer, perferring `lsp-ui`
-        (setq zig-format-show-buffer t))
+        (setq zig-format-show-buffer nil))
 
     ;; (flycheck-define-checker zig
     ;;     "A zig syntax checker using the zig-fmt interpreter."
@@ -57,8 +59,6 @@
     ;;     ((error line-start (file-name) ":" line ":" column ": error: " (message) line-end))
     ;;     :modes zig-mode)
     ;; (add-to-list 'flycheck-checkers 'zig)
-
-    ;; (setq lsp-zig-zls-executable "~/zls/zls")
 
     ;; ;; ZLS: https://github.com/zigtools/zls
     ;; (with-eval-after-load 'lsp-mode
@@ -91,6 +91,8 @@
 (use-package idris-mode
     :hook (idirs-mode . lsp-deferred)
     )
+
+(use-package lua-mode)
 
 ;; (use-package html-ls)
 

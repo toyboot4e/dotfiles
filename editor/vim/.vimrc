@@ -82,6 +82,7 @@ source $HOME/dotfiles/editor/vim/conf/mappings.vim
 
 " Other than C#
 source $HOME/dotfiles/editor/vim/conf/coc.vim
+
 " C#
 " source $HOME/dotfiles/editor/vim/conf/omni.vim
 
