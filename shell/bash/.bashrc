@@ -181,3 +181,7 @@ fi
 export SDKMAN_DIR="/Users/toy/.sdkman"
 [[ -s "/Users/toy/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/toy/.sdkman/bin/sdkman-init.sh"
 
+. "$HOME/.cargo/env"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
