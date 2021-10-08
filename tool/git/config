@@ -111,9 +111,9 @@
 
 [diff]
     algorithm = histogram
-    # use grah for just-moving diff
-    colorMoved = dimmed-zebra
-    colorMovedWS = allow-indentation-change
+    # # use gray for just-moving diff
+    # colorMoved = dimmed-zebra
+    # colorMovedWS = allow-indentation-change
 
 [diff "japanese"]
     wordRegex = [^\\x80-\\xbf][\\x80-\\xbf]*

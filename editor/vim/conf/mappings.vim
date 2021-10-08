@@ -366,11 +366,17 @@ function! GoyoWithNERDRefresh()
 endfunction
 command! GoyoWithNERDRefresh :call GoyoWithNERDRefresh()
 
-nnoremap <silent> <Space><Space>g :call GoyoWithNERD()<CR>
+nnoremap <silent> <Space>zz :call GoyoWithNERD()<CR>
 " nnoremap <silent> <Space><Space>f :call GoyoWithNERDRefresh()<CR>
 
 " change preferred width
 " nnoremap <expr> <Space>zw ':execute :let g:goyo_preferred_width=' . g:goyo_preferred_width
+
+" ----------------------------------------
+" Git (`gina.vim`)
+
+nnoremap <silent> <Space>gg :Gina status<CR>
+nnoremap <silent> <Space>gc :Gina commit<CR>
 
 " --------------------------------------------------------------------------------
 " FZF

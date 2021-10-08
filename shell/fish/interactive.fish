@@ -6,9 +6,11 @@
 
 # $ # enable tab completion with fzf
 # $ fisher add jethrokuan/fzf # https://github.com/jethrokuan/fzf
+# $ # https://github.com/jethrokuan/fzf#commands
+# $ set -U FZF_OPEN_COMMAND cd
+# $ set -U FZF_COMPLETE 2     # https://github.com/jethrokuan/fzf/wiki/FZF-Tab-Completions
 # $ # C-g for searchingghq repositories
 # $ fisher install decors/fish-ghq
-# $ set -U FZF_COMPLETE 3     # https://github.com/jethrokuan/fzf/wiki/FZF-Tab-Completions
 
 # TODO: only if zoxide exists
 if command -sq zoxide
@@ -198,6 +200,7 @@ if command -sq cargo
     alias cn 'cargo +nightly'
     alias rust 'cargo script'
     alias atcoder 'cargo atcoder'
+    alias miri 'cargo +nightly miri'
 end
 
 if command -sq colordiff

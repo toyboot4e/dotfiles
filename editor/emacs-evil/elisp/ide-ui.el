@@ -57,6 +57,14 @@
     ;; NOTE: use Zen mode in `magit-status`
     ;; :hook (magit-status-mode  . olivetti-mode)
     :config
+    ;; (defun toy/magit-visit-ref ()
+    ;;     (interactive)
+    ;;     (magit-visit-ref)
+    ;;     (evil-jump-backward))
+    ;; (evil-define-key 'normal 'magit-log-mode-map
+    ;;     (kbd " o") #'toy/magit-visit-ref
+    ;;     )
+    
     (evil-define-key 'normal 'magit-mode-map
         "zz" #'recenter-top-bottom
         "z-" #'evil-scroll-line-to-bottom
@@ -286,9 +294,12 @@
     ;; NOTE: manual binding to `lsp-commad-map` is below (`define-key`)
     (setq lsp-keymap-prefix nil)
 
-    (setq lsp-log-io t             ; output log to `*lsp-log*`
-          lsp-trace t
-          lsp-print-performance t  ; also performance information
+    ;; how often lsp-mode will refresh the highlights, lenses, links, etc while you type
+    (setq lsp-idle-delay 0.500)
+
+    (setq lsp-log-io nil             ; DON'T output log to `*lsp-log*`, for performance
+          lsp-trace nil              ; ?
+          lsp-print-performance nil  ; ?
           )
 
     :config
