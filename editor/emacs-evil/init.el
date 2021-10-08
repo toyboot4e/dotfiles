@@ -33,7 +33,8 @@
 
         ;; packages
         "elisp/evil.el"                  ;; Fundamentals
-        "local/locals.el"                ;; Local packages
+        ;; TODO: make sure to commit this file
+        ;; "local/locals.el"                ;; Local packages
 
         "elisp/ide-ui.el"                ;; Intelligence
         "elisp/ide-langs.el"             ;; Intelligence for specific laguages
@@ -46,7 +47,8 @@
         "elisp/keymap.el"                ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
 
-        "elisp/private.el"               ;; Private code, like API tokens
+        ;; TODO: Only load this file if it exists
+        ;; "elisp/private.el"               ;; Private code, like API tokens
         ))
 
 (defun toy/fill-mode ()

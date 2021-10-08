@@ -11,8 +11,9 @@ config.set('colors.webpage.darkmode.enabled', True)
 # c.url.default_page = '~/html/homepage.html'
 
 # Constants
-DL_VIDEO_DIR="~Resources/videos"
-DEFAULT_ZOOM='75%'
+DL_VIDEO_DIR="~/Resources/videos"
+# DEFAULT_ZOOM='75%'
+DEFAULT_ZOOM='150%'
 
 # Tips:
 # - `:config-source` to reload `config.py`
@@ -92,7 +93,8 @@ config.set('zoom.default', f"{DEFAULT_ZOOM}")
 # VIEW
 
 c.tabs.position = "right"
-c.tabs.width = 160
+#  c.tabs.width = 160
+c.tabs.width = 320
 c.tabs.padding = {'bottom': 4, 'left': 4, 'right': 4, 'top': 4}
 
 c.scrolling.bar = "always"

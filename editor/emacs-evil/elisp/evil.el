@@ -167,10 +167,10 @@
     ;; (use-package darkokai-theme
     ;;     :config (load-theme 'darkokai t))
 
-    ;; NOTE: `smyx` is in `local` directory
-    (require 'smyx-theme)
-    (load-theme 'smyx t)
-    (require 'gitmole)
+    ;; ;; NOTE: `smyx` is in `local` directory
+    ;; (require 'smyx-theme)
+    ;; (load-theme 'smyx t)
+    ;; (require 'gitmole)
 
     ;; modeline
     (use-package doom-modeline
