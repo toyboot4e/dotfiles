@@ -29,8 +29,11 @@
   // "files.associations": { "**/setting.json": "plaintext" },
   // "[json]": { "editor.formatOnSave": false },
 
-  // --------------------------------------------------------------------------------
+  // Aggressie settings
+  // =============
+
   // CustomizeUI (remove title bar)
+  // ------------------------------
   //
   // Run `Enable monkey patch` from the command pallet
   //
@@ -38,8 +41,8 @@
   "customizeUI.titleBar": "frameless",
   // TODO: make the tab thinner
 
-  // --------------------------------------------------------------------------------
   // Custom CSS (to remove window decoration on macOS)
+  // -------------------------------------------------
   //
   // https://github.com/be5invis/vscode-custom-css
   //
@@ -52,9 +55,9 @@
   // ```
   "vscode_custom_css.policy": true,
 
-  // --------------------------------------------------------------------------------
   // Editor
-  //
+  // ======
+
   // never show number of references
   "editor.codeLens": false,
   // format
@@ -72,35 +75,41 @@
   // else
   "extensions.autoUpdate": true,
 
-  // --------------------------------------------------------------------------------
+  // hide tabs
+  // ---------
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.showTabs": false,
+  "explorer.openEditors.visible": 0,
+
   // NAVIGATION
-  //
+  // ----------
+
   "workbench.sideBar.location": "right",
   "editor.minimap.enabled": false,
-  "workbench.editor.enablePreview": false,
   "workbench.iconTheme": "vscode-great-icons", // pretty nice
   // ?
   "workbench.activityBar.visible": true,
   "workbench.statusBar.visible": true,
 
-  // --------------------------------------------------------------------------------
   // THEME
+  // -----
   //
   // Color
   "workbench.colorTheme": "Smyck", // USE SMALLER UI
   // Font
   "editor.fontFamily": "SauceCodePro Nerd Font",
-  "editor.fontSize": 13.0,
+  "editor.fontSize": 16.0,
   "editor.letterSpacing": 0.00,
   "editor.lineHeight": 18,
   "terminal.integrated.fontSize": 13.5,
 
-  // --------------------------------------------------------------------------------
   // Modes
+  // -----
   "zenMode.fullScreen": false,
 
-  // --------------------------------------------------------------------------------
   // Files
+  // -----
   "files.trimTrailingWhitespace": true,
   "[markdown, txt]": {
     "files.trimTrailingWhitespace": false,
@@ -115,10 +124,11 @@
     "**/target": true
   },
 
-  // --------------------------------------------------------------------------------
   // Paths
-  //
+  // =====
+
   // shell
+  // -----
   "terminal.integrated.automationShell.osx": "/bin/bash",
   "terminal.integrated.defaultProfile.osx": "fish",
   "terminal.integrated.profiles.osx": {
@@ -133,28 +143,34 @@
       "path": "/usr/local/bin/fish"
     },
   },
-  // Vim
-  "vim.neovimPath": "/usr/local/bin/nvim",
 
-  // --------------------------------------------------------------------------------
+  // Vim
+  // ---
+  // "vim.neovimPath": "/usr/local/bin/nvim",
+
   // Languages
-  //
+  // =========
+
   // Rust
+  // ----
   "rust-analyzer.updates.askBeforeDownload": false,
   "rust-analyzer.inlayHints.typeHints": false,
   "rust-analyzer.inlayHints.chainingHints": true,
   "rust-analyzer.inlayHints.parameterHints": false,
   "rust-analyzer.inlayHints.maxLength": null,
+
   // C++
+  // ---
   "cmake.configureOnOpen": false,
 
-  // --------------------------------------------------------------------------------
   // Vim
+  // ===
 
   "vim.searchHighlightColor": "rgba(150, 255, 150, 0.5)",
   "vim.useCtrlKeys": true, // overrides VSCode's bindings with prefix `Ctrl`
   "vim.visualstar": true, // search with selected text using `*`
   "vim.leader": "<Space>",
+
   // See F1 > `Preferences: Open Keyboard Shortcut References (JSON)` etc.
   "vim.insertModeKeyBindingsNonRecursive": [
     // Emacs-like
@@ -178,6 +194,7 @@
       "commands": [ "workbench.action.files.save" ]
     }
   ],
+
   "vim.visualModeKeyBindingsNonRecursive": [
     // `<`, `>` to indent
     {
@@ -188,11 +205,13 @@
       "before": [ "<" ],
       "commands": [ "editor.action.outdentLines" ]
     },
+
     // no yank
     {
       "before": [ "x" ],
       "after": [ "\"", "_", "x" ]
     },
+
     // v to expand region to scope
     {
       "before": [ "v" ],
@@ -204,8 +223,8 @@
   ],
 
   "vim.normalModeKeyBindingsNonRecursive": [
-    //  --------------------------------------------------------------------------------
     // sidebar
+    // -------
     { // reveal
       "before": [ "<Leader>", "n" ],
       "commands": [ "workbench.files.action.showActiveFileInExplorer" ]
@@ -234,8 +253,8 @@
       "when": "inQuickOpen"
     },
 
-    // --------------------------------------------------------------------------------
     // FIX DEFAULTS
+    // ------------
     {
       // Y -> y$
       // "before": [ "Y" ],
@@ -262,8 +281,8 @@
       "after": [ "\"", "+" ]
     },
 
-    // --------------------------------------------------------------------------------
     // CHANGE DEDAULTS
+    // ---------------
     // peek
     {
       // peek definiton
@@ -271,8 +290,9 @@
       "commands": [ "editor.action.peekDefinition" ]
     },
 
-    // --------------------------------------------------------------------------------
     // []
+    // --
+
     // new line
     { // new line down
       "before": [ "]", "<Space>" ],
@@ -282,6 +302,7 @@
       "before": [ "[", "<Space>" ],
       "after": [ "O", "Esc" ]
     },
+
     // window
     {
       "before": [ "]", "w" ],
@@ -291,6 +312,7 @@
       "before": [ "[", "w" ],
       "after": [ "C-w", "w" ]
     },
+
     // tabs
     {
       // previous tab
@@ -332,6 +354,7 @@
       "before": [ "]", "B" ],
       "commands": [ ":tablast" ]
     },
+
     { // fold
       "before": [ "[", "f" ],
       "commands": [ { "command": "editor.fold" }
@@ -342,6 +365,7 @@
       "before": [ "]", "f" ],
       "commands": [ { "command": "editor.unfold" } ]
     },
+
     // markers; diagnostics
     {
       // previous marker
@@ -364,8 +388,8 @@
       "commands": [ "workbench.action.editor.nextChange" ]
     },
 
-    // --------------------------------------------------------------------------------
     // SHORTCUTS
+    // ---------
     {
       // show hover
       "before": [ "K" ],
@@ -384,8 +408,8 @@
       "commands": [ ":q" ]
     },
 
-    // --------------------------------------------------------------------------------
     // MISC
+    // ----
     { // rename
       "before": [ "<Leader>", "r" ],
       "commands": [ "editor.action.rename" ]
@@ -400,8 +424,9 @@
       "commands": [ "workbench.action.toggleZenMode" ]
     },
 
-    // --------------------------------------------------------------------------------
     // WINDOW COMMANDS
+    // ---------------
+
     // C-w wasd to split
     {
       "before": [ "C-w", "a" ],
@@ -419,6 +444,7 @@
       "before": [ "C-w", "s" ],
       "commands": [ "workbench.action.splitEditorDown" ]
     },
+
     // <Space> wasd to split
     {
       "before": [ "<Leader>", "s", "a" ],
@@ -437,8 +463,9 @@
       "commands": [ "workbench.action.splitEditorDown" ]
     },
 
-    // --------------------------------------------------------------------------------
     // Case coersion
+    // -------------
+
     // `crs` doesn't work in VSCodeCim
     // {
     //   "before": [ "c", "r", "s" ],
@@ -449,9 +476,10 @@
       "commands": [ "extension.changeCase.snake" ],
     },
 
-    // --------------------------------------------------------------------------------
     // JAPANESE
+    // --------
     // `<C-j`> for `、`, `<C-l>` for `。`
+
     // f, F
     {
       "before": [ "f", "<C-l>" ],
@@ -469,6 +497,7 @@
       "before": [ "F", "<C-j>" ],
       "after": [ "f", "、" ]
     },
+
     // t, T
     {
       "before": [ "t", "<C-l>" ],
