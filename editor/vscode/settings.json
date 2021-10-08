@@ -485,10 +485,47 @@
     {
       "before": [ "T", "<C-j>" ],
       "after": [ "T", "、" ]
+    },
+
+    // TODO: let it work
+    // df, dF
+    {
+      "before": [ "d", "f", "<C-l>" ],
+      "after": [ "d", "f", "。" ]
+    },
+    {
+      "before": [ "d", "f", "<C-j>" ],
+      "after": [ "d", "f", "、" ]
+    },
+    {
+      "before": [ "d", "F", "<C-l>" ],
+      "after": [ "d", "F", "。" ]
+    },
+    {
+      "before": [ "d", "F", "<C-j>" ],
+      "after": [ "d", "f", "、" ]
+    },
+
+    // dt, dT
+    {
+      "before": [ "d", "t", "<C-l>" ],
+      "after": [ "d", "t", "。" ]
+    },
+    {
+      "before": [ "d", "t", "<C-j>" ],
+      "after": [ "d", "t", "、" ]
+    },
+    {
+      "before": [ "d", "T", "<C-l>" ],
+      "after": [ "d", "T", "。" ]
+    },
+    {
+      "before": [ "d", "T", "<C-j>" ],
+      "after": [ "d", "T", "、" ]
     }
   ],
+
   // automatically added:
   "workbench.startupEditor": "newUntitledFile",
   "redhat.telemetry.enabled": false,
-  "window.zoomLevel": -1,
 }
