@@ -33,8 +33,7 @@
 
         ;; packages
         "elisp/evil.el"                  ;; Fundamentals
-        ;; TODO: make sure to commit this file
-        ;; "local/locals.el"                ;; Local packages
+        "local/locals.el"                ;; Local, non-MELPA packages
 
         "elisp/ide-ui.el"                ;; Intelligence
         "elisp/ide-langs.el"             ;; Intelligence for specific laguages
@@ -58,11 +57,9 @@
 
 ;; Add `local/` to `load-path` recursively
 ;; https://www.emacswiki.org/emacs/LoadPath
-(progn
-    (add-to-list 'load-path (concat user-emacs-directory "local"))
-    (let ((default-directory  (concat user-emacs-directory "local")))
-        (normal-top-level-add-subdirs-to-load-path))
-    )
+(progn (add-to-list 'load-path (concat user-emacs-directory "local"))
+       (let ((default-directory  (concat user-emacs-directory "local")))
+           (normal-top-level-add-subdirs-to-load-path)))
 
 ;; Load all of the listed files
 (dolist (x toy/init-files)

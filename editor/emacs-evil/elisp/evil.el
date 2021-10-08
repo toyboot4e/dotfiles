@@ -186,18 +186,18 @@
         ;; Global settings (defaults)
         (setq doom-themes-enable-bold t
               doom-themes-enable-italic t)
-        (load-theme 'doom-opera t)
         ;; flush mode-line on errors
         ;; (doom-themes-visual-bell-config)
+
+        (load-theme 'doom-opera t)
+
+        ;; FIXME: Loading the `local` package here
+        (require 'smyx-theme)
+        (load-theme 'smyx t)
         )
 
     ;; (use-package darkokai-theme
     ;;     :config (load-theme 'darkokai t))
-
-    ;; ;; NOTE: `smyx` is in `local` directory
-    ;; (require 'smyx-theme)
-    ;; (load-theme 'smyx t)
-    ;; (require 'gitmole)
 
     ;; modeline
     (use-package doom-modeline
