@@ -273,9 +273,6 @@
         (global-hl-todo-mode 1))
     )
 
-;; Load theme packages only on startup. They're heavy to reload (with `:s`)!
-(add-hook 'after-init-hook #'toy/load-theme-packages)
-
 ;; ------------------------------ Evil ------------------------------
 
 (use-package evil

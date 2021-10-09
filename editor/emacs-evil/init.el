@@ -68,3 +68,6 @@
 ;; start Emacs with only one window
 (add-hook 'window-setup-hook #'delete-other-windows)
 
+;; Finally load the theme (mainly for GUI)
+(toy/load-theme-packages)
+
