@@ -226,7 +226,8 @@
 ;; use project name as default tab name
 (defun toy/set-tab-name-default ()
     (let ((proj-name (projectile-project-name)))
-        (when proj-name (tab-bar-rename-tab proj-name))))
+        (unless (or (= (length proj-name) 0) (string= proj-name "-"))
+            (tab-bar-rename-tab proj-name))))
 
 (advice-add 'tab-bar-new-tab :after (lambda (&rest x) (toy/set-tab-name-default)))
 (add-hook 'window-setup-hook #'toy/set-tab-name-default)
