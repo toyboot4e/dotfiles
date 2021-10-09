@@ -61,6 +61,8 @@
       # SauceCodePro is distributed as SourceCodePro
       (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
       noto-fonts-cjk
+      font-awesome
+      pango # popular font
     ];
 
     fontconfig = {
@@ -121,8 +123,10 @@
     windowManager = {
       i3 = {
         enable = true;
-	# I don't need gaps between windows
+
+	# use `i3-gaps` just to change `i3bar` height
         # package = pkgs.i3-gaps; 
+
         extraPackages = with pkgs; [
 	  # TODO: Rofi?
           dmenu
@@ -144,6 +148,10 @@
     rxvt_unicode
     python3
     python2
+
+    # System GUI/utilities
+    rofi
+    flameshot
 
     # GUI
     qutebrowser firefox chromium

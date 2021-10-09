@@ -30,7 +30,7 @@ set $ws1 "1: "
 set $ws2 "2: &#xf52d;"
 set $ws3 "3: "
 set $ws4 "4: "
-set $ws5 "5: "
+set $ws5 "5: "
 set $ws6 "6: "
 set $ws7 "7: "
 set $ws8 "8: "
@@ -60,6 +60,17 @@ bar {
 }
 
 # --------------------------------------------------------------------------------
+# Function key alternatives
+
+# screenshot
+bindsym --release Print              exec --no-startup-id flameshot full -p ~/ss/
+bindsym --release Shift+Print        exec --no-startup-id flameshot gui -p ~/ss/
+bindsym --release Control+Print      exec --no-startup-id flameshot screen -p ~/ss/
+bindsym --release $mod+Print         exec --no-startup-id flameshot full -c
+bindsym --release $mod+Shift+Print   exec --no-startup-id flameshot gui -c
+bindsym --release $mod+Control+Print exec --no-startup-id flameshot screen -c
+
+# --------------------------------------------------------------------------------
 # Startup
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
@@ -73,7 +84,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
+# FIXME: Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -104,33 +115,38 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left 200 px
+bindsym $mod+Shift+j move down 200 px
+bindsym $mod+Shift+k move up 200 px
+bindsym $mod+Shift+l move right 200 px
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# split in horizontal orientation
-bindsym $mod+ctrl+h split h
-
-# split in vertical orientation
-bindsym $mod+ctrl+v split v
+bindsym $mod+Shift+Left move left 200 px
+bindsym $mod+Shift+Down move down 200 px
+bindsym $mod+Shift+Up move up 200 px
+bindsym $mod+Shift+Right move right 200 px
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
+# ------
+# split in horizontal orientation
+bindsym $mod+ctrl+shift+h split h
+
+# split in vertical orientation
+bindsym $mod+ctrl+shift+v split v
+
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+ctrl+s layout stacking
-bindsym $mod+ctrl+w layout tabbed
-bindsym $mod+ctrl+e layout toggle split
+bindsym $mod+ctrl+shift+s layout stacking
+bindsym $mod+ctrl+shift+w layout tabbed
+bindsym $mod+ctrl+shift+e layout toggle split
+# ------
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+
+# toggle sticky
+bindsym $mod+Shift+m sticky toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -154,16 +170,16 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # switch to workspace (numpad)
-bindsym $mod+Mod2+KP_1 workspace 1
-bindsym $mod+Mod2+KP_2 workspace 2
-bindsym $mod+Mod2+KP_3 workspace 3
-bindsym $mod+Mod2+KP_4 workspace 4
-bindsym $mod+Mod2+KP_5 workspace 5
-bindsym $mod+Mod2+KP_6 workspace 6
-bindsym $mod+Mod2+KP_7 workspace 7
-bindsym $mod+Mod2+KP_8 workspace 8
-bindsym $mod+Mod2+KP_9 workspace 9
-bindsym $mod+Mod2+KP_0 workspace 10
+bindsym $mod+Mod2+KP_1 workspace $ws1
+bindsym $mod+Mod2+KP_2 workspace $ws2
+bindsym $mod+Mod2+KP_3 workspace $ws3
+bindsym $mod+Mod2+KP_4 workspace $ws4
+bindsym $mod+Mod2+KP_5 workspace $ws5
+bindsym $mod+Mod2+KP_6 workspace $ws6
+bindsym $mod+Mod2+KP_7 workspace $ws7
+bindsym $mod+Mod2+KP_8 workspace $ws8
+bindsym $mod+Mod2+KP_9 workspace $ws9
+bindsym $mod+Mod2+KP_0 workspace $ws10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -178,16 +194,16 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # move focused container to workspace (numpad) note that shift key changes the code
-bindsym $mod+Shift+Mod2+KP_End     move container to workspace 1
-bindsym $mod+Shift+Mod2+KP_Down    move container to workspace 2
-bindsym $mod+Shift+Mod2+KP_Next    move container to workspace 3
-bindsym $mod+Shift+Mod2+KP_Left    move container to workspace 4
-bindsym $mod+Shift+Mod2+KP_Begin   move container to workspace 5
-bindsym $mod+Shift+Mod2+KP_Right   move container to workspace 6
-bindsym $mod+Shift+Mod2+KP_Home    move container to workspace 7
-bindsym $mod+Shift+Mod2+KP_Up      move container to workspace 8
-bindsym $mod+Shift+Mod2+KP_Prior   move container to workspace 9
-bindsym $mod+Shift+Mod2+KP_Insert  move container to workspace 10
+bindsym $mod+Shift+Mod2+KP_End     move container to workspace $ws1
+bindsym $mod+Shift+Mod2+KP_Down    move container to workspace $ws2
+bindsym $mod+Shift+Mod2+KP_Next    move container to workspace $ws3
+bindsym $mod+Shift+Mod2+KP_Left    move container to workspace $ws4
+bindsym $mod+Shift+Mod2+KP_Begin   move container to workspace $ws5
+bindsym $mod+Shift+Mod2+KP_Right   move container to workspace $ws6
+bindsym $mod+Shift+Mod2+KP_Home    move container to workspace $ws7
+bindsym $mod+Shift+Mod2+KP_Up      move container to workspace $ws8
+bindsym $mod+Shift+Mod2+KP_Prior   move container to workspace $ws9
+bindsym $mod+Shift+Mod2+KP_Insert  move container to workspace $ws10
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
@@ -196,20 +212,15 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 200 px or 200 ppt
+        bindsym l resize grow width 200 px or 200 ppt
+        bindsym k resize shrink height 200 px or 200 ppt
+        bindsym j resize grow height 200 px or 200 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 200 px or 200 ppt
+        bindsym Right resize grow width 200 px or 200 ppt
+        bindsym Up resize shrink height 200 px or 200 ppt
+        bindsym Down resize grow height 200 px or 200 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
