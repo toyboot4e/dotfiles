@@ -1,30 +1,34 @@
 # configuration.nix(5)
 # nixos-help
 
-{ config, pkgs, ... }: {
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
+{ config, pkgs, callPackage, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
-  # enable sudo
-  security.sudo.enable = true;
-  security.sudo.configFile = ''
-    %wheel ALL=(ALL) ALL
-  '';
+  # TODO: Hide user preferences?
+  time.timeZone = "Asia/Tokyo";
+
+  # Allow most packages TODO: What does it mean?
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # Enable sudo TODO: Is it OK?
+  security.sudo.enable = true;
+  security.sudo.configFile = ''
+    %wheel ALL=(ALL) ALL
+  '';
 
-  time.timeZone = "Asia/Tokyo";
+  # TODO: Network settings
+  # networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;
+  networking.networkmanager.enable = true;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -37,13 +41,37 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
+  # TODO: Select keyboard layout here
   # i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
 
+  # Who don't want sound?
   sound.enable = true;
+
+  # Fonts https://nixos.wiki/wiki/Fonts
+  fonts = {
+    fontDir.enable = true;
+    enableDefaultFonts = true;
+
+    # Font packages TODO: Add more fonts
+    fonts = with pkgs; [
+      # SauceCodePro is distributed as SourceCodePro
+      (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
+      noto-fonts-cjk
+    ];
+
+    fontconfig = {
+      defaultFonts = {
+        # TODO: Make sure to select SauceCodePro NerdFont and Noto Fonts
+        serif = [ "noto-fonts-cjk" "SourceCodePro" ];
+        sansSerif = [ "noto-fonts-cjk" "SourceCodePro" ];
+        monospace = [ "noto-fonts-cjk" "SourceCodePro" ];
+     };
+    };
+  };
 
   # Enable Japanese input
   #
@@ -60,28 +88,43 @@
     fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
   };
 
-  # Set up Gnome + i3
+  # Set up `xfce` + `i3` (I failed to setup `i3` only environment; I even failed to enable Wifi)
   # https://nixos.wiki/wiki/I3
-  # $ # enable per-monitor DPI scaling on Gnome:
-  # $ gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
   services.xserver = {
+    # Use the X window system
     enable = true;
 
     desktopManager = {
-      gnome.enable = true;
-      xterm.enable = false;
+      # a. Gnome (can't be used alongside `i3`)
+      # gnome.enable = true;
+
+      # # b. `xfce` + WM
+      # xfce = {
+      #   enable = true;
+      #   noDesktop = true;
+      #   enableXfwm = false;
+      # };
     };
 
     displayManager = {
-      gdm.enable = true;
+      # a. Gnome: enable the diplsay manager
+      # gdm.enable = true;
+
+      # b. `xfce`
+      # defaultSession = "xfce+i3";
+
+      # c. `i3` only
       defaultSession = "none+i3";
     };
     
     windowManager = {
       i3 = {
         enable = true;
+	# I don't need gaps between windows
         # package = pkgs.i3-gaps; 
         extraPackages = with pkgs; [
+	  # TODO: Rofi?
           dmenu
           i3status
           i3lock
@@ -91,6 +134,11 @@
     };
   };
 
+  # -----
+  # Set up HomeManager (per-user package management in declarative style)
+  # https://nixos.wiki/wiki/Home_Manager
+  # -----
+
   environment.systemPackages = with pkgs; [
     # System
     rxvt_unicode
@@ -99,7 +147,7 @@
 
     # GUI
     qutebrowser firefox chromium
-    # discord
+    discord
     slack
     vscode
     mpv
@@ -161,7 +209,8 @@
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    # wheek for `sudo`, `networkManager` for network stetings in non-Gnome env (`i3`)
+    extraGroups = [ "wheel" "networkManager" ];
   };
 
   environment.variables = {
