@@ -16,8 +16,15 @@ cd ~/dotfiles || {
     return 1
 }
 
-mkdir ~/.config/{fish,git,qutebrowser,vim,nvim,coc}
-mkdir ~/.w3m
+_mkdir() {
+    if [ ! -e "$1" ] ; then
+        mkdir "$1"
+        echo "crated directory $1"
+    fi
+}
+
+_mkdir ~/.config/{fish,git,qutebrowser,vim,nvim,coc}
+_mkdir ~/.w3m
 
 _link() {
     [ ! -e "$1" ] && {
@@ -71,7 +78,7 @@ _link browser/w3m/keymap             ~/.w3m/keymap
 # Mac-only apps
 
 if [ "$(uname)" == 'darwin' ] ; then
-    mkdir ~/.config/{karabiner,yabai,spacebar}
+    _mkdir ~/.config/{karabiner,yabai,spacebar}
 
     _link macos/skhd/.skhdrc             ~/.skhdrc
     _link macos/yabai/yabairc            ~/.config/yabai/yabairc
@@ -80,7 +87,7 @@ if [ "$(uname)" == 'darwin' ] ; then
     # Karabiner-Elements 
 
     # VSCode
-    _link editor/vscode/settings.json   "$HOME/Library/Application Support/Code/User/settings.json"
+    _link editor/vscode/settings.json       "$HOME/Library/Application Support/Code/User/settings.json"
     _link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
     
     # Sublime
@@ -94,10 +101,13 @@ if [ "$(uname)" == 'darwin' ] ; then
     
     # Firefox
 else
-    _link liunx/.xinitrc   "$HOME/.xinitrc"
+    _mkdir ~/.config/nixpkgs
+
+    _link nixos/nixpks/config.nix          "$HOME/.config/nixpkgs/config.nix"
+    _link liunx/.xinitrc                   "$HOME/.xinitrc"
 
     # VSCode
-    _link editor/vscode/settings.json   "$HOME/.config/Code/User/settings.json"
+    _link editor/vscode/settings.json      "$HOME/.config/Code/User/settings.json"
     _link editor/vscode/keybindings.json   "$HOME/.config/Code/User/keybindings.json"
     
     # Sublime

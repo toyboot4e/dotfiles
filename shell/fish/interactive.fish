@@ -13,7 +13,7 @@
 # $ fisher install decors/fish-ghq
 
 # TODO: only if zoxide exists
-if type -q zoxide
+if command -sq zoxide
     zoxide init fish | source
 end
 
@@ -26,7 +26,7 @@ source "$HOME/dotfiles/shell/fish/root_comp.fish"
 set -x SHELL (which fish)
 
 # --------------------------------------------------------------------------------
-# macOS
+# OS-dependent
 
 if test (uname) = Darwin
     function refresh_audio
@@ -65,7 +65,7 @@ if command -sq goenv
 end
 
 # ----------------------------------------
-# UTILS
+# META UTILS
 
 function _alias
     if ! command -sq $argv[1]
@@ -135,6 +135,13 @@ if command -sq bat
 end
 
 _alias rg rgl 'rg -p "argv" | less -iNMR'
+
+if command -sq xclip
+    alias pbcopy='xclip -selection c'
+    alias pc='xclip -selection c'
+    alias pbpaste='xclip -selection c -o'
+    alias pp='xclip -selection c -o'
+end
 
 # ----------------------------------------
 # FILE OPERATION

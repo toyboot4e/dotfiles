@@ -1,0 +1,26 @@
+* nixOS
+I didn't have any reason to use NixOS, and I could use Ubuntu, but I found NixOS was loved by
+matklad. /He is my idle!/ So I'm giving it a try..
+
+** Installation
+   I set up Window/Linux dual boot external SSD (USB).
+
+   1. Boot Windows
+   2. Resize the partition in the Windows
+   3. Boot NixOS
+
+   I failed to install NixOS with the minimum setup disk image. I couldn't even connect to the
+   internet. So I first installed NixOS with Gnome DE, set up many things, and then switched to
+   =i3=.
+
+** Any pros after switching to NixOS?
+   Sometimes my configuration ruined the entire OS. But I could easily rollback to the previous
+   build (generation) of my NixOS. So I was feeling the safety while editing any configuration.
+
+   It was the only pro. Many things didn't "just work". Do I even have to set up =nix-shell= every
+   time I build my project? It could be relaxed with =direnv= (or =nix-direnv=), but it just makes
+   NixOS closure to Ubuntu.
+
+   So I expect I would not find any particular reason to NixOS. Except for the fun! That makes me
+   sure I'm doing "the right" thing actually..
+

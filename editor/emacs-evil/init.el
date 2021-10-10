@@ -33,7 +33,7 @@
 
         ;; packages
         "elisp/evil.el"                  ;; Fundamentals
-        "local/locals.el"                ;; Local packages
+        "local/locals.el"                ;; Local, non-MELPA packages
 
         "elisp/ide-ui.el"                ;; Intelligence
         "elisp/ide-langs.el"             ;; Intelligence for specific laguages
@@ -46,7 +46,8 @@
         "elisp/keymap.el"                ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
 
-        "elisp/private.el"               ;; Private code, like API tokens
+        ;; TODO: Only load this file if it exists
+        ;; "elisp/private.el"               ;; Private code, like API tokens
         ))
 
 (defun toy/fill-mode ()
@@ -56,11 +57,9 @@
 
 ;; Add `local/` to `load-path` recursively
 ;; https://www.emacswiki.org/emacs/LoadPath
-(progn
-    (add-to-list 'load-path (concat user-emacs-directory "local"))
-    (let ((default-directory  (concat user-emacs-directory "local")))
-        (normal-top-level-add-subdirs-to-load-path))
-    )
+(progn (add-to-list 'load-path (concat user-emacs-directory "local"))
+       (let ((default-directory  (concat user-emacs-directory "local")))
+           (normal-top-level-add-subdirs-to-load-path)))
 
 ;; Load all of the listed files
 (dolist (x toy/init-files)
@@ -68,4 +67,7 @@
 
 ;; start Emacs with only one window
 (add-hook 'window-setup-hook #'delete-other-windows)
+
+;; Finally load the theme (mainly for GUI)
+(toy/load-theme-packages)
 

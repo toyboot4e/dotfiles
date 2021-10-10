@@ -11,8 +11,9 @@ config.set('colors.webpage.darkmode.enabled', True)
 # c.url.default_page = '~/html/homepage.html'
 
 # Constants
-DL_VIDEO_DIR="~Resources/videos"
-DEFAULT_ZOOM='75%'
+DL_VIDEO_DIR="~/Resources/videos"
+# DEFAULT_ZOOM='75%'
+DEFAULT_ZOOM='150%'
 
 # Tips:
 # - `:config-source` to reload `config.py`
@@ -62,6 +63,9 @@ c.url.searchengines = {
     "doc": 'https://docs.rs/{}',
     "docs": 'https://docs.rs/{}',
     "lib": 'https://lib.rs/{}',
+
+    "arch": 'https://wiki.archlinux.org/title/{}',
+    "nix": 'https://nixos.wiki/index.php?search={}',
 }
 
 # --------------------------------------------------------------------------------
@@ -92,7 +96,8 @@ config.set('zoom.default', f"{DEFAULT_ZOOM}")
 # VIEW
 
 c.tabs.position = "right"
-c.tabs.width = 160
+#  c.tabs.width = 160
+c.tabs.width = 320
 c.tabs.padding = {'bottom': 4, 'left': 4, 'right': 4, 'top': 4}
 
 c.scrolling.bar = "always"
