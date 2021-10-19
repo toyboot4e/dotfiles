@@ -422,13 +422,21 @@
 ;;     " oit" #' org-inlinetask-insert-task
 ;;     )
 
+;; open magit in the full frame
+(defun toy/magit-frame ()
+    (interactive)
+    (let ((magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+        (magit)))
+
+(defun toy/magit-tab ()
+    (interactive)
+    (tab-new)
+    (toy/magit-frame))
+
 (evil-define-key 'normal 'toy/global-mode-map
-    ;; open `magit` in other window
     "  g" #'magit
-    ;; open `magit` in the full frame
-    "  G" (_fn (let ((magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
-                   (magit)
-                   ))
+    "  G" #'toy/magit-frame
+    "  T" #'toy/magit-tab
     )
 
 ;; ------------------------------ Dashboard ------------------------------
