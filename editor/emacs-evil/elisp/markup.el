@@ -148,10 +148,6 @@
     (turn-on-auto-fill)
     ;; do not count TODOs recursively
     (setq org-hierarchial-todo-statics nil)
-    ;; TODO: use `M-;` for Japanese input on macOS
-    (define-key org-mode-map (kbd "M-;") nil)
-    (evil-define-key 'insert 'org-mode-map
-        "M-;" nil)
     )
 
 (use-package org
