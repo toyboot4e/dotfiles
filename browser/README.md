@@ -23,5 +23,8 @@ y: https://www.youtube.com/results?search_query=%s Youtube
 
 doc: https://docs.rs/%s Docs.rs
 my: https://github.com/toyboot4e/%s My-repositories
+
+arch: https://wiki.archlinux.org/title/%s
+nix: https://search.nixos.org/packages?query=%s
 ```
 

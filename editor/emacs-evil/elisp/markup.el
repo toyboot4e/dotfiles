@@ -33,8 +33,8 @@
 
 ;; ------------------------------ Configuration files ------------------------------
 
-(use-package gitignore-mode
-    :mode ("\\.gitignore" . gitignore-mode))
+;; (use-package gitignore-mode
+;;     :mode ("\\.gitignore" . gitignore-mode))
 
 (use-package vimrc-mode
     :mode ("\\.vim" . vimrc-mode)

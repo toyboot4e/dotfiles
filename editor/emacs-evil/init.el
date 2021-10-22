@@ -27,6 +27,21 @@
     (declare (doc-string 1))
     `(lambda () (interactive) ,@body))
 
+;; Set up `PATH` and `exec-path`
+(dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
+                   "~/.cargo/bin" "/usr/local/bin"
+                   "~/bin"
+                   "~/.nix-profile/bin"
+                   ;; Unforunate path to LaTeX on my mac
+                   "/Library/TeX/texbin"
+                   "/usr/local/texlive/2019/bin/x86_64-darwin/"
+                   ))
+
+    (when (and (file-exists-p dir) (not (member dir exec-path)))
+        (setenv "PATH" (concat dir ":" (getenv "PATH")))
+        (setq exec-path (append (list dir) exec-path))))
+
+
 ;; files to load
 (setq toy/init-files
       '("elisp/gc.el"                    ;; GC settings for startup speed

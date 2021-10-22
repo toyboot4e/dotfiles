@@ -436,8 +436,7 @@
 (evil-define-key 'normal 'toy/global-mode-map
     "  g" #'magit
     "  G" #'toy/magit-frame
-    "  T" #'toy/magit-tab
-    )
+    "  T" #'toy/magit-tab)
 
 ;; ------------------------------ Dashboard ------------------------------
 

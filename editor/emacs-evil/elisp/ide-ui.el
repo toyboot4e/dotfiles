@@ -11,19 +11,6 @@
       lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v")
       )
 
-;; Set up `PATH` and `exec-path`
-(dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
-                   "~/.cargo/bin" "/usr/local/bin"
-                   "~/bin"
-                   ;; Unforunate path to LaTeX on my mac
-                   "/Library/TeX/texbin"
-                   "/usr/local/texlive/2019/bin/x86_64-darwin/"
-                   ))
-
-    (when (and (file-exists-p dir) (not (member dir exec-path)))
-        (setenv "PATH" (concat dir ":" (getenv "PATH")))
-        (setq exec-path (append (list dir) exec-path))))
-
 ;; ------------------------------ Widgets ------------------------------
 
 ;; some dependency needs it?

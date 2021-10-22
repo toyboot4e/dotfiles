@@ -1,4 +1,7 @@
 = dotfiles
+:nix: https://github.com/NixOS/nix[Nix]
+:hm: https://github.com/nix-community/home-manager[Home Manager]
+
 :kitty: https://sw.kovidgoyal.net/kitty/[Kitty]
 :tmux: https://github.com/tmux/tmux[tmux]
 :nerd: https://github.com/ryanoasis/nerd-fonts[Nerd Font]
@@ -8,13 +11,12 @@
 :quteb: https://qutebrowser.org/[qutebrowser]
 :w3m: http://w3m.sourceforge.net/[w3m]
 
-:yabai: https://github.com/koekeishiya/yabai[yabai]
 :skhd: https://github.com/koekeishiya/skhd[skhd]
-:spacebar: https://github.com/somdoron/spacebar[spacebar]
+:yabai: https://github.com/koekeishiya/yabai[yabai]
 :karabiner: https://karabiner-elements.pqrs.org/[Karabiner-Elements]
-
 :simple-bar: https://github.com/Jean-Tinland/simple-bar[simple-bar]
 :uber: https://github.com/felixhageloh/uebersicht[Übersicht]
+// :spacebar: https://github.com/somdoron/spacebar[spacebar]
 
 :i3: https://github.com/i3/i3[i3]
 :flameshot: https://github.com/flameshot-org/flameshot[flameshot]
@@ -34,13 +36,15 @@ image::readme/ss.png[]
 
 == List
 
+See link:nixos/README.adoc[nixos/README.adoc] for the complete list.
+
 |===
 | Terminal | {kitty} with {tmux}
 | Font     | SauceCodePro  {nerd}
 | Editors  | NeoVim and {evil} Emacs
 | Shells   | bash and {fish}
 | Browsers | {quteb}, firefox and {w3m}
-| macOS    | {yabai}, {skhd}, {simple-bar} and {karabiner}
+| macOS    | {brew}, {yabai}, {skhd}, {simple-bar} and {karabiner}
 | Linux    | {i3}, {flameshot}
 |===
 

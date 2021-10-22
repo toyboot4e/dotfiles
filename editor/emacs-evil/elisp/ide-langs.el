@@ -88,6 +88,7 @@
                    (flycheck-mode)))
     )
 
+;; TODO: idirs2-mode?
 (use-package idris-mode
     :hook (idirs-mode . lsp-deferred)
     )
