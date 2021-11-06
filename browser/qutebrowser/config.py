@@ -3,8 +3,10 @@
 
 config.load_autoconfig(False)
 
-# Force dark mode. Required to restart qutebrowser (?0
+# Force dark mode. Required to restart qutebrowser
 config.set('colors.webpage.darkmode.enabled', True)
+# Don't flush on dark mode
+config.set('colors.webpage.bg', 'black')
 
 # Use a custom homepage
 # required to use file:/// URI?
@@ -12,8 +14,9 @@ config.set('colors.webpage.darkmode.enabled', True)
 
 # Constants
 DL_VIDEO_DIR="~/Resources/videos"
-# DEFAULT_ZOOM='75%'
-DEFAULT_ZOOM='150%'
+
+DEFAULT_ZOOM='75%'
+# DEFAULT_ZOOM='150%'
 
 # Tips:
 # - `:config-source` to reload `config.py`
@@ -65,7 +68,8 @@ c.url.searchengines = {
     "lib": 'https://lib.rs/{}',
 
     "arch": 'https://wiki.archlinux.org/title/{}',
-    "nix": 'https://nixos.wiki/index.php?search={}',
+    "nix-wiki": 'https://nixos.wiki/index.php?search={}',
+    "nix": 'https://search.nixos.org/packages?query={}',
 }
 
 # --------------------------------------------------------------------------------
@@ -75,7 +79,7 @@ c.url.searchengines = {
 c.aliases['pocket'] = 'open -t https://getpocket.com/edit?url={url}'
 
 # Download video with 720p (FIXME)
-c.aliases['dl'] = 'spawn youtube-dl {url} -o f"~/{DL_VIDEO_DIR}/%(title)s.%(ext)s"'
+c.aliases['dl'] = 'spawn youtube-dl {url} -o f"{DL_VIDEO_DIR}/%(title)s.%(ext)s"'
 
 # --------------------------------------------------------------------------------
 # Behaviors
@@ -96,8 +100,10 @@ config.set('zoom.default', f"{DEFAULT_ZOOM}")
 # VIEW
 
 c.tabs.position = "right"
-#  c.tabs.width = 160
-c.tabs.width = 320
+
+c.tabs.width = 160
+# c.tabs.width = 320
+
 c.tabs.padding = {'bottom': 4, 'left': 4, 'right': 4, 'top': 4}
 
 c.scrolling.bar = "always"
@@ -114,7 +120,7 @@ config.unbind('co', mode = 'normal');
 # config.bind('M', 'set-cmd-text -s :jump-mark ', mode='normal')
 
 # TODO: mpv
-config.bind('m', 'hint links spawn "/usr/local/bin/mpv" {hint-url} --ontop --no-border', mode='normal')
+config.bind('m', 'hint links spawn "~/.nix-profile/bin/mpv" {hint-url} --ontop --no-border', mode='normal')
 
 # Quickmaarks
 config.bind('sq', 'quickmark-save')
