@@ -1,8 +1,16 @@
 elpa
+quelpa
+straight
+forge*
+
 request
 snippets
 transient
 tmp
 url
 var
+.lsp*
+.cache
+auto-save-list
+request
 

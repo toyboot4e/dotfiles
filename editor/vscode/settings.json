@@ -99,7 +99,7 @@
   "workbench.colorTheme": "Smyck", // USE SMALLER UI
   // Font
   "editor.fontFamily": "SauceCodePro Nerd Font",
-  "editor.fontSize": 16.0,
+  "editor.fontSize": 13.5,
   "editor.letterSpacing": 0.00,
   "editor.lineHeight": 18,
   "terminal.integrated.fontSize": 13.5,

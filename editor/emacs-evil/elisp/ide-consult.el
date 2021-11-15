@@ -2,9 +2,8 @@
 
 ;; NOTE: `savehist-mode` is called in `evil.el`
 
-;; TODO: C-k for file items
 (use-package consult
-    ;; not needed if we don't use default UI (like when using `vertico`
+    ;; Required if we don't use default UI (like when using `vertico`)
     ;; :hook (completion-list-mode . consult-preview-at-point-mode)
 
     ;; strictly evaluated
@@ -53,6 +52,14 @@
                        :open     #'tab-bar-select-tab-by-name
                        :items    #'(lambda () (mapcar #'(lambda (tab) (cdr (assq 'name tab))) (tab-bar-tabs))))
                  'append))
+
+(use-package consult-ghq)
+
+(use-package consult-dir)
+
+(use-package consult-lsp
+    :config
+    (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
 (use-package vertico
     :init
@@ -151,18 +158,10 @@
     ;; show all the matching results
     (setq affe-count most-positive-fixnum)
 
-    ;; use orderless
+    ;; use `orderless` with `affe`
     (setq affe-regexp-function #'orderless-pattern-compiler
           affe-highlight-function #'orderless--highlight)
     )
 
 ;; FIXME: color of selected item
-
-(use-package consult-ghq)
-
-(use-package consult-dir)
-
-(use-package consult-lsp
-    :config
-    (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 

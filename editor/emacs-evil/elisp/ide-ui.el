@@ -11,6 +11,24 @@
       lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v")
       )
 
+;; ------------------------------ Passive ------------------------------
+
+;; ;; GitLens alternative
+;; (use-package blamer
+;;     :quelpa (blamer :fetcher github :repo "artawower/blamer.el")
+;;     :custom
+;;     (blamer-idle-time 0.3)
+;;     (blamer-min-offset 70)
+;; 
+;;     :custom-face
+;;     (blamer-face ((t :foreground "#7a88cf"
+;;                      :background nil
+;;                      :height 140
+;;                      :italic t)))
+;; 
+;;     :config
+;;     (global-blamer-mode 1))
+
 ;; ------------------------------ Widgets ------------------------------
 
 ;; some dependency needs it?
@@ -51,7 +69,10 @@
     ;; (evil-define-key 'normal 'magit-log-mode-map
     ;;     (kbd " o") #'toy/magit-visit-ref
     ;;     )
-    
+
+    ;; how many do we want to see on `magit-status`?
+    (setq magit-log-section-commit-count 40)
+
     (evil-define-key 'normal 'magit-mode-map
         "zz" #'recenter-top-bottom
         "z-" #'evil-scroll-line-to-bottom
@@ -71,7 +92,8 @@
     :commands (magit-todos-list)
     :after magit)
 
-;; ;; not working well
+;; ;; Works well only with `side-by-side = true` option
+;; ;; https://github.com/dandavison/magit-delta/issues/13
 ;; (use-package magit-delta
 ;;     ;; https://github.com/dandavison/magit-delta
 ;;     :commands magit-delta-mode
@@ -80,13 +102,11 @@
 ;;     (setq magit-delta-delta-args
 ;;           '("--24-bit-color" "always"
 ;;             "--features" "magit-delta"
-;;             "--color-only"))
-;;     )
+;;             "--color-only")))
 
 ;; c.f. https://magit.vc/manual/forge/
 (use-package forge
-    :after magit
-    )
+    :after magit)
 
 (use-package centaur-tabs
     ;; https://github.com/ema2159/centaur-tabs
@@ -277,6 +297,8 @@
     ;; NOTE: Don't use `lsp`, where `lsp-ui-mode` is not hooked
     :commands (lsp-mode lsp-deferred)
     :hook (lsp-mode . lsp-enable-which-key-integration)
+    ;; TODO: collapse on goto? https://www.emacswiki.org/emacs/HideShow
+    :hook (lsp-mode . hs-minor-mode)
 
     :init
     ;; NOTE: manual binding to `lsp-commad-map` is below (`define-key`)
@@ -299,13 +321,14 @@
           lsp-enable-symbol-highlighting nil
           lsp-headerline-breadcrumb-enable nil
           )
+
     (setq lsp-modeline-diagnostics-scope :workspace)
+    (setq lsp-semantic-tokens-enable t)
 
     (define-key evil-normal-state-map " l" lsp-command-map)
     (evil-define-key 'normal lsp-mode-map
         "K" #'lsp-describe-thing-at-point
-        )
-    )
+        ))
 
 ;; NOTE: `lsp-ui` can be too slow (especially on Windows). Consider disabling it then.
 (use-package lsp-ui

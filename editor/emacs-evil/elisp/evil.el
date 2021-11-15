@@ -113,28 +113,46 @@
 
 ;; ------------------------------ Boostrapping ------------------------------
 
-(progn ;; Package configuration
-    (setq package-user-dir (concat user-emacs-directory "elpa")
-          package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
-                             ("melpa" . "https://melpa.org/packages/")
-                             ("cselpa" . "https://elpa.thecybershadow.net/packages/")))
+;; (progn ;; `package.el' + `use-package'
+;;     (setq package-user-dir (concat user-emacs-directory "elpa")
+;;           package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
+;;                              ("melpa" . "https://melpa.org/packages/")
+;;                              ("cselpa" . "https://elpa.thecybershadow.net/packages/")))
+;;     (setq use-package-always-ensure t)
+;;
+;;     ;; initialize packages (only once)
+;;     (unless (bound-and-true-p package--initialized)
+;;         (package-initialize))
+;;
+;;     ;; install `use-package' if needed
+;;     (unless (package-installed-p 'use-package)
+;;         (package-refresh-contents)
+;;         (package-install 'use-package))
+;;     (require 'use-package))
 
-    (setq use-package-always-ensure t
-          use-package-expand-minimally t
+(progn ;; `straight.el'
+    ;; TODO: add `straight` and `eva`
+    (defvar bootstrap-version)
+    (let ((bootstrap-file
+           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+          (bootstrap-version 5))
+        (unless (file-exists-p bootstrap-file)
+            (with-current-buffer
+                    (url-retrieve-synchronously
+                     "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+                     'silent 'inhibit-cookies)
+                (goto-char (point-max))
+                (eval-print-last-sexp)))
+        (load bootstrap-file nil 'nomessage)))
+
+(progn ;; `straight.el' + `use-package'
+    (straight-use-package 'use-package)
+    (setq straight-use-package-by-default t))
+
+(progn ;; `use-package'
+    (setq use-package-expand-minimally t
           use-package-compute-statistics t
-          use-package-enable-imenu-support t))
-
-(progn ;; Boostrap `use-package`
-    ;; initialize packages (only once)
-    (unless (bound-and-true-p package--initialized)
-        (package-initialize))
-
-    ;; install `use-package` if needed
-    (unless (package-installed-p 'use-package)
-        (package-refresh-contents)
-        (package-install 'use-package))
-
-    (require 'use-package) ;; to gather statistics, I guess we need the runtime after all
+          use-package-enable-imenu-support t)
     (require 'bind-key)
     (use-package diminish :defer t))
 
@@ -148,32 +166,21 @@
           auto-package-update-interval 7)
     (auto-package-update-maybe))
 
-;; TODO: add `straight` and `eva`
-;; (defvar bootstrap-version)
-;; (setq straight-use-package-by-default nil)
-;; 
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 5))
-;;     (unless (file-exists-p bootstrap-file)
-;;         (with-current-buffer
-;;                 (url-retrieve-synchronously
-;;                  "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;                  'silent 'inhibit-cookies)
-;;             (goto-char (point-max))
-;;             (eval-print-last-sexp)))
-;;     (load bootstrap-file nil 'nomessage))
-;; (let ((bootstrap-file
-;;        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;       (bootstrap-version 5))
-;;     (unless (file-exists-p bootstrap-file)
-;;         (with-current-buffer
-;;                 (url-retrieve-synchronously
-;;                  "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;                  'silent 'inhibit-cookies)
-;;             (goto-char (point-max))
-;;             (eval-print-last-sexp)))
-;;     (load bootstrap-file nil 'nomessage))
+;; `quelpa` boostrapping: https://github.com/quelpa/quelpa
+;; TODO: Prefer `straight`
+(unless (package-installed-p 'quelpa)
+    (with-temp-buffer
+        (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+        (eval-buffer)
+        (quelpa-self-upgrade)))
+
+;; `:quelpa` keyword on `use-package`
+(progn (quelpa
+        '(quelpa-use-package
+          :fetcher git
+          :url "https://github.com/quelpa/quelpa-use-package.git"))
+       (require 'quelpa-use-package))
+
 
 ;; ------------------------------ View settings ------------------------------
 
@@ -193,8 +200,7 @@
 
         ;; FIXME: Loading the `local` package here
         (require 'smyx-theme)
-        (load-theme 'smyx t)
-        )
+        (load-theme 'smyx t))
 
     ;; (use-package darkokai-theme
     ;;     :config (load-theme 'darkokai t))
@@ -336,6 +342,7 @@
 
         ;; [magit] add fold mappings (`z1`, `z2`, .., `za`, ..)
         (setq evil-collection-magit-use-z-for-folds t)
+
         ;; NOTE: magit changes `g` to `gr` (`magit-refresh`)
 
         (evil-collection-magit-setup))
@@ -366,6 +373,12 @@
     (evil-define-key 'visual 'global
         "v" #'er/expand-region
         "V" #'er/contract-region))
+
+;; ;; TODO:
+;; (use-package evil-textobj-parameter
+;;     ;; https://github.com/bevyengine/bevy/tree/main/crates
+;;     :straight (el-patch :type git :host github :repo "Cj-bc/evil-textobj-parameter")
+;;     )
 
 ;; ------------------------------ Help ------------------------------
 
@@ -409,9 +422,7 @@
                       'japanese-jisx0208
                       (font-spec :family "Hiragino Kaku Gothic ProN"))
     (add-to-list 'face-font-rescale-alist
-                 '(".*Hiragino Kaku Gothic ProN.*" . 1.2))
-    )
-
+                 '(".*Hiragino Kaku Gothic ProN.*" . 1.2)))
 
 ;; If on terminal
 (when (not (display-graphic-p))
@@ -450,10 +461,10 @@
     (dashboard-setup-startup-hook))
 
 ;; use `dashborad` in `emacs -client`
-    (let (d (get-buffer dashboard-buffer-name))
-        (when d
-            (setq initial-buffer-choice d))
-        )
+(let (d (get-buffer dashboard-buffer-name))
+    (when d
+        (setq initial-buffer-choice d))
+    )
 
 ;; ------------------------------ ELisp ------------------------------
 
@@ -463,10 +474,9 @@
                   tab-width 4           ; display tab with a width of 4
                   )
 
-    (use-package aggressive-indent
-        :hook ((emacs-lisp-mode scheme-mode) . aggressive-indent-mode))
-
     ;; enable folding (`zr` to open all, `zm` to fold all, `za` to toggle)
     (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
-    )
+
+    (use-package aggressive-indent
+        :hook ((emacs-lisp-mode scheme-mode) . aggressive-indent-mode)))
 

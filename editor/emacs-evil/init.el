@@ -29,9 +29,11 @@
 
 ;; Set up `PATH` and `exec-path`
 (dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
-                   "~/.cargo/bin" "/usr/local/bin"
-                   "~/bin"
+                   "~/.cargo/bin"
+                   ;; "~/.idris2/bin"
                    "~/.nix-profile/bin"
+                   "/usr/local/bin"
+                   "~/bin"
                    ;; Unforunate path to LaTeX on my mac
                    "/Library/TeX/texbin"
                    "/usr/local/texlive/2019/bin/x86_64-darwin/"

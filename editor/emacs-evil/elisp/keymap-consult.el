@@ -128,8 +128,8 @@ DEFS is a plist associating completion categories to commands."
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
 
 (define-key minibuffer-local-map (kbd "\C-f") #'evil-scroll-up)
-(define-key vertico-map (kbd "\C-f") #'vertico-scroll-up)
+;; (define-key vertico-map (kbd "\C-f") #'vertico-scroll-up)
 
 (define-key minibuffer-local-map (kbd "\C-b") #'evil-scroll-down)
-(define-key vertico-map (kbd "\C-b") #'vertico-scroll-down)
+;; (define-key vertico-map (kbd "\C-b") #'vertico-scroll-down)
 

@@ -1,5 +1,9 @@
 ;; Language supports
 
+(use-package editorconfig
+    :config
+    (editorconfig-mode 1))
+
 (use-package rustic
     ;; FIXME: start automatically
     :mode ("\\.rs\\'" . rustic-mode)
@@ -90,7 +94,19 @@
 
 ;; TODO: idirs2-mode?
 (use-package idris-mode
+    :mode ("\\.l?idr\\'" . idris-mode)
     :hook (idirs-mode . lsp-deferred)
+    :config
+    (add-to-list 'lsp-language-id-configuration '(idris-mode . "idris2"))
+    (setq idris-interpreter-path "~/.idris2/bin/idris2")
+
+    ;; (with-eval-after-load 'lsp-mode ;; LSP support for tlp-mode
+        (lsp-register-client
+         (make-lsp-client
+          :new-connection (lsp-stdio-connection "idris2-lsp")
+          :major-modes '(idris-mode)
+          :server-id 'idris2-lsp))
+        ;; )
     )
 
 (use-package lua-mode)
