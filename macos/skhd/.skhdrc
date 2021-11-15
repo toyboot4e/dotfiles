@@ -225,6 +225,6 @@ alt + shift - p : yabai -m window --toggle sticky;\
 alt - e : yabai -m window --toggle split
 
 # toggle/space_layout
-alt - b : yabai -m space --layout bsp
-alt - f : yabai -m space --layout float
+# alt - b : yabai -m space --layout bsp
+# alt - f : yabai -m space --layout float
 

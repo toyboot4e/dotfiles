@@ -119,14 +119,14 @@
     wordRegex = [^\\x80-\\xbf][\\x80-\\xbf]*
 
 [delta]
-    # this is unfortunate if the diff is short though
+    # NOTE: This is unfortunate if the diff is too short. Hmm
     navigate = true
     line-numbers = true
-
-[delta "magit-delta"]
-    # whitespace-error-style = green reverse  # or whatever
-    # FIXME: not working
-    line-numbers = false
+    # NOTE: `magit-delta` only works well with `side-by-side`, not with `line-numbers`
+    # side-by-side = true
 
 [url "git@github.com:"]
     insteadOf = https://github.com/
+    insteadOf = git://github.com/
+[github]
+	user = toyboot4e

@@ -136,12 +136,13 @@ end
 
 _alias rg rgl 'rg -p "argv" | less -iNMR'
 
-if command -sq xclip
-    alias pbcopy='xclip -selection c'
-    alias pc='xclip -selection c'
-    alias pbpaste='xclip -selection c -o'
-    alias pp='xclip -selection c -o'
-end
+# Linux only
+# if command -sq xclip
+#     alias pbcopy='xclip -selection c'
+#     alias pc='xclip -selection c'
+#     alias pbpaste='xclip -selection c -o'
+#     alias pp='xclip -selection c -o'
+# end
 
 # ----------------------------------------
 # FILE OPERATION
@@ -163,7 +164,9 @@ end
 
 _alias tealdeer tldr
 
-_alias hub h
+_alias batman man
+
+# _alias hub h
 _alias git g
 
 _alias googler gg
