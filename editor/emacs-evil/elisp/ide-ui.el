@@ -11,24 +11,6 @@
       lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v")
       )
 
-;; ------------------------------ Passive ------------------------------
-
-;; ;; GitLens alternative
-;; (use-package blamer
-;;     :quelpa (blamer :fetcher github :repo "artawower/blamer.el")
-;;     :custom
-;;     (blamer-idle-time 0.3)
-;;     (blamer-min-offset 70)
-;; 
-;;     :custom-face
-;;     (blamer-face ((t :foreground "#7a88cf"
-;;                      :background nil
-;;                      :height 140
-;;                      :italic t)))
-;; 
-;;     :config
-;;     (global-blamer-mode 1))
-
 ;; ------------------------------ Widgets ------------------------------
 
 ;; some dependency needs it?

@@ -6,8 +6,3 @@
 ;;     (lambda () (interactive)
 ;;         (load-theme 'smyx t)))
 
-;; (require 'gitmole)
-
-
-;; (require 'gitmole)
-

@@ -166,45 +166,9 @@
           auto-package-update-interval 7)
     (auto-package-update-maybe))
 
-;; `quelpa` boostrapping: https://github.com/quelpa/quelpa
-;; TODO: Prefer `straight`
-(unless (package-installed-p 'quelpa)
-    (with-temp-buffer
-        (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
-        (eval-buffer)
-        (quelpa-self-upgrade)))
-
-;; `:quelpa` keyword on `use-package`
-(progn (quelpa
-        '(quelpa-use-package
-          :fetcher git
-          :url "https://github.com/quelpa/quelpa-use-package.git"))
-       (require 'quelpa-use-package))
-
-
 ;; ------------------------------ View settings ------------------------------
 
-(defun toy/load-theme-packages ()
-    (interactive)
-
-    ;; color scheme
-    (use-package doom-themes
-        :config
-        ;; Global settings (defaults)
-        (setq doom-themes-enable-bold t
-              doom-themes-enable-italic t)
-        ;; flush mode-line on errors
-        ;; (doom-themes-visual-bell-config)
-
-        (load-theme 'doom-opera t)
-
-        ;; FIXME: Loading the `local` package here
-        (require 'smyx-theme)
-        (load-theme 'smyx t))
-
-    ;; (use-package darkokai-theme
-    ;;     :config (load-theme 'darkokai t))
-
+(progn ;; passive UI
     ;; modeline
     (use-package doom-modeline
         ;; https://seagle0128.github.io/doom-modeline/
@@ -373,12 +337,6 @@
     (evil-define-key 'visual 'global
         "v" #'er/expand-region
         "V" #'er/contract-region))
-
-;; ;; TODO:
-;; (use-package evil-textobj-parameter
-;;     ;; https://github.com/bevyengine/bevy/tree/main/crates
-;;     :straight (el-patch :type git :host github :repo "Cj-bc/evil-textobj-parameter")
-;;     )
 
 ;; ------------------------------ Help ------------------------------
 

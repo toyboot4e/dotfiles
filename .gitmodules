@@ -13,9 +13,6 @@
 [submodule "editor/emacs/local/odin-mode"]
 	path = editor/emacs-evil/local/odin-mode
 	url = https://github.com/mattt-b/odin-mode
-[submodule "editor/emacs-evil/local/gitmole"]
-	path = editor/emacs-evil/local/gitmole
-	url = https://github.com/zk-phi/gitmole
 [submodule "editor/emacs-evil/local/smyx"]
 	path = editor/emacs-evil/local/smyx
 	url = https://github.com/tacit7/smyx

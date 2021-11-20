@@ -85,6 +85,23 @@
 ;; start Emacs with only one window
 (add-hook 'window-setup-hook #'delete-other-windows)
 
-;; Finally load the theme (mainly for GUI)
-(toy/load-theme-packages)
+(defun toy/setup-theme ()
+    (use-package doom-themes
+        :config
+        ;; Global settings (defaults)
+        (setq doom-themes-enable-bold t
+              doom-themes-enable-italic t)
+        ;; flush mode-line on errors
+        ;; (doom-themes-visual-bell-config)
+
+        (load-theme 'doom-opera t)
+
+        ;; Load a doom theme first and then `smyx`, since `smyx` is an old package that doesn't
+        ;; support latest Emacs colors.
+        (use-package smyx-theme
+            :straight (smyx-theme :type git :host github :repo "tacit7/smyx")
+            :config
+            (load-theme 'smyx t))))
+
+(add-hook 'window-setup-hook #'toy/setup-theme)
 
