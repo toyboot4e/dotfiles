@@ -35,6 +35,7 @@
 [alias]
     re = restore
     sw = switch
+    # co = checkout
 
     a = add
 
@@ -48,8 +49,6 @@
     cm  = commit --message
     cam = commit --amend --message
     cma = commit --message --amend
-
-    co = checkout
 
     d   = diff
     ds  = diff --staged     # if remote is old
