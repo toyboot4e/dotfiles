@@ -24,7 +24,7 @@ Write the package list and run `home-manager switch`. Then all the packages are 
 
 === Declartive configuration (optional)
 
-Home Manager optionally lets you write configurations in the Nix language. Then `home-manager switch` will generate confguration files and automatically creates a symlink for each corresponding path (if it doesn't overwrite the existing configuration file).
+Home Manager optionally lets you write configurations in the Nix language. Then `home-manager switch` will generate confguration files and automatically creates a symlink for each corresponding path (if it doesn't overwrite a existing configuration file).
 
 == System-wide configuration
 
@@ -36,5 +36,5 @@ Configuration file: `~/.config/nixpkgs/home.nix`
 
 === Declartive configuration?
 
-== TODO: `dir-env` integration for `pkgconfig`
+=== TODO: `dir-env` integration for `pkgconfig`
 

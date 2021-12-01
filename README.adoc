@@ -1,6 +1,7 @@
 = dotfiles
 :nix: https://github.com/NixOS/nix[Nix]
 :hm: https://github.com/nix-community/home-manager[Home Manager]
+:brew: https://brew.sh/[Homebrew]
 
 :kitty: https://sw.kovidgoyal.net/kitty/[Kitty]
 :tmux: https://github.com/tmux/tmux[tmux]
@@ -36,7 +37,7 @@ image::readme/ss.png[]
 
 == List
 
-See link:nixos[nixos] directory for the complete list.
+See link:nixos[nixos/] for the complete list. I'm switcing to Nix from {brew}.
 
 |===
 | Terminal | {kitty} with {tmux}
@@ -44,7 +45,7 @@ See link:nixos[nixos] directory for the complete list.
 | Editors  | NeoVim and {evil} Emacs
 | Shells   | bash and {fish}
 | Browsers | {quteb}, firefox and {w3m}
-| macOS    | {brew}, {yabai}, {skhd}, {simple-bar} and {karabiner}
+| macOS    | {yabai}, {skhd}, {simple-bar} and {karabiner}
 | Linux    | {i3}, {flameshot}
 |===
 
@@ -54,43 +55,28 @@ See link:nixos[nixos] directory for the complete list.
 
 === macOS
 
-```sh
-$ # Rust
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-$ cargo install cargo-edit miri
+See link:nixos[nixos/] for most packages.
 
-$ # rvm
-$ gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-$ \curl -sSL https://get.rvm.io | bash -s stable
-$ rvm install latest
-
-$ # asciidoctor
-$ gem install asciidoctor asciidoctor-diagram
-```
-
-mac-only tools:
+I fail to install some packages with {nix} (somehow), so I'm using {brew} for them:
 
 ```sh
-$ brew install kitty git gh gqh tmux z tealdeer fd ripgrep as-tree bat exa diff-so-fancy fzf git-delta
-$ brew install rust-analyzer
-$ brew install gnu-sed jq pup
-$ brew install ccls node make cmake go
-$ brew install --cask mpv
-$ brew install gnuplot
-$ brew install bandcamp-dl youtube-dl
-$ brew install llvm
-```
-
-```sh
+$ brew install kitty
+$ brew install --cask qutebrowser
 $ brew install emacs-plus --with-no-titlebar
+$ brew install ccls node make cmake llvm
+$ brew install bandcamp-dl
+```
+
+macOS-only:
+
+```sh
 $ brew install yabai skhd
 $ brew install --cask karabiner-elements
-$ brew install --cask qutebrowser
 ```
 
 {simple-bar} and {uber}
 
 === NixOS
 
-TODO
+I'm still unfamilar with that OS!
 
