@@ -1,8 +1,10 @@
 = Evil Emacs
 :posframe: https://github.com/tumashu/posframe[posframe]
 
+:chemacs2: https://github.com/plexus/chemacs2[chemacs2]
+:clipetty: https://github.com/spudlyo/clipetty[clipetty]
 :use-package: https://github.com/jwiegley/use-package[use-package]
-
+:straight: https://github.com/raxod502/straight.el[straight.el]
 :evil: https://github.com/emacs-evil/evil[Evil]
 
 :consult: https://github.com/minad/consult[consult]
@@ -23,13 +25,16 @@ I'm using Emacs like Vim on terminal.
 
 == NOTE: Lacking features on terminal
 
-* icons
-* floating window ({posframe})
-* clipboard register
+* Icons
+* Floating window ({posframe})
+* Clipboard register
++
+I'm using {clipetty} instead.
 
 == Framework
 
-* `package.el` and {use-package}
+* {chemacs2} for switching Emacs profiles (`.emacs.d`s)
+* {straight} and {use-package}
 
 == Dependent packages (mainly)
 
