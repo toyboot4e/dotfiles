@@ -75,8 +75,29 @@
 
     (defun toy/smart-esc-tr (prompt)
         (if (toy/do-tr-esc) (kbd "C-c") (kbd "C-g")))
-    (define-key key-translation-map (kbd "C-c") #'toy/smart-cc-tr)
-    )
+    (define-key key-translation-map (kbd "C-c") #'toy/smart-cc-tr))
+
+(defun toy/vf--impl (target-char delta-move)
+    (let* ((start-point (point))
+           (start-col (current-column))
+           (jump-point nil))
+        (while (and (not jump-point)
+                    (eq 0 (forward-line delta-move)))
+            (when (and (eq (move-to-column start-col) start-col)
+                       (eq (char-after) target-char))
+                (setq jump-point (point))))
+        (goto-char (or jump-point start-point))
+        jump-point))
+
+(defun toy/vf (&optional target-char)
+    "Searches forward a character at the same column. Returns the point on jump or nil on failure."
+    (interactive)
+    (toy/vf--impl (or target-char (evil-read-key)) 1))
+
+(defun toy/vF (&optional target-char)
+    "Searches backward a character at the same column. Returns the point on jump or nil on failure."
+    (interactive)
+    (toy/vf--impl (or target-char (evil-read-key)) -1))
 
 ;; ------------------------------ Evil packages ------------------------------
 

@@ -86,6 +86,9 @@ DEFS is a plist associating completion categories to commands."
     (affe-grep (projectile-project-root) ""))
 
 (evil-define-key 'normal 'toy/global-mode-map
+    " v" (lambda () (interactive) (when (toy/vf) (toy/force-center)))
+    " V" (lambda () (interactive) (when (toy/Vf) (toy/force-center)))
+
     " ff" (_cd (call-interactively #'find-file))
     " fF" #'toy/proj-find
     " fb" #'consult-buffer
