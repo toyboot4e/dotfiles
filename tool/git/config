@@ -34,8 +34,11 @@
 
 [alias]
     re = restore
+    # reset?
     sw = switch
     # co = checkout
+
+    sh = stash
 
     a = add
 
@@ -127,5 +130,6 @@
 [url "git@github.com:"]
     insteadOf = https://github.com/
     insteadOf = git://github.com/
+
 [github]
 	user = toyboot4e

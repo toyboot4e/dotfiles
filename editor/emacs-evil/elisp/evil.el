@@ -294,6 +294,10 @@
             ;; visit thing at point in other window
             (kbd "SPC RET") #'magit-diff-visit-worktree-file-other-window)
 
+        (evil-define-key 'normal git-rebase-mode-map
+            "C-j" git-rebase-move-line-down
+            "C-u" git-rebase-move-line-up)
+
         ;; scroll to the hunk after `gj` or `gk`
         (advice-add 'magit-section-forward :after
                     (lambda (&rest x) (evil-scroll-line-to-top (line-number-at-pos))))

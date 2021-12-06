@@ -308,7 +308,7 @@ if command -sq naroo
     end
 end
 
-# download mp3 with thumbnail
+# download mp3 with thumbnail from youtube
 _alias youtube-dl dl-youtube 'youtube-dl -x --audio-format mp3 --embed-thumbnail'
 
 # downloads content dispatching a function based on URL
@@ -316,12 +316,14 @@ function dl
     set _url $argv[1];
     switch $_url
         case "*youtube*"
-            dl-youtube $argv
+            youtube-dl $argv
         case "*niconico*"
-            dl-youtube $argv
+            youtube-dl $argv
         case "*bandcamp*"
             bandcamp-dl $argv
         case "*syosetu*"
+            narou d $argv
+        case "*kakuyomu**"
             narou d $argv
     end
 end

@@ -3,7 +3,7 @@
 # `skhd` binds keys to shell commands. Here we use it to launch applications and
 # to call `yabai` commands (window manager commands).
 #
-# `skhd` should be run as a Homebrwe service.
+# `skhd` should be run as a Homebrew service.
 # `~/.skhdrc` is automatically reloaded when it's modified
 
 # --------------------------------------------------------------------------------
@@ -22,6 +22,7 @@
 # I'm using Karabiner-Elements to map `CapsLock` to `ctrl+shift+cmd+alt`.
 
 ctrl + shift + cmd + alt - o : open -a 'System Preferences'
+ctrl + shift + cmd + alt - 0 : brew services restart yabai
 
 # first class applications
 ctrl + shift + cmd + alt - z : open -a 'Finder'
@@ -225,6 +226,6 @@ alt + shift - p : yabai -m window --toggle sticky;\
 alt - e : yabai -m window --toggle split
 
 # toggle/space_layout
-# alt - b : yabai -m space --layout bsp
-# alt - f : yabai -m space --layout float
+alt + cmd - b : yabai -m space --layout bsp
+alt + cmd - f : yabai -m space --layout float
 
