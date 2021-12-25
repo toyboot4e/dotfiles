@@ -224,6 +224,35 @@
             (setq evil-collection-magit-use-z-for-folds t)
             (evil-collection-magit-setup)))
 
+    (leaf evil-escape
+        :doc "Smart escape with `jk` or `kj`"
+        :init
+        (setq evil-escape-key-sequence "jk"
+              evil-escape-unordered-key-sequence t)
+        :config
+        (evil-escape-mode))
+
+    (leaf evil-exchange
+        :doc "`gx` to swap: https://github.com/Dewdrops/evil-exchange"
+        :config
+        (evil-exchange-install))
+
+    (leaf evil-lion
+        :doc "Add `gl` and `gL` algin operators: https://github.com/edkolev/evil-lion"
+        :config
+        (evil-define-key 'normal 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
+        (evil-define-key 'visual 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
+        (evil-lion-mode))
+
+    (leaf evil-matchit
+        :doc "Smarter `%` motion"
+        :config
+        (global-evil-matchit-mode 1))
+
+    (leaf evil-nerd-commenter
+        :ensure t
+        :commands (evilnc-comment-or-uncomment-lines))
+
     (leaf evil-org
         :hook (org-mode-hook . evil-org-mode)
         :hook (evil-org-mode-hook . toy/init-evil-org)
@@ -234,6 +263,9 @@
             (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete))
 
         (add-hook 'org-mode-hook #'evil-org-mode))
+
+    (leaf evil-string-inflection
+        :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection")
 
     (leaf fish-mode)
 
@@ -253,39 +285,6 @@
                                             (:background "#84edb9" :foreground "#2f2f2f")))) (git-gutter:deleted quote
                                           ((t
                                             (:background "#d75f5f" :foreground "#2f2f2f")))))
-
-    (leaf evil-escape
-        :doc "Smart escape with `jk` or `kj`"
-        :init (setq evil-escape-key-sequence "jk"
-                    evil-escape-unordered-key-sequence t)
-        :config (evil-escape-mode))
-    (leaf evil-nerd-commenter
-        :ensure t
-        :commands (evilnc-comment-or-uncomment-lines))
-
-    (leaf evil-matchit
-        :doc "Smarter `%` motion"
-        :config (global-evil-matchit-mode 1))
-
-    (leaf evil-string-inflection
-        :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection"
-        )
-
-    (leaf evil-lion
-        :doc "Add `gl` and `gL` algin operators: https://github.com/edkolev/evil-lion"
-        :config
-        (evil-define-key 'normal 'toy/global-mode-map
-            "gl" #'evil-lion-left
-            "gL" #'evil-lion-right)
-        (evil-define-key 'visual 'toy/global-mode-map
-            "gl" #'evil-lion-left
-            "gL" #'evil-lion-right)
-        (evil-lion-mode))
-
-    (leaf evil-exchange
-        :doc "`gx` to swap: https://github.com/Dewdrops/evil-exchange"
-        :config
-        (evil-exchange-install))
 
     (leaf git-gutter-fringe
         :doc "Show git status on line numbers (GUI)"
@@ -580,6 +579,7 @@
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
+;; buffer-read-only: t
 ;; End:
 
 ;;; init.el ends here
