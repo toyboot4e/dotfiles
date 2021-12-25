@@ -11,6 +11,9 @@
 [init]
     defaultBranch = main
 
+[rebase]
+	autostash = true # auto pop stash after rebasing
+
 [filter "lfs"]
    required = true
    clean = git-lfs clean -- %f
@@ -33,10 +36,9 @@
     ff = only
 
 [alias]
-    re = restore
-    # reset?
-    sw = switch
-    # co = checkout
+    re = restore  # for restoring files from other commits
+    sw = switch   # for switching branches
+    co = checkout # just for checking out commits
 
     sh = stash
 

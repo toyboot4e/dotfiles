@@ -21,6 +21,8 @@
 :vterm: https://github.com/akermu/emacs-libvterm/[vterm]
 :elfeed: https://github.com/skeeto/elfeed[elfeed]
 
+*Outdated*. See link:./emacs-leaf[../emacs-leaf]
+
 I'm using Emacs like Vim on terminal.
 
 == NOTE: Lacking features on terminal
@@ -33,7 +35,7 @@ I'm using {clipetty} instead.
 
 == Framework
 
-* {chemacs2} for switching Emacs profiles (`.emacs.d`s)
+* {chemacs2} for switching Emacs profiles (`.emacs.d` s)
 * {straight} and {use-package}
 
 == Dependent packages (mainly)
