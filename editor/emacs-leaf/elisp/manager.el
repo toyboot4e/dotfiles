@@ -169,6 +169,7 @@
             (global-evil-surround-mode))
 
         (leaf expand-region
+              :after evil
             :config
             (evil-define-key 'visual 'global "v" #'er/expand-region "V" #'er/contract-region)))
 
@@ -239,6 +240,7 @@
 
     (leaf evil-lion
         :doc "Add `gl` and `gL` algin operators: https://github.com/edkolev/evil-lion"
+        :after evil
         :config
         (evil-define-key 'normal 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
         (evil-define-key 'visual 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
@@ -254,6 +256,7 @@
         :commands (evilnc-comment-or-uncomment-lines))
 
     (leaf evil-org
+        :after evil
         :hook (org-mode-hook . evil-org-mode)
         :hook (evil-org-mode-hook . toy/init-evil-org)
         :config
@@ -349,6 +352,7 @@
         :bind ([remap describe-command]
                . helpful-command) ([remap describe-key]
                . helpful-key)
+        :after evil
         :init
         (evil-define-key 'normal helpful-mode-map "q" #'kill-this-buffer)
         (evil-define-key 'normal 'global "K" #'helpful-at-point))
@@ -387,11 +391,13 @@
               lsp-headerline-breadcrumb-enable nil)
         (setq lsp-modeline-diagnostics-scope :workspace)
         (setq lsp-semantic-tokens-enable t)
+        :after evil
         :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
         :commands lsp-ui-mode
         :hook (lsp-mode-hook . lsp-ui-mode)
+        :after evil
         :config
         (setq lsp-idle-delay 0.5
               lsp-ui-sideline-delay 0
@@ -413,6 +419,7 @@
     (leaf magit
         :url "https://github.com/magit/magit"
         :commands (magit)
+        :after evil
         :config
         (setq magit-log-section-commit-count 40)
         (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
@@ -427,6 +434,7 @@
         :mode (("README\\.md\\'" . gfm-mode)
                ("\\.md\\'" . markdown-mode)
                ("\\.markdown\\'" . markdown-mode))
+        :after evil
         :init
         (setq markdown-command "multimarkdown")
         :config

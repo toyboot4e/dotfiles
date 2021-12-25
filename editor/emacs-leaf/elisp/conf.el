@@ -317,6 +317,7 @@
 
 ;; ------------------------------ Markup languages ------------------------------
 
+(with-eval-after-load 'evil 
 (evil-define-key 'normal outline-minor-mode-map
     "z1" (_fn (outline-hide-sublevels 3))
     "z2" (_fn (outline-hide-sublevels 4))
@@ -326,5 +327,5 @@
     "z6" (_fn (outline-hide-sublevels 8))
     "z9" (_fn (outline-hide-sublevels 11))
     "z0" #'evil-open-folds
-    )
+    ))
 

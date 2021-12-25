@@ -33,6 +33,7 @@
 
 (leaf twittering-mode
       ;; https://www.emacswiki.org/emacs/TwitteringMode
+      :after evil
       :commands twit
       :init
       (setq twittering-use-master-password t)
