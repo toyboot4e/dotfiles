@@ -1,0 +1,21 @@
+= `init.el`
+:evil: https://github.com/emacs-evil/evil[Evil]
+:leaf: https://github.com/conao3/leaf.el[leaf.el]
+:leaf-manager: https://github.com/conao3/leaf-manager.el[leaf-manager.el]
+
+WIP: Migrating from use-package..
+
+My Emacs configuration based on:
+
+* {leaf}
++
+Declartive package configuration framework. It's faster than `use-package` for unknown reason.
+
+* {leaf-manager}
++
+Editor for a leaf-based file.
+
+* {evil}
++
+Vim emulation.
+
