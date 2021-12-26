@@ -71,49 +71,7 @@
       scroll-margin 3                    ; scroll keeping the margins
       )
 
-;; ------------------------------ Builtin packages ------------------------------
-
-;; put auto-generated files in `tmp` directory (builtin packages)
-(setq recentf-save-file (concat user-emacs-directory "tmp/recentf")
-      save-place-file (concat user-emacs-directory "tmp/places")
-      savehist-file (concat user-emacs-directory "tmp/history")
-      auto-save-list-file-prefix (concat user-emacs-directory "tmp/auto-save-list"))
-
-(progn ;; save command history
-    (setq history-length 1000
-          history-delete-duplicates t)
-    (savehist-mode))
-
-(progn ;; sync buffers to storage per second
-    (setq auto-revert-interval 1)
-    (global-auto-revert-mode))
-
-;; save cursor positions per file
-(save-place-mode 1)
-
-(progn ;; HACK: re-center curspr position with `save-place-mode`:
-    ;; https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
-    (defun toy/fix-save-place ()
-        "Force windows to recenter current line (with saved position)."
-        (run-with-timer 0 nil
-                        (lambda (buf)
-                            (when (buffer-live-p buf)
-                                (dolist (win (get-buffer-window-list buf nil t))
-                                    (with-selected-window win (recenter)))))
-                        (current-buffer)))
-    (add-hook 'find-file-hook #'toy/fix-save-place))
-
-(progn ;; keep a list of recently opened files
-    (setq recentf-max-saved-items 1000)
-    (recentf-mode 1))
-
-(progn ;; show duplicate file names as `file<parent-directory>`
-    (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-    (require 'uniquify))
-
 ;; ------------------------------ GUI/Terminal ------------------------------
-
-;; [GUI] Icons
 
 ;; [GUI] Font
 (when (display-graphic-p)
@@ -138,42 +96,10 @@
 
 ;; ------------------------------ ELisp ------------------------------
 
-(progn ;; ELisp
-    (setq-default lisp-body-indent 4    ; I need this
-                  indent-tabs-mode nil  ;
-                  tab-width 4           ; display tab with a width of 4
-                  )
-
-    ;; enable folding (`zr` to open all, `zm` to fold all, `za` to toggle)
-    (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
-
-    )
-
-;; ------------------------------ UI ------------------------------
-
-;; Put auto-generated files in `tmp` directory
-(setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
-      projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld")
-      ;; magit
-      transient-history-file (concat user-emacs-directory "tmp/transient/history.el")
-      transient-values-file (concat user-emacs-directory "tmp/transient/values.el")
-      transient-levels-file (concat user-emacs-directory "tmp/transient/levels.el")
-      ;; lsp
-      lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v")
-      )
-
-;; ------------------------------ Workspace ------------------------------
-
-(tab-bar-mode 1)
-
-;; use project name as default tab name
-(defun toy/set-tab-name-default ()
-    (let ((proj-name (projectile-project-name)))
-        (unless (or (= (length proj-name) 0) (string= proj-name "-"))
-            (tab-bar-rename-tab proj-name))))
-
-(advice-add 'tab-bar-new-tab :after (lambda (&rest x) (toy/set-tab-name-default)))
-(add-hook 'window-setup-hook #'toy/set-tab-name-default)
+(setq-default lisp-body-indent 4    ; I need this
+              indent-tabs-mode nil  ;
+              tab-width 4           ; display tab with a width of 4
+              )
 
 ;; ------------------------------ Shell ------------------------------
 

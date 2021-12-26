@@ -120,6 +120,7 @@
               dhall-format-arguments `("--ascii")))
 
     (leaf doom-modeline
+        :leaf-defer nil
         :config
         (setq doom-modeline-icon (display-graphic-p)
               doom-modeline-major-mode-icon (display-graphic-p))
@@ -169,7 +170,7 @@
             (global-evil-surround-mode))
 
         (leaf expand-region
-              :after evil
+            :after evil
             :config
             (evil-define-key 'visual 'global "v" #'er/expand-region "V" #'er/contract-region)))
 
@@ -277,7 +278,7 @@
     (leaf git-gutter
         :doc "Show git status on line numbers (terminal)"
         :if (not (display-graphic-p))
-        :defer-config (global-git-gutter-mode)
+        :global-minor-mode (global-git-gutter-mode)
         :custom ((git-gutter:modified-sign . "~")
                  (git-gutter:added-sign . "+")
                  (git-gutter:deleted-sign . "-"))
@@ -292,7 +293,7 @@
     (leaf git-gutter-fringe
         :doc "Show git status on line numbers (GUI)"
         :if (display-graphic-p)
-        :defer-config (global-git-gutter-mode)
+        :global-minor-mode (global-git-gutter-mode)
         :custom ((git-gutter-fr:modified-sign . "~")
                  (git-gutter-fr:added-sign . "+")
                  (git-gutter-fr:deleted-sign . "-"))
@@ -374,6 +375,7 @@
     (leaf hydra)
 
     (leaf lsp-mode
+        :after evil
         :commands (lsp-mode lsp-deferred)
         :hook (lsp-mode-hook . lsp-enable-which-key-integration)
         :hook (lsp-mode-hook . hs-minor-mode)
@@ -391,7 +393,7 @@
               lsp-headerline-breadcrumb-enable nil)
         (setq lsp-modeline-diagnostics-scope :workspace)
         (setq lsp-semantic-tokens-enable t)
-        :after evil
+        (setq lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
         :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
@@ -421,6 +423,9 @@
         :commands (magit)
         :after evil
         :config
+        (setq transient-history-file (concat user-emacs-directory "tmp/transient/history.el")
+              transient-values-file (concat user-emacs-directory "tmp/transient/values.el")
+              transient-levels-file (concat user-emacs-directory "tmp/transient/levels.el"))
         (setq magit-log-section-commit-count 40)
         (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
             (kbd "z RET")
@@ -505,7 +510,9 @@
         :init
         (setq projectile-enable-caching t)
         :config
-        (projectile-mode 1))
+        (projectile-mode 1)
+        (setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
+              projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld")))
 
     (leaf rainbow-delimiters
         :config

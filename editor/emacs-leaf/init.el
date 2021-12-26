@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 
-;; Emacs configuration based on `init.el' (and `outline-minor-mode')
+;; Emacs configuration based on `init.el' and `evil.el'
 
 ;;; Code:
 
@@ -140,12 +140,14 @@
         )
     )
 
-(defun toy/on-init ()
+;;; On startup
+
+(defun toy/on-start ()
     ;; Like Vim, when multiple files are opened on startup,
     ;; we will focus the first one and close other windows.
     (delete-other-windows)
     (toy/setup-theme))
 
-    (add-hook 'window-setup-hook #'toy/on-init)
+(add-hook 'window-setup-hook #'toy/on-start)
 
 ;;; init.el ends here
