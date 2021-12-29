@@ -95,7 +95,7 @@
 (setq toy/init-files
       '("elisp/gc.el"                    ;; GC settings for startup speed
         "elisp/conf.el"                  ;; Basic configurations
-        "elisp/manager.el"               ;; ELisp files managed with `leaf-manager'. Most packages are in it.
+        "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'. Most packages are in it.
         "elisp/ide-consult.el"           ;; Consult
         "elisp/org.el"                   ;; org-mode
         "elisp/web.el"                   ;; Web support

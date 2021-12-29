@@ -3,8 +3,6 @@
 :leaf: https://github.com/conao3/leaf.el[leaf.el]
 :leaf-manager: https://github.com/conao3/leaf-manager.el[leaf-manager.el]
 
-WIP: Migrating from use-package..
-
 My Emacs configuration based on:
 
 * {leaf}
