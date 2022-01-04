@@ -85,6 +85,7 @@
     rmc = rm --cached
 
     s   = status --short
+    st  = status
     sub = submodule
 
     t   = tag

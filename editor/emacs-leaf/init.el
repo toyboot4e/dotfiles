@@ -11,11 +11,19 @@
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 
-;; $ brew install emacs-plus --with-no-titlebar
-(setq frame-resize-pixelwise t)
+;;; Init files
 
-;; "Package 'cl is deprecated".. I know!
-(setq byte-compile-warnings '(not cl-functions obsolete))
+(setq toy/init-files
+      '("elisp/gc.el"                    ;; GC settings for startup speed
+        "elisp/conf.el"                  ;; Basic configurations
+        "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'. Most packages are in it.
+        "elisp/ide-consult.el"           ;; Consult
+        "elisp/org.el"                   ;; org-mode
+        "elisp/web.el"                   ;; Web support
+        "elisp/hydra.el"                 ;; Hydras
+        "elisp/keymap.el"                ;; Key mappings
+        "elisp/keymap-consult.el"        ;; Key mappings
+        ))
 
 ;;; Boostrapping
 
@@ -71,6 +79,12 @@
 
 ;;; Preferences
 
+;; $ brew install emacs-plus --with-no-titlebar
+(setq frame-resize-pixelwise t)
+
+;; "Package 'cl is deprecated".. I know!
+(setq byte-compile-warnings '(not cl-functions obsolete))
+
 ;;; User environment
 
 ;; Set up `PATH` and `exec-path`
@@ -89,24 +103,6 @@
         (setenv "PATH" (concat dir ":" (getenv "PATH")))
         (setq exec-path (append (list dir) exec-path))))
 
-;;; Init files
-
-;; files to load
-(setq toy/init-files
-      '("elisp/gc.el"                    ;; GC settings for startup speed
-        "elisp/conf.el"                  ;; Basic configurations
-        "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'. Most packages are in it.
-        "elisp/ide-consult.el"           ;; Consult
-        "elisp/org.el"                   ;; org-mode
-        "elisp/web.el"                   ;; Web support
-        "elisp/hydra.el"                 ;; Hydras
-        "elisp/keymap.el"                ;; Key mappings
-        "elisp/keymap-consult.el"        ;; Key mappings
-        ))
-
-;; read symlinks
-(setq vc-follow-symlinks t)
-
 ;;; Meta utilities
 
 (defmacro _fn (&rest body)
@@ -115,6 +111,8 @@
     `(lambda () (interactive) ,@body))
 
 ;;; Loading
+
+(setq vc-follow-symlinks t)
 
 (dolist (x toy/init-files)
     (load-file (concat user-emacs-directory x)))

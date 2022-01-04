@@ -4,6 +4,9 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  # libcxx 13.0 is broken on macOS, so
+  nixpkgs.config.allowBroken = true;
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "tbm";
@@ -30,7 +33,8 @@
 
     # build
     # make
-    cmake ninja llvm
+    # libcxx 13.0 is broken on macOS..
+    # cmake ninja llvm
     ffmpeg imagemagick
 
     # deps
@@ -57,9 +61,10 @@
     mpv youtube-dl # bandcamp-dl
 
     # languages
-    ccls
+    # ccls
     rustup rust-analyzer sccache
-    go sbcl
+    go
+    # roswell was not supported on macOS
 
     # more filters
     jq pup
