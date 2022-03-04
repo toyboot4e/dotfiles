@@ -556,6 +556,25 @@
 
     (leaf wc-mode)
 
+    (leaf wgsl-mode
+        :doc "cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer"
+        :ensure nil
+        :straight (wgsl-mode :type git :host github :repo "KeenS/wgsl-mode.el")
+        :hook (wgsl-mode-hook . lsp-deferred)
+        :hook (wgsl-mode-hook . lsp-ui-mode)
+        :config
+        (add-to-list 'lsp-language-id-configuration
+                     '(wgsl-mode . "wgsl"))
+
+        (with-eval-after-load 'lsp-mode
+            (lsp-register-client
+             (make-lsp-client :new-connection
+                              (lsp-stdio-connection "~/.cargo/bin/wgsl_analyzer")
+                              :major-modes
+                              '(wgsl-mode)
+                              :server-id 'wgsl)))
+                              )
+
     (leaf which-key
         :init
         (setq which-key-idle-delay 0.01
