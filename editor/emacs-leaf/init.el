@@ -28,7 +28,6 @@
 ;;; Boostrapping
 
 (progn ;; `straight.el'
-    ;; TODO: `eva`
     (defvar bootstrap-version)
     (let ((bootstrap-file
            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -60,10 +59,6 @@
 
     (leaf leaf-keywords
         :init
-        ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-        ;; (leaf hydra :ensure t)
-        (leaf el-get :ensure t)
-        ;; (leaf blackout :ensure t)
         (leaf feather
             :doc "Parallel thread modern package manager"
             :url "https://github.com/conao3/feather.el"
@@ -73,7 +68,6 @@
             :ensure t)
 
         :config
-        ;; initialize leaf-keywords.el
         (leaf-keywords-init)))
 ;; </leaf-install-code>
 

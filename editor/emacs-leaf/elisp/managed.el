@@ -1,6 +1,6 @@
 ;;; managed.el --- DB of packages managed by `leaf-manager'  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020-2021 toyboot4e
+;; Copyright (C) 2020-2022 toyboot4e
 
 ;; Author: toyboot4e <toyboot4e@gmail.com>
 
@@ -267,9 +267,7 @@
         (defun toy/init-evil-org nil
             (interactive)
             (evil-org-set-key-theme)
-            (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete))
-
-        (add-hook 'org-mode-hook #'evil-org-mode))
+            (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete)))
 
     (leaf evil-string-inflection
         :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection")

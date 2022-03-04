@@ -1,8 +1,5 @@
 ;; ------------------------------ org-mode ------------------------------
 
-;; super grep in any language
-(leaf howm)
-
 (defun toy/init-org ()
     (interactive)
     (visual-line-mode)
@@ -17,23 +14,14 @@
     :config
     (setq org-directory "~/org")
 
-    ;; MobileOrg
-    (setq
-     ;; Set to the name of the file where new notes will be stored
-     org-mobile-inbox-for-pull "~/org/flagged.org"
-     ;; Set to <your Dropbox root directory>/MobileOrg.
-     org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-
-    ;; GTD: getting things done in a better way
-    ;; https://emacs.cafe/emacs/orgmode/gtd/2017/06/30/orgmode-gtd.html
     (setq org-agenda-files
           (mapcar (lambda (path) (concat org-directory path))
-                  '("/weekly.org"
+                  '(
+                    "/web.org"
+                    "/dev-ink.org"
                     "/agenda.org"
-                    "/dev.org"
-                    "/household.org"
+                    "/bevy.org"
                     "/read.org"
-                    "/diary.org"
                     )))
 
     (setq org-log-done 'time
@@ -77,6 +65,5 @@
     "z7" (_fn (outline-hide-sublevels 7))
     "z8" (_fn (outline-hide-sublevels 8))
     "z9" (_fn (outline-hide-sublevels 9))
-    "z0" #'evil-open-folds
-    )
+    "z0" #'evil-open-folds)
 

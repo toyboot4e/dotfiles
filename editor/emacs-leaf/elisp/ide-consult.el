@@ -1,7 +1,5 @@
 ;; consult  -*- lexical-binding: t -*-
 
-;; NOTE: `savehist-mode` is called in `evil.el`
-
 (leaf consult
     ;; Required if we don't use default UI (like when using `vertico`)
     ;; :hook (completion-list-mode-hook . consult-preview-at-point-mode)
