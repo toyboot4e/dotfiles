@@ -277,6 +277,11 @@
 
 ;; (leaf html-ls)
 
+(leaf typescript-mode
+    :mode ("\\.tsx?\\'" . typescript-mode)
+    :hook (typescript-mode-hook . lsp-deferred)
+    )
+
 (leaf tide
     :after (typescript-mode company flycheck)
     :hook ((typescript-mode-hook . tide-setup)
