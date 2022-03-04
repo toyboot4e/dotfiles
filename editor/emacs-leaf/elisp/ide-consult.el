@@ -74,6 +74,7 @@
     (setq vertico-count 20))
 
 (leaf orderless
+    :doc "Find with space-separated components in any order"
     :init
     (setq completion-styles '(orderless)
           completion-category-defaults nil
@@ -147,21 +148,24 @@
     (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 (leaf affe
-    :doc "alternative find-file/grep (space-separated multi word search with fd/rg)"
+    :doc "Alternatives to find-file and grep"
     :after consult
     :init
     (consult-customize affe-grep :preview-key (kbd "C-l"))
     ;; use `fd'
     (when (executable-find "fd")
         ;; (setq affe-find-command "fd -HI -t f")
-        (setq affe-find-command "fd --color=never --full-path"))
+        (setq affe-find-command "fd --color=never --full-path -t f"))
 
     ;; show all the matching results
     (setq affe-count most-positive-fixnum)
 
-    ;; use `orderless` with `affe`
-    (setq affe-regexp-function #'orderless-pattern-compiler
-          affe-highlight-function #'orderless--highlight))
+    ;; NOTE: `affe' + `orderless' stops working?
+    ;; (defun affe-orderless-regexp-compiler (input _type)
+    ;;     (setq input (orderless-pattern-compiler input))
+    ;;     (cons input (lambda (str) (orderless--highlight input str))))
+    ;; (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+    )
 
 ;; FIXME: color of selected item
 
