@@ -71,6 +71,48 @@
       scroll-margin 3                    ; scroll keeping the margins
       )
 
+;; ------------------------------ Builtin packages ------------------------------
+
+;; TODO: put them in leaf
+
+;; put auto-generated files in `tmp` directory (builtin packages)
+(setq recentf-save-file (concat user-emacs-directory "tmp/recentf")
+      save-place-file (concat user-emacs-directory "tmp/places")
+      savehist-file (concat user-emacs-directory "tmp/history")
+      auto-save-list-file-prefix (concat user-emacs-directory "tmp/auto-save-list"))
+
+(progn ;; save command history
+    (setq history-length 1000
+          history-delete-duplicates t)
+    (savehist-mode))
+
+(progn ;; sync buffers to storage per second
+    (setq auto-revert-interval 1)
+    (global-auto-revert-mode))
+
+;; save cursor positions per file
+(save-place-mode 1)
+
+(progn ;; HACK: re-center curspr position with `save-place-mode`:
+    ;; https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
+    (defun toy/fix-save-place ()
+        "Force windows to recenter current line (with saved position)."
+        (run-with-timer 0 nil
+                        (lambda (buf)
+                            (when (buffer-live-p buf)
+                                (dolist (win (get-buffer-window-list buf nil t))
+                                    (with-selected-window win (recenter)))))
+                        (current-buffer)))
+    (add-hook 'find-file-hook #'toy/fix-save-place))
+
+(progn ;; keep a list of recently opened files
+    (setq recentf-max-saved-items 1000)
+    (recentf-mode 1))
+
+(progn ;; show duplicate file names as `file<parent-directory>`
+    (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+    (require 'uniquify))
+
 ;; ------------------------------ GUI/Terminal ------------------------------
 
 ;; [GUI] Font
