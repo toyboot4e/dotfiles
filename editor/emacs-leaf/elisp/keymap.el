@@ -127,9 +127,9 @@
 (progn ;; [Evil] Center cursor on search (`n` -> `nzz`, `N` -> `Nzz`)
     (advice-add 'evil-ex-search-next :after (lambda (&rest x) (toy/force-center)))
     (advice-add 'evil-ex-search-previous :after (lambda (&rest x) (toy/force-center)))
-    ;; and more.. (`]]` -> `]]zz`, `[[` -> `[[zz`0
-    (advice-add 'evil-forward-section-begin :after (lambda (&rest x) (toy/force-center)))
-    (advice-add 'evil-backward-section-begin :after (lambda (&rest x) (toy/force-center)))
+    ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
+    (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
+    (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
     )
 
 (progn ;; [Evil] Center cursor on jump

@@ -10,7 +10,7 @@ local opt = vim.opt
 vim.env.NVIM_TUI_ENABLE_TRUE_COLOR = 1
 -- vim.o.t_Co = "256"
 
--- -- True color support
+-- TODO: True color support
 -- vim.g.colorterm = os.getenv("COLORTERM")
 -- if
 --     vim.g.colorterm == "truecolor"
@@ -43,7 +43,6 @@ end
 -- TODO:
 -- language C               -- English as the system language
 vim.cmd([[ syntax enable ]]) -- Allow builting highlight
--- filetype plugin on       -- I forgot what this is
 opt.updatetime = 300     -- Make vim faster
 opt.timeoutlen = 500     -- For which-key
 opt.synmaxcol = 200      -- For too long lines
@@ -56,7 +55,7 @@ opt.synmaxcol = 200      -- For too long lines
 -- opt.title = false
 
 -- top
-opt.showtabline=2        --  Show tab (even when no such plugin is enabled)
+opt.showtabline = 2      --  Show tab (even when no such plugin is enabled)
 
 -- left
 opt.number = true        -- Show line numbers
@@ -72,14 +71,14 @@ opt.showmatch = true     -- Show matching pair of symbols
 
 opt.belloff = 'all'      -- No sound
 opt.mouse = 'nv'         -- Mouse input enabled
-opt.backspace = "2"      -- Backspace enabled in insert mode
+opt.backspace = "2"      -- Enable backspace in insert mode
 
 --------------------------------------------------------------------------------
 -- File
 --------------------------------------------------------------------------------
 
 -- encoding
-opt.encoding= "utf-8"    -- Use UTF-8
+opt.encoding= "UTF-8"    -- Use UTF-8
 -- vim.o.fileencodings = "ucs-bom,utf-8,euc-jp,iso-2022-jp,cp932,sjis,latin1"
 -- vim.o.fileformats = "unix,dos,mac"
 
@@ -113,8 +112,8 @@ opt.smartindent = true
 opt.list = true
 opt.listchars = {tab = '>-', trail = '*', nbsp = '+'}
 
-opt.foldmethod="indent"
-opt.foldlevel=99
+opt.foldmethod = "indent"
+opt.foldlevel = 99
 
 --------------------------------------------------------------------------------
 -- Preferences
