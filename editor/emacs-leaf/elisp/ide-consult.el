@@ -1,4 +1,4 @@
-;; consult  -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
 (leaf consult
     ;; Required if we don't use default UI (like when using `vertico`)
@@ -71,7 +71,8 @@
     :hook (after-init-hook . vertico-mode)
     :preface
     (setq vertico-cycle t)
-    (setq vertico-count 20))
+    (setq vertico-count 20)
+    (setq vertico-scroll-margin 4))
 
 (leaf orderless
     :doc "Find with space-separated components in any order"
@@ -149,7 +150,7 @@
 
 (leaf affe
     :doc "Alternatives to find-file and grep"
-    :after consult
+    :after (consult orderless)
     :init
     (consult-customize affe-grep :preview-key (kbd "C-l"))
     ;; use `fd'

@@ -109,7 +109,15 @@
 (setq vc-follow-symlinks t)
 
 (dolist (x toy/init-files)
-    (load-file (concat user-emacs-directory x)))
+    (load-file (concat user-emacs-directory x))
+
+    ;; lighter magit
+    (defun magit-rev-format (format &optional rev args)
+        (let ((str (magit-git-string "log" "-1" "--no-patch"
+                                     (concat "--format=" format) args
+                                     (if rev (concat rev "^{commit}") "HEAD") "--")))
+            (unless (string-equal str "")
+                str))))
 
 ;;; Theme
 

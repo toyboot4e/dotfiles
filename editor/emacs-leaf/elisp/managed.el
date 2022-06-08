@@ -103,6 +103,8 @@
         :if (display-graphic-p)
         :hook (company-mode-hook . company-box-mode))
 
+    (leaf dart-mode)
+
     (leaf dashboard
         :config
         (setq dashboard-items '((projects . 30)
@@ -164,6 +166,7 @@
             (evil-ex-define-cmd "hs" #'evil-window-split))
 
         (leaf undo-tree
+            :custom (undo-tree-auto-save-history)
             :init
             (evil-set-undo-system 'undo-tree)
             (global-undo-tree-mode))
@@ -202,6 +205,9 @@
 
         (with-eval-after-load 'embark
             (evil-collection-embark-setup))
+
+        (with-eval-after-load 'forge
+            (evil-collection-forge-setup))
 
         (with-eval-after-load 'magit
             (evil-define-key 'normal magit-mode-map "zz" #'evil-scroll-line-to-center "z-" #'evil-scroll-line-to-bottom
@@ -375,6 +381,9 @@
 
     (leaf hydra)
 
+    (leaf lsp-dart
+        :hook (dart-mode . lsp))
+
     (leaf lsp-mode
         :after evil
         :commands (lsp-mode lsp-deferred)
@@ -433,7 +442,10 @@
             #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top)
         (leaf magit-todos
             :commands (magit-todos-list)
-            :after magit))
+            :after magit)
+
+        (leaf forge
+            :doc "Use GitHub on Emacs"))
 
     (leaf markdown-mode
         :commands (markdown-mode gfm-mode)
@@ -565,15 +577,13 @@
         :config
         (add-to-list 'lsp-language-id-configuration
                      '(wgsl-mode . "wgsl"))
-
         (with-eval-after-load 'lsp-mode
             (lsp-register-client
              (make-lsp-client :new-connection
                               (lsp-stdio-connection "~/.cargo/bin/wgsl_analyzer")
                               :major-modes
                               '(wgsl-mode)
-                              :server-id 'wgsl)))
-                              )
+                              :server-id 'wgsl))))
 
     (leaf which-key
         :init

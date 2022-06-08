@@ -71,9 +71,18 @@ DEFS is a plist associating completion categories to commands."
              ,@body
              )))
 
+(defun toy/search-lsp-ui ()
+    (interactive)
+    (execute-extended-command "lsp ui"))
+
+(defun toy/search-lsp-ui-find ()
+    (interactive)
+    (execute-extended-command "lsp ui find"))
+
 (evil-define-key 'normal 'toy/global-mode-map
     " :" #'execute-extended-command
-    )
+    " ,l" #'toy/search-lsp-ui
+    " ,f" #'toy/search-lsp-ui-find)
 
 (defun toy/proj-find ()
     "Find a file from project files."
@@ -130,11 +139,15 @@ DEFS is a plist associating completion categories to commands."
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
 
-(define-key minibuffer-local-map (kbd "\C-f") #'evil-scroll-up)
-(define-key minibuffer-local-map (kbd "\C-b") #'evil-scroll-down)
+;; (define-key minibuffer-local-map (kbd "\C-d") #'evil-scroll-up)
+;; (define-key minibuffer-local-map (kbd "\C-u") #'evil-scroll-down)
 
-(with-eval-after-load 'vertico
-    (lambda ()
-        (define-key vertico-map (kbd "\C-f") #'vertico-scroll-up)
-        (define-key vertico-map (kbd "\C-b") #'vertico-scroll-down)))
+;; (with-eval-after-load 'vertico
+;;     (lambda ()
+;;         (define-key vertico-map (kbd "\C-d") #'vertico-scroll-down)
+;;         (define-key vertico-map (kbd "\C-u") #'vertico-scroll-up)
+;;         ))
+
+;; (define-key vertico-map (kbd "\C-d") #'vertico-next-group)
+;; (define-key vertico-map (kbd "\C-u") #'vertico-previous-group)
 
