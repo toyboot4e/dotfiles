@@ -527,6 +527,18 @@
         (setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
               projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld")))
 
+    (leaf racket-mode
+        :doc "https://github.com/jeapostrophe/racket-langserver"
+        :url "https://www.racket-mode.com/"
+        :config
+        (with-eval-after-load 'lsp-mode
+          (add-to-list 'lsp-language-id-configuration
+              '(racket-mode . "racket"))
+                (lsp-register-client
+                    (make-lsp-client :new-connection (lsp-stdio-connection '("racket" "-l" "racket-langserver"))
+                                         :activation-fn (lsp-activate-on "racket")
+                                                              :server-id 'racket-langserver))))
+
     (leaf rainbow-delimiters
         :config
         (define-globalized-minor-mode toy/global-rainbow-delimiters-mode rainbow-delimiters-mode
