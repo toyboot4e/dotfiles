@@ -356,6 +356,16 @@
     (leaf gnuplot-mode
         :mode (("\\.gp\\'" . gnuplot-mode)))
 
+    (leaf haskell-mode
+        :url "https://github.com/haskell/haskell-mode"
+        :hook (haskell-mode-hook . lsp-deferred)
+        :hook (haskell-literate-mode-hook . lsp-deferred)
+        :config
+        (leaf lsp-haskell
+            :after lsp-mode
+            :custom
+            :url "https://github.com/emacs-lsp/lsp-haskell"))
+
     (leaf helpful
         :bind ([remap describe-command]
                . helpful-command) ([remap describe-key]
