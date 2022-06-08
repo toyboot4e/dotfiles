@@ -322,14 +322,14 @@
 ;; ------------------------------ Markup languages ------------------------------
 
 (with-eval-after-load 'evil 
-(evil-define-key 'normal outline-minor-mode-map
-    "z1" (_fn (outline-hide-sublevels 3))
-    "z2" (_fn (outline-hide-sublevels 4))
-    "z3" (_fn (outline-hide-sublevels 5))
-    "z4" (_fn (outline-hide-sublevels 6))
-    "z5" (_fn (outline-hide-sublevels 7))
-    "z6" (_fn (outline-hide-sublevels 8))
-    "z9" (_fn (outline-hide-sublevels 11))
-    "z0" #'evil-open-folds
-    ))
+    (evil-define-key 'normal outline-minor-mode-map
+        "z1" (_fn (outline-hide-sublevels 3))
+        "z2" (_fn (outline-hide-sublevels 4))
+        "z3" (_fn (outline-hide-sublevels 5))
+        "z4" (_fn (outline-hide-sublevels 6))
+        "z5" (_fn (outline-hide-sublevels 7))
+        "z6" (_fn (outline-hide-sublevels 8))
+        "z9" (_fn (outline-hide-sublevels 11))
+        "z0" #'evil-open-folds
+        ))
 
