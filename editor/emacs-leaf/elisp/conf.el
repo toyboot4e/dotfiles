@@ -207,6 +207,33 @@
     (setq fill-column 100)
     (turn-on-auto-fill))
 
+(defun toy/on-prolog ()
+    (lsp-mode)
+    (lsp-ui-mode)
+
+    (add-to-list 'lsp-language-id-configuration '(prolog-mode . "prolog")
+
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection
+      (lsp-stdio-connection (list "swipl"
+                                  "-g" "use_module(library(lsp_server))."
+                                  "-g" "lsp_server:main"
+                                  "-t" "halt"
+                                  "--" "stdio"))
+
+      :major-modes '(prolog-mode)
+      :priority 1
+      :multi-root t
+      :server-id 'prolog-ls))))
+
+(leaf prolog-mode
+    :ensure nil
+    :tag "builtin"
+
+    ;; It's Prolog, not Perl!
+    :mode ("\\.l?pl\\'" . prolog-mode)
+    :hook (prolog-mode-hook . toy/on-prolog))
 
 ;; (leaf cargo
 ;;     :hook (rust-mode-hook . cargo-minor-mode))
