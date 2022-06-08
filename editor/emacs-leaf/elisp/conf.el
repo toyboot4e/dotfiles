@@ -305,15 +305,19 @@
 ;; (leaf html-ls)
 
 (leaf typescript-mode
-    :mode ("\\.tsx?\\'" . typescript-mode)
-    :hook (typescript-mode-hook . lsp-deferred)
-    )
+    :mode ("\\.ts\\'" . typescript-mode)
+    :init
+    (define-derived-mode typescript-tsx-mode typescript-mode "TSX"
+        "Major mode for editing TSX files.")
+    (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
+    (setq-default typescript-indent-level 2)
 
-(leaf tide
-    :after (typescript-mode company flycheck)
-    :hook ((typescript-mode-hook . tide-setup)
-           (typescript-mode-hook . tide-hl-identifier-mode)
-           (before-save-hook . tide-format-before-save)))
+    :hook (typescript-mode-hook . lsp-deferred)
+    :hook (before-save-hook . lsp-format-buffer))
+
+(leaf vue-mode
+    :hook (vue-mode-hook . lsp-deferred))
+
 
 ;; ------------------------------ Markup languages ------------------------------
 
