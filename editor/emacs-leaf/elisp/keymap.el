@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; Hacks
 
 ;; If `d` delete one line, run `exit-minibuffer`:

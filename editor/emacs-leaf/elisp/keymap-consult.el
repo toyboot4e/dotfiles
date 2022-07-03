@@ -1,4 +1,6 @@
-;; consult keymap  -*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
+
+;; consult keymap
 
 ;; https://github.com/minad/consult/wiki
 (defun define-minibuffer-key (key &rest defs)

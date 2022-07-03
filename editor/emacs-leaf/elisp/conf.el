@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; Fundamental settings
 
 ;; ------------------------------ Setting up ------------------------------
@@ -29,15 +31,6 @@
     (set-keyboard-coding-system 'utf-8)
     (set-selection-coding-system 'utf-8)
     (modify-coding-system-alist 'process "*" 'utf-8))
-
-(progn ;; Hide some builtin UI
-    (menu-bar-mode -1)
-    ;; GUI
-    (scroll-bar-mode -1)
-    (tool-bar-mode -1)
-    (blink-cursor-mode -1)
-    ;; TUI (?)
-    (setq visible-cursor nil))
 
 (progn ;; Show more
     ;; show line numbers
@@ -238,12 +231,12 @@
 ;; (leaf cargo
 ;;     :hook (rust-mode-hook . cargo-minor-mode))
 
-;; (progn ;; TODO: C#
-;;     (leaf csharp-mode ;;         )
-;;     (leaf omnisharp
-;;         ;; https://github.com/OmniSharp/omnisharp-emacs#:~:text=omnisharp-emacs%20is%20a%20port,that%20works%20in%20the%20background.
-;;         )
-;;     )
+(progn ;; TODO: C#
+    (leaf csharp-mode)
+    (leaf omnisharp
+        ;; https://github.com/OmniSharp/omnisharp-emacs#:~:text=omnisharp-emacs%20is%20a%20port,that%20works%20in%20the%20background.
+        )
+    )
 
 (progn ;; zig
     ;; (flycheck-define-checker zig
@@ -318,6 +311,28 @@
 (leaf vue-mode
     :hook (vue-mode-hook . lsp-deferred))
 
+;; (leaf tide
+;;     :after (typescript-mode company flycheck)
+;;     :hook ((typescript-mode-hook . tide-setup)
+;;            (typescript-mode-hook . tide-hl-identifier-mode)
+;;            (before-save-hook . tide-format-before-save)))
+
+;; NOTE: semantic-tokens in LS is enough?
+
+;; (leaf tree-sitter
+;;     :doc "Incremental parsing system"
+;;     :url "https://github.com/emacs-tree-sitter/elisp-tree-sitter"
+;;     :added "2022-03-05"
+;;     :emacs>= 25.1
+;;     :config
+;;     (global-tree-sitter-mode)
+;;     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+;; (leaf tree-sitter-langs
+;;     :after tree-sitter
+;;     :config
+;;     (tree-sitter-require 'tsx)
+;;     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 
 ;; ------------------------------ Markup languages ------------------------------
 

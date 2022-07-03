@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; Browser, RSS and SNS
 
 ;; ------------------------------ Browsing ------------------------------
@@ -5,10 +7,10 @@
 ;; TODO: email manager
 
 (leaf elfeed
-      ;; https://github.com/skeeto/elfeed
-      ;; `y`: yank URL, `b`: browse in GUI browser
-      ;; `r`: mark as read, `u`: mark as unread
-      )
+    ;; https://github.com/skeeto/elfeed
+    ;; `y`: yank URL, `b`: browse in GUI browser
+    ;; `r`: mark as read, `u`: mark as unread
+    )
 
 (leaf eww
       :commands eww eww-follow-link

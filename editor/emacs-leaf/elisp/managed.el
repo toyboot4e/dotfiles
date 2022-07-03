@@ -124,6 +124,12 @@
         (setq dhall-use-header-line nil
               dhall-format-arguments `("--ascii")))
 
+    (leaf dirvish
+        :doc "A modern file manager based on dired mode"
+        :req "emacs-27.1"
+        :url "https://github.com/alexluigit/dirvish"
+        :emacs>= 27.1)
+
     (leaf doom-modeline
         :leaf-defer nil
         :config
@@ -164,6 +170,10 @@
             (evil-ex-define-cmd "Bd" #'kill-this-buffer)
             (evil-ex-define-cmd "BD" #'kill-this-buffer)
             (evil-ex-define-cmd "hs" #'evil-window-split))
+
+        (leaf empv
+            :ensure nil
+            :straight (empv :type git :host github :repo "isamert/empv.el"))
 
         (leaf undo-tree
             :custom (undo-tree-auto-save-history)
@@ -643,9 +653,5 @@
 
 
 (provide 'managed)
-
-;; Local Variables:
-
-;; End:
 
 ;;; managed.el ends here
