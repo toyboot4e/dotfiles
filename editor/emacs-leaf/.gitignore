@@ -1,6 +1,12 @@
 elpa
 el-get
+straight
+
+**/*.elc
+sessions
+
+**/*private*
+
 tmp
 elisp/tmp
-sessions
 

@@ -8,9 +8,13 @@
 (progn ;; Hide some builtin UI
     ;; GUI
     (scroll-bar-mode -1)
-    (push '(menu-bar-lines . 0) default-frame-alist)
-    (push '(tool-bar-lines . 0) default-frame-alist)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
     (blink-cursor-mode -1)
+
+    (setq inhibit-startup-message t    ; don't show welcome screen
+          ring-bell-function 'ignore   ; don't make beep sounds
+          )
 
     ;; TUI (?)
     (setq visible-cursor nil))

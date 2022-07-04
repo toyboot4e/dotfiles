@@ -36,17 +36,17 @@
     (autoload 'projectile-project-root "projectile")
     (setq consult-project-root-function #'projectile-project-root)
 
-    ;; TODO: how can I use it like org-switchb
-    (autoload 'org-buffer-list "org")
-    (defvar org-buffer-source
-        `(:name     "Org"
-                    :narrow   ?o
-                    :category buffer
-                    :state    ,#'consult--buffer-state
-                    :items    ,(lambda () (mapcar #'buffer-name (org-buffer-list)))))
-
     :defer-config
-    (add-to-list 'consult-buffer-sources 'org-buffer-source 'append)
+    ;; TODO: how can I use it like org-switchb
+    ;; FIXME: I fail to defer `org-mode' loading with the org-mode source buffer
+    ;; (autoload 'org-buffer-list "org")
+    ;; (defvar org-buffer-source
+    ;;     `(:name     "Org"
+    ;;                 :narrow   ?o
+    ;;                 :category buffer
+    ;;                 :state    ,#'consult--buffer-state
+    ;;                 :items    ,(lambda () (mapcar #'buffer-name (org-buffer-list)))))
+    ;; (add-to-list 'consult-buffer-sources 'org-buffer-source 'append)
 
     (add-to-list 'consult-buffer-sources
                  (list :name     "Tabs"

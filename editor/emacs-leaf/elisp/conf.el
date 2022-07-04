@@ -9,8 +9,6 @@
 
 (setq make-backup-files nil        ; don't create backup~ files
       auto-save-default nil        ; don't create #autosave# files
-      inhibit-startup-message t    ; don't show welcome screen
-      ring-bell-function 'ignore   ; don't make beep sounds
       )
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -139,12 +137,13 @@
 ;; ------------------------------ Shell ------------------------------
 
 ;; TODO: shell
-(leaf vterm
-    :config
-    (defun toy/turn-off-chrome ()
-        (hl-line-mode -1)
-        (display-line-numbers-mode -1))
-    :hook (vterm-mode-hook . toy/turn-off-chrome))
+;; (leaf vterm
+;;     :config
+;;     (defun toy/turn-off-chrome ()
+;;         (hl-line-mode -1)
+;;         (display-line-numbers-mode -1))
+;;     ;; not exist?
+;;     :hook (vterm-mode-hook . toy/turn-off-chrome))
 
 ;; (leaf vterm-toggle
 ;;                                         ;j    :custom
@@ -173,8 +172,10 @@
                   line-end))
         :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
 
-    (leaf flycheck-inline
-        :hook (flycheck-mode-hook . flycheck-inline-mode)))
+    ;; (leaf flycheck-inline
+    ;; FIXME: byte compile error?
+    ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
+    )
 
 (defun toy/lint-en ()
     (interactive)
@@ -191,8 +192,10 @@
                   line-end))
         :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
 
-    (leaf flycheck-inline
-        :hook (flycheck-mode-hook . flycheck-inline-mode)))
+    ;; (leaf flycheck-inline
+    ;; FIXME: byte compile error?
+    ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
+    )
 
 (defun toy/init-rustic ()
     (interactive)
@@ -200,33 +203,35 @@
     (setq fill-column 100)
     (turn-on-auto-fill))
 
+(leaf prolog-mode
+    :ensure nil
+    :tag "builtin"
+
+    ;; It's Prolog, not Perl!
+    :mode "\\.l?pl\\'"
+    :hook toy/on-prolog
+    ;; :hook (prolog-mode-hook . toy/on-prolog)
+    )
+
 (defun toy/on-prolog ()
     (lsp-mode)
     (lsp-ui-mode)
 
     (add-to-list 'lsp-language-id-configuration '(prolog-mode . "prolog")
 
-    (lsp-register-client
-     (make-lsp-client
-      :new-connection
-      (lsp-stdio-connection (list "swipl"
-                                  "-g" "use_module(library(lsp_server))."
-                                  "-g" "lsp_server:main"
-                                  "-t" "halt"
-                                  "--" "stdio"))
+                 (lsp-register-client
+                  (make-lsp-client
+                   :new-connection
+                   (lsp-stdio-connection (list "swipl"
+                                               "-g" "use_module(library(lsp_server))."
+                                               "-g" "lsp_server:main"
+                                               "-t" "halt"
+                                               "--" "stdio"))
 
-      :major-modes '(prolog-mode)
-      :priority 1
-      :multi-root t
-      :server-id 'prolog-ls))))
-
-(leaf prolog-mode
-    :ensure nil
-    :tag "builtin"
-
-    ;; It's Prolog, not Perl!
-    :mode ("\\.l?pl\\'" . prolog-mode)
-    :hook (prolog-mode-hook . toy/on-prolog))
+                   :major-modes '(prolog-mode)
+                   :priority 1
+                   :multi-root t
+                   :server-id 'prolog-ls))))
 
 ;; (leaf cargo
 ;;     :hook (rust-mode-hook . cargo-minor-mode))
@@ -257,12 +262,12 @@
     ;;     )
     )
 
-(leaf ccls ;; C, C++
-    :hook (c-mode-hook . lsp-deferred)
-    :hook (c++-mode-hook . lsp-deferred)
-    :config
-    ;; FIXME: this is mac-only
-    (setq ccls-executable "/usr/local/bin/ccls"))
+;; (leaf ccls ;; C, C++
+;;     :hook (c-mode-hook . lsp-deferred)
+;;     :hook (c++-mode-hook . lsp-deferred)
+;;     :config
+;;     ;; FIXME: this is mac-only
+;;     (setq ccls-executable "/usr/local/bin/ccls"))
 
 (leaf go-mode
     :config
@@ -276,8 +281,8 @@
 
 ;; TODO: idirs2-mode?
 (leaf idris-mode
-    :mode ("\\.l?idr\\'" . idris-mode)
-    :hook (idirs-mode-hook . lsp-deferred)
+    :mode "\\.l?idr\\'"
+    :hook lsp-deferred
     :config
     (add-to-list 'lsp-language-id-configuration '(idris-mode . "idris2"))
     (setq idris-interpreter-path "~/.idris2/bin/idris2")
@@ -298,18 +303,21 @@
 ;; (leaf html-ls)
 
 (leaf typescript-mode
-    :mode ("\\.ts\\'" . typescript-mode)
+    :mode "\\.ts\\'"
     :init
     (define-derived-mode typescript-tsx-mode typescript-mode "TSX"
         "Major mode for editing TSX files.")
     (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
     (setq-default typescript-indent-level 2)
 
-    :hook (typescript-mode-hook . lsp-deferred)
-    :hook (before-save-hook . lsp-format-buffer))
+    :hook lsp-deferred
+    ;; FIXME: `:hook` fails on byte compile
+    :config
+    (add-hook 'before-save-hook #'lsp-format-buffer))
 
 (leaf vue-mode
-    :hook (vue-mode-hook . lsp-deferred))
+    :config
+    (add-hook 'vue-mode-hook #'lsp-deferred))
 
 ;; (leaf tide
 ;;     :after (typescript-mode company flycheck)

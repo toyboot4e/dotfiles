@@ -1,4 +1,4 @@
-;;; managed.el --- DB of packages managed by `leaf-manager'  -*- lexical-binding: t; -*-
+;;; managed.el --- DB of packages managed by `leaf-manager'
 
 ;; Copyright (C) 2020-2022 toyboot4e
 
@@ -34,8 +34,7 @@
               (leaf-manager-template-local-variables . ""))
     :config
     (leaf adoc-mode
-        :mode (("\\.adoc\\'" . adoc-mode))
-        :hook (adoc-mode-hook . toy/init-adoc-mode)
+        :mode ("\\.adoc\\'" . adoc-mode)
         :config
         (defun toy/init-adoc-mode nil
             (interactive)
@@ -44,11 +43,11 @@
 
         (add-hook 'LaTeX-mode-hook
                   (lambda nil
-                      (electric-indent-local-mode -1))))
+                      (electric-indent-local-mode -1)))
+        :hook toy/init-adoc-mode)
 
     (leaf aggressive-indent
-        :hook ((emacs-lisp-mode-hook scheme-mode-hook)
-               . aggressive-indent-mode))
+        :hook (emacs-lisp-mode-hook scheme-mode-hook))
 
     (leaf all-the-icons
         :if (display-graphic-p))
@@ -85,11 +84,6 @@
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match) (centaur-tabs-group-by-projectile-project))
 
-    (leaf clipetty
-        :after evil
-        :config
-        (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
-
     (leaf cmake-mode)
 
     (leaf company
@@ -103,8 +97,6 @@
         :if (display-graphic-p)
         :hook (company-mode-hook . company-box-mode))
 
-    (leaf dart-mode)
-
     (leaf dashboard
         :config
         (setq dashboard-items '((projects . 30)
@@ -114,7 +106,9 @@
                                 (registers . 5)))
         (setq dashboard-set-heading-icons (display-graphic-p)
               dashboard-set-file-icons (display-graphic-p))
-        (dashboard-setup-startup-hook))
+        ;; Load the dashboard only when no file is open
+        (when (string= (buffer-name) "*scratch*")
+            (dashboard-setup-startup-hook)))
 
     (leaf dhall-mode
         :mode "\\.dhall\\'"
@@ -144,6 +138,11 @@
     (leaf editorconfig
         :config
         (editorconfig-mode 1))
+
+    (leaf clipetty
+        :after evil
+        :config
+        (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
 
     (leaf evil
         :init
@@ -276,7 +275,7 @@
         :commands (evilnc-comment-or-uncomment-lines))
 
     (leaf evil-org
-        :after evil
+        :after evil org
         :hook (org-mode-hook . evil-org-mode)
         :hook (evil-org-mode-hook . toy/init-evil-org)
         :config
@@ -287,6 +286,7 @@
 
     (leaf evil-string-inflection
         :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection")
+
 
     (leaf fish-mode)
 
@@ -400,9 +400,6 @@
         (global-hl-todo-mode 1))
 
     (leaf hydra)
-
-    (leaf lsp-dart
-        :hook (dart-mode . lsp))
 
     (leaf lsp-mode
         :after evil
@@ -528,14 +525,6 @@
         :commands (olivetti-mode)
         :custom (olivetti-body-width . 100))
 
-    (leaf org-bullets
-        :commands org-bullets-mode
-        :hook (org-mode-hook\. org-bullets-mode))
-
-    (leaf org-preview-html
-        :after org-mode
-        :commands org-preview-html-mode org-preview-html/preview)
-
     (leaf popup)
 
     (leaf projectile
@@ -552,12 +541,12 @@
         :url "https://www.racket-mode.com/"
         :config
         (with-eval-after-load 'lsp-mode
-          (add-to-list 'lsp-language-id-configuration
-              '(racket-mode . "racket"))
-                (lsp-register-client
-                    (make-lsp-client :new-connection (lsp-stdio-connection '("racket" "-l" "racket-langserver"))
-                                         :activation-fn (lsp-activate-on "racket")
-                                                              :server-id 'racket-langserver))))
+            (add-to-list 'lsp-language-id-configuration
+                         '(racket-mode . "racket"))
+            (lsp-register-client
+             (make-lsp-client :new-connection (lsp-stdio-connection '("racket" "-l" "racket-langserver"))
+                              :activation-fn (lsp-activate-on "racket")
+                              :server-id 'racket-langserver))))
 
     (leaf rainbow-delimiters
         :config
@@ -581,6 +570,7 @@
                                    comment-end "")))
 
     (leaf rustic
+        :custom (rustic-load-optional-libraries . nil)
         :mode ("\\.rs\\'" . rustic-mode)
         :hook (rustic-mode-hook . lsp-deferred)
         :hook (rustic-mode-hook . toy/init-rustic)
@@ -628,15 +618,6 @@
         (which-key-mode))
 
     (leaf yaml-mode)
-
-    (leaf yasnippet
-        :diminish
-        :config
-        (yas-global-mode)
-        :custom (yas-prompt-functions
-                 '(yas-completing-prompt)))
-
-    (leaf yasnippet-snippets)
 
     (leaf zig-mode
         :mode ("\\.zig\\'" . zig-mode)

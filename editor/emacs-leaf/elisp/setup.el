@@ -47,7 +47,8 @@
             :ensure t)
 
         :config
-        (leaf-keywords-init)))
+        (leaf-keywords-init))
+    )
 ;; </leaf-install-code>
 
 

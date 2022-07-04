@@ -32,12 +32,37 @@
     ;; appearance
     (setq org-ellipsis "⤵")
 
+    ;; configuration
+    (setq org-log-done 'time
+          org-src-fontify-natively t
+          org-use-speed-commands t)
+
+    ;; agenda and timer
+    (setq org-agenda-custom-commands
+          '(("@" "Contexts"
+             ((tags-todo "@email"
+                         ((org-agenda-overriding-header "Emails")))
+              (tags-todo "@phone"
+                         ((org-agenda-overriding-header "Phone")))))))
+
+    (setq org-clock-persist t)
+
+    (setq org-time-clocksum-format '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+
+    :defer-config
+    (org-clock-persistence-insinuate)
+
     (leaf org-appear
         :doc "Uninline format on cursor"
         :url "https://github.com/awth13/org-appear"
         :config
         (setq org-appear-autolinks t)
         :hook (org-mode-hook . org-appear-mode))
+
+    ;; (leaf org-bullets
+    ;;     :after org-mode
+    ;;     :commands org-bullets-mode
+    ;;     :hook (org-mode-hook\. org-bullets-mode))
 
     (leaf org-superstar
         :commands org-superstar-mode
@@ -121,24 +146,6 @@
     ;; html view
     (leaf org-preview-html
         :commands org-preview-html-mode org-preview-html/preview)
-
-    ;; configuration
-    (setq org-log-done 'time
-          org-src-fontify-natively t
-          org-use-speed-commands t)
-
-    ;; agenda and timer
-    (setq org-agenda-custom-commands
-          '(("@" "Contexts"
-             ((tags-todo "@email"
-                         ((org-agenda-overriding-header "Emails")))
-              (tags-todo "@phone"
-                         ((org-agenda-overriding-header "Phone")))))))
-
-    (setq org-clock-persist t)
-    (org-clock-persistence-insinuate)
-
-    (setq org-time-clocksum-format '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
 
     ;; (setq org-capture-templates
     ;;       '(("t" "Todo [inbox]" entry
