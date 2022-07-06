@@ -27,6 +27,7 @@
         "elisp/ide-consult.el"           ;; Consult
         ;; "elisp/org.el"                   ;; org-mode
         ;; "elisp/web.el"                   ;; Web support
+        "elisp/hydra.el"                 ;; Hydra-based key mapigns
         "elisp/keymap.el"                ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
         "elisp/end.el"                   ;; Run after startup
