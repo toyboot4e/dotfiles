@@ -25,11 +25,14 @@
 :ghq: https://github.com/x-motemen/ghq[ghq]
 :gh: https://github.com/cli/cli[gh]
 :rg: https://github.com/BurntSushi/ripgrep[ripgrep]
+:hgrep: https://github.com/rhysd/hgrep[hrep]
 :fd: https://github.com/sharkdp/fd[fd]
 :as-tree: https://github.com/jez/as-tree[as-tree]
 :bat: https://github.com/sharkdp/bat[bat]
 :exa: https://github.com/ogham/exa[exa]
 :delta: https://github.com/delta-io/delta[delta]
+
+:xdg-ninja: https://github.com/b3nj5m1n/xdg-ninja[xdg-ninja]
 
 I followed the cool https://github.com/koekeishiya/dotfiles[dotfiles] for colors.
 
@@ -49,7 +52,7 @@ See link:nixos[nixos/] for the complete list. I'm switcing to Nix from {brew}.
 | Linux    | {i3}, {flameshot}
 |===
 
-{ghq}, {gh}, {rg}, {fd}, {as-tree}, {bat}, {exa}, {delta}, GNU sed, GNU xargs and `rename`
+{ghq}, {gh}, {rg}, {hgrep}, {fd}, {as-tree}, {bat}, {exa}, {delta}, GNU sed, GNU xargs and `rename`
 
 == Installations (WIP)
 
@@ -79,4 +82,12 @@ $ brew install --cask karabiner-elements
 === NixOS
 
 I'm still unfamilar with that OS!
+
+=== Windows
+
+I'm still unfamilar with that OS!
+
+== Misc
+
+- If you're on Linux, try {xdg-ninja} to check if your configuration files are placed correctly
 
