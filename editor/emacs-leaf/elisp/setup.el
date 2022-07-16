@@ -47,6 +47,9 @@
             :ensure t)
 
         :config
+        ;; I'm using `minions'
+        ;; (leaf diminish :ensure t)
+
         (leaf-keywords-init))
     )
 ;; </leaf-install-code>

@@ -1,4 +1,4 @@
-;;; managed.el --- DB of packages managed by `leaf-manager'
+;;; managed.el --- DB of packages managed by `leaf-manager'  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020-2022 toyboot4e
 
@@ -31,7 +31,7 @@
               (leaf-manager-template-feature-name . "managed")
               (leaf-manager-template-summary . "DB of packages managed by `leaf-manager'")
               (leaf-manager-template-commentary . "")
-              (leaf-manager-template-local-variables . ""))
+              (leaf-manager-template-local-variables . ";; fill-column: 100"))
     :config
     (leaf adoc-mode
         :mode ("\\.adoc\\'" . adoc-mode)
@@ -84,6 +84,11 @@
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match) (centaur-tabs-group-by-projectile-project))
 
+    (leaf clipetty
+        :after evil
+        :config
+        (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
+
     (leaf cmake-mode)
 
     (leaf company
@@ -106,8 +111,9 @@
                                 (registers . 5)))
         (setq dashboard-set-heading-icons (display-graphic-p)
               dashboard-set-file-icons (display-graphic-p))
-        ;; Load the dashboard only when no file is open
-        (when (string= (buffer-name) "*scratch*")
+        (when (string=
+               (buffer-name)
+               "*scratch*")
             (dashboard-setup-startup-hook)))
 
     (leaf dhall-mode
@@ -131,18 +137,26 @@
               doom-modeline-major-mode-icon (display-graphic-p))
         (setq doom-modeline-height 18
               doom-modeline-buffer-encoding nil
-              doom-modeline-minor-modes nil
               doom-modeline-buffer-file-name-style 'truncate-upto-project)
-        :defer-config (doom-modeline-mode))
+
+        (setq doom-modeline-minor-modes t)
+        (leaf minions
+            :custom
+            (minions-mode-line-lighter . "[+]")
+            :config
+            (minions-mode))
+
+        (minions-mode 1)
+        :defer-config
+        (doom-modeline-mode))
 
     (leaf editorconfig
         :config
         (editorconfig-mode 1))
 
-    (leaf clipetty
-        :after evil
-        :config
-        (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
+    (leaf eldoc
+        :ensure nil
+        :tag "builtin")
 
     (leaf evil
         :init
@@ -287,6 +301,15 @@
     (leaf evil-string-inflection
         :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection")
 
+    (leaf fill-column-indicator
+        :doc "Graphically indicate the fill column"
+        :custom (fci-rule-color . "#c0b18b")
+        :config
+        (setq-default fill-column 100)
+        (define-globalized-minor-mode global-fci-mode fci-mode
+            (lambda nil
+                (fci-mode 1)))
+        (global-fci-mode 1))
 
     (leaf fish-mode)
 
@@ -385,6 +408,12 @@
         (evil-define-key 'normal helpful-mode-map "q" #'kill-this-buffer)
         (evil-define-key 'normal 'global "K" #'helpful-at-point))
 
+    (leaf highlight-indentation
+        :doc "Minor modes for highlighting indentation"
+        :url "https://github.com/antonj/Highlight-Indentation-for-Emacs"
+        :config
+        (highlight-indentation-mode))
+
     (leaf hl-todo
         :doc "highlight TODO, FIXME, etc."
         :config
@@ -421,6 +450,7 @@
         (setq lsp-modeline-diagnostics-scope :workspace)
         (setq lsp-semantic-tokens-enable t)
         (setq lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
+        :config
         :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
@@ -544,8 +574,11 @@
             (add-to-list 'lsp-language-id-configuration
                          '(racket-mode . "racket"))
             (lsp-register-client
-             (make-lsp-client :new-connection (lsp-stdio-connection '("racket" "-l" "racket-langserver"))
-                              :activation-fn (lsp-activate-on "racket")
+             (make-lsp-client :new-connection
+                              (lsp-stdio-connection
+                               '("racket" "-l" "racket-langserver"))
+                              :activation-fn
+                              (lsp-activate-on "racket")
                               :server-id 'racket-langserver))))
 
     (leaf rainbow-delimiters
@@ -570,7 +603,7 @@
                                    comment-end "")))
 
     (leaf rustic
-        :custom (rustic-load-optional-libraries . nil)
+        :custom (rustic-load-optional-libraries)
         :mode ("\\.rs\\'" . rustic-mode)
         :hook (rustic-mode-hook . lsp-deferred)
         :hook (rustic-mode-hook . toy/init-rustic)
@@ -634,5 +667,9 @@
 
 
 (provide 'managed)
+
+;; Local Variables:
+;; fill-column: 100
+;; End:
 
 ;;; managed.el ends here
