@@ -4,11 +4,16 @@
 
 # Install manually:
 # ----------------------------------------
+
+# chemacs2: git clone https://github.com/plexus/chemacs2 ~/.emacs.d
+# cheovim: git clone https://github.com/NTBBloodbath/cheovim ~/.config/nvim
+
+# tmux-fzf: https://github.com/sainnhe/tmux-fzf
+# fisher: https://github.com/jorgebucaran/fisher
+
 # vim-plug: https://github.com/junegunn/vim-plug
 # fzf: https://github.com/jethrokuan/fzf
-# tmux-fzf: https://github.com/sainnhe/tmux-fzf
-# git: clone https://github.com/plexus/chemacs2 ~/.emacs.d
-# fisher: https://github.com/jorgebucaran/fisher
+
 # ----------------------------------------
 
 cd ~/dotfiles || {
@@ -63,6 +68,9 @@ _link shell/fish/config.fish         ~/.config/fish/config.fish
 _link editor/vim/.vimrc              ~/.vimrc
 _link editor/vim/.vimrc              ~/.config/nvim/init.vim
 
+# languages
+_link tool/cargo/config              ~/.cargo/config
+
 # chemacs2 (Emacs)
 _link editor/.emacs-profiles.el      ~/.emacs-profiles.el
 
@@ -73,9 +81,6 @@ _link editor/.emacs-profiles.el      ~/.emacs-profiles.el
 _link browser/w3m/bookmark.html      ~/.w3m/bookmark.html
 _link browser/w3m/config             ~/.w3m/config
 _link browser/w3m/keymap             ~/.w3m/keymap
-
-# --------------------------------------------------------------------------------
-# Mac-only apps
 
 if [ "$(uname)" == 'darwin' ] ; then
     _mkdir ~/.config/{karabiner,yabai,spacebar}
@@ -89,16 +94,15 @@ if [ "$(uname)" == 'darwin' ] ; then
     # VSCode
     _link editor/vscode/settings.json       "$HOME/Library/Application Support/Code/User/settings.json"
     _link editor/vscode/keybindings.json   "$HOME/Library/Application Support/Code/User/keybindings.json"
-    
-    # Sublime
-    
+
     # qutebrpwser
     _link browser/qutebrowser/config.py  ~/.qutebrowser/config.py
     _link browser/qutebrowser/quickmarks ~/.qutebrowser/quickmarks
     # _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
     # path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
-    _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
-    
+    # _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
+    _link browser/qutebrowser/greasemonkey ~/.qutebrowser/greasemonkey
+
     # Firefox
 else
     _mkdir ~/.config/nixpkgs
@@ -109,16 +113,16 @@ else
     # VSCode
     _link editor/vscode/settings.json      "$HOME/.config/Code/User/settings.json"
     _link editor/vscode/keybindings.json   "$HOME/.config/Code/User/keybindings.json"
-    
+
     # Sublime
-    
+
     # qutebrpwser
     _link browser/qutebrowser/config.py  ~/.config/qutebrowser/config.py
     _link browser/qutebrowser/quickmarks ~/.config/qutebrowser/quickmarks
     # _link browser/qutebrowser/userscrips ~/.qutebrowser/userscripts
     # path to the greasemonkey scripts can be checked via `:version` (in the `Paths` section `data` value)
     # _link browser/qutebrowser/greasemonkey ~/Library/Application\ Support/qutebrowser/greasemonkey
-    
+
     # Firefox
 fi
 

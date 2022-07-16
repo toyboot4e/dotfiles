@@ -1,0 +1,7 @@
+[alias]
+d = "rustdoc -- --cfg doc_cfg"
+do = "rustdoc --open -- --cfg doc_cfg"
+
+[net]
+git-fetch-with-cli = true
+
