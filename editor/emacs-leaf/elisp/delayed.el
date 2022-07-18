@@ -30,13 +30,6 @@
 ;; Delayed tasks
 
 (add-hook 'after-inithook #'toy/setup-theme)
-;; (add-hook 'after-inithook #'toy/load-yas)
-
-;; (defun toy/setup-delayed-tasks ()
-;;     (with-delayed-execution (toy/setup-theme))
-;;     (with-delayed-execution (toy/load-evil))
-;;     (with-delayed-execution (toy/load-lsp))
-;;     (with-delayed-execution (toy/load-yas)))
 
 (defun toy/setup-theme ()
     (leaf doom-themes
@@ -51,11 +44,11 @@
             :config
             (load-theme 'smyx t))))
 
-(defun toy/load-yas ()
-    (leaf yasnippet
-        :diminish
-        :custom (yas-prompt-functions '(yas-completing-prompt))
-        :config
-        ;; Enable `yasnippet' with delay
-        (yas-global-mode)))
+;; (defun toy/load-yas ()
+;;     (leaf yasnippet
+;;         :diminish
+;;         :custom (yas-prompt-functions '(yas-completing-prompt))
+;;         :config
+;;         ;; Enable `yasnippet' with delay
+;;         (yas-global-mode)))
 
