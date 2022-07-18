@@ -25,7 +25,7 @@
 :ghq: https://github.com/x-motemen/ghq[ghq]
 :gh: https://github.com/cli/cli[gh]
 :rg: https://github.com/BurntSushi/ripgrep[ripgrep]
-:hgrep: https://github.com/rhysd/hgrep[hrep]
+:hgrep: https://github.com/rhysd/hgrep[hgrep]
 :fd: https://github.com/sharkdp/fd[fd]
 :as-tree: https://github.com/jez/as-tree[as-tree]
 :bat: https://github.com/sharkdp/bat[bat]
