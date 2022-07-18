@@ -137,19 +137,16 @@ DEFS is a plist associating completion categories to commands."
     " gR" #'toy/proj-grep
     )
 
-;; TODO: why do we have to use `define-key`?
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
 
-;; (define-key minibuffer-local-map (kbd "\C-d") #'evil-scroll-up)
-;; (define-key minibuffer-local-map (kbd "\C-u") #'evil-scroll-down)
+(with-eval-after-load 'vertico
+    ;; TODO: recenter-top-bottom for vertico buffer
+    (define-key vertico-map (kbd "\C-u") (lambda () (interactive) (vertico-scroll-down 1)))
+    (define-key vertico-map (kbd "\C-d") (lambda () (interactive) (vertico-scroll-up 1)))
 
-;; (with-eval-after-load 'vertico
-;;     (lambda ()
-;;         (define-key vertico-map (kbd "\C-d") #'vertico-scroll-down)
-;;         (define-key vertico-map (kbd "\C-u") #'vertico-scroll-up)
-;;         ))
+    ;; (define-key vertico-map (kbd "\C-d") #'vertico-next-group)
+    ;; (define-key vertico-map (kbd "\C-u") #'vertico-previous-group)
+    )
 
-;; (define-key vertico-map (kbd "\C-d") #'vertico-next-group)
-;; (define-key vertico-map (kbd "\C-u") #'vertico-previous-group)
 

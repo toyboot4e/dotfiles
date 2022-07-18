@@ -168,5 +168,4 @@
     ;; (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
     )
 
-;; FIXME: color of selected item
 
