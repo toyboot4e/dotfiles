@@ -131,24 +131,26 @@
         :emacs>= 27.1)
 
     (leaf doom-modeline
+        :url "https://github.com/seagle0128/doom-modeline"
         :leaf-defer nil
+        :custom ((doom-modeline-icon display-graphic-p)
+                 (doom-modeline-major-mode-icon display-graphic-p)
+                 (doom-modeline-height . 18)
+                 (doom-modeline-buffer-encoding)
+                 (doom-modeline-buffer-file-name-style quote truncate-upto-project))
         :config
-        (setq doom-modeline-icon (display-graphic-p)
-              doom-modeline-major-mode-icon (display-graphic-p))
-        (setq doom-modeline-height 18
-              doom-modeline-buffer-encoding nil
-              doom-modeline-buffer-file-name-style 'truncate-upto-project)
-
-        (setq doom-modeline-minor-modes t)
+        (advice-add 'vc-git-mode-line-string :filter-return
+                    (lambda (arg)
+                        (substring arg 4)))
         (leaf minions
-            :custom
-            (minions-mode-line-lighter . "[+]")
+            :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
+            :custom (minions-mode-line-lighter . "[+]")
             :config
-            (minions-mode))
+            (setq doom-modeline-minor-modes t)
+            (minions-mode)
+            (minions-mode 1))
 
-        (minions-mode 1)
-        :defer-config
-        (doom-modeline-mode))
+        :defer-config (doom-modeline-mode))
 
     (leaf editorconfig
         :config
@@ -267,12 +269,14 @@
         (evil-escape-mode))
 
     (leaf evil-exchange
-        :doc "`gx` to swap: https://github.com/Dewdrops/evil-exchange"
+        :doc "Use `gx` to swap"
+        :url "https://github.com/Dewdrops/evil-exchange"
         :config
         (evil-exchange-install))
 
     (leaf evil-lion
-        :doc "Add `gl` and `gL` algin operators: https://github.com/edkolev/evil-lion"
+        :doc "Add `gl` and `gL` algin operators"
+        :url "https://github.com/edkolev/evil-lion"
         :after evil
         :config
         (evil-define-key 'normal 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
@@ -285,7 +289,7 @@
         (global-evil-matchit-mode 1))
 
     (leaf evil-nerd-commenter
-        :ensure t
+        :doc "Toggle comment"
         :commands (evilnc-comment-or-uncomment-lines))
 
     (leaf evil-org
@@ -299,10 +303,12 @@
             (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete)))
 
     (leaf evil-string-inflection
-        :doc "Add `g~` operator to cycle through string cases: https://github.com/ninrod/evil-string-inflection")
+        :doc "Add `g~` operator to cycle through string cases"
+        :url "https://github.com/ninrod/evil-string-inflection")
 
     (leaf fill-column-indicator
         :doc "Graphically indicate the fill column"
+        :if nil
         :custom (fci-rule-color . "#c0b18b")
         :config
         (setq-default fill-column 100)
@@ -616,6 +622,10 @@
                   (_fn
                    (when (eq 'rustic-mode major-mode)
                        (lsp-format-buffer)))))
+
+    (leaf tempel
+        :doc "Tempo templates/snippets with in-buffer field editing"
+        :url "https://github.com/minad/tempel")
 
     (leaf vimrc-mode
         :mode ("\\.vim" . vimrc-mode)

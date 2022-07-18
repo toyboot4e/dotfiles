@@ -279,7 +279,33 @@
 
     ;; cycle through windows
     "[w" #'evil-window-prev
-    "]w" #'evil-window-next
+    "]w" #'evil-window-next)
+
+;; --------------------------------------------------------------------------------
+;; g
+;; --------------------------------------------------------------------------------
+
+;; https://gist.github.com/dotemacs/9a0433341e75e01461c9
+(defun toy/parse-url (url)
+    "convert a git remote location as a HTTP URL"
+    (if (string-match "^http" url)
+            url
+        (replace-regexp-in-string "\\(.*\\)@\\(.*\\):\\(.*\\)\\(\\.git?\\)"
+                                  "https://\\2/\\3"
+                                  url)))
+
+(defun toy/magit-open-repo ()
+    "open remote repo URL"
+    (interactive)
+    (let ((url (magit-get "remote" "origin" "url")))
+        (progn
+            (browse-url (toy/parse-url url))
+            (message "opening repo %s" url))))
+
+(evil-define-key 'normal 'toy/global-mode-map
+    ;; open link
+    "gB" #'browse-url
+    "gR" #'toy/magit-open-repo
     )
 
 ;; ------------------------------ Leaders ------------------------------
