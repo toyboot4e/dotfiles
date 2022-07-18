@@ -102,20 +102,6 @@
         :if (display-graphic-p)
         :hook (company-mode-hook . company-box-mode))
 
-    (leaf dashboard
-        :config
-        (setq dashboard-items '((projects . 30)
-                                (recents . 5)
-                                (bookmarks . 5)
-                                (agenda . 5)
-                                (registers . 5)))
-        (setq dashboard-set-heading-icons (display-graphic-p)
-              dashboard-set-file-icons (display-graphic-p))
-        (when (string=
-               (buffer-name)
-               "*scratch*")
-            (dashboard-setup-startup-hook)))
-
     (leaf dhall-mode
         :mode "\\.dhall\\'"
         :hook (dhall-mode-hook . lsp-deferred)
