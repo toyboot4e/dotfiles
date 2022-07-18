@@ -91,17 +91,6 @@
 
     (leaf cmake-mode)
 
-    (leaf company
-        :hook (prog-mode-hook . company-mode)
-        :init
-        (setq company-idle-delay 0
-              company-minimum-prefix-length 1
-              company-selection-wrap-around t))
-
-    (leaf company-box
-        :if (display-graphic-p)
-        :hook (company-mode-hook . company-box-mode))
-
     (leaf dhall-mode
         :mode "\\.dhall\\'"
         :hook (dhall-mode-hook . lsp-deferred)
@@ -427,23 +416,26 @@
         :commands (lsp-mode lsp-deferred)
         :hook (lsp-mode-hook . lsp-enable-which-key-integration)
         :hook (lsp-mode-hook . hs-minor-mode)
-        :init
-        (setq lsp-keymap-prefix nil)
-        (setq lsp-idle-delay 0.5)
-        (setq lsp-log-io nil
+
+        :config
+        (setq lsp-completion-provider :none
+              lsp-completion-show-kind nil
+              lsp-keymap-prefix nil
+              lsp-idle-delay 0.5
+              lsp-log-io nil
               lsp-trace nil
-              lsp-print-performance nil)
-        (setq lsp-eldoc-enable-hover nil
+              lsp-print-performance nil
+              lsp-eldoc-enable-hover nil
               lsp-signature-auto-activate nil
               lsp-signature-render-documentation nil
-              lsp-completion-show-kind nil
               lsp-enable-symbol-highlighting nil
-              lsp-headerline-breadcrumb-enable nil)
-        (setq lsp-modeline-diagnostics-scope :workspace)
-        (setq lsp-semantic-tokens-enable t)
-        (setq lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
-        :config
-        :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
+              lsp-headerline-breadcrumb-enable nil
+              lsp-modeline-diagnostics-scope :workspace
+              lsp-semantic-tokens-enable t
+              lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
+
+        :defer-config
+        (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
         :commands lsp-ui-mode
