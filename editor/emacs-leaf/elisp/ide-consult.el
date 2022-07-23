@@ -268,3 +268,28 @@
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
+(unless (display-graphic-p)
+    (leaf popon
+        :url "https://codeberg.org/akib/emacs-popon"
+        :unless (display-graphic-p)
+        :ensure nil
+        :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon")
+        )
+
+    (leaf corfu-terminal
+        :after popon
+        :url "https://codeberg.org/akib/emacs-corfu-terminal"
+        :unless (display-graphic-p)
+        :ensure nil
+        :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
+        :config
+        (corfu-terminal-mode +1))
+
+    (leaf corfu-doc-terminal
+        :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
+        :unless (display-graphic-p)
+        :ensure nil
+        :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
+        :config
+        (corfu-doc-terminal-mode +1)))
+
