@@ -328,44 +328,25 @@
 
     (leaf git-link
         :commands (git-link git-link-commit)
+        :commands (gl-line gl-today)
         :config
-        (defun git-link-open-ln nil
-            (interactive)
-            (let ((git-link-open-in-browser t))
-                (call-interactively #'git-link)))
-
-        (defun git-link-today-ln nil
+        (defun gl-line nil
             (interactive)
             (let ((git-link-use-commit t))
                 (call-interactively #'git-link)))
 
-        (defun git-link-open-today-ln nil
+        (defun gl-today nil
             (interactive)
             (let ((git-link-use-commit t)
                   (git-link-open-in-browser t))
-                (call-interactively #'git-link)))
-
-        (defun git-link-open nil
-            (interactive)
-            (let ((git-link-use-single-line-number t))
-                (git-link-open-ln)))
-
-        (defun git-link-open-today nil
-            (interactive)
-            (let ((git-link-use-single-line-number t))
-                (git-link-today-ln)))
-
-        (defun git-link-open-today nil
-            (interactive)
-            (let ((git-link-use-single-line-number t))
-                (git-link-open-today-ln))))
+                (call-interactively #'git-link))))
 
     (leaf glsl-mode
-        :mode ("\\.fs" . glsl-mode)
-        :mode ("\\.vs" . glsl-mode)
-        :mode ("\\.glsl" . glsl-mode)
-        :mode ("\\.frag" . glsl-mode)
-        :mode ("\\.vert" . glsl-mode))
+        :mode (("\\.fs" . glsl-mode)
+               ("\\.vs" . glsl-mode)
+               ("\\.glsl" . glsl-mode)
+               ("\\.frag" . glsl-mode)
+               ("\\.vert" . glsl-mode)))
 
     (leaf gnuplot-mode
         :mode (("\\.gp\\'" . gnuplot-mode)))
@@ -603,7 +584,24 @@
 
     (leaf tempel
         :doc "Tempo templates/snippets with in-buffer field editing"
-        :url "https://github.com/minad/tempel")
+        :url "https://github.com/minad/tempel"
+
+        :config
+        (setq tempel-path (concat user-emacs-directory "templates.el"))
+
+        (defun tempel-setup-capf ()
+            (setq-local completion-at-point-functions
+                        (cons #'tempel-expand
+                              completion-at-point-functions)))
+
+        (add-hook 'prog-mode-hook 'tempel-setup-capf)
+        (add-hook 'text-mode-hook 'tempel-setup-capf)
+
+        (evil-define-key 'insert 'global
+            (kbd "C-j") #'tempel-complete
+            (kbd "C-l") #'tempel-insert
+            (kbd "C-t") #'tempel-expand
+            ))
 
     (leaf vimrc-mode
         :mode ("\\.vim" . vimrc-mode)
