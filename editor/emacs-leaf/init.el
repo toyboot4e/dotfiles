@@ -14,7 +14,6 @@
         "elisp/setup.el"                 ;; Boostrapping
 
         "elisp/env.el"                   ;; User environment and preferences
-        "elisp/delayed.el"               ;; TODO
         "local/locals.el"                ;; Local packages
 
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
