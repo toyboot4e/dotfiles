@@ -37,33 +37,6 @@ DEFS is a plist associating completion categories to commands."
         'file #'consult-find-for-minibuffer)
     )
 
-(progn ;; keymap for `consult-find-map'
-    ;; TODO: use it
-    (defun toy/consult-backspace ()
-        "Go up directory."
-        (interactive)
-        (let ((c (char-before (point))))
-            (if (= c ?/)
-                    (backward-delete-char 1)
-                (let* ((p (point))
-                       (p1 (progn (skip-chars-backward "^/")
-                                  (point)))
-                       (p2 (progn (skip-chars-forward "^/")
-                                  (if (= (point-at-eol) (point))
-                                          (point)
-                                      (+ 1 (point))))))
-                    (kill-region p1 p2)))))
-
-    ;; (defvar toy/consult-find-map
-    ;;     (let ((map (make-sparse-keymap)))
-    ;;         (define-key map (kbd "<DEL>") #'previous-history-element)
-    ;;         map))
-
-    ;; (consult-customize consult-find :keymap toy/consult-find-map)
-    )
-
-;; TODO: kill with C-k
-
 ;; FIXME: just use let?
 (defmacro _cd (&rest body)
     "Call consult function with `default-directory' as root directory."
@@ -73,18 +46,9 @@ DEFS is a plist associating completion categories to commands."
              ,@body
              )))
 
-(defun toy/search-lsp-ui ()
-    (interactive)
-    (execute-extended-command "lsp ui"))
-
-(defun toy/search-lsp-ui-find ()
-    (interactive)
-    (execute-extended-command "lsp ui find"))
-
 (evil-define-key 'normal 'toy/global-mode-map
     " :" #'execute-extended-command
-    " ,l" #'toy/search-lsp-ui
-    " ,f" #'toy/search-lsp-ui-find)
+    )
 
 (defun toy/proj-find ()
     "Find a file from project files."

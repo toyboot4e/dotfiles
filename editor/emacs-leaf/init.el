@@ -19,6 +19,7 @@
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/conf.el"                  ;; Basic configurations
         "elisp/ide-consult.el"           ;; Consult
+        ;; "elisp/ide-dap.el"               ;; dap-mode
 
         ;; "elisp/org.el"                   ;; org-mode
         ;; "elisp/web.el"                   ;; Web support

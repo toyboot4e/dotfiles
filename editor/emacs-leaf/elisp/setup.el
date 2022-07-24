@@ -6,6 +6,8 @@
 ;; --------------------------------------------------------------------------------
 ;; Boostrapping
 
+(setq straight-vc-git-default-protocol 'ssh)
+
 (progn ;; `straight.el'
     (defvar bootstrap-version)
     (let ((bootstrap-file
@@ -54,4 +56,7 @@
     )
 ;; </leaf-install-code>
 
+;; (leaf setup
+;;     :doc "Helpful Configuration Macro"
+;;     :straigh (setup :type git :host github :repo "github.com/zk-phi/setup"))
 

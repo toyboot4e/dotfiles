@@ -6,7 +6,7 @@
 
     :custom
     `((consult-preview-raw-size . 1024000)
-      (consult-preview-key  . ,(kbd "C-M-p"))
+      (consult-preview-key  . ,(kbd "C-l"))
       (consult-narrow-key   . "<"))
 
     ;; strictly evaluated
@@ -27,8 +27,6 @@
     (when (executable-find "fd")
         (setq consult-find-command "fd --color=never --full-path ARG OPTS"))
 
-    (setq consult-preview-key (kbd "C-l"))
-    (setq consult-narrow-key "<")
     ;; `which-key` alternative
     ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
@@ -175,6 +173,7 @@
     :custom
     ((corfu-cycle .  t)
      (corfu-auto . t)                 ;; Enable auto completion
+     (corfu-count . 30)
      ;; (corfu-separator . ?\s)          ;; Orderless field separator
      ;; (corfu-quit-at-boundary . nil)   ;; Never quit at completion boundary
      ;; (corfu-quit-no-match . nil)      ;; Never quit, even if there is no match
@@ -191,16 +190,6 @@
                (corfu-auto-prefix . 1)
                (corfu-preselect-first . nil))
 
-    :bind ((:corfu-map
-            ("TAB" . corfu-next)
-            ("<tab>" . corfu-next)
-            ("S-TAB" . corfu-previous)
-            ("<backtab>" . corfu-previous)
-            ("C-j" . corfu-next)
-            ("C-n" . corfu-next)
-            ("C-p" . corfu-previous)
-            ("C-k" . corfu-previous)))
-
     :config
     (leaf kind-icon
         :url "https://github.com/jdtsmith/kind-icon"
@@ -210,6 +199,7 @@
 
     (leaf corfu-doc
         :url "https://github.com/galeo/corfu-doc"
+        :when (display-graphic-p)
         :hook (corfu-mode-hook . corfu-doc-mode))
 
     :init
@@ -273,12 +263,11 @@
         :url "https://codeberg.org/akib/emacs-popon"
         :unless (display-graphic-p)
         :ensure nil
-        :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon")
-        )
+        :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
 
     (leaf corfu-terminal
-        :after popon
         :url "https://codeberg.org/akib/emacs-corfu-terminal"
+        :after popon
         :unless (display-graphic-p)
         :ensure nil
         :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")

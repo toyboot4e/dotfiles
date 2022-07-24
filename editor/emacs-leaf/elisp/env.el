@@ -28,14 +28,6 @@
 ;; "Package 'cl is deprecated".. I know!
 (setq byte-compile-warnings '(not cl-functions obsolete))
 
-;; lighter magit
-(defun magit-rev-format (format &optional rev args)
-    (let ((str (magit-git-string "log" "-1" "--no-patch"
-                                 (concat "--format=" format) args
-                                 (if rev (concat rev "^{commit}") "HEAD") "--")))
-        (unless (string-equal str "")
-            str)))
-
 ;; --------------------------------------------------------------------------------
 ;; Meta utilities
 

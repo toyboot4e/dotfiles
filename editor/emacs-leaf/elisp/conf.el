@@ -157,51 +157,45 @@
 
 ;; ------------------------------ Language supports ------------------------------
 
-(defun toy/lint-ja ()
-    (interactive)
-    ;; TODO: run only when the command is in scope
-    (flycheck-disable-checker textlint-ja)
-    (flycheck-define-checker textlint-en
-        "A linter for text."
-        :command ("textlint-editor.bash" "textlint-ja.json" source)
-        :error-patterns
-        ((warning line-start (file-name) ":" line ":" column ": "
-                  (id (one-or-more (not (any " "))))
-                  (message (one-or-more not-newline)
-                           (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-                  line-end))
-        :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
-
-    ;; (leaf flycheck-inline
-    ;; FIXME: byte compile error?
-    ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
-    )
-
-(defun toy/lint-en ()
-    (interactive)
-    ;; TODO: run only when the command is in scope
-    (flycheck-disable-checker textlint-en)
-    (flycheck-define-checker textlint-ja
-        "A linter for text."
-        :command ("textlint-editor.bash" "textlint-en.json" source)
-        :error-patterns
-        ((warning line-start (file-name) ":" line ":" column ": "
-                  (id (one-or-more (not (any " "))))
-                  (message (one-or-more not-newline)
-                           (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-                  line-end))
-        :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
-
-    ;; (leaf flycheck-inline
-    ;; FIXME: byte compile error?
-    ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
-    )
-
-(defun toy/init-rustic ()
-    (interactive)
-    (visual-line-mode)
-    (setq fill-column 100)
-    (turn-on-auto-fill))
+;; (defun toy/lint-ja ()
+;;     (interactive)
+;;     ;; TODO: run only when the command is in scope
+;;     (flycheck-disable-checker textlint-ja)
+;;     (flycheck-define-checker textlint-en
+;;         "A linter for text."
+;;         :command ("textlint-editor.bash" "textlint-ja.json" source)
+;;         :error-patterns
+;;         ((warning line-start (file-name) ":" line ":" column ": "
+;;                   (id (one-or-more (not (any " "))))
+;;                   (message (one-or-more not-newline)
+;;                            (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+;;                   line-end))
+;;         :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
+;; 
+;;     ;; (leaf flycheck-inline
+;;     ;; FIXME: byte compile error?
+;;     ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
+;;     )
+;; 
+;; (defun toy/lint-en ()
+;;     (interactive)
+;;     ;; TODO: run only when the command is in scope
+;;     (flycheck-disable-checker textlint-en)
+;;     (flycheck-define-checker textlint-ja
+;;         "A linter for text."
+;;         :command ("textlint-editor.bash" "textlint-en.json" source)
+;;         :error-patterns
+;;         ((warning line-start (file-name) ":" line ":" column ": "
+;;                   (id (one-or-more (not (any " "))))
+;;                   (message (one-or-more not-newline)
+;;                            (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+;;                   line-end))
+;;         :modes (text-mode markdown-mode adoc-mode gfm-mode org-mode))
+;; 
+;;     ;; (leaf flycheck-inline
+;;     ;; FIXME: byte compile error?
+;;     ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
+;;     )
 
 (leaf prolog-mode
     :ensure nil
@@ -283,9 +277,10 @@
 (leaf idris-mode
     :mode "\\.l?idr\\'"
     :hook lsp-deferred
+    :custom
+    (idris-interpreter-path . "~/.idris2/bin/idris2")
     :config
     (add-to-list 'lsp-language-id-configuration '(idris-mode . "idris2"))
-    (setq idris-interpreter-path "~/.idris2/bin/idris2")
 
     ;; (with-eval-after-load 'lsp-mode ;; LSP support for tlp-mode
     (lsp-register-client

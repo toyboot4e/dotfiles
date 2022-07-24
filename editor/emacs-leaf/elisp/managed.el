@@ -95,9 +95,9 @@
         :mode "\\.dhall\\'"
         :hook (dhall-mode-hook . lsp-deferred)
         :hook (dhall-mode-hook . lsp-ui-mode)
-        :config
-        (setq dhall-use-header-line nil
-              dhall-format-arguments `("--ascii")))
+        :custom ((dhall-use-header-line)
+                 (dhall-format-arguments
+                  `("--ascii"))))
 
     (leaf dirvish
         :doc "A modern file manager based on dired mode"
@@ -183,13 +183,11 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-company-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-embark-setup evil-collection-magit-setup)
+        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-magit-setup)
+        :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
             (evil-collection-dired-setup))
-
-        (with-eval-after-load 'company
-            (evil-collection-company-setup))
 
         (with-eval-after-load 'eww
             (evil-collection-eww-setup))
@@ -202,6 +200,9 @@
 
         (with-eval-after-load 'consult
             (evil-collection-consult-setup))
+
+        (with-eval-after-load 'corfu
+            (evil-collection-corfu-setup))
 
         (with-eval-after-load 'embark
             (evil-collection-embark-setup))
@@ -217,22 +218,21 @@
                 #'magit-diff-visit-worktree-file-other-window)
             (evil-define-key 'normal git-rebase-mode-map "C-j" git-rebase-move-line-down "C-u" git-rebase-move-line-up)
             (advice-add 'magit-section-forward :after
-                        (lambda (&rest x)
+                        (lambda (&rest _)
                             (evil-scroll-line-to-top
                              (line-number-at-pos))))
             (advice-add 'magit-section-backward :after
-                        (lambda (&rest x)
+                        (lambda (&rest _)
                             (evil-scroll-line-to-top
                              (line-number-at-pos))))
             (advice-add 'magit-section-forward-sibling :after
-                        (lambda (&rest x)
+                        (lambda (&rest _)
                             (evil-scroll-line-to-top
                              (line-number-at-pos))))
             (advice-add 'magit-section-backward-sibling :after
-                        (lambda (&rest x)
+                        (lambda (&rest _)
                             (evil-scroll-line-to-top
                              (line-number-at-pos))))
-            (setq evil-collection-magit-use-z-for-folds t)
             (evil-collection-magit-setup)))
 
     (leaf evil-escape
@@ -333,12 +333,14 @@
         (defun gl-line nil
             (interactive)
             (let ((git-link-use-commit t))
+                (ignore git-link-use-commit)
                 (call-interactively #'git-link)))
 
         (defun gl-today nil
             (interactive)
             (let ((git-link-use-commit t)
                   (git-link-open-in-browser t))
+                (ignore git-link-use-commit git-link-open-in-browser)
                 (call-interactively #'git-link))))
 
     (leaf glsl-mode
@@ -350,6 +352,10 @@
 
     (leaf gnuplot-mode
         :mode (("\\.gp\\'" . gnuplot-mode)))
+
+    (leaf google-translate
+        :doc "Emacs interface to Google Translate."
+        :url "https://github.com/atykhonov/google-translate")
 
     (leaf haskell-mode
         :url "https://github.com/haskell/haskell-mode"
@@ -397,41 +403,41 @@
         :commands (lsp-mode lsp-deferred)
         :hook (lsp-mode-hook . lsp-enable-which-key-integration)
         :hook (lsp-mode-hook . hs-minor-mode)
-
+        :hook (c-mode-hook . lsp-deferred)
+        :hook (cpp-mode-hook . lsp-deferred)
+        :custom ((lsp-completion-provider . :none)
+                 (lsp-completion-show-kind)
+                 (lsp-keymap-prefix)
+                 (lsp-idle-delay . 0.5)
+                 (lsp-log-io)
+                 (lsp-trace)
+                 (lsp-print-performance)
+                 (lsp-eldoc-enable-hover)
+                 (lsp-signature-auto-activate)
+                 (lsp-signature-render-documentation)
+                 (lsp-enable-symbol-highlighting)
+                 (lsp-headerline-breadcrumb-enable)
+                 (lsp-modeline-diagnostics-scope . :workspace)
+                 (lsp-semantic-tokens-enable . t))
         :config
-        (setq lsp-completion-provider :none
-              lsp-completion-show-kind nil
-              lsp-keymap-prefix nil
-              lsp-idle-delay 0.5
-              lsp-log-io nil
-              lsp-trace nil
-              lsp-print-performance nil
-              lsp-eldoc-enable-hover nil
-              lsp-signature-auto-activate nil
-              lsp-signature-render-documentation nil
-              lsp-enable-symbol-highlighting nil
-              lsp-headerline-breadcrumb-enable nil
-              lsp-modeline-diagnostics-scope :workspace
-              lsp-semantic-tokens-enable t
-              lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
-
-        :defer-config
-        (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
+        (setq-default
+         (lsp-session-file concat user-emacs-directory "tmp/.lsp-session-v"))
+        :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
         :commands lsp-ui-mode
         :hook (lsp-mode-hook . lsp-ui-mode)
         :after evil
+        :custom ((lsp-idle-delay . 0.5)
+                 (lsp-ui-sideline-delay . 0)
+                 (lsp-ui-doc-delay . 0)
+                 (lsp-ui-doc-enable)
+                 (lsp-ui-doc-position quote top)
+                 (lsp-ui-sideline-show-diagnostics . t)
+                 (lsp-ui-sideline-show-hover)
+                 (lsp-ui-sideline-show-code-actions)
+                 (lsp-ui-imenu-window-width . 30))
         :config
-        (setq lsp-idle-delay 0.5
-              lsp-ui-sideline-delay 0
-              lsp-ui-doc-delay 0)
-        (setq lsp-ui-doc-enable nil
-              lsp-ui-doc-position 'top)
-        (setq lsp-ui-sideline-show-diagnostics t
-              lsp-ui-sideline-show-hover nil
-              lsp-ui-sideline-show-code-actions nil)
-        (setq lsp-ui-imenu-window-width 30)
         (evil-define-key 'normal lsp-ui-imenu-mode-map
             (kbd "TAB")
             #'lsp-ui-imenu--view
@@ -444,11 +450,26 @@
         :url "https://github.com/magit/magit"
         :commands (magit)
         :after evil
+        :custom (magit-log-section-commit-count . 40)
         :config
-        (setq transient-history-file (concat user-emacs-directory "tmp/transient/history.el")
-              transient-values-file (concat user-emacs-directory "tmp/transient/values.el")
-              transient-levels-file (concat user-emacs-directory "tmp/transient/levels.el"))
-        (setq magit-log-section-commit-count 40)
+        (defun magit-rev-format (format &optional rev args)
+            "lighter magit revision format"
+            (let ((str (magit-git-string "log" "-1" "--no-patch"
+                                         (concat "--format=" format)
+                                         args
+                                         (if rev
+                                                 (concat rev "^{commit}")
+                                             "HEAD")
+                                         "--")))
+                (unless (string-equal str "")
+                    str)))
+
+        (setq-default transient-history-file
+                      (concat user-emacs-directory "tmp/transient/history.el")
+                      transient-values-file
+                      (concat user-emacs-directory "tmp/transient/values.el")
+                      transient-levels-file
+                      (concat user-emacs-directory "tmp/transient/levels.el"))
         (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
             (kbd "z RET")
             #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top)
@@ -572,36 +593,48 @@
         :mode ("\\.rs\\'" . rustic-mode)
         :hook (rustic-mode-hook . lsp-deferred)
         :hook (rustic-mode-hook . toy/init-rustic)
+        :custom ((rustic-format-trigger)
+                 (rustic-format-on-save)
+                 (rustic-lsp-format . t)
+                 (lsp-rust-analyzer-server-display-inlay-hints))
         :config
-        (setq rustic-format-trigger nil
-              rustic-format-on-save nil
-              rustic-lsp-format t
-              lsp-rust-analyzer-server-display-inlay-hints nil)
         (add-hook 'before-save-hook
                   (_fn
                    (when (eq 'rustic-mode major-mode)
-                       (lsp-format-buffer)))))
+                       (lsp-format-buffer))))
+        :defer-config (progn
+                          (visual-line-mode)
+                          (setq fill-column 100)
+                          (turn-on-auto-fill)))
 
     (leaf tempel
         :doc "Tempo templates/snippets with in-buffer field editing"
         :url "https://github.com/minad/tempel"
-
         :config
         (setq tempel-path (concat user-emacs-directory "templates.el"))
-
-        (defun tempel-setup-capf ()
+        (defun tempel-setup-capf nil
             (setq-local completion-at-point-functions
-                        (cons #'tempel-expand
-                              completion-at-point-functions)))
+                        (cons #'tempel-expand completion-at-point-functions)))
 
         (add-hook 'prog-mode-hook 'tempel-setup-capf)
         (add-hook 'text-mode-hook 'tempel-setup-capf)
-
         (evil-define-key 'insert 'global
-            (kbd "C-j") #'tempel-complete
-            (kbd "C-l") #'tempel-insert
-            (kbd "C-t") #'tempel-expand
-            ))
+            (kbd "C-j")
+            #'tempel-complete
+            (kbd "C-l")
+            #'tempel-insert
+            (kbd "C-t")
+            #'tempel-expand))
+
+    (leaf vimish-fold
+        :after evil
+        :config
+        (leaf evil-vimish-fold
+            :init
+            (setq evil-vimish-fold-mode-lighter " ⮒")
+            (setq evil-vimish-fold-target-modes '(prog-mode conf-mode text-mode))
+            :config
+            (global-evil-vimish-fold-mode)))
 
     (leaf vimrc-mode
         :mode ("\\.vim" . vimrc-mode)
@@ -616,9 +649,9 @@
         :hook (wgsl-mode-hook . lsp-deferred)
         :hook (wgsl-mode-hook . lsp-ui-mode)
         :config
-        (add-to-list 'lsp-language-id-configuration
-                     '(wgsl-mode . "wgsl"))
         (with-eval-after-load 'lsp-mode
+            (add-to-list 'lsp-language-id-configuration
+                         '(wgsl-mode . "wgsl"))
             (lsp-register-client
              (make-lsp-client :new-connection
                               (lsp-stdio-connection "~/.cargo/bin/wgsl_analyzer")
@@ -640,10 +673,9 @@
 
     (leaf zig-mode
         :mode ("\\.zig\\'" . zig-mode)
-        :config
-        (setq lsp-zig-zls-executable "/Users/tbm/zls/zls")
-        (setq zig-format-on-save t)
-        (setq zig-format-show-buffer nil))
+        :custom ((lsp-zig-zls-executable . "/Users/tbm/zls/zls")
+                 (zig-format-on-save . t)
+                 (zig-format-show-buffer)))
 
     (leaf zoom-window
         :doc "Zoom in to a pane"

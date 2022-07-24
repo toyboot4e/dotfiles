@@ -71,13 +71,9 @@
             (evil-replace-state-p) (evil-visual-state-p)
             ))
 
-    (defun toy/smart-esc-tr (prompt)
+    (defun toy/smart-esc-tr (_)
         (if (toy/do-tr-esc) (kbd "ESC") (kbd "C-g")))
-    (define-key key-translation-map (kbd "ESC") #'toy/smart-esc-tr)
-
-    (defun toy/smart-esc-tr (prompt)
-        (if (toy/do-tr-esc) (kbd "C-c") (kbd "C-g")))
-    (define-key key-translation-map (kbd "C-c") #'toy/smart-cc-tr))
+    (define-key key-translation-map (kbd "ESC") #'toy/smart-esc-tr))
 
 (defun toy/vf--impl (target-char delta-move)
     (let* ((start-point (point))
@@ -127,8 +123,8 @@
     (evil-scroll-line-to-center (line-number-at-pos)))
 
 (progn ;; [Evil] Center cursor on search (`n` -> `nzz`, `N` -> `Nzz`)
-    (advice-add 'evil-ex-search-next :after (lambda (&rest x) (toy/force-center)))
-    (advice-add 'evil-ex-search-previous :after (lambda (&rest x) (toy/force-center)))
+    (advice-add 'evil-ex-search-next :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-ex-search-previous :after (lambda (&rest _) (toy/force-center)))
     ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
     (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
     (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
@@ -136,11 +132,11 @@
 
 (progn ;; [Evil] Center cursor on jump
     ;; ` and '
-    (advice-add 'evil-goto-mark :after (lambda (&rest x) (toy/force-center)))
-    (advice-add 'evil-goto-mark-line :after (lambda (&rest x) (toy/force-center)))
+    (advice-add 'evil-goto-mark :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-goto-mark-line :after (lambda (&rest _) (toy/force-center)))
     ;; `C-o` and `C-i`
-    (advice-add 'evil-jump-backward :after (lambda (&rest x) (toy/force-center)))
-    (advice-add 'evil-jump-forward :after (lambda (&rest x) (toy/force-center)))
+    (advice-add 'evil-jump-backward :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-jump-forward :after (lambda (&rest _) (toy/force-center)))
     ;; `<number>G`
     (advice-add 'evil-goto-line :after
                 (lambda (&rest count)
@@ -192,18 +188,10 @@
         " /" 'evilnc-comment-or-uncomment-lines)
     )
 
-(progn ;; `C-s` for saving
-    (evil-define-key 'insert 'global
-        "\C-s" (_fn (evil-force-normal-state)
-                    (save-buffer))
-        )
-
-    (with-eval-after-load 'company
-        (define-key company-active-map "\C-s"
-            (_fn (company-abort)
-                 (evil-force-normal-state)
-                 (save-buffer))))
-    )
+;; `C-s` for saving
+(evil-define-key 'insert 'global
+    "\C-s" (_fn (evil-force-normal-state)
+                (save-buffer)))
 
 ;; ------------------------------ [] ------------------------------
 
@@ -440,6 +428,7 @@
 (defun toy/magit-frame ()
     (interactive)
     (let ((magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+        (ignore magit-display-buffer-function)
         (magit)))
 
 (defun toy/magit-tab ()
@@ -460,11 +449,8 @@
     (dolist (buf (buffer-list))
         (let (name (buffer-name buf))
             (unless (or (string= name "*scratch*")
-                        (string= name "*Messages*")
-                        )
-                (kill-buffer buf)
-                ))
-        ))
+                        (string= name "*Messages*"))
+                (kill-buffer buf)))))
 
 (defun toy/reset ()
     "Kill buffers and go back to the dashboard."
@@ -472,8 +458,8 @@
     (toy/kill-all)
     (delete-other-windows)
 
-    (dashboard-insert-startupify-lists)
-    (switch-to-buffer dashboard-buffer-name)
+    ;; (dashboard-insert-startupify-lists)
+    ;; (switch-to-buffer dashboard-buffer-name)
 
     (toy/force-center))
 
