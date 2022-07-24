@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
+;; --------------------------------------------------------------------------------
+;; `completing-read'
+;; --------------------------------------------------------------------------------
+
 (leaf consult
     ;; Required if we don't use default UI (like when using `vertico`)
     ;; :hook (completion-list-mode-hook . consult-preview-at-point-mode)
@@ -166,6 +170,10 @@
     ;; (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
     )
 
+;; --------------------------------------------------------------------------------
+;; Completion
+;; --------------------------------------------------------------------------------
+
 (leaf corfu
     :doc "Be sure to configure `lsp-mode' with `corfu'"
     :url "https://github.com/minad/corfu"
@@ -281,4 +289,27 @@
         :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
         :config
         (corfu-doc-terminal-mode +1)))
+
+;; --------------------------------------------------------------------------------
+;; Snippets
+;; --------------------------------------------------------------------------------
+
+(leaf tempel
+    :doc "Tempo templates/snippets with in-buffer field editing"
+    :url "https://github.com/minad/tempel"
+    :config
+    (setq tempel-path (concat user-emacs-directory "templates.el"))
+    (defun tempel-setup-capf nil
+        (setq-local completion-at-point-functions
+                    (cons #'tempel-expand completion-at-point-functions)))
+
+    (add-hook 'prog-mode-hook 'tempel-setup-capf)
+    (add-hook 'text-mode-hook 'tempel-setup-capf)
+    (evil-define-key 'insert 'global
+        (kbd "C-j")
+        #'tempel-complete
+        (kbd "C-l")
+        #'tempel-insert
+        (kbd "C-t")
+        #'tempel-expand))
 

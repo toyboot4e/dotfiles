@@ -589,10 +589,10 @@
                                    comment-end "")))
 
     (leaf rustic
-        :custom (rustic-load-optional-libraries)
         :mode ("\\.rs\\'" . rustic-mode)
         :hook (rustic-mode-hook . lsp-deferred)
         :hook (rustic-mode-hook . toy/init-rustic)
+        :custom (rustic-load-optional-libraries)
         :custom ((rustic-format-trigger)
                  (rustic-format-on-save)
                  (rustic-lsp-format . t)
@@ -606,25 +606,6 @@
                           (visual-line-mode)
                           (setq fill-column 100)
                           (turn-on-auto-fill)))
-
-    (leaf tempel
-        :doc "Tempo templates/snippets with in-buffer field editing"
-        :url "https://github.com/minad/tempel"
-        :config
-        (setq tempel-path (concat user-emacs-directory "templates.el"))
-        (defun tempel-setup-capf nil
-            (setq-local completion-at-point-functions
-                        (cons #'tempel-expand completion-at-point-functions)))
-
-        (add-hook 'prog-mode-hook 'tempel-setup-capf)
-        (add-hook 'text-mode-hook 'tempel-setup-capf)
-        (evil-define-key 'insert 'global
-            (kbd "C-j")
-            #'tempel-complete
-            (kbd "C-l")
-            #'tempel-insert
-            (kbd "C-t")
-            #'tempel-expand))
 
     (leaf vimish-fold
         :after evil

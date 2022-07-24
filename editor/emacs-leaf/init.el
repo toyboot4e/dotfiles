@@ -18,13 +18,13 @@
 
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/conf.el"                  ;; Basic configurations
-        "elisp/ide-consult.el"           ;; Consult
+        "elisp/minadwares.el"            ;; minad packages
         ;; "elisp/ide-dap.el"               ;; dap-mode
 
         ;; "elisp/org.el"                   ;; org-mode
         ;; "elisp/web.el"                   ;; Web support
 
-        "elisp/hydra.el"                 ;; Hydra-based key mapigns
+        "elisp/hydra.el"                 ;; Hydra-based key mappigns
         "elisp/keymap.el"                ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
 
@@ -32,9 +32,6 @@
         ))
 
 (dolist (x toy/init-files)
-    (let ((url (concat user-emacs-directory x)))
-        (message url)
-        (load-file url)))
-    ;; (load-file (concat user-emacs-directory x)))
+    (load-file (concat user-emacs-directory x)))
 
 ;;; init.el ends here
