@@ -55,9 +55,9 @@
     (leaf auto-package-update
         :init
         (setq auto-package-update-last-update-day-filename (concat user-emacs-directory "tmp/.last-package-update-day"))
+        :custom ((auto-package-update-delete-old-versions . t)
+                 (auto-package-update-interval . 7))
         :config
-        (setq auto-package-update-delete-old-versions t
-              auto-package-update-interval 7)
         (auto-package-update-maybe))
 
     (leaf blamer
@@ -70,17 +70,18 @@
     (leaf centaur-tabs
         :url "https://github.com/ema2159/centaur-tabs"
         :after projectile
+        :custom
+        ((centaur-tabs--buffer-show-groups . nil)
+         (centaur-tabs-cycle-scope . 'tabs)
+         (centaur-tabs-set-bar . 'under)
+         (x-underline-at-descent-line . t)
+         (centaur-tabs-style . "bar")
+         (centaur-tabs-height . 24)
+         (centaur-tabs-set-modified-marker . t)
+         (centaur-tabs-gray-out-icons . 'buffer)
+         (centaur-tabs-show-navigation-buttons . nil)
+         (centaur-tabs-set-icons . (display-graphic-p)))
         :config
-        (setq centaur-tabs--buffer-show-groups nil)
-        (setq centaur-tabs-cycle-scope 'tabs)
-        (setq centaur-tabs-set-bar 'under
-              x-underline-at-descent-line t)
-        (setq centaur-tabs-style "bar"
-              centaur-tabs-height 24
-              centaur-tabs-set-modified-marker t
-              centaur-tabs-gray-out-icons 'buffer
-              centaur-tabs-show-navigation-buttons nil
-              centaur-tabs-set-icons (display-graphic-p))
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match) (centaur-tabs-group-by-projectile-project))
 
@@ -119,10 +120,10 @@
                         (substring arg 4)))
         (leaf minions
             :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
-            :custom (minions-mode-line-lighter . "[+]")
+            :custom
+            ((minions-mode-line-lighter . "[+]")
+             (doom-modeline-minor-modes . t))
             :config
-            (setq doom-modeline-minor-modes t)
-            (minions-mode)
             (minions-mode 1))
 
         :defer-config (doom-modeline-mode))
@@ -136,14 +137,14 @@
         :tag "builtin")
 
     (leaf evil
-        :init
-        (setq evil-toggle-key "")
-        (setq evil-want-keybinding nil)
-        (setq evil-want-C-u-delete t
-              evil-want-C-u-scroll t
-              evil-want-Y-yank-to-eol t
-              evil-move-cursor-back t
-              evil-search-module 'evil-search)
+        :custom
+        ((evil-toggle-key . "")
+         (evil-want-keybinding . nil)
+         (evil-want-C-u-delete . t)
+         (evil-want-C-u-scroll . t)
+         (evil-want-Y-yank-to-eol . t)
+         (evil-move-cursor-back .t)
+         (evil-search-module . 'evil-search))
         :config
         (evil-mode 1)
         (progn
@@ -183,7 +184,7 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-magit-setup)
+        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
         :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
@@ -209,6 +210,9 @@
 
         (with-eval-after-load 'forge
             (evil-collection-forge-setup))
+
+        (with-eval-after-load 'vterm
+            (evil-collection-vterm-setup))
 
         (with-eval-after-load 'magit
             (evil-define-key 'normal magit-mode-map "zz" #'evil-scroll-line-to-center "z-" #'evil-scroll-line-to-bottom
@@ -237,9 +241,9 @@
 
     (leaf evil-escape
         :doc "Smart escape with `jk` or `kj`"
-        :init
-        (setq evil-escape-key-sequence "jk"
-              evil-escape-unordered-key-sequence t)
+        :custom
+        ((evil-escape-key-sequence . "jk")
+         (evil-escape-unordered-key-sequenceu . t))
         :config
         (evil-escape-mode))
 
@@ -384,16 +388,17 @@
 
     (leaf hl-todo
         :doc "highlight TODO, FIXME, etc."
+        :custom
+        ((hl-todo-highlight-punctuation . ":")
+         (hl-todo-keyword-faces . `(("TODO" warning bold)
+                                    ("FIXME" error bold)
+                                    ("HACK" font-lock-constant-face bold)
+                                    ("REVIEW" font-lock-keyword-face bold)
+                                    ("NOTE" success bold)
+                                    ("WIP" font-lock-keyword-face bold)
+                                    ("REMARK" success bold)
+                                    ("DEPRECATED" font-lock-doc-face bold))))
         :config
-        (setq hl-todo-highlight-punctuation ":"
-              hl-todo-keyword-faces `(("TODO" warning bold)
-                                      ("FIXME" error bold)
-                                      ("HACK" font-lock-constant-face bold)
-                                      ("REVIEW" font-lock-keyword-face bold)
-                                      ("NOTE" success bold)
-                                      ("WIP" font-lock-keyword-face bold)
-                                      ("REMARK" success bold)
-                                      ("DEPRECATED" font-lock-doc-face bold)))
         (global-hl-todo-mode 1))
 
     (leaf hydra)
@@ -419,9 +424,9 @@
                  (lsp-headerline-breadcrumb-enable)
                  (lsp-modeline-diagnostics-scope . :workspace)
                  (lsp-semantic-tokens-enable . t))
+        :preface
+        ;; (setq lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
         :config
-        (setq-default
-         (lsp-session-file concat user-emacs-directory "tmp/.lsp-session-v"))
         :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
@@ -486,8 +491,8 @@
                ("\\.md\\'" . markdown-mode)
                ("\\.markdown\\'" . markdown-mode))
         :after evil
-        :init
-        (setq markdown-command "multimarkdown")
+        :custom
+        (markdown-command . "multimarkdown")
         :config
         (evil-define-key 'normal markdown-mode-map "z1"
             (_fn
@@ -517,12 +522,12 @@
         :after evil
         :commands (neotree-quick-look)
         :init
-        (setq neo-theme (if (display-graphic-p)
-                                'icons 'arrows)
-              neo-window-position 'right
-              neo-window-width 25
-              neo-window-fixed-size nil
-              neo-show-hidden-files t)
+        (setq neo-theme (if (display-graphic-p) 'icons 'arrows))
+        :custom
+        ((neo-window-position . 'right)
+         (neo-window-width . 25)
+         (neo-window-fixed-size . nil)
+         (neo-show-hidden-files . t))
         :config
         (when (display-graphic-p)
             (add-hook 'neo-after-create-hook
@@ -545,12 +550,13 @@
 
     (leaf projectile
         :leaf-defer nil
+        :custom
+        (projectile-enable-caching . t)
         :init
-        (setq projectile-enable-caching t)
-        :config
-        (projectile-mode 1)
         (setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
-              projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld")))
+              projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld"))
+        :config
+        (projectile-mode 1))
 
     (leaf racket-mode
         :doc "https://github.com/jeapostrophe/racket-langserver"
@@ -591,29 +597,34 @@
     (leaf rustic
         :mode ("\\.rs\\'" . rustic-mode)
         :hook (rustic-mode-hook . lsp-deferred)
-        :hook (rustic-mode-hook . toy/init-rustic)
         :custom (rustic-load-optional-libraries)
         :custom ((rustic-format-trigger)
                  (rustic-format-on-save)
                  (rustic-lsp-format . t)
                  (lsp-rust-analyzer-server-display-inlay-hints))
-        :config
-        (add-hook 'before-save-hook
-                  (_fn
-                   (when (eq 'rustic-mode major-mode)
-                       (lsp-format-buffer))))
-        :defer-config (progn
-                          (visual-line-mode)
-                          (setq fill-column 100)
-                          (turn-on-auto-fill)))
+
+        :init
+        (defun rustic-before-save-hook ()
+            ;; rust-analyzer might take too long time on start, so set timeout
+            (with-timeout (1.5 nil) (lsp-format-buffer)))
+        (defun rustic-after-save-hook ())
+
+        :defer-config
+        ;; needed?
+        ;; (require 'rustic-rustfmt)
+        (require 'rustic-lsp)
+
+        (visual-line-mode)
+        (setq fill-column 100)
+        (turn-on-auto-fill))
 
     (leaf vimish-fold
         :after evil
         :config
         (leaf evil-vimish-fold
-            :init
-            (setq evil-vimish-fold-mode-lighter " ⮒")
-            (setq evil-vimish-fold-target-modes '(prog-mode conf-mode text-mode))
+            :custom
+            ((evil-vimish-fold-mode-lighter . " ⮒")
+             (evil-vimish-fold-target-modes . '(prog-mode conf-mode text-mode)))
             :config
             (global-evil-vimish-fold-mode)))
 
@@ -641,9 +652,9 @@
                               :server-id 'wgsl))))
 
     (leaf which-key
-        :init
-        (setq which-key-idle-delay 0.01
-              which-key-idle-secondary-delay 0.01)
+        :custom
+        ((which-key-idle-delay . 0.01)
+         (which-key-idle-secondary-delay . 0.01))
         :config
         (define-key help-map
             (kbd "M")

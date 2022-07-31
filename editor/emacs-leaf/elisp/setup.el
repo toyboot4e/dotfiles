@@ -4,7 +4,7 @@
       user-mail-address "toyboot4e@gmail.com")
 
 ;; --------------------------------------------------------------------------------
-;; Boostrapping
+;; Bootstrapping
 
 (setq straight-vc-git-default-protocol 'ssh)
 
@@ -40,13 +40,13 @@
 
     (leaf leaf-keywords
         :init
-        (leaf feather
-            :doc "Parallel thread modern package manager"
-            :url "https://github.com/conao3/feather.el"
-            :req "emacs-26.3" "async-await-1.0" "ppp-1.0" "page-break-lines-0.1"
-            :tag "convenience" "package" "emacs>=26.3"
-            :emacs>= 26.3
-            :ensure t)
+        ;; (leaf feather
+        ;;     :doc "Parallel thread modern package manager"
+        ;;     :url "https://github.com/conao3/feather.el"
+        ;;     :req "emacs-26.3" "async-await-1.0" "ppp-1.0" "page-break-lines-0.1"
+        ;;     :tag "convenience" "package" "emacs>=26.3"
+        ;;     :emacs>= 26.3
+        ;;     :ensure t)
 
         :config
         ;; I'm using `minions'
