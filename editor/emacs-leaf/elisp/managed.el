@@ -412,6 +412,7 @@
         :hook (cpp-mode-hook . lsp-deferred)
         :custom ((lsp-completion-provider . :none)
                  (lsp-completion-show-kind)
+                 (lsp-imenu-sort-methods . '(position))
                  (lsp-keymap-prefix)
                  (lsp-idle-delay . 0.5)
                  (lsp-log-io)
@@ -432,6 +433,7 @@
     (leaf lsp-ui
         :commands lsp-ui-mode
         :hook (lsp-mode-hook . lsp-ui-mode)
+        :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
         :after evil
         :custom ((lsp-idle-delay . 0.5)
                  (lsp-ui-sideline-delay . 0)
@@ -440,14 +442,21 @@
                  (lsp-ui-doc-position quote top)
                  (lsp-ui-sideline-show-diagnostics . t)
                  (lsp-ui-sideline-show-hover)
-                 (lsp-ui-sideline-show-code-actions)
-                 (lsp-ui-imenu-window-width . 30))
+                 (lsp-ui-sideline-show-code-actions)))
+
+    (leaf lsp-ui-imenu
+        :ensure nil
+        :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
+        :custom (lsp-ui-imenu-window-width . 30)
+        :custom-face (hl-line . '((t (:background "#22c3a1"))))
         :config
         (evil-define-key 'normal lsp-ui-imenu-mode-map
             (kbd "TAB")
             #'lsp-ui-imenu--view
             (kbd "RET")
-            #'lsp-ui-imenu--visit))
+            #'lsp-ui-imenu--visit)
+
+        (advice-add 'lsp-ui-imenu--visit  :after (lambda (&rest _) (toy/force-center))))
 
     (leaf lua-mode)
 

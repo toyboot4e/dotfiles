@@ -355,7 +355,9 @@
     " Q" #'tab-bar-close-tab   ;; close tab
     ;; NOTE: more tab keys in `toy/hydra-window` (SPC w)
 
-    ;; neotree
+    ;; sidebar
+    " ni" #'lsp-ui-imenu
+
     " nn" #'toy/neo-proj
     " nr" #'neotree-refresh
     " nt" #'neotree-toggle
