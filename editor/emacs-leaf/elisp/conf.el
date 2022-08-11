@@ -1,6 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
-;; ------------------------------ Shell ------------------------------
+;; --------------------------------------------------------------------------------
+;; Shell
+;; --------------------------------------------------------------------------------
+
 
 ;; TODO: shell
 ;; (leaf vterm
@@ -21,7 +24,9 @@
 ;;     ;;        )
 ;;     )
 
-;; ------------------------------ Language supports ------------------------------
+;; --------------------------------------------------------------------------------
+;; Language supports
+;; --------------------------------------------------------------------------------
 
 ;; (defun toy/lint-ja ()
 ;;     (interactive)
@@ -203,7 +208,9 @@
 ;;     (tree-sitter-require 'tsx)
 ;;     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
 
-;; ------------------------------ Markup languages ------------------------------
+;; --------------------------------------------------------------------------------
+;; Markup languages
+;; --------------------------------------------------------------------------------
 
 (with-eval-after-load 'evil 
     (evil-define-key 'normal outline-minor-mode-map
@@ -216,4 +223,80 @@
         "z9" (_fn (outline-hide-sublevels 11))
         "z0" #'evil-open-folds
         ))
+
+;; --------------------------------------------------------------------------------
+;; Sidebar (`lsp-ui-imenu-mode' and `neotree')
+;; --------------------------------------------------------------------------------
+
+(defun toy/imenu-get-nearest ()
+    (interactive)
+    "Returns `nil' or `(name . marker)' pair of the nearest item on `imenu'"
+
+    ;; Thanks: https://emacs.stackexchange.com/questions/30673/next-prev-imenu-item-function
+    ;; (imenu--make-index-alist)
+
+    (let ((alist imenu--index-alist)
+          (minoffset (point-max))
+          base-point offset pair mark imstack result)
+        (save-excursion
+            (move-end-of-line 1)
+            (setq base-point (point)))
+
+        ;; Element = ("name" . marker)
+        ;;         | ("submenu" ("name" . marker) ... )
+        (while (or alist imstack)
+            (if alist
+                    (progn
+                        (setq pair (car-safe alist)
+                              alist (cdr-safe alist))
+                        (cond
+                         ((atom pair)) ;; Skip anything not a cons.
+
+                         ((imenu--subalist-p pair)
+                          (setq imstack   (cons alist imstack)
+                                alist     (cdr pair)))
+
+                         ((number-or-marker-p (setq mark (cdr pair)))
+                          ;; REMARK: Allow zero, search direction = -1 (up)
+                          (when (>= (setq offset (* (- mark base-point) -1)) 0)
+                              (when (< offset minoffset) ;; Find the closest item.
+                                  (setq minoffset offset
+                                        result pair))))))
+
+                ;; pop
+                (setq alist   (car imstack)
+                      imstack (cdr imstack))))
+
+        result))
+
+(defun toy/lsp-imenu-update-focus ()
+    (interactive)
+    "Move the `*lsp-ui-imenu*' buffer's point to the current item."
+    (when (and (bound-and-true-p lsp-ui-mode) lsp-enable-imenu)
+        (let ((window (get-buffer-window lsp-ui-imenu-buffer-name)))
+            (when window
+
+                ;; get the name of the current item
+                (let ((pair (toy/imenu-get-nearest)))
+                    (when pair
+                        (let ((pattern (concat "┃ " (car pair) "$")))
+
+                            ;; search in the imenu buffer
+                            (with-selected-window window
+                                (goto-char 0)
+                                (re-search-forward pattern nil 'no-error)
+
+                                (move-beginning-of-line 1)
+                                (scroll-right 1000)
+
+                                (hl-line-mode 1)
+                                (hl-line-highlight)
+                                ))))))))
+
+(add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
+
+;; (advice-add 'magit-section-forward :after
+;;             (lambda (&rest _)
+;;                 (evil-scroll-line-to-top
+;;                  (line-number-at-pos))))
 

@@ -70,20 +70,42 @@
     (leaf centaur-tabs
         :url "https://github.com/ema2159/centaur-tabs"
         :after projectile
-        :custom
-        ((centaur-tabs--buffer-show-groups . nil)
-         (centaur-tabs-cycle-scope . 'tabs)
-         (centaur-tabs-set-bar . 'under)
-         (x-underline-at-descent-line . t)
-         (centaur-tabs-style . "bar")
-         (centaur-tabs-height . 24)
-         (centaur-tabs-set-modified-marker . t)
-         (centaur-tabs-gray-out-icons . 'buffer)
-         (centaur-tabs-show-navigation-buttons . nil)
-         (centaur-tabs-set-icons . (display-graphic-p)))
+        :custom ((centaur-tabs--buffer-show-groups . nil)
+                 (centaur-tabs-cycle-scope . 'tabs)
+                 (centaur-tabs-set-bar . 'under)
+                 (x-underline-at-descent-line . t)
+                 (centaur-tabs-style . "bar")
+                 (centaur-tabs-height . 24)
+                 (centaur-tabs-set-modified-marker . t)
+                 (centaur-tabs-gray-out-icons . 'buffer)
+                 (centaur-tabs-show-navigation-buttons . nil)
+                 (centaur-tabs-set-icons . (display-graphic-p)))
+        :custom (
+                 ;; (centaur-tabs-hide-tab-function . #'toy/centaur-tabs-hide)
+                 (centaur-tabs-buffer-groups-function . #'toy/centaur-tabs-group))
+
         :config
+        ;; (defun toy/centaur-tabs-hide (x)
+        ;;     "Override show/hide behavior"
+        ;;     (let ((name (format "%s" x)))
+        ;;         (if (string-equal "@" (substring name 0 1))
+        ;;                 ;; Sidebar: show tab
+        ;;                 nil
+        ;;             ;; Otherwise fall back to the default, builtin function
+        ;;             (centaur-tabs-hide-tab)
+        ;;             )))
+
+        (defun toy/centaur-tabs-group ()
+            "Add `Sidebar' group / use `projectile' buffer gruups"
+            ;; original code: `centaur-tabs-projectile-buffer-groups' set by `(centaur-tabs-group-by-projectile-project)'
+            (if (string-equal "@" (substring (buffer-name) 0 1))
+                    ;; Sidebar
+                    '("Sidebar")
+                ;; Otherwise fallback to the builtin projectile inregration
+                (centaur-tabs-projectile-buffer-groups)))
+
         (centaur-tabs-mode t)
-        :defer-config (centaur-tabs-headline-match) (centaur-tabs-group-by-projectile-project))
+        :defer-config (centaur-tabs-headline-match))
 
     (leaf clipetty
         :after evil
@@ -402,7 +424,6 @@
         :hook (cpp-mode-hook . lsp-deferred)
         :custom ((lsp-completion-provider . :none)
                  (lsp-completion-show-kind)
-                 (lsp-imenu-sort-methods . '(position))
                  (lsp-keymap-prefix)
                  (lsp-idle-delay . 0.5)
                  (lsp-log-io)
@@ -423,7 +444,6 @@
     (leaf lsp-ui
         :commands lsp-ui-mode
         :hook (lsp-mode-hook . lsp-ui-mode)
-        :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
         :after evil
         :custom ((lsp-idle-delay . 0.5)
                  (lsp-ui-sideline-delay . 0)
@@ -436,10 +456,13 @@
 
     (leaf lsp-ui-imenu
         :ensure nil
+        :custom ((lsp-imenu-sort-methods . '(position))
+                 (lsp-ui-imenu-buffer-name . "@imenu")
+                 (lsp-ui-imenu-window-width . toy/sidebar-width))
         :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
-        :custom (lsp-ui-imenu-window-width . 30)
-        :custom-face (hl-line . '((t (:background "#22c3a1"))))
-        :config
+        ;; TODO: lsp-ui-imenu-mode only
+        :custom-face (hl-line . '((t (:background "#458588"))))
+        :defer-config
         (evil-define-key 'normal lsp-ui-imenu-mode-map
             (kbd "TAB")
             #'lsp-ui-imenu--view
@@ -524,10 +547,13 @@
         (setq neo-theme (if (display-graphic-p) 'icons 'arrows))
         :custom
         ((neo-window-position . 'right)
-         (neo-window-width . 25)
+         (neo-window-width . toy/sidebar-width)
          (neo-window-fixed-size . nil)
          (neo-show-hidden-files . t))
         :config
+        ;; Required to run `setq' because it's `defconst', not `defvar'
+        (setq neo-buffer-name "@tree")
+
         (when (display-graphic-p)
             (add-hook 'neo-after-create-hook
                       (lambda (_)
@@ -537,7 +563,13 @@
             (kbd "RET")
             #'neotree-enter "oo" #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
             (kbd "TAB")
-            'neotree-stretch-toggle))
+            'neotree-stretch-toggle)
+
+        :defer-config
+        (defun neo-path--shorten (path length)
+            "Override `neotree' header string"
+            ;; Return the last path component
+            (file-name-nondirectory (directory-file-name path))))
 
     (leaf olivetti
         :doc "Zen mode *per buffer* (not per frame and that is great!)"

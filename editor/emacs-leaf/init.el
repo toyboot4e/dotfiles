@@ -6,6 +6,9 @@
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
 
+;; NOTE: sidebar buffers have names starting with `@'
+(defvar toy/sidebar-width 30)
+
 ;; Profiling
 (load-file (concat user-emacs-directory "elisp/profile.el"))
 

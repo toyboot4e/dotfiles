@@ -217,20 +217,30 @@
     (defun toy/insert-line-down (count)
         (dotimes (_ count) (save-excursion (evil-insert-newline-below)))))
 
-;; for smart buffer navigation
 (defun toy/skip-star (nav-fn)
-    (if (string-prefix-p "*" (buffer-name))
-            (funcall nav-fn)
-        (progn (funcall nav-fn)
-               (while (string-prefix-p "*" (buffer-name)) (funcall nav-fn))
-               )))
+    "Skip `*' buffer or `@' buffer"
+    (let ((name (buffer-name)))
+        (if (or (string-prefix-p "*" (buffer-name))
+                (string-prefix-p "@" (buffer-name)))
+                (funcall nav-fn)
+            (progn (funcall nav-fn)
+                   (while (string-prefix-p "*" (buffer-name)) (funcall nav-fn))
+                   ))))
+
+(defun toy/run-with-non-dedicated (nav-fn)
+    "Run function turning of dedicated window"
+    ;; **This is for the sidebar support!**
+    (let ((win (get-buffer-window)))
+        (cond ((window-dedicated-p win)
+               (set-window-dedicated-p win nil)
+               (funcall nav-fn)
+               (set-window-dedicated-p win t))
+              (nil (funcall nav-fn)))))
 
 (evil-define-key 'normal 'toy/global-mode-map
     ;; cycle through buffers
-    ;; "[b" (lambda () (interactive) (toy/skip-star #'evil-prev-buffer))
-    ;; "]b" (lambda () (interactive) (toy/skip-star #'evil-next-buffer))
-    "[b" #'centaur-tabs-backward
-    "]b" #'centaur-tabs-forward
+    "[b" (_fn (toy/run-with-non-dedicated #'centaur-tabs-backward))
+    "]b" (_fn (toy/run-with-non-dedicated #'centaur-tabs-forward))
 
     ;; "[g" #'centaur-tabs-backward-group
     ;; "]g" #'centaur-tabs-forward-group
