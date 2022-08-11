@@ -108,9 +108,5 @@ DEFS is a plist associating completion categories to commands."
     ;; TODO: recenter-top-bottom for vertico buffer
     (define-key vertico-map (kbd "\C-u") (lambda () (interactive) (vertico-scroll-down 1)))
     (define-key vertico-map (kbd "\C-d") (lambda () (interactive) (vertico-scroll-up 1)))
-
-    ;; (define-key vertico-map (kbd "\C-d") #'vertico-next-group)
-    ;; (define-key vertico-map (kbd "\C-u") #'vertico-previous-group)
-    )
-
+    (define-key vertico-map (kbd "\C-o") #'other-window))
 
