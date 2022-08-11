@@ -235,7 +235,7 @@
                (set-window-dedicated-p win nil)
                (funcall nav-fn)
                (set-window-dedicated-p win t))
-              (nil (funcall nav-fn)))))
+              (t (funcall nav-fn)))))
 
 (evil-define-key 'normal 'toy/global-mode-map
     ;; cycle through buffers
@@ -346,8 +346,7 @@
     ;; NOTE: this is not perfect, e.g., when we press `C-w q`
     (evil-ex-define-cmd "q[uit]" 'toy/evil-quit)
     (evil-ex-define-cmd "wq" 'toy/evil-save-and-quit)
-    (evil-ex-define-cmd "qa[ll]" 'toy/evil-quit-all)
-    )
+    (evil-ex-define-cmd "qa[ll]" 'toy/evil-quit-all))
 
 (defun toy/search-forward ()
     (interactive)
