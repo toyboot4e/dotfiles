@@ -153,11 +153,7 @@
                                     (interactive)
                                     (evil-edit
                                      (concat user-emacs-directory "init.el"))))
-            (evil-ex-define-cmd "s"
-                                (lambda nil
-                                    (interactive)
-                                    (load-file
-                                     (concat user-emacs-directory "init.el"))))
+            (evil-ex-define-cmd "s" #'toy/load-sub-config)
             (evil-ex-define-cmd "Bd" #'kill-this-buffer)
             (evil-ex-define-cmd "BD" #'kill-this-buffer)
             (evil-ex-define-cmd "hs" #'evil-window-split))
@@ -379,12 +375,6 @@
         :init
         (evil-define-key 'normal helpful-mode-map "q" #'kill-this-buffer)
         (evil-define-key 'normal 'global "K" #'helpful-at-point))
-
-    (leaf highlight-indentation
-        :doc "Minor modes for highlighting indentation"
-        :url "https://github.com/antonj/Highlight-Indentation-for-Emacs"
-        :config
-        (highlight-indentation-mode))
 
     (leaf hl-todo
         :doc "highlight TODO, FIXME, etc."
@@ -623,6 +613,7 @@
         ;; (require 'rustic-rustfmt)
         (require 'rustic-lsp)
 
+        ;; FIXME: not take effect until reload
         (visual-line-mode)
         (setq fill-column 100)
         (turn-on-auto-fill))

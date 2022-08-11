@@ -1,21 +1,21 @@
 ;; -*- lexical-binding: t -*-
 
-;; NOTE: Open / source `init.el' with `:ed' and `:s'!
+;; NOTE: Open / source `init.el' with `:ed' and `:s' (defined with `leaf evil')
+;; NOTE: Run `:exit-minibuffer' on when `d' motion went wrong (Evil).
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
 
 ;; Profiling
-;; (load-file (concat user-emacs-directory "elisp/profile.el"))
-;; (load-file (concat user-emacs-directory "_concat_.elc"))
+(load-file (concat user-emacs-directory "elisp/profile.el"))
 
 (setq toy/init-files
       '(
+        "elisp/env.el"                   ;; User environment and preferences
+        "elisp/early-conf.el"            ;; No-deps configuration
         "elisp/setup.el"                 ;; Bootstrapping
 
-        "elisp/env.el"                   ;; User environment and preferences
         "local/locals.el"                ;; Local packages
-
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/conf.el"                  ;; Basic configurations
         "elisp/minadwares.el"            ;; minad packages
@@ -31,7 +31,18 @@
         "elisp/end.el"                   ;; Run after startup
         ))
 
-(dolist (x toy/init-files)
-    (load-file (concat user-emacs-directory x)))
+(defun toy/load-sub-config ()
+    (interactive)
+    (dolist (x toy/init-files)
+        (load-file (concat user-emacs-directory x))))
+
+(defun toy/on-startup ()
+    (toy/load-sub-config)
+    (toy/on-start))
+
+;; TODO: delay most code load
+
+(toy/load-sub-config)
+(add-hook 'window-setup-hook #'toy/on-start)
 
 ;;; init.el ends here
