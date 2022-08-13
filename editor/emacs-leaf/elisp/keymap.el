@@ -456,6 +456,7 @@
     (toy/magit-frame))
 
 (evil-define-key 'normal 'toy/global-mode-map
+    "  r" #'exit-minibuffer ; reset Evil
     "  g" #'magit
     "  G" #'toy/magit-frame
     "  T" #'toy/magit-tab)

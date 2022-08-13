@@ -160,7 +160,7 @@
                                     (interactive)
                                     (evil-edit
                                      (concat user-emacs-directory "init.el"))))
-            (evil-ex-define-cmd "s" #'toy/load-sub-config)
+            (evil-ex-define-cmd "s" #'toy/reload)
             (evil-ex-define-cmd "Bd" #'kill-this-buffer)
             (evil-ex-define-cmd "BD" #'kill-this-buffer)
             (evil-ex-define-cmd "hs" #'evil-window-split))

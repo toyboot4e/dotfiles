@@ -2,41 +2,6 @@
 
 ;; consult keymap
 
-;; https://github.com/minad/consult/wiki
-(defun define-minibuffer-key (key &rest defs)
-    "Define KEY conditionally in the minibuffer.
-DEFS is a plist associating completion categories to commands."
-    (define-key minibuffer-local-map key
-        (list 'menu-item nil defs :filter
-              (lambda (d)
-                  (plist-get d (completion-metadata-get
-                                (completion-metadata (minibuffer-contents)
-                                                     minibuffer-completion-table
-                                                     minibuffer-completion-predicate)
-                                'category))))))
-
-(progn ;; ???
-    (defun consult-find-for-minibuffer ()
-        "Search file with find, enter the result in the minibuffer."
-        (interactive)
-        (let* ((enable-recursive-minibuffers t)
-               (default-directory (file-name-directory (minibuffer-contents)))
-               (file (consult--find
-                      (replace-regexp-in-string
-                       "\\s-*[:([].*"
-                       (format " (via find in %s): " default-directory)
-                       (minibuffer-prompt))
-                      consult-find-command
-                      (file-name-nondirectory (minibuffer-contents)))))
-            (delete-minibuffer-contents)
-            (insert (expand-file-name file default-directory))
-            (exit-minibuffer)))
-
-    (define-minibuffer-key "\C-s"
-        'consult-location #'previous-history-element
-        'file #'consult-find-for-minibuffer)
-    )
-
 ;; FIXME: just use let?
 (defmacro _cd (&rest body)
     "Call consult function with `default-directory' as root directory."

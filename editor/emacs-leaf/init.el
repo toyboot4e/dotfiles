@@ -39,6 +39,10 @@
     (dolist (x toy/init-files)
         (load-file (concat user-emacs-directory x))))
 
+(defun toy/reload ()
+    (interactive)
+    (load-file (concat user-emacs-directory "init.el")))
+
 (defun toy/on-startup ()
     (toy/load-sub-config)
     (toy/on-start))
