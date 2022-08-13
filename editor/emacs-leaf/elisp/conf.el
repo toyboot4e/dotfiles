@@ -6,13 +6,10 @@
 
 
 ;; TODO: shell
-;; (leaf vterm
-;;     :config
-;;     (defun toy/turn-off-chrome ()
-;;         (hl-line-mode -1)
-;;         (display-line-numbers-mode -1))
-;;     ;; not exist?
-;;     :hook (vterm-mode-hook . toy/turn-off-chrome))
+(leaf vterm
+    :commands vterm--internal
+    ;;
+    )
 
 ;; (leaf vterm-toggle
 ;;                                         ;j    :custom
@@ -225,7 +222,7 @@
         ))
 
 ;; --------------------------------------------------------------------------------
-;; Sidebar (`lsp-ui-imenu-mode' and `neotree')
+;; @Sidebar (`lsp-ui-imenu-mode' and `neotree')
 ;; --------------------------------------------------------------------------------
 
 (defun toy/imenu-get-nearest ()
@@ -290,8 +287,7 @@
                                 (scroll-right 1000)
 
                                 (hl-line-mode 1)
-                                (hl-line-highlight)
-                                ))))))))
+                                (hl-line-highlight)))))))))
 
 (add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
 
@@ -299,4 +295,28 @@
 ;;             (lambda (&rest _)
 ;;                 (evil-scroll-line-to-top
 ;;                  (line-number-at-pos))))
+
+;; --------------------------------------------------------------------------------
+;; ⊥ Bottom bar  (`vterm')
+;; --------------------------------------------------------------------------------
+
+(get-buffer-create "⊥ scratch")
+
+(defvar toy/vterm-buffer-name "⊥ vterm")
+
+(defun toy/bottom-vterm ()
+    (interactive)
+    (let ((last-name nil))
+        (when (boundp 'vterm)
+            (setq last-name vterm-bufer-name))
+        (setq vterm-buffer-name toy/bottom-vterm-buffer-name)
+        (let ((buf (vterm--internal (lambda (_buf)))))
+            ;; restore `vterm-buffer-name7
+            (when last-name (setq vter-buffer-name last-name))
+
+            (display-buffer-in-side-window buf '((side . bottom)))
+            (let ((win (get-buffer-window buf)))
+                (select-window win)
+                (let ((dh (- toy/bottom-bar-height (window-height))))
+                    (enlarge-window dh))))))
 

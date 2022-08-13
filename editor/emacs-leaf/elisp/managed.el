@@ -80,29 +80,14 @@
                  (centaur-tabs-gray-out-icons . 'buffer)
                  (centaur-tabs-show-navigation-buttons . nil)
                  (centaur-tabs-set-icons . (display-graphic-p)))
-        :custom (
-                 ;; (centaur-tabs-hide-tab-function . #'toy/centaur-tabs-hide)
-                 (centaur-tabs-buffer-groups-function . #'toy/centaur-tabs-group))
-
+        :custom (centaur-tabs-buffer-groups-function . #'toy/centaur-tabs-group)
         :config
-        ;; (defun toy/centaur-tabs-hide (x)
-        ;;     "Override show/hide behavior"
-        ;;     (let ((name (format "%s" x)))
-        ;;         (if (string-equal "@" (substring name 0 1))
-        ;;                 ;; Sidebar: show tab
-        ;;                 nil
-        ;;             ;; Otherwise fall back to the default, builtin function
-        ;;             (centaur-tabs-hide-tab)
-        ;;             )))
-
         (defun toy/centaur-tabs-group ()
-            "Add `Sidebar' group / use `projectile' buffer gruups"
-            ;; original code: `centaur-tabs-projectile-buffer-groups' set by `(centaur-tabs-group-by-projectile-project)'
-            (if (string-equal "@" (substring (buffer-name) 0 1))
-                    ;; Sidebar
-                    '("Sidebar")
-                ;; Otherwise fallback to the builtin projectile inregration
-                (centaur-tabs-projectile-buffer-groups)))
+            "Add `Sidebar' and `Bottom bar' groups / use `projectile' buffer gruups"
+            (cond ((string-equal "@" (substring (buffer-name) 0 1)) '("Sidebar") )
+                  ((string-equal "⊥" (substring (buffer-name) 0 1)) '("Bottom bar") )
+                  ;; Otherwise fallback to the builtin projectile inregration
+                  (t (centaur-tabs-projectile-buffer-groups))))
 
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match))

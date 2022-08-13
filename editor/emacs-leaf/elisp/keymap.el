@@ -217,15 +217,18 @@
     (defun toy/insert-line-down (count)
         (dotimes (_ count) (save-excursion (evil-insert-newline-below)))))
 
+(defun toy/is-star (name)
+    (or (string-prefix-p "*" name)
+        (string-prefix-p "@" name)
+        (string-prefix-p "⊥" name)))
+
 (defun toy/skip-star (nav-fn)
     "Skip `*' buffer or `@' buffer"
-    (let ((name (buffer-name)))
-        (if (or (string-prefix-p "*" (buffer-name))
-                (string-prefix-p "@" (buffer-name)))
-                (funcall nav-fn)
-            (progn (funcall nav-fn)
-                   (while (string-prefix-p "*" (buffer-name)) (funcall nav-fn))
-                   ))))
+    (if (toy/is-star (buffer-name))
+            ;; stop
+            (funcall nav-fn)
+        (progn (funcall nav-fn)
+               (while (toy/is-star (buffer-name)) (funcall nav-fn)))))
 
 (defun toy/run-with-non-dedicated (nav-fn)
     "Run function turning of dedicated window"
@@ -364,15 +367,6 @@
     " Q" #'tab-bar-close-tab   ;; close tab
     ;; NOTE: more tab keys in `toy/hydra-window` (SPC w)
 
-    ;; sidebar
-    " ni" #'lsp-ui-imenu
-
-    " nn" #'toy/neo-proj
-    " nr" #'neotree-refresh
-    " nt" #'neotree-toggle
-    " nf" #'neotree-find
-    " nq" #'neotree-quick-look
-
     ;; zen/zoom
     " zz" #'olivetti-mode
     " zx" #'zoom-window-zoom
@@ -382,6 +376,20 @@
     " w" #'toy/hydra-window/body
     " t" #'toy/hydra-tab/body
     ;; " o" #'toy/hydra-org/body
+    )
+
+(evil-define-key 'normal 'toy/global-mode-map
+    ;; @Sidebar
+    " ni" #'lsp-ui-imenu
+
+    " nn" #'toy/neo-proj
+    " nr" #'neotree-refresh
+    " nt" #'neotree-toggle
+    " nf" #'neotree-find
+    " nq" #'neotree-quick-look
+
+    ;; ⊥ Bottom pane (`vterm')
+    " bv" #'toy/bottom-vterm
     )
 
 ;; [f]ind
