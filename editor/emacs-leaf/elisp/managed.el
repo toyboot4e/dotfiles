@@ -543,10 +543,11 @@
             (add-hook 'neo-after-create-hook
                       (lambda (_)
                           (text-scale-adjust 0)
+
                           (text-scale-decrease 0.5))))
         (evil-define-key 'normal neotree-mode-map
             (kbd "RET")
-            #'neotree-enter "oo" #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
+            #'neotree-select-up-node "gh" #'neotree-enter "oo" #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
             (kbd "TAB")
             'neotree-stretch-toggle)
 
@@ -554,7 +555,12 @@
         (defun neo-path--shorten (path length)
             "Override `neotree' header string"
             ;; Return the last path component
-            (file-name-nondirectory (directory-file-name path))))
+            (file-name-nondirectory (directory-file-name path)))
+
+        (advice-add 'neotree-select-up-node :after
+                    (lambda (&rest _)
+                        (evil-first-non-blank)))
+        )
 
     (leaf olivetti
         :doc "Zen mode *per buffer* (not per frame and that is great!)"
