@@ -164,10 +164,10 @@
     (setq affe-count most-positive-fixnum)
 
     ;; NOTE: `affe' + `orderless' stops working?
-    ;; (defun affe-orderless-regexp-compiler (input _type)
-    ;;     (setq input (orderless-pattern-compiler input))
-    ;;     (cons input (lambda (str) (orderless--highlight input str))))
-    ;; (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+    (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+        (setq input (orderless-pattern-compiler input))
+        (cons input (lambda (str) (orderless--highlight input str))))
+    (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
     )
 
 ;; --------------------------------------------------------------------------------
