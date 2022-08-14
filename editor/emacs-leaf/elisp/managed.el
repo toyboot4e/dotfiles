@@ -546,7 +546,7 @@
 
                           (text-scale-decrease 0.5))))
         (evil-define-key 'normal neotree-mode-map
-            #'neotree-select-up-node "gh" #'neotree-enter "oo" (kbd "RET") #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
+            "gh" #'neotree-select-up-node "oo" #'neotree-enter (kbd "RET") #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
             (kbd "TAB")
             'neotree-stretch-toggle)
 
