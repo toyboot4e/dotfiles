@@ -442,6 +442,8 @@
     (leaf lsp-ui-imenu
         :ensure nil
         :custom ((lsp-imenu-sort-methods . '(position))
+                 ;; Field, EnumMember
+                 (lsp-imenu-index-symbol-kinds . '(Class Method Proeprty Constructor Enum Interface Function Variable Constant String Number Boolean Array Object Key Struct Event Operator))
                  (lsp-ui-imenu-buffer-name . "@imenu")
                  (lsp-ui-imenu-window-width . toy/sidebar-width))
         :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
