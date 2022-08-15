@@ -58,6 +58,7 @@ c.url.searchengines = {
     "cr": 'https://crates.io/search?q={}',
     "d": 'https://dictionary.cambridge.org/dictionary/english/{}',
     'g': 'https://github.com/search?q={}',
+    'h': 'https://hoogle.haskell.org/?hoogle={}',
     "s": 'https://stackoverflow.com/search?q={}',
     "y": 'https://www.youtube.com/results?search_query={}',
     "r": 'https://www.reddit.com/r/{}',

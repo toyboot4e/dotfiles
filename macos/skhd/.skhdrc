@@ -28,12 +28,15 @@ ctrl + shift + cmd + alt - 0 : brew services restart yabai
 ctrl + shift + cmd + alt - z : open -a 'Finder'
 ctrl + shift + cmd + alt - x : open -a 'Kitty'
 ctrl + shift + cmd + alt - c : open -a 'CotEditor'
-ctrl + shift + cmd + alt - w : open -a 'Terminal'
 ctrl + shift + cmd + alt - r : open -a 'Alacritty'
 
 # agenda
-ctrl + shift + cmd + alt - s : open -a 'Visual Studio Code'
-# ctrl + shift + cmd + alt - f : open -a 'Numbers'
+# ctrl + shift + cmd + alt - s : open -a 'Visual Studio Code'
+ctrl + shift + cmd + alt - s : open -a 'Skim'
+ctrl + shift + cmd + alt - w : open -a 'Kindle'
+# ctrl + shift + cmd + alt - w : open -a 'wezterm'
+# ctrl + shift + cmd + alt - w : open -a 'Terminal'
+ctrl + shift + cmd + alt - n : open -a 'Numbers'
 
 # SNS
 ctrl + shift + cmd + alt - f : open -a 'Discord'
@@ -48,16 +51,18 @@ ctrl + shift + cmd + alt - l : open -a 'Google Chrome'
 
 # code editors
 # ctrl + shift + cmd + alt - r : open -a 'Sublime Text'
-ctrl + shift + cmd + alt - e : open -a 'Emacs'
+# ctrl + shift + cmd + alt - e : em-gui
+# ctrl + shift + cmd + alt - e : open -a 'Emacs'
 
 # data editors
 ctrl + shift + cmd + alt - t : open -a 'Tiled'
+ctrl + shift + cmd + alt - y : open -a 'Typora'
 ctrl + shift + cmd + alt - m : open -a 'Studio One 5'  # [m]usic editor
 # ctrl + shift + cmd + alt - u : open -a 'OBS'
 
 # widgets
 # ctrl + shift + cmd + alt - l : open -a 'Notes'
-ctrl + shift + cmd + alt - n : open -a 'Mail'
+# ctrl + shift + cmd + alt - m : open -a 'Mail'
 
 # content viewers
 ctrl + shift + cmd + alt - p : open -a 'Preview'
@@ -226,6 +231,6 @@ alt + shift - p : yabai -m window --toggle sticky;\
 alt - e : yabai -m window --toggle split
 
 # toggle/space_layout
-alt + cmd - b : yabai -m space --layout bsp
-alt + cmd - f : yabai -m space --layout float
+# alt + cmd - b : yabai -m space --layout bsp
+# alt + cmd - f : yabai -m space --layout float
 
