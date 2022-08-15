@@ -109,7 +109,7 @@
 [pager]
     log  = nl -v 0 | less -iMRX
     diff = delta
-    show = less -iMRX --pattern='^diff '
+    show = delta
 
 [interactive]
    diffFilter = delta --color-only
@@ -124,15 +124,14 @@
     wordRegex = [^\\x80-\\xbf][\\x80-\\xbf]*
 
 [delta]
-    # NOTE: This is unfortunate if the diff is too short. Hmm
+    # https://github.com/dandavison/delta/blob/56de497357723a091003bb64adbafacfa1b80653/manual/src/configuration.md
     navigate = true
     line-numbers = true
     # NOTE: `magit-delta` only works well with `side-by-side`, not with `line-numbers`
     # side-by-side = true
 
-[url "git@github.com:"]
-    insteadOf = https://github.com/
-    insteadOf = git://github.com/
+[interactive]
+    diffFilter = delta --color-only --features=interactive
 
 [github]
 	user = toyboot4e
