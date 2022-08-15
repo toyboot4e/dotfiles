@@ -43,8 +43,6 @@ end
 # ----------------------------------------
 # Constants
 
-set CMUS_ROOT ~/Resources/music
-
 set NAROU_ROOT ~/Resources/narou
 set NAROO_ROOT ~/Resources/narou
 
@@ -180,20 +178,20 @@ _alias w3m w 'w3m -B'
 # ----------------------------------------
 # EDITOR
 
-if command -sq nvim
-    alias n nvim
-    alias nu 'nvim -u NONE'
-    alias vim nvim
-end
-
-if test -d $HOME/spacemacs
-    function spc
-        env HOME=$HOME/spacemacs emacs $argv
-    end
-    function spc-gui
-        env HOME=$HOME/spacemacs/ open -a Emacs $argv
-    end
-end
+# if command -sq nvim
+#     alias n nvim
+#     alias nu 'nvim -u NONE'
+#     alias vim nvim
+# end
+# 
+# if test -d $HOME/spacemacs
+#     function spc
+#         env HOME=$HOME/spacemacs emacs $argv
+#     end
+#     function spc-gui
+#         env HOME=$HOME/spacemacs/ open -a Emacs $argv
+#     end
+# end
 
 # ----------------------------------------
 # PROGRAMMING
@@ -279,15 +277,6 @@ end
 
 _alias asciidoctor adoc
 _alias asciidoctor-pdf adoc-pdf
-
-if command -sq cmus
-    # updates cmus library if it's started
-    function cmus-refresh
-        seq 0 150 | xargs -I@ cmus-remote -C 'win-remove'
-        cmus-remote -C "add $CMUS_ROOT"
-        cmus-remote -C 'update-cache'
-    end
-end
 
 if command -sq narou
     function narou
