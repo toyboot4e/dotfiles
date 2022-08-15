@@ -326,6 +326,6 @@
             (display-buffer-in-side-window buf '((side . bottom)))
             (let ((win (get-buffer-window buf)))
                 (select-window win)
-                (let ((dh (- toy/bottom-bar-height (window-height))))
+                (let ((dh (- toy/bottom-bar-height (window-body-height))))
                     (enlarge-window dh))))))
 
