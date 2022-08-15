@@ -1,5 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
+(progn ;; sidebar settings
+    (setq-default toy/sidebar-width 25)
+    (setq-default toy/bottom-bar-height 7)
+    (defvar toy/sidebar-imenu-buffer-name "@imenu")
+    (defvar toy/bottom-vterm-buffer-name "⊥ vterm"))
+
 ;; --------------------------------------------------------------------------------
 ;; Shell
 ;; --------------------------------------------------------------------------------
@@ -270,7 +276,7 @@
     (interactive)
     "Move the `*lsp-ui-imenu*' buffer's point to the current item."
     (when (and (bound-and-true-p lsp-ui-mode) lsp-enable-imenu)
-        (let ((window (get-buffer-window lsp-ui-imenu-buffer-name)))
+        (let ((window (get-buffer-window toy/sidebar-imenu-buffer-name)))
             (when window
 
                 ;; get the name of the current item
@@ -286,29 +292,32 @@
                                 (move-beginning-of-line 1)
                                 (scroll-right 1000)
 
+                                ;; -----------------
+                                (recenter)
+
                                 (hl-line-mode 1)
                                 (hl-line-highlight)))))))))
 
-(add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
+(defun toy/lsp-imenu-on-swtich-buffer ()
+    (when (get-buffer toy/sidebar-imenu-buffer-name)
+        (with-selected-window (get-buffer-window)
+            (lsp-ui-imenu)
+            (toy/lsp-imenu-update-focus))))
 
-;; (advice-add 'magit-section-forward :after
-;;             (lambda (&rest _)
-;;                 (evil-scroll-line-to-top
-;;                  (line-number-at-pos))))
+(add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
+(add-hook 'window-selection-change-functions #'toy/lsp-imenu-update-focus)
 
 ;; --------------------------------------------------------------------------------
 ;; ⊥ Bottom bar  (`vterm')
 ;; --------------------------------------------------------------------------------
 
-(get-buffer-create "⊥ scratch")
-
-(defvar toy/vterm-buffer-name "⊥ vterm")
+;; (get-buffer-create "⊥ scratch")
 
 (defun toy/bottom-vterm ()
     (interactive)
     (let ((last-name nil))
         (when (boundp 'vterm)
-            (setq last-name vterm-bufer-name))
+            (setq last-name vterm-buffer-name))
         (setq vterm-buffer-name toy/bottom-vterm-buffer-name)
         (let ((buf (vterm--internal (lambda (_buf)))))
             ;; restore `vterm-buffer-name7

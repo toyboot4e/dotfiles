@@ -119,12 +119,9 @@
     ;; more generic helper: https://github.com/syl20bnr/spacemacs/issues/6977#issuecomment-24^4014379
     )
 
-(defun toy/force-center()
-    (evil-scroll-line-to-center (line-number-at-pos)))
-
 (progn ;; [Evil] Center cursor on search (`n` -> `nzz`, `N` -> `Nzz`)
-    (advice-add 'evil-ex-search-next :after (lambda (&rest _) (toy/force-center)))
-    (advice-add 'evil-ex-search-previous :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-ex-search-next :after (lambda (&rest _) (recenter)))
+    (advice-add 'evil-ex-search-previous :after (lambda (&rest _) (recenter)))
     ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
     (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
     (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
@@ -132,15 +129,15 @@
 
 (progn ;; [Evil] Center cursor on jump
     ;; ` and '
-    (advice-add 'evil-goto-mark :after (lambda (&rest _) (toy/force-center)))
-    (advice-add 'evil-goto-mark-line :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-goto-mark :after (lambda (&rest _) (recenter)))
+    (advice-add 'evil-goto-mark-line :after (lambda (&rest _) (recenter)))
     ;; `C-o` and `C-i`
-    (advice-add 'evil-jump-backward :after (lambda (&rest _) (toy/force-center)))
-    (advice-add 'evil-jump-forward :after (lambda (&rest _) (toy/force-center)))
+    (advice-add 'evil-jump-backward :after (lambda (&rest _) (recenter)))
+    (advice-add 'evil-jump-forward :after (lambda (&rest _) (recenter)))
     ;; `<number>G`
     (advice-add 'evil-goto-line :after
                 (lambda (&rest count)
-                    (unless count (toy/force-center))))
+                    (unless count (recenter))))
     )
 
 ;; ------------------------------ Emacs-like ------------------------------
@@ -259,16 +256,12 @@
     "]T" #'toy/tab-move-right  ;; NOTE: defined in `hydra.el`
 
     ;; goto previous/next hunk and center cursor
-    "[c" (_fn (git-gutter:previous-hunk 1)
-              (toy/force-center))
-    "]c" (_fn (git-gutter:next-hunk 1)
-              (toy/force-center))
+    "[c" (_fn (git-gutter:previous-hunk 1) (recenter))
+    "]c" (_fn (git-gutter:next-hunk 1) (recenter))
 
     ;; go to next/previous error and center the cursor
-    "[l" (_fn (previous-error)
-              (toy/force-center))
-    "]l" (_fn (next-error)
-              (toy/force-center))
+    "[l" (_fn (previous-error) (recenter))
+    "]l" (_fn (next-error) (recenter))
 
     ;; swap lines
     "[e" (_fn (toy/swap-line-up))
@@ -354,7 +347,7 @@
 (defun toy/search-forward ()
     (interactive)
     (call-interactively #'evil-search-forward)
-    (toy/force-center))
+    (recenter))
 
 (evil-define-key 'normal 'toy/global-mode-map
     " ;" #'shell-command
@@ -378,9 +371,16 @@
     ;; " o" #'toy/hydra-org/body
     )
 
+(defun toy/sidebar-imenu-focus ()
+    (interactive)
+    (when (string= (buffer-name) toy/sidebar-imenu-buffer-name)
+        (windmove-left))
+    (with-selected-window (get-buffer-window)
+        (lsp-ui-imenu)))
+
 (evil-define-key 'normal 'toy/global-mode-map
     ;; @Sidebar
-    " ni" #'lsp-ui-imenu
+    " ni" #'toy/sidebar-imenu-focus
 
     " nn" #'toy/neo-proj
     " nr" #'neotree-refresh
@@ -481,7 +481,7 @@
     ;; (dashboard-insert-startupify-lists)
     ;; (switch-to-buffer dashboard-buffer-name)
 
-    (toy/force-center))
+    (recenter))
 
 (evil-define-key 'normal 'toy/global-mode-map
     "   x" #'toy/reset

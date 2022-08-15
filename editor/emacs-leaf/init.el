@@ -6,9 +6,6 @@
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
 
-(setq-default toy/sidebar-width 25)
-(setq-default toy/bottom-bar-height 7)
-
 ;; Profiling
 ;; (load-file (concat user-emacs-directory "elisp/profile.el"))
 
@@ -19,8 +16,8 @@
         "elisp/setup.el"                 ;; Bootstrapping
 
         "local/locals.el"                ;; Local packages
-        "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/conf.el"                  ;; Basic configurations
+        "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/minadwares.el"            ;; minad packages
         ;; "elisp/ide-dap.el"               ;; dap-mode
 
