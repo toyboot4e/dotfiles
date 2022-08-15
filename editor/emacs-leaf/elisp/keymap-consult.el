@@ -36,7 +36,6 @@
 
     " fr" #'consult-recentf
     " fh" #'consult-history
-    " fM" #'consult-mode-command
 
     " fl" #'consult-line
     " fo" #'consult-outline
@@ -54,6 +53,7 @@
     ;; " fm" #'consult-evil-marks
     ;; " fr" #'consult-evil-registers
     " fm" #'consult-mark
+    " fM" #'consult-global-mark
     " fr" #'consult-register
     )
 
