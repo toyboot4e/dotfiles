@@ -11,7 +11,8 @@
     :custom
     `((consult-preview-raw-size . 1024000)
       (consult-preview-key  . ,(kbd "C-l"))
-      (consult-narrow-key   . "<"))
+      (consult-narrow-key   . "<")
+      (consult-async-min-input . 2))
 
     ;; strictly evaluated
     :init
