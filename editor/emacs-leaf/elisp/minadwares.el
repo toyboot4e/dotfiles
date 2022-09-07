@@ -164,7 +164,7 @@
     ;; show all the matching results
     (setq affe-count most-positive-fixnum)
 
-    ;; NOTE: `affe' + `orderless' stops working?
+    ;; better regex (copied from the README)
     (defun affe-orderless-regexp-compiler (input _type _ignorecase)
         (setq input (orderless-pattern-compiler input))
         (cons input (lambda (str) (orderless--highlight input str))))

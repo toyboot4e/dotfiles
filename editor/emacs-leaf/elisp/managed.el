@@ -70,24 +70,33 @@
     (leaf centaur-tabs
         :url "https://github.com/ema2159/centaur-tabs"
         :after projectile
-        :custom ((centaur-tabs--buffer-show-groups . nil)
-                 (centaur-tabs-cycle-scope . 'tabs)
-                 (centaur-tabs-set-bar . 'under)
+        :custom ((centaur-tabs--buffer-show-groups)
+                 (centaur-tabs-cycle-scope quote tabs)
+                 (centaur-tabs-set-bar quote under)
                  (x-underline-at-descent-line . t)
                  (centaur-tabs-style . "bar")
                  (centaur-tabs-height . 24)
                  (centaur-tabs-set-modified-marker . t)
-                 (centaur-tabs-gray-out-icons . 'buffer)
-                 (centaur-tabs-show-navigation-buttons . nil)
-                 (centaur-tabs-set-icons . (display-graphic-p)))
-        :custom (centaur-tabs-buffer-groups-function . #'toy/centaur-tabs-group)
+                 (centaur-tabs-gray-out-icons quote buffer)
+                 (centaur-tabs-show-navigation-buttons)
+                 (centaur-tabs-set-icons display-graphic-p))
+        :custom (centaur-tabs-buffer-groups-function function toy/centaur-tabs-group)
         :config
-        (defun toy/centaur-tabs-group ()
+        (defun toy/centaur-tabs-group nil
             "Add `Sidebar' and `Bottom bar' groups / use `projectile' buffer gruups"
-            (cond ((string-equal "@" (substring (buffer-name) 0 1)) '("Sidebar") )
-                  ((string-equal "⊥" (substring (buffer-name) 0 1)) '("Bottom bar") )
-                  ;; Otherwise fallback to the builtin projectile inregration
-                  (t (centaur-tabs-projectile-buffer-groups))))
+            (cond
+             ((string-equal "@"
+                            (substring
+                             (buffer-name)
+                             0 1))
+              '("Sidebar"))
+             ((string-equal "⊥"
+                            (substring
+                             (buffer-name)
+                             0 1))
+              '("Bottom bar"))
+             (t
+              (centaur-tabs-projectile-buffer-groups))))
 
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match))
@@ -127,9 +136,8 @@
                         (substring arg 4)))
         (leaf minions
             :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
-            :custom
-            ((minions-mode-line-lighter . "[+]")
-             (doom-modeline-minor-modes . t))
+            :custom ((minions-mode-line-lighter . "[+]")
+                     (doom-modeline-minor-modes . t))
             :config
             (minions-mode 1))
 
@@ -144,14 +152,13 @@
         :tag "builtin")
 
     (leaf evil
-        :custom
-        ((evil-toggle-key . "")
-         (evil-want-keybinding . nil)
-         (evil-want-C-u-delete . t)
-         (evil-want-C-u-scroll . t)
-         (evil-want-Y-yank-to-eol . t)
-         (evil-move-cursor-back .t)
-         (evil-search-module . 'evil-search))
+        :custom ((evil-toggle-key . "")
+                 (evil-want-keybinding)
+                 (evil-want-C-u-delete . t)
+                 (evil-want-C-u-scroll . t)
+                 (evil-want-Y-yank-to-eol . t)
+                 (evil-move-cursor-back \.t)
+                 (evil-search-module quote evil-search))
         :config
         (evil-mode 1)
         (progn
@@ -174,6 +181,10 @@
             :init
             (evil-set-undo-system 'undo-tree)
             (global-undo-tree-mode))
+
+        (leaf evil-anzu
+            :url "https://github.com/emacsorphanage/evil-anzu"
+            :commands "anzu-query-replace-regexp")
 
         (leaf evil-surround
             :config
@@ -244,9 +255,8 @@
 
     (leaf evil-escape
         :doc "Smart escape with `jk` or `kj`"
-        :custom
-        ((evil-escape-key-sequence . "jk")
-         (evil-escape-unordered-key-sequenceu . t))
+        :custom ((evil-escape-key-sequence . "jk")
+                 (evil-escape-unordered-key-sequenceu . t))
         :config
         (evil-escape-mode))
 
@@ -385,16 +395,16 @@
 
     (leaf hl-todo
         :doc "highlight TODO, FIXME, etc."
-        :custom
-        ((hl-todo-highlight-punctuation . ":")
-         (hl-todo-keyword-faces . `(("TODO" warning bold)
-                                    ("FIXME" error bold)
-                                    ("HACK" font-lock-constant-face bold)
-                                    ("REVIEW" font-lock-keyword-face bold)
-                                    ("NOTE" success bold)
-                                    ("WIP" font-lock-keyword-face bold)
-                                    ("REMARK" success bold)
-                                    ("DEPRECATED" font-lock-doc-face bold))))
+        :custom ((hl-todo-highlight-punctuation . ":")
+                 (hl-todo-keyword-faces \`
+                                        (("TODO" warning bold)
+                                         ("FIXME" error bold)
+                                         ("HACK" font-lock-constant-face bold)
+                                         ("REVIEW" font-lock-keyword-face bold)
+                                         ("NOTE" success bold)
+                                         ("WIP" font-lock-keyword-face bold)
+                                         ("REMARK" success bold)
+                                         ("DEPRECATED" font-lock-doc-face bold))))
         :config
         (global-hl-todo-mode 1))
 
@@ -422,8 +432,19 @@
                  (lsp-modeline-diagnostics-scope . :workspace)
                  (lsp-semantic-tokens-enable . t))
         :preface
-        ;; (setq lsp-session-file (concat user-emacs-directory "tmp/.lsp-session-v"))
         :config
+        (progn
+            (defun toy/c-on-save nil
+                (when (eq major-mode 'c-mode)
+                    (lsp-format-buffer)))
+
+            (add-hook 'before-save-hook #'toy/c-on-save)
+            (defun toy/cpp-on-save nil
+                (when (eq major-mode 'c++-mode)
+                    (lsp-format-buffer)))
+
+            (add-hook 'before-save-hook #'toy/cpp-on-save))
+
         :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
 
     (leaf lsp-ui
@@ -441,22 +462,23 @@
 
     (leaf lsp-ui-imenu
         :ensure nil
-        :custom ((lsp-imenu-sort-methods . '(position))
-                 ;; Field, EnumMember
-                 (lsp-imenu-index-symbol-kinds . '(Class Method Proeprty Constructor Enum Interface Function Variable Constant String Number Boolean Array Object Key Struct Event Operator))
+        :custom ((lsp-imenu-sort-methods quote
+                                         (position))
+                 (lsp-imenu-index-symbol-kinds quote
+                                               (Class Method Proeprty Constructor Enum Interface Function Variable Constant String Number Boolean Array Object Key Struct Event Operator))
                  (lsp-ui-imenu-buffer-name . toy/sidebar-imenu-buffer-name)
                  (lsp-ui-imenu-window-width . toy/sidebar-width))
         :hook (lsp-ui-imenu-mode-hook . hl-line-mode)
-        ;; TODO: lsp-ui-imenu-mode only
-        :custom-face (hl-line . '((t (:background "#458588"))))
-        :defer-config
-        (evil-define-key 'normal lsp-ui-imenu-mode-map
-            (kbd "TAB")
-            #'lsp-ui-imenu--view
-            (kbd "RET")
-            #'lsp-ui-imenu--visit)
-
-        (advice-add 'lsp-ui-imenu--visit  :after (lambda (&rest _) (toy/force-center))))
+        :custom-face (hl-line quote
+                              ((t
+                                (:background "#458588"))))
+        :defer-config (evil-define-key 'normal lsp-ui-imenu-mode-map
+                          (kbd "TAB")
+                          #'lsp-ui-imenu--view
+                          (kbd "RET")
+                          #'lsp-ui-imenu--visit) (advice-add 'lsp-ui-imenu--visit :after
+                          (lambda (&rest _)
+                              (toy/force-center))))
 
     (leaf lua-mode)
 
@@ -500,8 +522,7 @@
                ("\\.md\\'" . markdown-mode)
                ("\\.markdown\\'" . markdown-mode))
         :after evil
-        :custom
-        (markdown-command . "multimarkdown")
+        :custom (markdown-command . "multimarkdown")
         :config
         (evil-define-key 'normal markdown-mode-map "z1"
             (_fn
@@ -531,37 +552,31 @@
         :after evil
         :commands (neotree-quick-look)
         :init
-        (setq neo-theme (if (display-graphic-p) 'icons 'arrows))
-        :custom
-        ((neo-window-position . 'right)
-         (neo-window-width . toy/sidebar-width)
-         (neo-window-fixed-size . nil)
-         (neo-show-hidden-files . t))
+        (setq neo-theme (if (display-graphic-p)
+                                'icons 'arrows))
+        :custom ((neo-window-position quote right)
+                 (neo-window-width . toy/sidebar-width)
+                 (neo-window-fixed-size)
+                 (neo-show-hidden-files . t))
         :config
-        ;; Required to run `setq' because it's `defconst', not `defvar'
         (setq neo-buffer-name "@tree")
-
         (when (display-graphic-p)
             (add-hook 'neo-after-create-hook
                       (lambda (_)
                           (text-scale-adjust 0)
-
                           (text-scale-decrease 0.5))))
-        (evil-define-key 'normal neotree-mode-map
-            "gh" #'neotree-select-up-node "oo" #'neotree-enter (kbd "RET") #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
+        (evil-define-key 'normal neotree-mode-map "gh" #'neotree-select-up-node "oo" #'neotree-enter
+            (kbd "RET")
+            #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
             (kbd "TAB")
             'neotree-stretch-toggle)
-
-        :defer-config
-        (defun neo-path--shorten (path length)
-            "Override `neotree' header string"
-            ;; Return the last path component
-            (file-name-nondirectory (directory-file-name path)))
-
+        :defer-config (defun neo-path--shorten (path length)
+                          "Override `neotree' header string"
+                          (file-name-nondirectory
+                           (directory-file-name path)))
         (advice-add 'neotree-select-up-node :after
                     (lambda (&rest _)
-                        (evil-first-non-blank)))
-        )
+                        (evil-first-non-blank))))
 
     (leaf olivetti
         :doc "Zen mode *per buffer* (not per frame and that is great!)"
@@ -573,8 +588,7 @@
 
     (leaf projectile
         :leaf-defer nil
-        :custom
-        (projectile-enable-caching . t)
+        :custom (projectile-enable-caching . t)
         :init
         (setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
               projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld"))
@@ -619,36 +633,39 @@
 
     (leaf rustic
         :mode ("\\.rs\\'" . rustic-mode)
-        :hook (rustic-mode-hook . lsp-deferred)
         :custom (rustic-load-optional-libraries)
         :custom ((rustic-format-trigger)
                  (rustic-format-on-save)
                  (rustic-lsp-format . t)
                  (lsp-rust-analyzer-server-display-inlay-hints))
-
         :init
-        (defun rustic-before-save-hook ()
-            ;; rust-analyzer might take too long time on start, so set timeout
-            (with-timeout (1.5 nil) (lsp-format-buffer)))
-        (defun rustic-after-save-hook ())
+        (defun rustic-before-save-hook nil
+            (with-timeout (1.5 nil)
+                (lsp-format-buffer)))
 
-        :defer-config
-        ;; needed?
-        ;; (require 'rustic-rustfmt)
-        (require 'rustic-lsp)
+        (defun rustic-after-save-hook nil)
 
-        ;; FIXME: not take effect until reload
-        (visual-line-mode)
-        (setq fill-column 100)
-        (turn-on-auto-fill))
+        (defun toy/on-rustic-mode nil
+            (require 'rustic-lsp)
+            (visual-line-mode)
+            (setq fill-column 100)
+            (turn-on-auto-fill))
+
+        :hook (rustic-mode-hook . lsp-deferred)
+        :hook (rustic-mode-hook . toy/on-rustic-mode))
+
+    (leaf sml-mode
+        :url "http://elpa.gnu.org/packages/sml-mode.html"
+        :mode ("\\.ml\\'" . sml-mode)
+        :mode ("\\.mli\\'" . sml-mode))
 
     (leaf vimish-fold
         :after evil
         :config
         (leaf evil-vimish-fold
-            :custom
-            ((evil-vimish-fold-mode-lighter . " ⮒")
-             (evil-vimish-fold-target-modes . '(prog-mode conf-mode text-mode)))
+            :custom ((evil-vimish-fold-mode-lighter . " ⮒")
+                     (evil-vimish-fold-target-modes quote
+                                                    (prog-mode conf-mode text-mode)))
             :config
             (global-evil-vimish-fold-mode)))
 
@@ -676,9 +693,8 @@
                               :server-id 'wgsl))))
 
     (leaf which-key
-        :custom
-        ((which-key-idle-delay . 0.01)
-         (which-key-idle-secondary-delay . 0.01))
+        :custom ((which-key-idle-delay . 0.01)
+                 (which-key-idle-secondary-delay . 0.01))
         :config
         (define-key help-map
             (kbd "M")
