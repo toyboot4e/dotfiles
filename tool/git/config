@@ -5,6 +5,7 @@
     # unicode compability between Mac and Linux
     precomposeunicode = true
     editor = nvim -u ~/dotfiles/editor/vim/mini.vim
+    excludesfile = ~/.gitignore_global
     # enable cash return at the end of lines
     # whitespace = cr-at-eol
 
@@ -12,7 +13,7 @@
     defaultBranch = main
 
 [rebase]
-	autostash = true # auto pop stash after rebasing
+    autostash = true # auto pop stash after rebasing
 
 [filter "lfs"]
    required = true
@@ -37,14 +38,14 @@
 
 [alias]
     re = restore  # for restoring files from other commits
-    sw = switch   # for switching branches
+    sw = switch   # for switching to branches or detached head
     co = checkout # just for checking out commits
 
     sh = stash
 
     a = add
 
-    b   = branch
+    b   = branch -vv
     be  = branch --edit-description
     bm  = branch --merged
     bnm = branch --no-merged

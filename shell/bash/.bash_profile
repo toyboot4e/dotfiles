@@ -5,6 +5,9 @@ _path "$HOME/bin"
 _path "$HOME/.local/bin"
 # _path "/Applications/MacVim.app/Contents/bin"
 
+_path "$HOME/.nix-profile/bin"
+_path "$HOME/.npm-global/bin"
+
 " SDL2
 export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
 

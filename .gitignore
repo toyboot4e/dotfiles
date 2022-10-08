@@ -1,6 +1,7 @@
 .DS_Store
 
 **/*private*
+**/credentials
 
 # mpv
 watch_later

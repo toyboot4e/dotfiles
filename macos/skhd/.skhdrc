@@ -52,7 +52,7 @@ ctrl + shift + cmd + alt - l : open -a 'Google Chrome'
 # code editors
 # ctrl + shift + cmd + alt - r : open -a 'Sublime Text'
 # ctrl + shift + cmd + alt - e : em-gui
-# ctrl + shift + cmd + alt - e : open -a 'Emacs'
+ctrl + shift + cmd + alt - e : open -a 'Emacs'
 
 # data editors
 ctrl + shift + cmd + alt - t : open -a 'Tiled'

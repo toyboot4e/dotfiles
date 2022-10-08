@@ -15,7 +15,8 @@ config.set('colors.webpage.bg', 'black')
 # Constants
 DL_VIDEO_DIR="~/Resources/videos"
 
-DEFAULT_ZOOM='75%'
+# DEFAULT_ZOOM='75%'
+DEFAULT_ZOOM='90%'
 # DEFAULT_ZOOM='150%'
 
 # Tips:

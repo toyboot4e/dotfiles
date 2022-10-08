@@ -309,7 +309,7 @@ function dl
         case "*niconico*"
             youtube-dl $argv
         case "*bandcamp*"
-            bandcamp-dl $argv
+            bandcamp-dl --embed-art --embed-lyrics $argv
         case "*syosetu*"
             narou d $argv
         case "*kakuyomu**"

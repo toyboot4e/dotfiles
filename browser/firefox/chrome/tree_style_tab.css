@@ -8,10 +8,12 @@
   --shadow-color: transparent;
   --shadow-blur: 0;
 
+  /*
   --toolbar-non-lwt-bgcolor: var(--grey-10);
   --toolbar-non-lwt-textcolor: var(--grey-90);
   --toolbar-non-lwt-inverted-textcolor: white;
   --toolbar-non-lwt-border-color: var(--grey-40);
+  */
 
   --tab-like-surface: var(--browser-bg-base, var(--toolbar-non-lwt-bgcolor));
   --tab-surface-regular: var(
@@ -273,10 +275,6 @@ tab-item.active {
   padding: none;
   margin: none;
 }
-tab-item.active .label-content {
-  color: #d5c4a1;
-  font-weight: bold;
-}
 
 /* Tab state */
 tab-item.discarded tab-favicon {
@@ -296,3 +294,4 @@ tab-item.discarded tab-favicon {
   background-color: #505060 !important;
   color: #ffffff !important;
 }
+

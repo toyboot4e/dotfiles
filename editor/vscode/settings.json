@@ -154,9 +154,6 @@
   // Rust
   // ----
   "rust-analyzer.updates.askBeforeDownload": false,
-  "rust-analyzer.inlayHints.typeHints": false,
-  "rust-analyzer.inlayHints.chainingHints": true,
-  "rust-analyzer.inlayHints.parameterHints": false,
   "rust-analyzer.inlayHints.maxLength": null,
 
   // C++
@@ -557,4 +554,7 @@
   // automatically added:
   "workbench.startupEditor": "newUntitledFile",
   "redhat.telemetry.enabled": false,
+  "rust-analyzer.inlayHints.chainingHints.enable": true,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
 }

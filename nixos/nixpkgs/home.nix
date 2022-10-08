@@ -28,7 +28,7 @@
     alacritty w3m tig
 
     # system
-    python2 python3
+    # python2 python3
     openssh
 
     # build
@@ -44,7 +44,7 @@
     nodejs yarn emscripten
 
     # TUI
-    git gh ghq
+    git gh glab ghq
     tealdeer zoxide
     ranger cmus
 
@@ -53,17 +53,19 @@
     tokei
 
     # monitor
-    dust htop
+    # dust htop
+
     # bat-extras
 
     # infra
-    asciidoctor ditaa
+    # ruby rvm asciidoctor
+    ditaa
     mpv youtube-dl # bandcamp-dl
 
     # languages
     # ccls
-    rustup rust-analyzer sccache
-    go
+    rustup sccache
+    go # goenv
     # roswell was not supported on macOS
 
     # more filters
