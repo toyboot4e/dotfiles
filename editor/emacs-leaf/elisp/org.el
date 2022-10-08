@@ -2,19 +2,32 @@
 
 ;; ------------------------------ org-mode ------------------------------
 
+;; Do not count TODOs recursively
+(setq-default org-hierarchial-todo-statics nil)
+
+;; Try `#+ATTR.*' keyword then fall back on the original width
+(setq-default org-image-actual-width nil)
+
+(setq-default org-indent-mode t)
+
 (defun toy/init-org ()
     (interactive)
     (visual-line-mode)
     (setq fill-column 100)
-    (turn-on-auto-fill)
-    ;; do not count TODOs recursively
-    (setq org-hierarchial-todo-statics nil))
+    (turn-on-auto-fill))
 
 (leaf org
     :mode ("\\.org\\'" . org-mode)
     :hook (org-mode-hook . toy/init-org)
     :config
     (setq org-directory "~/org")
+
+    (leaf simple-httpd
+        :doc "`httpd-serve-directory' mainly for the org site"
+        :config
+        (defun toy/org-serve ()
+            (interactive)
+            (httpd-serve-directory "out")))
 
     (setq org-agenda-files
           (mapcar (lambda (path) (concat org-directory path))
@@ -161,9 +174,9 @@
     ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
 
     ;; (leaf org-roam
-    ;;     :custom
+    ;;     :config
     ;;     (org-roam-directory . (file-truename "~/org/roam"))
-
+    ;;
     ;;     ;; :bind (("C-c n l" . org-roam-buffer-toggle)
     ;;     ;;        ("C-c n f" . org-roam-node-find)
     ;;     ;;        ("C-c n g" . org-roam-graph)
@@ -171,13 +184,25 @@
     ;;     ;;        ("C-c n c" . org-roam-capture)
     ;;     ;;        ;; Dailies
     ;;     ;;        ("C-c n j" . org-roam-dailies-capture-today))
-
-    ;;     :config
+    ;;
+    ;;     :defer-config
     ;;     ;; If you're using a vertical completion framework, you might want a more informative completion interface
     ;;     ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
     ;;     (org-roam-db-autosync-mode)
     ;;     ;; (require 'org-roam-protocol)
     ;;     )
+
+    ;; (leaf org-roam-ui
+    ;;     :straight
+    ;;     ;; (org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    ;;     (org-roam-ui :type git :host github :repo "org-roam/org-roam-ui")
+    ;;     :after org-roam
+    ;;     :custom
+    ;;     ((org-roam-ui-sync-theme . t)
+    ;;      (org-roam-ui-follow . t)
+    ;;      (org-roam-ui-update-on-save . t)
+    ;;      (org-roam-ui-open-on-start . t)))
+
 
     )
 

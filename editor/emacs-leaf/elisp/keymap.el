@@ -134,11 +134,10 @@
     ;; `C-o` and `C-i`
     (advice-add 'evil-jump-backward :after (lambda (&rest _) (recenter)))
     (advice-add 'evil-jump-forward :after (lambda (&rest _) (recenter)))
-    ;; `<number>G`
-    (advice-add 'evil-goto-line :after
-                (lambda (&rest count)
-                    (unless count (recenter))))
+    ;; `<number>G` FIXME: other than `G`
+    (advice-add 'evil-goto-line :after (lambda (&rest count) (recenter)))
     )
+
 
 ;; ------------------------------ Emacs-like ------------------------------
 

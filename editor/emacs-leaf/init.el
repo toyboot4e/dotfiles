@@ -9,6 +9,9 @@
 ;; Profiling
 ;; (load-file (concat user-emacs-directory "elisp/profile.el"))
 
+;; remove after merge
+(setq-default rustic-cargo-auto-add-missing-dependencies nil)
+
 (setq toy/init-files
       '(
         "elisp/env.el"                   ;; User environment and preferences
@@ -21,7 +24,7 @@
         "elisp/minadwares.el"            ;; minad packages
         ;; "elisp/ide-dap.el"               ;; dap-mode
 
-        ;; "elisp/org.el"                   ;; org-mode
+        "elisp/org.el"                   ;; org-mode
         ;; "elisp/web.el"                   ;; Web support
 
         "elisp/hydra.el"                 ;; Hydra-based key mappigns

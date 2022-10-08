@@ -6,6 +6,19 @@
     (defvar toy/sidebar-imenu-buffer-name "@imenu")
     (defvar toy/bottom-vterm-buffer-name "⊥ vterm"))
 
+(defun toy/smart-recenter ()
+    "Recenter or scroll to just before EoF"
+    ;; TODO: taken into account visual line
+    (interactive)
+    (let ((max-ln (line-number-at-pos (buffer-size)))
+          (ln (line-number-at-pos (point)))
+          (current-scroll (line-number-at-pos (window-start)))
+          (h (window-body-height)))
+        (let ((smart-max-scroll (max 0 (+ scroll-margin (- max-ln (- h 1)))))
+              (scroll (max 0 (- ln (/ h 2)))))
+            (scroll-down (- current-scroll (min smart-max-scroll scroll)))
+            )))
+
 ;; --------------------------------------------------------------------------------
 ;; Shell
 ;; --------------------------------------------------------------------------------
@@ -196,20 +209,23 @@
 
 ;; NOTE: semantic-tokens in LS is enough?
 
-;; (leaf tree-sitter
-;;     :doc "Incremental parsing system"
-;;     :url "https://github.com/emacs-tree-sitter/elisp-tree-sitter"
-;;     :added "2022-03-05"
-;;     :emacs>= 25.1
-;;     :config
-;;     (global-tree-sitter-mode)
-;;     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+(leaf tree-sitter
+    :doc "Incremental parsing system"
+    :url "https://github.com/emacs-tree-sitter/elisp-tree-sitter"
+    :config
+    (global-tree-sitter-mode)
+    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
-;; (leaf tree-sitter-langs
-;;     :after tree-sitter
-;;     :config
-;;     (tree-sitter-require 'tsx)
-;;     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
+(leaf tree-sitter-langs
+    :after tree-sitter
+    :config
+    ;; TODO: need this check?
+    (with-eval-after-load 'typescript-tsx-mode
+        (tree-sitter-require 'tsx)
+        (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx)))
+    ;; (with-eval-after-load 'rust-mode
+    ;;     )
+    )
 
 ;; --------------------------------------------------------------------------------
 ;; Markup languages
@@ -232,8 +248,8 @@
 ;; --------------------------------------------------------------------------------
 
 (defun toy/imenu-get-nearest ()
-    (interactive)
     "Returns `nil' or `(name . marker)' pair of the nearest item on `imenu'"
+    (interactive)
 
     ;; Thanks: https://emacs.stackexchange.com/questions/30673/next-prev-imenu-item-function
     ;; (imenu--make-index-alist)
@@ -272,10 +288,11 @@
 
         result))
 
+;; FIXME: error
 (defun toy/lsp-imenu-update-focus ()
-    (interactive)
     "Move the `*lsp-ui-imenu*' buffer's point to the current item."
-    (when (and (bound-and-true-p lsp-ui-mode) lsp-enable-imenu)
+    (interactive)
+    (when (and (bound-and-true-p lsp-ui-mode) (bound-and-true-p lsp-enable-imenu))
         (let ((window (get-buffer-window toy/sidebar-imenu-buffer-name)))
             (when window
 
@@ -293,19 +310,20 @@
                                 (scroll-right 1000)
 
                                 ;; -----------------
-                                (recenter)
+                                ;; (toy/smart-recenter)
 
                                 (hl-line-mode 1)
                                 (hl-line-highlight)))))))))
 
-(defun toy/lsp-imenu-on-swtich-buffer ()
-    (when (get-buffer toy/sidebar-imenu-buffer-name)
-        (with-selected-window (get-buffer-window)
-            (lsp-ui-imenu)
-            (toy/lsp-imenu-update-focus))))
+;; (defun toy/lsp-imenu-on-swtich-buffer ()
+;;     (when (get-buffer toy/sidebar-imenu-buffer-name)
+;;         (with-selected-window (get-buffer-window)
+;;             (lsp-ui-imenu)
+;;             (toy/lsp-imenu-update-focus))))
 
-(add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
-(add-hook 'window-selection-change-functions #'toy/lsp-imenu-update-focus)
+;; (add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
+;; (add-hook 'window-selection-change-functions #'toy/lsp-imenu-update-focus)
+;; (add-hook 'window-configuration-change-hook #'toy/lsp-imenu-update-focus)
 
 ;; --------------------------------------------------------------------------------
 ;; ⊥ Bottom bar  (`vterm')

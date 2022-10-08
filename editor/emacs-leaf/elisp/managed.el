@@ -413,6 +413,7 @@
     (leaf lsp-mode
         :after evil
         :commands (lsp-mode lsp-deferred)
+        :doc "`lsp-semantic-token-enable' is set to `nil' preferring `tree-sitter'"
         :hook (lsp-mode-hook . lsp-enable-which-key-integration)
         :hook (lsp-mode-hook . hs-minor-mode)
         :hook (c-mode-hook . lsp-deferred)
@@ -430,7 +431,7 @@
                  (lsp-enable-symbol-highlighting)
                  (lsp-headerline-breadcrumb-enable)
                  (lsp-modeline-diagnostics-scope . :workspace)
-                 (lsp-semantic-tokens-enable . t))
+                 (lsp-semantic-tokens-enable))
         :preface
         :config
         (progn
@@ -481,6 +482,13 @@
                               (toy/force-center))))
 
     (leaf lua-mode)
+
+    (leaf macrostep
+        :doc "interactive macro expander"
+        :config
+        (define-key emacs-lisp-mode-map
+            (kbd "C-c e")
+            'macrostep-expand))
 
     (leaf magit
         :url "https://github.com/magit/magit"
@@ -631,28 +639,22 @@
                              (setq comment-start "// "
                                    comment-end "")))
 
-    (leaf rustic
-        :mode ("\\.rs\\'" . rustic-mode)
-        :custom (rustic-load-optional-libraries)
-        :custom ((rustic-format-trigger)
-                 (rustic-format-on-save)
-                 (rustic-lsp-format . t)
+    (leaf rust-mode
+        :hook (rust-mode-hook . lsp-deferred)
+        :hook (rust-mode-hook . toy/on-rust-mode)
+        :mode ("\\.rs\\'" . rust-mode)
+        :custom ((rust-load-optional-libraries)
+                 (rust-format-on-save . t)
                  (lsp-rust-analyzer-server-display-inlay-hints))
         :init
-        (defun rustic-before-save-hook nil
-            (with-timeout (1.5 nil)
-                (lsp-format-buffer)))
-
-        (defun rustic-after-save-hook nil)
-
-        (defun toy/on-rustic-mode nil
-            (require 'rustic-lsp)
+        (defun toy/on-rust-mode nil
+            (interactive)
             (visual-line-mode)
             (setq fill-column 100)
             (turn-on-auto-fill))
 
-        :hook (rustic-mode-hook . lsp-deferred)
-        :hook (rustic-mode-hook . toy/on-rustic-mode))
+        :config
+        )
 
     (leaf sml-mode
         :url "http://elpa.gnu.org/packages/sml-mode.html"
