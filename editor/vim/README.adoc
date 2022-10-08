@@ -1,9 +1,11 @@
-= Vim
-:vim-plug: https://github.com/junegunn/vim-plug
+= {vim-plug} + {coc-nvim}
+:vim-plug: https://github.com/junegunn/vim-plug[vim-plug]
+:coc-nvim: https://github.com/neoclide/coc.nvim[coc.nvim]
 
-I'm using NeoVim. My configuration is outdated.
+Outdated. See link:../nvim[../nvim].
 
 == Framework
 
 * {vim-plug}
+* {coc-nvim}
 
