@@ -95,6 +95,11 @@
                              (buffer-name)
                              0 1))
               '("Bottom bar"))
+             ((string-equal "magit: "
+                            (substring
+                             (buffer-name)
+                             0 7))
+              '("magit"))
              (t
               (centaur-tabs-projectile-buffer-groups))))
 
