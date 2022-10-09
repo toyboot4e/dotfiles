@@ -95,10 +95,12 @@
                              (buffer-name)
                              0 1))
               '("Bottom bar"))
-             ((string-equal "magit: "
-                            (substring
-                             (buffer-name)
-                             0 7))
+             ((or (string-equal "COMMIT-EDITMSG")
+                  (and (> (length (buffer-name)) 5)
+                       (string-equal "magit"
+                                     (substring
+                                      (buffer-name)
+                                      0 5))))
               '("magit"))
              (t
               (centaur-tabs-projectile-buffer-groups))))
