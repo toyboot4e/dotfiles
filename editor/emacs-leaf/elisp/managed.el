@@ -205,7 +205,7 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
+        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
         :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
@@ -216,6 +216,9 @@
 
         (with-eval-after-load 'elfeed
             (evil-collection-elfeed-setup))
+
+        (with-eval-after-load 'info
+            (evil-collection-info-setup))
 
         (with-eval-after-load 'markdown-mode
             (evil-collection-markdown-mode-setup))

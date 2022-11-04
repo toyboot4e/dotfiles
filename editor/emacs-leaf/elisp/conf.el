@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
+;; --------------------------------------------------------------------------------
+;; Custom package settings
+;; --------------------------------------------------------------------------------
+
 (progn ;; sidebar settings
     (setq-default toy/sidebar-width 25)
     (setq-default toy/bottom-bar-height 7)
@@ -18,6 +22,28 @@
               (scroll (max 0 (- ln (/ h 2)))))
             (scroll-down (- current-scroll (min smart-max-scroll scroll)))
             )))
+
+;; --------------------------------------------------------------------------------
+;; Builtin modes
+;; --------------------------------------------------------------------------------
+
+(defun toy/info-url ()
+    "Returns current info URL"
+    (interactive)
+    (let* (;; `(emacs) Case Conversion'
+           (name (Info-copy-current-node-name))
+           (space-offset (string-match " " name))
+           ;; `(emacs)'
+           (manual-name (substring name 1 (- space-offset 1)))
+           ;; `Case Conversion'
+           (page-name (string-replace " " "-" (substring name (+ space-offset 1)))))
+        ;; `https://www.gnu.org/software/emacs/manual/html_node/elisp/Case-Conversion.html'
+        (message (concat "https://www.gnu.org/software/emacs/manual/html_node/" manual-name "/" page-name ".html"))))
+
+(defun toy/info-open-browser ()
+    "Opens the current info with the default browser"
+    (interactive)
+    (browse-url (toy/info-url)))
 
 ;; --------------------------------------------------------------------------------
 ;; Shell
