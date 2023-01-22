@@ -95,7 +95,7 @@
                              (buffer-name)
                              0 1))
               '("Bottom bar"))
-             ((or (string-equal "COMMIT-EDITMSG")
+             ((or (string-equal "COMMIT-EDITMSG" (buffer-name))
                   (and (> (length (buffer-name)) 5)
                        (string-equal "magit"
                                      (substring
@@ -205,7 +205,7 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
+        :commands (evil-collection-dired-setup evil-collection-elisp-mode-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
         :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
@@ -213,6 +213,9 @@
 
         (with-eval-after-load 'eww
             (evil-collection-eww-setup))
+
+        (with-eval-after-load 'elisp-mode
+            (evil-collection-elisp-mode-setup))
 
         (with-eval-after-load 'elfeed
             (evil-collection-elfeed-setup))
@@ -370,6 +373,8 @@
                 (ignore git-link-use-commit git-link-open-in-browser)
                 (call-interactively #'git-link))))
 
+    (leaf git-modes)
+
     (leaf glsl-mode
         :mode (("\\.fs" . glsl-mode)
                ("\\.vs" . glsl-mode)
@@ -389,10 +394,15 @@
         :hook (haskell-mode-hook . lsp-deferred)
         :hook (haskell-literate-mode-hook . lsp-deferred)
         :config
+        (leaf consult-hoogle
+            :ensure nil
+            :straight (consult-hoogle :type git :host github :repo "aikrahguzar/consult-hoogle"))
         (leaf lsp-haskell
             :after lsp-mode
             :custom
-            :url "https://github.com/emacs-lsp/lsp-haskell"))
+            :url "https://github.com/emacs-lsp/lsp-haskell")
+        (evil-define-key 'normal 'haskell-mode-map
+            (kbd "C-c h") 'consult-hoogle))
 
     (leaf helpful
         :bind ([remap describe-command]
@@ -600,9 +610,7 @@
         :doc "Zen mode *per buffer* (not per frame and that is great!)"
         :url "https://github.com/rnkn/olivetti"
         :commands (olivetti-mode)
-        :custom (olivetti-body-width . 100))
-
-    (leaf popup)
+        :custom (olivetti-body-width . 120))
 
     (leaf projectile
         :leaf-defer nil
@@ -653,9 +661,11 @@
         :hook (rust-mode-hook . lsp-deferred)
         :hook (rust-mode-hook . toy/on-rust-mode)
         :mode ("\\.rs\\'" . rust-mode)
+
         :custom ((rust-load-optional-libraries)
-                 (rust-format-on-save . t)
+                 (rust-format-on-save)
                  (lsp-rust-analyzer-server-display-inlay-hints))
+
         :init
         (defun toy/on-rust-mode nil
             (interactive)
@@ -665,6 +675,12 @@
 
         :config
         )
+
+    (leaf scratch-comment
+        :bind ((lisp-interaction-mode-map
+                :package elisp-mode
+                ("C-j" . scratch-comment-eval-sexp))))
+    (leaf popup)
 
     (leaf sml-mode
         :url "http://elpa.gnu.org/packages/sml-mode.html"

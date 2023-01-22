@@ -557,4 +557,8 @@
   "rust-analyzer.inlayHints.chainingHints.enable": true,
   "rust-analyzer.inlayHints.parameterHints.enable": false,
   "rust-analyzer.inlayHints.typeHints.enable": false,
+  "haskell.manageHLS": "GHCup",
+  "haskell.serverEnvironment": {
+    "PATH": "${HOME}/.ghcup/bin:$PATH"
+  }
 }

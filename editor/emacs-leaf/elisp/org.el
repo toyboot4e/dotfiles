@@ -5,19 +5,24 @@
 ;; Do not count TODOs recursively
 (setq-default org-hierarchial-todo-statics nil)
 
+;; Do not indent source code
+(setq-default org-edit-src-content-indentation 0)
+
 ;; Try `#+ATTR.*' keyword then fall back on the original width
 (setq-default org-image-actual-width nil)
 
-(setq-default org-indent-mode t)
-
 (defun toy/init-org ()
     (interactive)
-    (visual-line-mode)
-    (setq fill-column 100)
-    (turn-on-auto-fill))
+    ;; Let's use logical lines. Line wrapping does not work well with Japanese text,
+    ;; inserting needless whitespaces in output:
+    ;; (visual-line-mode)
+    ;; (setq fill-column 100)
+    ;; (turn-on-auto-fill)
+    )
 
 (leaf org
     :mode ("\\.org\\'" . org-mode)
+    :mode ("\\.org.draft\\'" . org-mode)
     :hook (org-mode-hook . toy/init-org)
     :config
     (setq org-directory "~/org")
@@ -160,6 +165,8 @@
     (leaf org-preview-html
         :commands org-preview-html-mode org-preview-html/preview)
 
+    (leaf org-journal)
+
     ;; (setq org-capture-templates
     ;;       '(("t" "Todo [inbox]" entry
     ;;          (file+headline "~/org/gtd/inbox.org" "Tasks")
@@ -173,18 +180,21 @@
     ;;         ("~/org/gtd/someday.org" :level . 1)
     ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
 
+    ;; FIXME:
+    ;; Warning (emacs): Org version mismatch.  Make sure that correct ‘load-path’ is set early in init.el
+
     ;; (leaf org-roam
     ;;     :config
-    ;;     (org-roam-directory . (file-truename "~/org/roam"))
-    ;;
-    ;;     ;; :bind (("C-c n l" . org-roam-buffer-toggle)
-    ;;     ;;        ("C-c n f" . org-roam-node-find)
-    ;;     ;;        ("C-c n g" . org-roam-graph)
-    ;;     ;;        ("C-c n i" . org-roam-node-insert)
-    ;;     ;;        ("C-c n c" . org-roam-capture)
-    ;;     ;;        ;; Dailies
-    ;;     ;;        ("C-c n j" . org-roam-dailies-capture-today))
-    ;;
+    ;;     (setq org-roam-directory (file-truename "~/org/roam"))
+
+    ;;     :bind (("C-c n l" . org-roam-buffer-toggle)
+    ;;            ("C-c n f" . org-roam-node-find)
+    ;;            ("C-c n g" . org-roam-graph)
+    ;;            ("C-c n i" . org-roam-node-insert)
+    ;;            ("C-c n c" . org-roam-capture)
+    ;;            ;; Dailies
+    ;;            ("C-c n j" . org-roam-dailies-capture-today))
+
     ;;     :defer-config
     ;;     ;; If you're using a vertical completion framework, you might want a more informative completion interface
     ;;     ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))

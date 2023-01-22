@@ -38,8 +38,12 @@
     "Q" #'evil-delete-buffer)
 
 (progn ;; [Evil] Set up word policy
-    ;; Do not treat `_` as a word boundary (thought it still treats `-` as a word boundary):
+    ;; Do not treat `_' as a word boundary (thought it still treats `-` as a word boundary):
     (modify-syntax-entry ?_ "w")
+
+    ;; Do not treat `-' as a word boundary on lisp mode
+    (modify-syntax-entry ?- "w" lisp-mode-syntax-table)
+    (modify-syntax-entry ?- "w" emacs-lisp-mode-syntax-table)
     ;; Or, make motions based on _symbols_, instead of _words_:
     ;; (defalias 'forward-evil-word 'forward-evil-symbol)
 

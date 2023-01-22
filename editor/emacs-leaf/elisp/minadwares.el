@@ -191,7 +191,9 @@
      ;; (corfu-on-exact-match . nil)     ;; Configure handling of exact matches
      ;; (corfu-echo-documentation . nil) ;; Disable documentation in the echo area
      ;; (corfu-scroll-margin . 5)        ;; Use scroll margin
+     (coruf-popupinfo-delay . 0)
      )
+    :hook (corfu-mode-hook . corfu-popupinfo-mode)
 
     :pre-setq ((tab-always-indent . 'complete)
                (corfu-cycle . t)
@@ -204,15 +206,22 @@
         :url "https://github.com/jdtsmith/kind-icon"
         :custom (kind-icon-default-face . 'corfu-default)
         :config
+        ;; FIXME: void?
         (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-    (leaf corfu-doc
-        :url "https://github.com/galeo/corfu-doc"
-        :when (display-graphic-p)
-        :hook (corfu-mode-hook . corfu-doc-mode))
+    ;; Deprecated:
+    ;; (leaf corfu-doc
+    ;;     :url "https://github.com/galeo/corfu-doc"
+    ;;     :when (display-graphic-p)
+    ;;     :hook (corfu-mode-hook . corfu-doc-mode))
+    ;; :init
+    ;; (global-corfu-mode)
 
-    :init
-    (global-corfu-mode))
+    (leaf corfu-popupinfo
+        :custom ((coruf-popupinfo-delay . 0))
+        :hook (corfu-mode-hook . corfu-popupinfo-mode)
+        )
+    )
 
 ;; A few more useful configurations...
 (leaf emacs
@@ -256,14 +265,16 @@
     ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file)
     ;;(add-to-list 'completion-at-point-functions #'cape-history)
-    ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+    ;; Programming language keyword
+    (add-to-list 'completion-at-point-functions #'cape-keyword)
     ;;(add-to-list 'completion-at-point-functions #'cape-tex)
     ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
     ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
     ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
     ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
     ;;(add-to-list 'completion-at-point-functions #'cape-dict)
-    ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+    ;; ELisp
+    (add-to-list 'completion-at-point-functions #'cape-symbol)
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
@@ -283,13 +294,16 @@
         :config
         (corfu-terminal-mode +1))
 
-    (leaf corfu-doc-terminal
-        :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
-        :unless (display-graphic-p)
-        :ensure nil
-        :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
-        :config
-        (corfu-doc-terminal-mode +1)))
+    ;; TODO: deprecated?
+    ;; (leaf corfu-doc-terminal
+    ;;     :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
+    ;;     :unless (display-graphic-p)
+    ;;     :ensure nil
+    ;;     :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
+    ;;     :config
+    ;;     (corfu-doc-terminal-mode +1))
+
+    )
 
 ;; --------------------------------------------------------------------------------
 ;; Snippets
@@ -300,12 +314,14 @@
     :url "https://github.com/minad/tempel"
     :config
     (setq tempel-path (concat user-emacs-directory "templates.el"))
+
+    ;; FIXME: not working well?
     (defun tempel-setup-capf nil
         (setq-local completion-at-point-functions
                     (cons #'tempel-expand completion-at-point-functions)))
-
     (add-hook 'prog-mode-hook 'tempel-setup-capf)
     (add-hook 'text-mode-hook 'tempel-setup-capf)
+
     (evil-define-key 'insert 'global
         (kbd "C-j")
         #'tempel-complete

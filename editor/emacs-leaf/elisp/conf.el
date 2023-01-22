@@ -45,6 +45,17 @@
     (interactive)
     (browse-url (toy/info-url)))
 
+(defun toy/last-message()
+    "Retrieves the last echoed message from the `Messages' buffer"
+    (save-excursion
+        (set-buffer "*Messages*")
+        (save-excursion
+            (forward-line (- 1 num))
+            (backward-char)
+            (let ((end (point)))
+                (forward-line 0)
+                (buffer-substring-no-properties (point) end)))))
+
 ;; --------------------------------------------------------------------------------
 ;; Shell
 ;; --------------------------------------------------------------------------------
