@@ -8,7 +8,10 @@ end
 
 status --is-interactive; and source ~/dotfiles/shell/fish/interactive.fish
 
-
 # `ghcup`
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /Users/tbm/.ghcup/bin $PATH # ghcup-env
+
+if command -sq direnv
+    direnv hook fish | source
+end
 

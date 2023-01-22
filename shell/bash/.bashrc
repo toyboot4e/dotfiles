@@ -180,10 +180,16 @@ fi
 # --------------------------------------------------------------------------------
 # EoF
 
+if command -v "direnv" > /dev/null ; then
+    eval "$(direnv hook bash)"
+fi
+
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/toy/.sdkman"
 [[ -s "/Users/toy/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/toy/.sdkman/bin/sdkman-init.sh"
 
+export PATH="$PATH:$HOME/.ghcup/bin"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
