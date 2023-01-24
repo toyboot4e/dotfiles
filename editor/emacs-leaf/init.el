@@ -18,7 +18,7 @@
         "elisp/early-conf.el"            ;; No-deps configuration
         "elisp/setup.el"                 ;; Bootstrapping
 
-        "local/locals.el"                ;; Local packages
+        "locals/locals.el"               ;; Local packages
         "elisp/conf.el"                  ;; Basic configurations
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/minadwares.el"            ;; minad packages
