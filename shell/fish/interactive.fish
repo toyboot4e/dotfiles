@@ -178,20 +178,16 @@ _alias w3m w 'w3m -B'
 # ----------------------------------------
 # EDITOR
 
-# if command -sq nvim
-#     alias n nvim
-#     alias nu 'nvim -u NONE'
-#     alias vim nvim
-# end
-# 
-# if test -d $HOME/spacemacs
-#     function spc
-#         env HOME=$HOME/spacemacs emacs $argv
-#     end
-#     function spc-gui
-#         env HOME=$HOME/spacemacs/ open -a Emacs $argv
-#     end
-# end
+if command -sq nvim
+    alias n nvim
+    alias nu 'nvim -u NONE'
+    alias vim nvim
+end
+
+if command -sq vim
+    alias v vim
+    alias vu 'vim -u NONE'
+end
 
 # ----------------------------------------
 # PROGRAMMING
