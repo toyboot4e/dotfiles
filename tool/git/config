@@ -4,7 +4,7 @@
     quotePath = false
     # unicode compability between Mac and Linux
     precomposeunicode = true
-    editor = nvim -u ~/dotfiles/editor/vim/mini.vim
+    editor = vim -u ~/dotfiles/editor/vim/mini.vim
     excludesfile = ~/.gitignore_global
     # enable cash return at the end of lines
     # whitespace = cr-at-eol
