@@ -107,8 +107,8 @@ if [ "$(uname)" == 'darwin' ] ; then
 else
     _mkdir ~/.config/nixpkgs
 
-    _link nixos/nixpks/config.nix          "$HOME/.config/nixpkgs/config.nix"
-    _link liunx/.xinitrc                   "$HOME/.xinitrc"
+    # _link nixos/nixpks/config.nix          "$HOME/.config/nixpkgs/config.nix"
+    # _link liunx/.xinitrc                   "$HOME/.xinitrc"
 
     # VSCode
     _link editor/vscode/settings.json      "$HOME/.config/Code/User/settings.json"
