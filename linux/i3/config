@@ -73,13 +73,12 @@ bar {
 # Function key alternatives
 # --------------------------------------------------------------------------------
 
-# # screenshot
-# bindsym --release Print              exec --no-startup-id flameshot full -p ~/ss/
-# bindsym --release Shift+Print        exec --no-startup-id flameshot gui -p ~/ss/
-# bindsym --release Control+Print      exec --no-startup-id flameshot screen -p ~/ss/
-# bindsym --release $mod+Print         exec --no-startup-id flameshot full -c
-# bindsym --release $mod+Shift+Print   exec --no-startup-id flameshot gui -c
-# bindsym --release $mod+Control+Print exec --no-startup-id flameshot screen -c
+# flameshot
+bindsym $mod+Shift+s exec QT_SCALE_FACTOR=2 flameshot screen
+bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
+
+# my script
+bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
 
 # --------------------------------------------------------------------------------
 # Startup
