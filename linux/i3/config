@@ -20,7 +20,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # theme
-font pango:monospace 16
+font pango:monospace 12
 
 # --------------------------------------------------------------------------------
 # i3bar
@@ -39,7 +39,7 @@ set $ws10 "10: "
 
 bar {
     status_command    i3blocks
-    font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 20
+    font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 12
 
     position          top
     mode              dock
@@ -97,7 +97,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym $mod+Shift+q kill
 
 # bindsym $mod+d exec --no-startup-id dmenu_run
-bindcode $mod+40 exec "rofi -modi drun,run -show drun"
+bindcode $mod+40 exec "rofi -modi drun,run -show drun -font 'hack 20'"
 
 # bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec kitty
