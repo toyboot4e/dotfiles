@@ -2,6 +2,12 @@
 
 qutebrowser is my choice.
 
+## Firefox
+
+- [Vimium-FF](https://addons.mozilla.org/ja/firefox/addon/vimium-ff/)
+- [Tree Style Tab](https://addons.mozilla.org/ja/firefox/addon/tree-style-tab/) ([GitHub](https://github.com/piroor/treestyletab))
+- about:config, `toolkit.legacyUserProfileCustomizations.stylesheets`, `~/.mozilla/firefox/*.default/chrome`
+
 ## Vimuium settings
 
 Mappings:
