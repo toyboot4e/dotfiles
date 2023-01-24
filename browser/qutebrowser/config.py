@@ -1,6 +1,15 @@
 # `configdata.yaml` contains default key mappings. As of today, it's at:
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
+def scaled(x):
+    return 2 * x
+
+def text_scaled(x):
+    return 1 * x
+
+FONT_SIZE=text_scaled(10)
+DEFAULT_ZOOM=scaled(75)
+
 config.load_autoconfig(False)
 
 # Force dark mode. Required to restart qutebrowser
@@ -14,10 +23,6 @@ config.set('colors.webpage.bg', 'black')
 
 # Constants
 DL_VIDEO_DIR="~/Resources/videos"
-
-# DEFAULT_ZOOM='75%'
-DEFAULT_ZOOM='90%'
-# DEFAULT_ZOOM='150%'
 
 # Tips:
 # - `:config-source` to reload `config.py`
@@ -96,15 +101,14 @@ config.set('tabs.background', True)
 c.input.partial_timeout = 0
 
 # Zoom
-config.set('zoom.default', f"{DEFAULT_ZOOM}")
+config.set('zoom.default', f"{DEFAULT_ZOOM}%")
 
 # --------------------------------------------------------------------------------
 # VIEW
 
 c.tabs.position = "right"
 
-c.tabs.width = 160
-# c.tabs.width = 320
+c.tabs.width = scaled(160)
 
 c.tabs.padding = {'bottom': 4, 'left': 4, 'right': 4, 'top': 4}
 
@@ -233,8 +237,8 @@ c.colors.tabs.selected.odd.fg = '#d5c4a1'
 c.colors.tabs.selected.odd.bg = '#202020'
 c.colors.tabs.selected.even.fg = '#d5c4a1'
 c.colors.tabs.selected.even.bg = '#202020'
-c.fonts.tabs.selected = '10pt fantasque sans mono'
-c.fonts.tabs.unselected = '10pt fantasque sans mono'
+c.fonts.tabs.selected = f"{FONT_SIZE}pt fantasque sans mono"
+c.fonts.tabs.unselected = f"{FONT_SIZE}pt fantasque sans mono"
 
 bg = '#051515'
 c.colors.tabs.pinned.odd.fg = '#B9770E'
