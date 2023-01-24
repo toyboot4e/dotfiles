@@ -5,6 +5,7 @@
 
 # --------------------------------------------------------------------------------
 # Meta
+# --------------------------------------------------------------------------------
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -14,6 +15,7 @@ bindsym $mod+Shift+r restart
 
 # --------------------------------------------------------------------------------
 # Global configuration
+# --------------------------------------------------------------------------------
 
 # key
 set $mod Mod4
@@ -23,7 +25,15 @@ floating_modifier $mod
 font pango:monospace 12
 
 # --------------------------------------------------------------------------------
+# Applications
+# --------------------------------------------------------------------------------
+
+# dragon (`xdragon` on nixpkgs)
+for_window [class="Dragon"] sticky enable;
+
+# --------------------------------------------------------------------------------
 # i3bar
+# --------------------------------------------------------------------------------
 
 # Workspace names and icons
 set $ws1 "1: "
@@ -61,17 +71,19 @@ bar {
 
 # --------------------------------------------------------------------------------
 # Function key alternatives
+# --------------------------------------------------------------------------------
 
-# screenshot
-bindsym --release Print              exec --no-startup-id flameshot full -p ~/ss/
-bindsym --release Shift+Print        exec --no-startup-id flameshot gui -p ~/ss/
-bindsym --release Control+Print      exec --no-startup-id flameshot screen -p ~/ss/
-bindsym --release $mod+Print         exec --no-startup-id flameshot full -c
-bindsym --release $mod+Shift+Print   exec --no-startup-id flameshot gui -c
-bindsym --release $mod+Control+Print exec --no-startup-id flameshot screen -c
+# # screenshot
+# bindsym --release Print              exec --no-startup-id flameshot full -p ~/ss/
+# bindsym --release Shift+Print        exec --no-startup-id flameshot gui -p ~/ss/
+# bindsym --release Control+Print      exec --no-startup-id flameshot screen -p ~/ss/
+# bindsym --release $mod+Print         exec --no-startup-id flameshot full -c
+# bindsym --release $mod+Shift+Print   exec --no-startup-id flameshot gui -c
+# bindsym --release $mod+Control+Print exec --no-startup-id flameshot screen -c
 
 # --------------------------------------------------------------------------------
 # Startup
+# --------------------------------------------------------------------------------
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -93,6 +105,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # --------------------------------------------------------------------------------
 # Key bindings
+# --------------------------------------------------------------------------------
 
 bindsym $mod+Shift+q kill
 
