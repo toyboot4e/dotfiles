@@ -24,6 +24,9 @@ floating_modifier $mod
 # theme
 font pango:monospace 12
 
+# no border
+default_border pixel 0
+
 # --------------------------------------------------------------------------------
 # Applications
 # --------------------------------------------------------------------------------
@@ -70,15 +73,17 @@ bar {
 }
 
 # --------------------------------------------------------------------------------
-# Function key alternatives
+# Screenshot
 # --------------------------------------------------------------------------------
 
-# flameshot
-bindsym $mod+Shift+s exec QT_SCALE_FACTOR=2 flameshot screen
+# GUI (flameshot)
 bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
 
-# my script
-bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
+# window
+bindsym $mod+Shift+w exec QT_SCALE_FACTOR=2 ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
+
+# region
+bindsym $mod+Shift+s exec QT_SCALE_FACTOR=2 ~/dev/bash/toy-scripts/x11-screen -s ~/ss/new
 
 # --------------------------------------------------------------------------------
 # Startup
