@@ -114,6 +114,10 @@ else
     _link editor/vscode/settings.json      "$HOME/.config/Code/User/settings.json"
     _link editor/vscode/keybindings.json   "$HOME/.config/Code/User/keybindings.json"
 
+    # i3 (run i3-msg restart)
+    _link linux/i3/config          "$HOME/.config/i3/config"
+    _link linux/i3blocks/config    "$HOME/.config/i3blocks/config"
+
     # Sublime
 
     # qutebrpwser
