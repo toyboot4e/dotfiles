@@ -114,9 +114,10 @@ interval=3600
 #NEXT_MONTH_TEXT=» next month »
 #ROFI_CONFIG_FILE=/dev/null
 
-# [time]
+[time]
 # command=date '+%Y-%m-%d %H:%M:%S'
-# interval=5
+command=date '+%H:%M'
+interval=5
 
 # Generic media player support
 #
