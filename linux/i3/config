@@ -34,6 +34,11 @@ default_border pixel 0
 # dragon (`xdragon` on nixpkgs)
 for_window [class="Dragon"] sticky enable;
 
+for_window [class="Pavucontrol"] floating enable;
+
+for_window [class="blueman-manager"] floating enable;
+for_window [class="blueman-services"] floating enable;
+
 # --------------------------------------------------------------------------------
 # i3bar
 # --------------------------------------------------------------------------------
@@ -51,7 +56,7 @@ set $ws9 "9: "
 set $ws10 "10: "
 
 bar {
-    status_command    i3blocks
+    status_command SCRIPT_DIR=$HOME/dotfiles/linux/i3blocks-contrib i3blocks
     font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 12
 
     position          top

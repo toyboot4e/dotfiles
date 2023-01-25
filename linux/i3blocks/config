@@ -20,99 +20,103 @@
 # signal
 # urgent
 
-# Global properties
-#
-# The top properties below are applied to every block, but can be overridden.
-# Each block command defaults to the script name to avoid boilerplate.
-# Change $SCRIPT_DIR to the location of your scripts!
-command=$SCRIPT_DIR/$BLOCK_NAME
+# use `i3blocks-contrib`
+command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME
+
 separator_block_width=15
 markup=none
 
-# Volume indicator
-#
-# The first parameter sets the step (and units to display)
-# The second parameter overrides the mixer selection
-# See the script for details.
+[i3-focusedwindow]
+label=[]= 
+# command=i3-focusedwindow 20
+command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME 20
+interval=persist
 
-[volume]
-#label=♪
-label=VOL
-interval=once
-signal=10
-#STEP=5%
-
-# Memory usage
-#
-# The type defaults to "mem" if the instance is not specified.
-[memory]
-label=MEM
-separator=false
-interval=30
-
-[memory]
-label=SWAP
-instance=swap
-separator=false
-interval=30
-
-# Disk usage
-#
-# The directory defaults to $HOME if the instance is not specified.
-# The script may be called with a optional argument to set the alert
-# (defaults to 10 for 10%).
-[disk]
-label=HOME
-#DIR=/mnt/data
-interval=30
-
-# Network interface monitoring
-#
-# If the instance is not specified, use the interface used for default route.
-# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-[iface]
-#IFACE=wlan0
-color=#00FF00
+[load_average]
+label=📚
 interval=10
-separator=false
-
-[wifi]
-#INTERFACE=wlp3s0
-label=wifi:
-interval=10
-separator=false
-
-[bandwidth]
-#INTERFACE=eth0
-interval=5
 
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label=CPU
+label=🤖
 interval=10
-min_width=CPU 100.00%
+min_width=🤖10.00%
 #separator=false
 
-[load_average]
-label=LOAD
-interval=10
-
-# Battery indicator
-#
-# The battery instance defaults to 0.
-[battery]
-label=BAT
-#label=⚡
+[memory]
+#label=
+label=🤔
+separator=false
 interval=30
 
-# Date Time
-#
-[time]
-command=date '+%Y-%m-%d %H:%M:%S'
-interval=5
+# # Network interface monitoring
+# #
+# # If the instance is not specified, use the interface used for default route.
+# # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+# [iface]
+# #IFACE=wlan0
+# color=#00FF00
+# interval=10
+# separator=false
+
+# [wifi]
+# #INTERFACE=wlp3s0
+# label=wifi:
+# interval=10
+# separator=false
+
+# [bandwidth]
+# #INTERFACE=eth0
+# interval=5
+
+[volume]
+LABEL=🙉
+interval=once
+signal=10
+#STEP=5%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+#NATURAL_MAPPING=0
+
+# [battery]
+# label=⚡
+# interval=30
+
+[shutdown_menu]
+full_text=
+#FG_COLOR=#bbbbbb
+#BG_COLOR=#111111
+#HLFG_COLOR=#111111
+#HLBG_COLOR=#bbbbbb
+#BORDER_COLOR=#222222
+#ROFI_TEXT=Menu:
+#ROFI_OPTIONS=-width 11 -location 3 -hide-scrollbar -bw 2
+#ZENITY_TITLE=Menu
+#ZENITY_TEXT=Action:
+#ZENITY_OPTIONS=--column= --hide-header
+#ENABLE_CONFIRMATIONS=true (must be true or false)
+#LAUNCHER=rofi (must be rofi or zenity)
+#LOCKSCRIPT=i3lock --color=${BG_COLOR#"#"}
+
+[rofi-calendar]
+interval=3600
+#BAR_POSITION=bottom
+#WEEK_START=monday
+#DATEFTM=+%a %d %b %Y
+#SHORTFMT=+%d/%m/%Y
+#LABEL= 
+#FONT=Monospace 10
+#LEFTCLICK_PREV_MONTH=false
+#PREV_MONTH_TEXT=« previous month «
+#NEXT_MONTH_TEXT=» next month »
+#ROFI_CONFIG_FILE=/dev/null
+
+# [time]
+# command=date '+%Y-%m-%d %H:%M:%S'
+# interval=5
 
 # Generic media player support
 #
