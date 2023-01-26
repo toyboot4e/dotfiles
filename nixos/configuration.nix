@@ -159,6 +159,13 @@
   home-manager.users.tbm = { pkgs, ... }: {
     nixpkgs.config.allowUnfree = true;
 
+    # TODO: change cursor
+    home.pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.gnome.adwaita-icon-theme;
+      size = 24;
+    };
+
     home.packages = with pkgs; [
       emacs neovim
       rustup go python3 nodejs
