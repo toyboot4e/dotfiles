@@ -59,6 +59,7 @@ _link terminal/kitty                 ~/.config/kitty
 # command line tools
 _link tool/git/config                ~/.config/git/config
 _link tool/tmux/.tmux.conf           ~/.tmux.conf
+_link tool/mpv                       ~/.config/mpv
 
 # shells
 _link shell/bash/.bashrc             ~/.bashrc
