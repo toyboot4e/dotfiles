@@ -107,14 +107,14 @@
 
 ;; [GUI] Font
 (when (display-graphic-p)
-    (set-face-attribute 'default nil :family "Menlo" :height 120)
+    (set-face-attribute 'default nil :family "Menlo" :height 110)
     (set-fontset-font (frame-parameter nil 'font)
                       'japanese-jisx0208
                       ;; TODO: fallback
                       ;; (font-spec :family "Hiragino Kaku Gothic ProN")
                       (font-spec :family "Noto Sans CJK JP"))
     (add-to-list 'face-font-rescale-alist
-                 '(".*Hiragino Kaku Gothic ProN.*" . 1.2)))
+                 '(".*Hiragino Kaku Gothic ProN.*" . 1.1)))
 
 ;; If on terminal
 (when (not (display-graphic-p))
