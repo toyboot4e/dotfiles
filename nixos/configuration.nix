@@ -133,6 +133,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vimHugeX xclip wget curl
+    pavucontrol sysstat yad xdotool
     kitty bash fish zsh tmux git gh ghq w3m fzf
     ripgrep fd bat delta exa as-tree tokei zoxide ranger tealdeer
     direnv nix-direnv stack cabal-install
