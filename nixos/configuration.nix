@@ -168,8 +168,9 @@
 
     home.packages = with pkgs; [
       emacs neovim
-      rustup go python3 nodejs
+      rustup go python3 nodejs yarn
       discord slack vscode mpv gimp
+      online-judge-tools watchexec
     ];
 
     # This value determines the Home Manager release that your
