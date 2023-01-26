@@ -26,11 +26,12 @@ command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
-[i3-focusedwindow]
-label=[]= 
-# command=i3-focusedwindow 20
-command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME 20
-interval=persist
+# causes parse error?
+# [i3-focusedwindow]
+# label=[]= 
+# # command=i3-focusedwindow 20
+# command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME 20
+# interval=persist
 
 [load_average]
 label=📚
