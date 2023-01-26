@@ -166,6 +166,14 @@
       size = 24;
     };
 
+    # NOTE: You have to let `home-manager` manage your shell config file, or the
+    # `home.sessionVariables` does NOT take effect.
+    # home.sessionVariables = {
+    #   EDITOR = "nvim";
+    #   BROWSER = "firefox";
+    #   TERMINAL = "kitty";
+    # };
+
     home.packages = with pkgs; [
       emacs neovim
       rustup go python3 nodejs yarn
