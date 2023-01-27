@@ -15,10 +15,20 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # <https://nixos.wiki/wiki/Environment_variables>
   environment.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "nvim -u NONE";
     BROWSER = "firefox";
     TERMINAL = "kitty";
+
+    XDG_CACHE_HOME  = "\${HOME}/.cache";
+    XDG_CONFIG_HOME = "\${HOME}/.config";
+    XDG_BIN_HOME    = "\${HOME}/.local/bin";
+    XDG_DATA_HOME   = "\${HOME}/.local/share";
+
+    PATH = [ 
+      "\${XDG_BIN_HOME}"
+    ];
   };
 
   # Use the systemd-boot EFI boot loader.
