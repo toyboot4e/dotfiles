@@ -6,35 +6,5 @@
 :hm: https://github.com/nix-community/home-manager[Home Manager]
 :nix-env-fish: https://github.com/lilyball/nix-env.fish[nix-env.fish]
 
-I'm using {nix} on macOS and Linux.
-
-== Nix + Home Manager
-
-This is per-system configuration, available on both Linux and macOS. I prefer this to the system-wise configuration below, mainly for the portability.
-
-Configuration file: `~/.config/nixpkgs/home.nix`
-
-=== Install
-
-c.f. {nix}, {hm}, {nix-env-fish}
-
-=== Declartive installation
-
-Write the package list and run `home-manager switch`. Then all the packages are installed!
-
-=== Declartive configuration (optional)
-
-Home Manager optionally lets you write configurations in the Nix language. Then `home-manager switch` will generate confguration files and automatically creates a symlink for each corresponding path (if it doesn't overwrite a existing configuration file).
-
-== System-wide configuration
-
-It's only available on NixOS and macOS ({nix-darwin}).
-
-Configuration file: `~/.config/nixpkgs/home.nix`
-
-=== Declartive installation
-
-=== Declartive configuration?
-
-=== TODO: `dir-env` integration for `pkgconfig`
+TODO: Update README
 

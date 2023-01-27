@@ -9,7 +9,7 @@
 :evil: https://github.com/emacs-evil/evil[Evil]
 :fish: https://fishshell.com/[fish]
 
-:quteb: https://qutebrowser.org/[qutebrowser]
+:qb: https://qutebrowser.org/[qutebrowser]
 :w3m: http://w3m.sourceforge.net/[w3m]
 
 :skhd: https://github.com/koekeishiya/skhd[skhd]
@@ -44,12 +44,12 @@ See link:nixos[nixos/] for the complete list. I'm switcing to Nix from {brew}.
 
 |===
 | Terminal | {kitty} with {tmux}
-| Font     | SauceCodePro  {nerd}
+| Font     | SourceCodePro ({nerd})
 | Editors  | NeoVim and {evil} Emacs
 | Shells   | bash and {fish}
-| Browsers | {quteb}, firefox and {w3m}
+| Browsers | {qb}, firefox and {w3m}
 | macOS    | {yabai}, {skhd}, {simple-bar} and {karabiner}
-| Linux    | {i3}, {flameshot}
+| Linux    | X11, {i3}, {flameshot}
 |===
 
 {ghq}, {gh}, {rg}, {hgrep}, {fd}, {as-tree}, {bat}, {exa}, {delta}, GNU sed, GNU xargs and `rename`
