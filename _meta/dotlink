@@ -58,7 +58,7 @@ _link terminal/kitty                 ~/.config/kitty
 
 # command line tools
 _link tool/git/config                ~/.config/git/config
-_link tool/tmux/.tmux.conf           ~/.tmux.conf
+_link tool/tmux/.tmux.conf           ~/.config/tmux.conf
 _link tool/mpv                       ~/.config/mpv
 
 # shells
@@ -74,9 +74,6 @@ _link tool/cargo/config              ~/.cargo/config
 
 # chemacs2 (Emacs)
 _link editor/.emacs-profiles.el      ~/.emacs-profiles.el
-
-# _link editor/emacs/conf              ~/.emacs.d/conf
-# _link editor/emacs/init.el           ~/.emacs.d/init.el
 
 # w3m
 _link browser/w3m/bookmark.html      ~/.w3m/bookmark.html
