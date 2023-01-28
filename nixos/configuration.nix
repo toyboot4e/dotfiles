@@ -59,9 +59,12 @@
     font = "ter-u14n";
   };
 
-  # Enable sound.
+  # Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+
+  # mount
+  services.udisks2.enable = true;
 
   # Fonts https://nixos.wiki/wiki/Fonts
   fonts = {
@@ -72,9 +75,7 @@
     fonts = with pkgs; [
       # SauceCodePro is distributed as SourceCodePro
       (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
-      noto-fonts-cjk
-      font-awesome
-      pango # popular font
+      noto-fonts noto-fonts-cjk font-awesome pango monoid roboto-mono vistafonts
     ];
 
     fontconfig = {
@@ -82,7 +83,7 @@
         # TODO: Make sure to select SauceCodePro NerdFont and Noto Fonts
         serif = [ "noto-fonts-cjk" "SourceCodePro" ];
         sansSerif = [ "noto-fonts-cjk" "SourceCodePro" ];
-        monospace = [ "noto-fonts-cjk" "SourceCodePro" ];
+        monospace = [ "monmoid" "roboto-mono" "noto-sans-font-cjk" ];
      };
     };
   };
@@ -142,11 +143,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vimHugeX xclip wget curl
+    vimHugeX xclip wget curl unzip
     pavucontrol sysstat yad xdotool
     kitty bash fish zsh tmux git gh ghq w3m fzf
     ripgrep fd bat delta exa as-tree tokei zoxide ranger tealdeer
-    direnv nix-direnv stack cabal-install
+    direnv nix-direnv
     qutebrowser firefox ffmpeg imagemagick dmenu rofi flameshot xdragon
   ];
 
@@ -185,10 +186,12 @@
     # };
 
     home.packages = with pkgs; [
-      emacs neovim
-      rustup go python3 nodejs yarn
-      discord slack vscode mpv gimp
-      online-judge-tools watchexec
+      xdg-ninja emacs neovim
+      cmake gcc rustup go nodejs deno yarn python3
+      # python3
+      discord slack zulip vscode mpv gimp evince blender
+      stack cabal-install pandoc texlive.combined.scheme-full calibre minify
+      pup jq watchexec
     ];
 
     # This value determines the Home Manager release that your
