@@ -116,8 +116,10 @@ interval=3600
 #ROFI_CONFIG_FILE=/dev/null
 
 [time]
+label=🕰️
 # command=date '+%Y-%m-%d %H:%M:%S'
-command=date '+%H:%M'
+# TODO: more natural :right padding
+command=echo "$(date '+%H:%M')  __"
 interval=5
 
 # Generic media player support
