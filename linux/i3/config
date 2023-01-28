@@ -85,10 +85,10 @@ bar {
 bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
 
 # window
-bindsym $mod+Shift+w exec QT_SCALE_FACTOR=2 ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
+bindsym $mod+Shift+w exec ~/dev/bash/toy-scripts/x11-screen -w ~/ss/new
 
-# region
-bindsym $mod+Shift+s exec QT_SCALE_FACTOR=2 ~/dev/bash/toy-scripts/x11-screen -s ~/ss/new
+# FIXME: region
+# bindsym $mod+Shift+s exec ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
 
 # --------------------------------------------------------------------------------
 # Startup
