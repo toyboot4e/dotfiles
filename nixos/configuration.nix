@@ -97,7 +97,15 @@
     desktopManager = { };
     displayManager.defaultSession = "none+i3";
 
+    # https://nixos.wiki/wiki/Nvidia
     videoDrivers = [ "nvidia" ];
+
+    # less screen tearing
+    screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+    '';
 
     # bye, capslock
     xkbOptions = "ctrl:nocaps";
