@@ -35,6 +35,7 @@ default_border pixel 0
 for_window [class="Dragon"] sticky enable;
 
 for_window [class="Pavucontrol"] floating enable;
+for_window [class="Pavucontrol"] sticky enable;
 
 for_window [class="blueman-manager"] floating enable;
 for_window [class="blueman-services"] floating enable;
@@ -158,7 +159,7 @@ bindsym $mod+ctrl+shift+h split h
 # split in vertical orientation
 bindsym $mod+ctrl+shift+v split v
 
-# change container layout (stacked, tabbed, toggle split)
+# change container layout (stacking, tabbed, toggle split)
 bindsym $mod+ctrl+shift+s layout stacking
 bindsym $mod+ctrl+shift+w layout tabbed
 bindsym $mod+ctrl+shift+e layout toggle split
@@ -226,6 +227,12 @@ bindsym $mod+Shift+Mod2+KP_Home    move container to workspace $ws7
 bindsym $mod+Shift+Mod2+KP_Up      move container to workspace $ws8
 bindsym $mod+Shift+Mod2+KP_Prior   move container to workspace $ws9
 bindsym $mod+Shift+Mod2+KP_Insert  move container to workspace $ws10
+
+# switch to next/previous workspace
+bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+H workspace prev
+bindsym $mod+Ctrl+L workspace next
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
