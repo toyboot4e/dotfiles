@@ -1,6 +1,12 @@
 # configuration.nix(5)
 # nixos-help
 
+# TODOs:
+# - [ ] Bluetooth support
+# - [ ] Monitoring applications
+# - [ ] Automatic USB mounting (or not)
+# - [ ] Blender
+
 { config, pkgs, ... }:
 
 let
@@ -160,12 +166,14 @@ in {
     };
 
     # Keyboard
+    # TODO: consier using `extraLayouts` instead?
+    # https://nixos.wiki/wiki/Keyboard_Layout_Customization
     layout = "jp";
     xkbModel = "ja106";
     xkbOptions = "ctrl:nocaps";
 
     # Monitors
-    # consider instead using displayManager.setupCommands if it's not working
+    # FIXME: not wokring. consider instead using displayManager.setupCommands or i3 commands
     xrandrHeads = [
       {
       	output = "HDMI-0";
@@ -189,6 +197,7 @@ in {
 
   # TODO: nedded?
   hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -211,16 +220,27 @@ in {
     fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
   };
 
+  # Enable `nix-ld`:
+  programs.nix-ld.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vimHugeX xclip wget curl unzip killall mlocate
     vulkan-tools
     xorg.xdpyinfo pavucontrol sysstat yad xdotool
+
     kitty bash fish zsh tmux git gh ghq w3m fzf wezterm
-    ripgrep fd bat delta diff-so-fancy difftastic exa as-tree tokei zoxide ranger tealdeer
+    tree as-tree ripgrep fd bat delta diff-so-fancy difftastic exa as-tree tokei zoxide tealdeer
     direnv nix-direnv
     qutebrowser firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
+
+    # semi-DE
+    ranger cmus
+
+    # Dock
+    plank
+
     # Nix LSP: https://github.com/oxalica/nil
     nil
   ];
@@ -264,6 +284,9 @@ in {
       };
     };
 
+    # Let `home-manager` overwrite `mimeapps.list` so that it doesn't fail:
+    xdg.configFile."mimeapps.list".force = true;
+
     # NOTE: You have to let `home-manager` manage your shell config file, or the
     # `home.sessionVariables` does NOT take effect.
     # home.sessionVariables = {
@@ -280,7 +303,7 @@ in {
     home.packages = with pkgs; [
       arandr bluetuith gnome.nautilus
       xdg-ninja emacs neovim
-      geekbench meson ninja
+      geekbench neofetch meson ninja
 
       cmake gcc go nodejs deno yarn python3
       # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
@@ -291,11 +314,12 @@ in {
       # python3
       docker
       slack zulip vscode mpv gimp evince blender
-      ghc stack cabal-install zlib
+      ghc stack cabal-install zlib haskellPackages.implicit-hie
       pandoc texlive.combined.scheme-full calibre minify
       pup jq watchexec
 
       unstable.discord unstable.vkmark unstable.unityhub
+      steamtinkerlaunch
     ];
 
     # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
