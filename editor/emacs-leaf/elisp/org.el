@@ -73,9 +73,9 @@
     (leaf org-appear
         :doc "Uninline format on cursor"
         :url "https://github.com/awth13/org-appear"
+        :hook (org-mode-hook . org-appear-mode)
         :config
-        (setq org-appear-autolinks t)
-        :hook (org-mode-hook . org-appear-mode))
+        (setq org-appear-autolinks t))
 
     ;; (leaf org-bullets
     ;;     :after org-mode
@@ -89,12 +89,12 @@
         :hook (org-mode-hook . org-superstar-mode)
         :config
         (setq org-superstar-special-todo-items t))
+
     (setq org-hide-emphasis-markers t)
 
+    ;; Very dependent on font style:
     ;; (leaf org-modern
-    ;;     :ensure nil
-    ;;     :hook (org-mode-hook . org-modern-mode)
-    ;;     :straight (org-modern :type git :host github :repo "minad/org-modern"))
+    ;;     :hook (org-mode-hook . org-modern-mode))
 
     (progn ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
         ;; TODO: working?
@@ -166,6 +166,8 @@
         :commands org-preview-html-mode org-preview-html/preview)
 
     (leaf org-journal)
+
+    ;; (leaf org-pdfview)
 
     ;; (setq org-capture-templates
     ;;       '(("t" "Todo [inbox]" entry

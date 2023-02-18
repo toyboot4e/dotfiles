@@ -205,7 +205,7 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-elisp-mode-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup)
+        :commands (evil-collection-dired-setup evil-collection-elisp-mode-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup evil-collection-pdf-setup evil-collection-doc-view-setup)
         :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
@@ -237,6 +237,12 @@
 
         (with-eval-after-load 'forge
             (evil-collection-forge-setup))
+
+        (with-eval-after-load 'doc-view
+            (evil-collection-doc-view-setup))
+
+        (with-eval-after-load 'pdf
+            (evil-collection-pdf-setup))
 
         (with-eval-after-load 'vterm
             (evil-collection-vterm-setup))
@@ -606,11 +612,34 @@
                     (lambda (&rest _)
                         (evil-first-non-blank))))
 
+    (leaf nix-mode
+        ;; :mode "\\.nix\\'"
+        :hook (nix-mode-hook . lsp-deferred)
+        :config
+        (leaf lsp-nix
+            :custom
+            (lsp-nix-nil-formatter . ["nixpkgs-fmt"])))
+
     (leaf olivetti
         :doc "Zen mode *per buffer* (not per frame and that is great!)"
         :url "https://github.com/rnkn/olivetti"
         :commands (olivetti-mode)
         :custom (olivetti-body-width . 120))
+
+    ;; FIXME: not workings
+    ;; TODO: hook mode
+    (leaf pdf-tools
+        :init
+        (defun toy/on-pdf-view ()
+            ;; (leaf org-pdfview)
+            (pdf-view-mode)
+            (pdf-tools-enable-minor-modes)
+            ;; TODO: run with timer
+            (run-with-timer 1 nil #'pdf-view-fit-page-to-window)
+            (pdf-outline-imenu-enable)
+            )
+        :config
+        :hook  (doc-view-mode-hook . toy/on-pdf-view))
 
     (leaf projectile
         :leaf-defer nil
@@ -662,18 +691,24 @@
         :hook (rust-mode-hook . toy/on-rust-mode)
         :mode ("\\.rs\\'" . rust-mode)
 
-        :custom ((rust-load-optional-libraries)
-                 (rust-format-on-save)
+        :custom ((rust-load-optional-libraries . t)
+                 (rust-format-on-save . t)
+                 (rust-format-show-buffer)
                  (lsp-rust-analyzer-server-display-inlay-hints))
 
         :init
+        ;; (defun rust-after-save-method ())
         (defun toy/on-rust-mode nil
             (interactive)
             (visual-line-mode)
             (setq fill-column 100)
             (turn-on-auto-fill))
 
-        :config
+        ;; (defun toy/on-save-rust ()
+        ;;     (lsp-format-buffer)
+        ;;     (centaur-tabs-on-saving-buffer)
+        ;; :config
+        ;; (add-hook 'after-save-hook #'toy/on-save-rust)
         )
 
     (leaf scratch-comment
