@@ -74,9 +74,9 @@ c.url.searchengines = {
     "docs": 'https://docs.rs/{}',
     "lib": 'https://lib.rs/{}',
 
-    "wiki-a": 'https://wiki.archlinux.org/title/{}',
-    "wiki-n": 'https://nixos.wiki/index.php?search={}',
-    # "nix": 'https://search.nixos.org/packages?query={}',
+    "@arch": 'https://wiki.archlinux.org/title/{}',
+    "@nixos": 'https://nixos.wiki/index.php?search={}',
+    "@nix": 'https://search.nixos.org/packages?query={}',
 }
 
 # --------------------------------------------------------------------------------

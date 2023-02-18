@@ -170,6 +170,8 @@ _alias git g
 _alias googler gg
 _alias gnuplot gp
 
+_alias ranger r
+
 # enables Japanese in tmux
 _alias tmux tmux 'tmux -u'
 

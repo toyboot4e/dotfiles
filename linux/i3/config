@@ -27,18 +27,35 @@ font pango:monospace 12
 # no border
 default_border pixel 0
 
+# show border
+for_window [class="Evince"] default_border pixel 20
+for_window [class="Naitulus"] default_border pixel 20
+for_window [class="Calibre"] default_border pixel 20
+
+# classes
+for_window [class="^floating$"] floating enable
+
 # --------------------------------------------------------------------------------
 # Applications
 # --------------------------------------------------------------------------------
 
 # dragon (`xdragon` on nixpkgs)
-for_window [class="Dragon"] sticky enable;
+for_window [class="Dragon"] sticky enable
 
-for_window [class="Pavucontrol"] floating enable;
-for_window [class="Pavucontrol"] sticky enable;
+for_window [class="arandr"] floating enable
 
-for_window [class="blueman-manager"] floating enable;
-for_window [class="blueman-services"] floating enable;
+for_window [class="Pavucontrol"] sticky enable
+
+for_window [class="blueman-manager"] floating enable
+for_window [class="blueman-services"] floating enable
+
+for_window [class="Nautilus"] floating enable
+
+for_window [class="inkrl"] floating enable
+for_window [class="executor"] floating enable
+
+for_window [title="^toy$"] floating enable, resize set 1920 1080, move position center
+for_window [title="^ranger$"] floating enable, resize set 1920 1080, move position center
 
 # --------------------------------------------------------------------------------
 # i3bar
@@ -83,7 +100,7 @@ bar {
 # --------------------------------------------------------------------------------
 
 # GUI (flameshot)
-bindsym $mod+Shift+g exec QT_SCALE_FACTOR=2 flameshot gui
+bindsym $mod+Shift+g exec --no-startup-id QT_SCALE_FACTOR=2 flameshot gui
 
 # window
 bindsym $mod+Shift+w exec ~/dev/bash/toy-scripts/x11-screen -w ~/ss/new
@@ -124,6 +141,10 @@ bindcode $mod+40 exec "rofi -modi drun,run -show drun -font 'hack 20'"
 
 # bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec kitty
+
+# Kitty accepts `--class` argument.
+bindsym $mod+Shift+Return exec kitty --class=floating-kitty
+for_window [class="^floating-kitty$"] floating enable, resize set 1920 1080, move position center
 
 # change focus
 bindsym $mod+h focus left
