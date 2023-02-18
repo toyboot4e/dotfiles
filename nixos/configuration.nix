@@ -3,7 +3,11 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  unstable = import <unstable> { config = { allowUnfree = true; }; };
+in {
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -26,7 +30,7 @@
     XDG_BIN_HOME    = "\${HOME}/.local/bin";
     XDG_DATA_HOME   = "\${HOME}/.local/share";
 
-    PATH = [ 
+    PATH = [
       "\${XDG_BIN_HOME}"
     ];
   };
@@ -61,10 +65,40 @@
 
   # Sound
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    support32Bit = true;
+    extraConfig = "load-module module-combine-sink";
+    package = pkgs.pulseaudioFull;
+  };
+  nixpkgs.config.pulseaudio = true;
 
   # mount
   services.udisks2.enable = true;
+
+  # Bluetooth
+  services.blueman.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    # TODO: what is this? (it's from the guide)
+    hsphfpd.enable = true; # HSP & HFP daemon
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
+
+  # # Bluetooth fix
+  # # <https://github.com/NixOS/nixpkgs/issues/170573>
+  # fileSystems."/var/lib/bluetooth" = {
+  #   device = "/persist/var/lib/bluetooth";
+  #   options = [ "bind" "noauto" "x-systemd.automount" ];
+  #   noCheck = true;
+  # };
+
+  # Working?
+  hardware.video.hidpi.enable = true;
 
   # Fonts https://nixos.wiki/wiki/Fonts
   fonts = {
@@ -79,6 +113,7 @@
     ];
 
     fontconfig = {
+      enable = true;
       defaultFonts = {
         # TODO: Make sure to select SauceCodePro NerdFont and Noto Fonts
         serif = [ "noto-fonts-cjk" "SourceCodePro" ];
@@ -94,6 +129,9 @@
   services.xserver = {
     enable = true;
 
+    # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
+    exportConfiguration = true;
+
     desktopManager = { };
     displayManager.defaultSession = "none+i3";
 
@@ -107,9 +145,7 @@
       Option         "TripleBuffer" "on"
     '';
 
-    # bye, capslock
-    xkbOptions = "ctrl:nocaps";
-
+    # WM
     windowManager.i3 = {
       enable = true;
 
@@ -122,6 +158,33 @@
         i3blocks #if you are planning on using i3blocks over i3status
       ];
     };
+
+    # Keyboard
+    layout = "jp";
+    xkbModel = "ja106";
+    xkbOptions = "ctrl:nocaps";
+
+    # Monitors
+    # consider instead using displayManager.setupCommands if it's not working
+    xrandrHeads = [
+      {
+      	output = "HDMI-0";
+	# TODO: add `DisplaySize` for corret DPI
+        monitorConfig = ''
+          Option "PreferredMode" "1920x1080"
+          Option "Rotate" "left"
+        '';
+      }
+
+      {
+        output = "DP-1";
+        primary = true;
+        monitorConfig = ''
+          Option "RightOf" "HDMI-0"
+          Option "PreferredMode" "3840x2160"
+        '';
+        }
+    ];
   };
 
   # TODO: nedded?
@@ -151,12 +214,15 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vimHugeX xclip wget curl unzip
-    pavucontrol sysstat yad xdotool
-    kitty bash fish zsh tmux git gh ghq w3m fzf
-    ripgrep fd bat delta exa as-tree tokei zoxide ranger tealdeer
+    vimHugeX xclip wget curl unzip killall mlocate
+    vulkan-tools
+    xorg.xdpyinfo pavucontrol sysstat yad xdotool
+    kitty bash fish zsh tmux git gh ghq w3m fzf wezterm
+    ripgrep fd bat delta diff-so-fancy difftastic exa as-tree tokei zoxide ranger tealdeer
     direnv nix-direnv
-    qutebrowser firefox ffmpeg imagemagick dmenu rofi flameshot xdragon
+    qutebrowser firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
+    # Nix LSP: https://github.com/oxalica/nil
+    nil
   ];
 
   # Steam: https://nixos.wiki/wiki/Steam
@@ -179,10 +245,23 @@
     nixpkgs.config.allowUnfree = true;
 
     # TODO: change cursor
+    # home.pointerCursor = 
     home.pointerCursor = {
       name = "Adwaita";
       package = pkgs.gnome.adwaita-icon-theme;
       size = 24;
+    };
+
+    xdg.mimeApps = {
+      enable = true;
+
+      associations.added = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+      };
+
+      defaultApplications = {
+        "application/pdf" = ["org.gnome.Evince.desktop"];
+      };
     };
 
     # NOTE: You have to let `home-manager` manage your shell config file, or the
@@ -193,14 +272,34 @@
     #   TERMINAL = "kitty";
     # };
 
-    home.packages = with pkgs; [
-      xdg-ninja emacs neovim
-      cmake gcc rustup go nodejs deno yarn python3
-      # python3
-      discord slack zulip vscode mpv gimp evince blender
-      stack cabal-install pandoc texlive.combined.scheme-full calibre minify
-      pup jq watchexec
+    # fenix: <https://github.com/nix-community/fenix>
+    nixpkgs.overlays = [
+      (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
     ];
+
+    home.packages = with pkgs; [
+      arandr bluetuith gnome.nautilus
+      xdg-ninja emacs neovim
+      geekbench meson ninja
+
+      cmake gcc go nodejs deno yarn python3
+      # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
+      # rustc cargo rustfmt clippy rust-analyzer
+      (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
+      rust-analyzer-nightly
+
+      # python3
+      docker
+      slack zulip vscode mpv gimp evince blender
+      ghc stack cabal-install zlib
+      pandoc texlive.combined.scheme-full calibre minify
+      pup jq watchexec
+
+      unstable.discord unstable.vkmark unstable.unityhub
+    ];
+
+    # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
+    services.mpris-proxy.enable = true;
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
