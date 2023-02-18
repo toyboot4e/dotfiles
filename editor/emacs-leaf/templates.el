@@ -21,15 +21,16 @@ haskell-mode
 (ormolu "{- ORMULU_DISABLE -}" n "{- ORMOLU_ENABLE -}")
 
 ;; debug
-(traceShow "let !_ = traceShow (" (p "") ") ()")
+(traceShow "!_ = traceShow (" (p "") ") ()")
 
 ;; competitive programming
 (yn "if " (p "result") " then \"Yes\" else \"No\"")
 
 (list "[n] <- getLineIntList")
 (vec "xs <- getLineIntList")
+
 (graphGen "input <- concatMap (\\[a, b] -> [(a, b), (b, a)]) <$> replicateM nEdges getLineIntList" n>
-          "let graph = accumArray (flip (:)) [] (1, nVerts) input" n>)
+          "let graph = accumArray @Array (flip (:)) [] (1, nVerts) input" n>)
 
 (fold "let result = foldl' step s0 " (p "input") n>
       "    s0 = " (p "_") n>
