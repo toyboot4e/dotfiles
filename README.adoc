@@ -40,8 +40,6 @@ image::readme/ss.png[]
 
 == List
 
-See link:nixos[nixos/] for the complete list. I'm switcing to Nix from {brew}.
-
 |===
 | Terminal | {kitty} with {tmux}
 | Font     | SourceCodePro ({nerd})
@@ -57,8 +55,6 @@ See link:nixos[nixos/] for the complete list. I'm switcing to Nix from {brew}.
 == Installations (WIP)
 
 === macOS
-
-See link:nixos[nixos/] for most packages.
 
 I fail to install some packages with {nix} (somehow), so I'm using {brew} for them:
 
@@ -89,5 +85,5 @@ I'm still unfamilar with that OS!
 
 == Misc
 
-- If you're on Linux, try {xdg-ninja} to check if your configuration files are placed correctly
+- {xdg-ninja}
 
