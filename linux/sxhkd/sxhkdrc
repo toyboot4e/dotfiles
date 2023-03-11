@@ -1,0 +1,115 @@
+# https://wiki.archlinux.org/title/Sxhkd
+#
+# Main reason I'm using `sxhkd` is that it can call `xdotool` with no issues.
+# Another reason is the syntax.
+
+# To reload `sxhkdrc`, run the following command:
+# $ pkill -USR1 -x sxhkd
+#
+# It's binded to `super + shift + c` in my `i3` configuration.
+
+# --------------------------------------------------------------------------------
+# Drop-down anything (togglable floating windows)
+# --------------------------------------------------------------------------------
+
+# Toggle specific floating applications:
+super + shift + Return
+  x11-pad --class 'dropdown-terminal' ' kitty --class="dropdown-terminal"'
+
+super + shift + e
+  x11-pad --title 'dropdown-emacs' 'emacs --with-profile leaf --title "dropdown-emacs"'
+
+# --------------------------------------------------------------------------------
+# Screenshot
+# --------------------------------------------------------------------------------
+
+# GUI screenshot (flameshot)
+super + shift + g
+  QT_SCALE_FACTOR=2 flameshot gui
+
+# window screenshot
+super + shift + w
+  ~/dev/bash/toy-scripts/x11-screen -w ~/ss/new
+
+# FIXME: region screenshot
+# bindsym $mod+Shift+s exec ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
+
+# --------------------------------------------------------------------------------
+# Menus, metas
+# --------------------------------------------------------------------------------
+
+super + shift + q
+  i3-msg kill
+
+super + d
+  rofi -modi drun,run -show drun -font 'hack 20'
+
+super + Return
+  exec kitty
+
+# --------------------------------------------------------------------------------
+# Windowing
+# --------------------------------------------------------------------------------
+
+# focus
+super { h, j, k, l, Left, Down, Up, Right  }
+  i3-msg focus { left, down, up, right, left, down, up, right }
+
+# move focused window
+super + shift + { h, j, k, l, Left, Down, Up, Right  }
+  i3-msg focus { left, down, up, right, left, down, up, right }
+
+# resize
+super + shift + {Left, Down, Up, Right}
+  i3-msg move { left, Down, Up, Right } 200 px
+
+# --------------------------------------------------------------------------------
+# Workspaces
+# --------------------------------------------------------------------------------
+
+# Currently, workspaces are handled by `i3`
+# because I use variables for workspace names:
+
+# # switch to workspace
+# super + {1-9}
+#      i3-msg workspace {1-9}
+# 
+# # move to workspace
+# super + shift + {1-9}
+#      i3-msg move container to workspace {1-9}
+
+# FIXME: not working (why?)
+# # switch to next/previous workspace
+# super + ctrl + {h, l, left, right}
+#     i3-msg workspace {prev, next, prev, next}
+
+# --------------------------------------------------------------------------------
+# Window states
+# --------------------------------------------------------------------------------
+
+# toggle fullscreen
+super + f
+  i3-msg fullscreen toggle
+
+# toggle tiling / floating
+super + shift + space
+  i3-msg floating toggle
+
+# toggle sticky
+super + shift + m
+  i3-msg sticky toggle
+
+# change focus between tiling / floating windows
+super + space
+  i3-msg focus mode_toggle
+
+# focus the parent container
+super + a
+  i3-msg focus parent
+
+# --------------------------------------------------------------------------------
+# Modes
+# --------------------------------------------------------------------------------
+
+# TODO: move resize mode from i3 to sxhkd
+

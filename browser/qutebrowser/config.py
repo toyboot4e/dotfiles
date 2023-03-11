@@ -12,10 +12,12 @@ DEFAULT_ZOOM=scaled(75)
 
 config.load_autoconfig(False)
 
-# Force dark mode. Required to restart qutebrowser
-config.set('colors.webpage.darkmode.enabled', True)
-# Don't flush on dark mode
-config.set('colors.webpage.bg', 'black')
+if True:
+    # Force dark mode. Required to restart qutebrowser
+    config.set('colors.webpage.darkmode.enabled', True)
+
+    # Don't flush on dark mode
+    config.set('colors.webpage.bg', 'black')
 
 # Use a custom homepage
 # required to use file:/// URI?
@@ -60,19 +62,22 @@ c.url.start_pages = 'https://qutebrowser.org/'
 c.url.searchengines = {
     "DEFAULT": 'https://google.com/search?q={}',
 
-    "b": 'https://bandcamp.com/search?q={}',
-    "cr": 'https://crates.io/search?q={}',
-    "d": 'https://dictionary.cambridge.org/dictionary/english/{}',
-    'g': 'https://github.com/search?q={}',
-    'h': 'https://hoogle.haskell.org/?hoogle={}',
-    "s": 'https://stackoverflow.com/search?q={}',
-    "y": 'https://www.youtube.com/results?search_query={}',
-    "r": 'https://www.reddit.com/r/{}',
+    "@b": 'https://bandcamp.com/search?q={}',
+    "@cr": 'https://crates.io/search?q={}',
+    "@d": 'https://dictionary.cambridge.org/dictionary/english/{}',
+    '@g': 'https://github.com/search?q={}',
+    "@s": 'https://stackoverflow.com/search?q={}',
+    "@y": 'https://www.youtube.com/results?search_query={}',
+    "@r": 'https://www.reddit.com/r/{}',
 
-    "my": 'https://github.com/toyboot4e/{}',
-    "doc": 'https://docs.rs/{}',
-    "docs": 'https://docs.rs/{}',
-    "lib": 'https://lib.rs/{}',
+    '@h': 'https://hoogle.haskell.org/?hoogle={}',
+    '@hoogle': 'https://hoogle.haskell.org/?hoogle={}',
+    '@abc': 'https://atcoder.jp/contests/abc{}/tasks',
+
+    "@my": 'https://github.com/toyboot4e/{}',
+    "@d": 'https://docs.rs/{}',
+    "@doc": 'https://docs.rs/{}',
+    "@lib": 'https://lib.rs/{}',
 
     "@arch": 'https://wiki.archlinux.org/title/{}',
     "@nixos": 'https://nixos.wiki/index.php?search={}',

@@ -3,15 +3,17 @@
 # https://i3wm.org/docs/userguide.html
 # https://wiki.archlinux.org/title/I3#Terminal_emulator
 
+# Most key bindings are set by `sxhkd` instead of `i3`.
+
 # --------------------------------------------------------------------------------
 # Meta
 # --------------------------------------------------------------------------------
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
+# reload the configuration file (both `i3` and `sxhkd`)
+bindsym $mod+Shift+c reload ; exec "pkill -USR1 -x sxhkd"
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r restart ; exec "pkill -USR1 -x sxhkd"
 
 # --------------------------------------------------------------------------------
 # Global configuration
@@ -27,10 +29,16 @@ font pango:monospace 12
 # no border
 default_border pixel 0
 
+# some border
+# default_border pixel 12
+
 # show border
 for_window [class="Evince"] default_border pixel 20
 for_window [class="Naitulus"] default_border pixel 20
 for_window [class="Calibre"] default_border pixel 20
+
+for_window [title="Flameshot"] default_border pixel 20
+# for_window [class="Flameshot"] floating enable
 
 # classes
 for_window [class="^floating$"] floating enable
@@ -38,6 +46,11 @@ for_window [class="^floating$"] floating enable
 # --------------------------------------------------------------------------------
 # Applications
 # --------------------------------------------------------------------------------
+
+for_window [class="firefox" title="Save"] floating enable, resize set 1920 1080, move position center
+for_window [class="firefox" title="save"] floating enable, resize set 1920 1080, move position center
+for_window [class="firefox" title="Open"] floating enable, resize set 1920 1080, move position center
+for_window [class="firefox" title="open"] floating enable, resize set 1920 1080, move position center
 
 # dragon (`xdragon` on nixpkgs)
 for_window [class="Dragon"] sticky enable
@@ -49,13 +62,28 @@ for_window [class="Pavucontrol"] sticky enable
 for_window [class="blueman-manager"] floating enable
 for_window [class="blueman-services"] floating enable
 
-for_window [class="Nautilus"] floating enable
-
-for_window [class="inkrl"] floating enable
-for_window [class="executor"] floating enable
+for_window [class="Nautilus"] floating enable, resize set 1920 1080, move position center
+for_window [class="Thunar"] floating enable, resize set 1920 1080, move position center
 
 for_window [title="^toy$"] floating enable, resize set 1920 1080, move position center
 for_window [title="^ranger$"] floating enable, resize set 1920 1080, move position center
+
+# TODO: most applications should be floating by default
+for_window [class="inkrl"] floating enable
+for_window [class="executor"] floating enable
+
+# --------------------------------------------------------------------------------
+# Togglable floating applications (via `sxhkd`)
+# --------------------------------------------------------------------------------
+
+# `scratchpad` is just an invisible workspace:
+# https://i3wm.org/docs/userguide.html#_scratchpad
+#
+# `scratchpad` keyt bindings in `i3` did not work well for me (somehow).
+# So I'm calling `xdotools` from `sxhkd` instead.
+
+for_window [class="dropdown-terminal"] floating enable, resize set 1920 1080, move position center
+for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
 
 # --------------------------------------------------------------------------------
 # i3bar
@@ -96,19 +124,6 @@ bar {
 }
 
 # --------------------------------------------------------------------------------
-# Screenshot
-# --------------------------------------------------------------------------------
-
-# GUI (flameshot)
-bindsym $mod+Shift+g exec --no-startup-id QT_SCALE_FACTOR=2 flameshot gui
-
-# window
-bindsym $mod+Shift+w exec ~/dev/bash/toy-scripts/x11-screen -w ~/ss/new
-
-# FIXME: region
-# bindsym $mod+Shift+s exec ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
-
-# --------------------------------------------------------------------------------
 # Startup
 # --------------------------------------------------------------------------------
 
@@ -130,73 +145,23 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# start `sxhkd`:
+exec --no-startup-id sxhkd
+
 # --------------------------------------------------------------------------------
 # Key bindings
 # --------------------------------------------------------------------------------
 
-bindsym $mod+Shift+q kill
+# # split in horizontal orientation
+# bindsym $mod+ctrl+shift+h split h
+# 
+# # split in vertical orientation
+# bindsym $mod+ctrl+shift+v split v
 
-# bindsym $mod+d exec --no-startup-id dmenu_run
-bindcode $mod+40 exec "rofi -modi drun,run -show drun -font 'hack 20'"
-
-# bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec kitty
-
-# Kitty accepts `--class` argument.
-bindsym $mod+Shift+Return exec kitty --class=floating-kitty
-for_window [class="^floating-kitty$"] floating enable, resize set 1920 1080, move position center
-
-# change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
-# move focused window
-bindsym $mod+Shift+h move left 200 px
-bindsym $mod+Shift+j move down 200 px
-bindsym $mod+Shift+k move up 200 px
-bindsym $mod+Shift+l move right 200 px
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left 200 px
-bindsym $mod+Shift+Down move down 200 px
-bindsym $mod+Shift+Up move up 200 px
-bindsym $mod+Shift+Right move right 200 px
-
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-
-# ------
-# split in horizontal orientation
-bindsym $mod+ctrl+shift+h split h
-
-# split in vertical orientation
-bindsym $mod+ctrl+shift+v split v
-
-# change container layout (stacking, tabbed, toggle split)
-bindsym $mod+ctrl+shift+s layout stacking
-bindsym $mod+ctrl+shift+w layout tabbed
-bindsym $mod+ctrl+shift+e layout toggle split
-# ------
-
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
-# toggle sticky
-bindsym $mod+Shift+m sticky toggle
-
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-
-# focus the parent container
-bindsym $mod+a focus parent
+# # change container layout (stacking, tabbed, toggle split)
+# bindsym $mod+ctrl+shift+s layout stacking
+# bindsym $mod+ctrl+shift+w layout tabbed
+# bindsym $mod+ctrl+shift+e layout toggle split
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -256,26 +221,27 @@ bindsym $mod+Ctrl+H workspace prev
 bindsym $mod+Ctrl+L workspace next
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+  # These bindings trigger as soon as you enter the resize mode
 
-        bindsym h resize shrink width 200 px or 200 ppt
-        bindsym l resize grow width 200 px or 200 ppt
-        bindsym k resize shrink height 200 px or 200 ppt
-        bindsym j resize grow height 200 px or 200 ppt
+  bindsym h resize shrink width 200 px or 200 ppt
+  bindsym l resize grow width 200 px or 200 ppt
+  bindsym k resize shrink height 200 px or 200 ppt
+  bindsym j resize grow height 200 px or 200 ppt
 
-        bindsym Left resize shrink width 200 px or 200 ppt
-        bindsym Right resize grow width 200 px or 200 ppt
-        bindsym Up resize shrink height 200 px or 200 ppt
-        bindsym Down resize grow height 200 px or 200 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+  bindsym Left resize shrink width 200 px or 200 ppt
+  bindsym Right resize grow width 200 px or 200 ppt
+  bindsym Up resize shrink height 200 px or 200 ppt
+  bindsym Down resize grow height 200 px or 200 ppt
+  
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
+

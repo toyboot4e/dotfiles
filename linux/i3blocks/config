@@ -33,6 +33,10 @@ markup=none
 # command=$SCRIPT_DIR/$BLOCK_NAME/$BLOCK_NAME 20
 # interval=persist
 
+[gpu-load]
+label=⚙️
+interval=10
+
 [load_average]
 label=📚
 interval=10

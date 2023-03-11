@@ -1,4 +1,4 @@
-= NixOS setting
+= NixOS settings
 :nix: https://github.com/NixOS/nix[Nix]
 :hm: https://github.com/nix-community/home-manager[Home Manager]
 :flakes: https://nixos.wiki/wiki/Flakes[Flakes]

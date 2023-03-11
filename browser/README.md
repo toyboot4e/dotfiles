@@ -22,15 +22,18 @@ map } moveTabRight
 Search options:
 
 ```
-w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia
+@w: https://www.wikipedia.org/w/index.php?title=Special:Search&search=%s Wikipedia
 
-b: https://bandcamp.com/search?item_type&q=%s Bandcamp
-y: https://www.youtube.com/results?search_query=%s Youtube
+@b: https://bandcamp.com/search?item_type&q=%s Bandcamp
+@y: https://www.youtube.com/results?search_query=%s Youtube
 
-doc: https://docs.rs/%s Docs.rs
-my: https://github.com/toyboot4e/%s My-repositories
+@doc: https://docs.rs/%s Docs.rs
+@my: https://github.com/toyboot4e/%s My-repositories
 
-arch: https://wiki.archlinux.org/title/%s
-nix: https://search.nixos.org/packages?query=%s
+@arch: https://wiki.archlinux.org/title/%s
+@nix: https://search.nixos.org/packages?query=%s
+
+@h: https://hoogle.haskell.org/?hoogle=%s
+@hoogle: https://hoogle.haskell.org/?hoogle=%s
 ```
 
