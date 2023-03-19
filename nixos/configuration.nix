@@ -1,6 +1,8 @@
 # configuration.nix(5)
 # nixos-help
 
+# `unstable` channel by default (previously 22.11)
+
 # TODOs:
 # - [ ] Bluetooth support
 # - [ ] Monitoring applications
@@ -9,10 +11,17 @@
 
 { config, pkgs, ... }:
 
-let
-  unstable = import <unstable> { config = { allowUnfree = true; }; };
-in {
+# let
+#   unstable = import <unstable> { config = { allowUnfree = true; }; };
+# in
+
+{
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # FIXME:
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.6"
+  ];
 
   imports =
     [ # Include the results of the hardware scan.
@@ -29,12 +38,18 @@ in {
   environment.sessionVariables = {
     EDITOR = "nvim -u NONE";
     BROWSER = "firefox";
+    DEFAULT_BROWSER = "firefox";
     TERMINAL = "kitty";
 
     XDG_CACHE_HOME  = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
     XDG_BIN_HOME    = "\${HOME}/.local/bin";
     XDG_DATA_HOME   = "\${HOME}/.local/share";
+
+    GTK_IM_MODULE   = "fcitx";
+    QT_IM_MODULE    = "fcitx";
+    XMODIFIERS      = "@im=fcitx";
+    GLFW_IM_MODULE  = "ibus";
 
     PATH = [
       "\${XDG_BIN_HOME}"
@@ -79,7 +94,17 @@ in {
   };
   nixpkgs.config.pulseaudio = true;
 
-  # mount
+  # `bitwig` is distributed with `flatpak` for example:
+  # <https://flathub.org/apps/details/com.bitwig.BitwigStudio>
+  services.flatpak.enable = true;
+
+  # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  # mount command
   services.udisks2.enable = true;
 
   # Bluetooth
@@ -121,10 +146,10 @@ in {
     fontconfig = {
       enable = true;
       defaultFonts = {
-        # TODO: Make sure to select SauceCodePro NerdFont and Noto Fonts
-        serif = [ "noto-fonts-cjk" "SourceCodePro" ];
-        sansSerif = [ "noto-fonts-cjk" "SourceCodePro" ];
-        monospace = [ "monmoid" "roboto-mono" "noto-sans-font-cjk" ];
+        # TODO: use SourceCodePro?
+        serif = [ "noto-fonts-cjk" ];
+        sansSerif = [ "noto-fonts-cjk" ];
+        monospace = [ "noto-sans-font-cjk" ];
      };
     };
   };
@@ -205,7 +230,7 @@ in {
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable Japanese input
+  # Enable Japanese input using `fcitx` (fcitx4)
   #
   # https://ykonomi.hatenablog.com/entry/2021/04/27/022803
   #
@@ -215,10 +240,10 @@ in {
   # $ # Input mode: romaji
   # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
   # ----
-  i18n.inputMethod = {
-    enabled = "fcitx";
-    fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
-  };
+  # i18n.inputMethod = {
+  #   enabled = "fcitx";
+  #   fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
+  # };
 
   # Enable `nix-ld`:
   programs.nix-ld.enable = true;
@@ -230,7 +255,7 @@ in {
     vulkan-tools
     xorg.xdpyinfo pavucontrol sysstat yad xdotool
 
-    kitty bash fish zsh tmux git gh ghq w3m fzf wezterm
+    kitty bash fish zsh tmux git gh ghq w3m fzf wezterm feh
     tree as-tree ripgrep fd bat delta diff-so-fancy difftastic exa as-tree tokei zoxide tealdeer
     direnv nix-direnv
     qutebrowser firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
@@ -277,8 +302,10 @@ in {
   programs.ssh.startAgent = true;
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
+    settings = {
+      passwordAuthentication = false;
+      kbdInteractiveAuthentication = false;
+    };
     # permitRootLogin = "yes";
   };
 

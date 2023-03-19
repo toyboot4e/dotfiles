@@ -2,89 +2,113 @@
 
 { config, pkgs, ... }:
 
-let
-  unstable = import <unstable> { config = { allowUnfree = true; }; };
-in {
-    nixpkgs.config.allowUnfree = true;
+# let
+#   unstable = import <unstable> { config = { allowUnfree = true; }; };
+# in
 
-   # sxhkd: https://nix-community.github.io/home-manager/options.html#opt-services.sxhkd.enable
-   services.sxhkd.enable = true;
+{
+  nixpkgs.config.allowUnfree = true;
 
-   # Do not try to write out configuration file:
-   # <https://rycee.gitlab.io/home-manager/options.html#opt-xdg.configFile._name_.enable>
-   # NOTE: I'm failing to run `nixos-rebuild switch` with it
-   xdg.configFile."sxhkd/sxhkdrc".enable = false;
+  # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = false;
+  };
 
-    # TODO: change cursor
-    # home.pointerCursor = 
-    home.pointerCursor = {
-      name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
-      size = 24;
+  # ----------------------------------------------------------------------------------------------------
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+  };
+
+  # Use `sxhkd` service, but without overwriting the configuration file
+  # - sxhkd: <https://nix-community.github.io/home-manager/options.html#opt-services.sxhkd.enable>
+  # - configFile.<name>.enable: <https://rycee.gitlab.io/home-manager/options.html#opt-xdg.configFile._name_.enable>
+  services.sxhkd.enable = true;
+  xdg.configFile."sxhkd/sxhkdrc".enable = false;
+
+  # TODO: change cursor
+  # home.pointerCursor = 
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.gnome.adwaita-icon-theme;
+    size = 24;
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+
+    associations.added = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
     };
 
-    xdg.mimeApps = {
-      enable = true;
+    defaultApplications = {
+      "application/pdf" = ["org.gnome.Evince.desktop"];
 
-      associations.added = {
-        "application/pdf" = ["org.gnome.Evince.desktop"];
-      };
-
-      defaultApplications = {
-        "application/pdf" = ["org.gnome.Evince.desktop"];
-      };
+      "x-scheme-handler/http" = "org.firefox.firefox.desktop";
+      "x-scheme-handler/https" = "org.firefox.firefox.desktop";
+      "x-scheme-handler/about" = "org.firefox.firefox.desktop";
+      "x-scheme-handler/unknown" = "org.firefox.firefox.desktop";
     };
+  };
 
-    # Let `home-manager` overwrite `mimeapps.list` so that it doesn't fail:
-    xdg.configFile."mimeapps.list".force = true;
+  # Let `home-manager` overwrite `mimeapps.list` so that it doesn't fail:
+  xdg.configFile."mimeapps.list".force = true;
 
-    # NOTE: You have to let `home-manager` manage your shell config file, or the
-    # `home.sessionVariables` does NOT take effect.
-    # home.sessionVariables = {
-    #   EDITOR = "nvim";
-    #   BROWSER = "firefox";
-    #   TERMINAL = "kitty";
-    # };
+  # NOTE: You have to let `home-manager` manage your shell config file, or the
+  # `home.sessionVariables` does NOT take effect.
+  # home.sessionVariables = {
+  #   EDITOR = "nvim";
+  #   BROWSER = "firefox";
+  #   TERMINAL = "kitty";
+  # };
 
-    # fenix: <https://github.com/nix-community/fenix>
-    nixpkgs.overlays = [
-      (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
-    ];
+  # fenix: <https://github.com/nix-community/fenix>
+  nixpkgs.overlays = [
+    (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
+  ];
 
-    home.packages = with pkgs; [
-      arandr bluetuith
-      gnome.nautilus xfce.thunar
-      xdg-ninja emacs neovim
-      geekbench neofetch meson ninja
+  home.packages = with pkgs; [
+    # ----------------------------------------------------------------------------------------------------
+    # kitty firefox qutebrowser rofi
 
-      cmake gcc go nodejs deno yarn python3
-      # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
-      # rustc cargo rustfmt clippy rust-analyzer
-      (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
-      rust-analyzer-nightly
+    arandr bluetuith
+    gnome.nautilus xfce.thunar
+    xdg-ninja emacs neovim
+    geekbench neofetch meson ninja
 
-      # python3
-      docker
-      slack zulip vscode mpv gimp evince blender
-      ghc stack cabal-install zlib haskellPackages.implicit-hie
-      pandoc texlive.combined.scheme-full calibre minify
-      pup jq watchexec
+    cmake gcc go nodejs deno yarn python3
+    # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
+    # rustc cargo rustfmt clippy rust-analyzer
+    (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
+    rust-analyzer-nightly
 
-      unstable.discord unstable.vkmark unstable.unityhub
-      steamtinkerlaunch
-    ];
+    # python3
+    docker
+    slack zulip vscode mpv gimp evince blender
+    ghc stack cabal-install zlib haskellPackages.implicit-hie
+    pandoc texlive.combined.scheme-full calibre minify
+    pup jq watchexec
+    jdk ditaa graphviz plantuml
 
-    # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
-    services.mpris-proxy.enable = true;
+    # TODO: replace `sxhkd` package with `sxhkd` service
+    # sxhkd
 
-    # This value determines the Home Manager release that your
-    # configuration is compatible with. This helps avoid breakage
-    # when a new Home Manager release introduces backwards
-    # incompatible changes.
-    #
-    # You can update Home Manager without changing this value. See
-    # the Home Manager release notes for a list of state version
-    # changes in each release.
-    home.stateVersion = "22.11";
+    discord vkmark unityhub steamtinkerlaunch
+  ];
+
+  # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
+  services.mpris-proxy.enable = true;
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "22.11";
 }
 

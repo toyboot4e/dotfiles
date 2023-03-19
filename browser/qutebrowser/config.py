@@ -63,7 +63,7 @@ c.url.searchengines = {
     "DEFAULT": 'https://google.com/search?q={}',
 
     "@b": 'https://bandcamp.com/search?q={}',
-    "@cr": 'https://crates.io/search?q={}',
+    "@c": 'https://crates.io/search?q={}',
     "@d": 'https://dictionary.cambridge.org/dictionary/english/{}',
     '@g': 'https://github.com/search?q={}',
     "@s": 'https://stackoverflow.com/search?q={}',
@@ -242,6 +242,7 @@ c.colors.tabs.selected.odd.fg = '#d5c4a1'
 c.colors.tabs.selected.odd.bg = '#202020'
 c.colors.tabs.selected.even.fg = '#d5c4a1'
 c.colors.tabs.selected.even.bg = '#202020'
+
 c.fonts.tabs.selected = f"{FONT_SIZE}pt fantasque sans mono"
 c.fonts.tabs.unselected = f"{FONT_SIZE}pt fantasque sans mono"
 
