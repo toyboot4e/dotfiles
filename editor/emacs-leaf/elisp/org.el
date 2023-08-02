@@ -24,8 +24,29 @@
     :mode ("\\.org\\'" . org-mode)
     :mode ("\\.org.draft\\'" . org-mode)
     :hook (org-mode-hook . toy/init-org)
+    :hook (org-babel-after-execute . org-redisplay-inline-images)
     :config
     (setq org-directory "~/org")
+
+    (evil-define-key 'normal org-mode-map
+        "za" #'org-cycle)
+
+    (progn ;; Setup diagram programs
+        ;; Installation via `home-manager' is assumed:
+        (setq org-ditaa-jar-path "~/.nix-profile/lib/ditaa.jar")
+        (setq org-plantuml-jar-path "~/.nix-profile/lib/plantuml.jar")
+
+        (org-babel-do-load-languages 'org-babel-load-languages
+                                     (append org-babel-load-languages
+                                             '((ditaa . t))
+                                             '((dot . t))
+                                             ))
+
+        ;; (setq org-plantuml "plantuml")
+
+        ;; FIXME: not wokring why
+        ;; (org-babel-do-load-languages ‘org-babel-load-languages ‘((ditaa . t) (dot . t) (plantuml . t)))
+        )
 
     (leaf simple-httpd
         :doc "`httpd-serve-directory' mainly for the org site"
@@ -185,36 +206,111 @@
     ;; FIXME:
     ;; Warning (emacs): Org version mismatch.  Make sure that correct ‘load-path’ is set early in init.el
 
-    ;; (leaf org-roam
-    ;;     :config
-    ;;     (setq org-roam-directory (file-truename "~/org/roam"))
+    ;; `org-roam' mappings:
+    (evil-define-key 'normal org-mode-map
+        " ol" #'org-roam-buffer-toggle
+        " of" #'org-roam-node-find
+        " og" #'org-roam-graph
+        " oi" #'org-roam-node-insert
+        " oc" #'org-roam-capture
+        " oj" #'org-roam-dailies-capture-today
+        " os" #'org-roam-db-sync
+        " ota" #'org-roam-tag-add
+        " otm" #'org-roam-tag-remove
+        )
 
-    ;;     :bind (("C-c n l" . org-roam-buffer-toggle)
-    ;;            ("C-c n f" . org-roam-node-find)
-    ;;            ("C-c n g" . org-roam-graph)
-    ;;            ("C-c n i" . org-roam-node-insert)
-    ;;            ("C-c n c" . org-roam-capture)
-    ;;            ;; Dailies
-    ;;            ("C-c n j" . org-roam-dailies-capture-today))
+    (leaf org-roam
+        :custom
+        ;; any effect?
+        ((org-roam-v2-ack . t)
+         (org-roam-directory . "~/org-roam")
 
-    ;;     :defer-config
-    ;;     ;; If you're using a vertical completion framework, you might want a more informative completion interface
-    ;;     ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-    ;;     (org-roam-db-autosync-mode)
-    ;;     ;; (require 'org-roam-protocol)
-    ;;     )
+         (org-roam-capture-templates
+          . '(
+              ("d" "default" plain
+               "%?"
+               :if-new (file+head "%${slug}.org" "#+title: ${title}\n#+filetags: :problem:")
+               ;; :if-new (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n#+filetags: :problem:")
+               ;; :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+               :unnarrowed t)
 
-    ;; (leaf org-roam-ui
-    ;;     :straight
-    ;;     ;; (org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-    ;;     (org-roam-ui :type git :host github :repo "org-roam/org-roam-ui")
-    ;;     :after org-roam
-    ;;     :custom
-    ;;     ((org-roam-ui-sync-theme . t)
-    ;;      (org-roam-ui-follow . t)
-    ;;      (org-roam-ui-update-on-save . t)
-    ;;      (org-roam-ui-open-on-start . t)))
+              ;; ("p" "plain" plain
+              ;;  "%?"
+              ;;  :if-new (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
+              ;;  ;; :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+              ;;  :unnarrowed t)
 
+              ))
+         )
+
+        :config
+        (org-roam-db-autosync-mode)
+
+        ;; (org-roam-capture-templates
+        ;;  '(("d" "default" plain
+        ;;     "%?"
+        ;;     :if-new (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n")
+        ;;     ;; :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        ;;     :unnarrowed t)))
+
+        ;;     :defer-config
+        ;;     ;; If you're using a vertical completion framework, you might want a more informative completion interface
+        ;;     ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+        ;;     (org-roam-db-autosync-mode)
+        ;;     ;; (require 'org-roam-protocol)
+
+        ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
+        (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
+            "If in evil normal mode and cursor is on a whitespace character, then go into
+append mode first before inserting the link. This is to put the link after the
+space rather than before."
+            (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
+                                               (not (bound-and-true-p evil-insert-state-minor-mode))
+                                               (looking-at "[[:blank:]]"))))
+                (if (not is-in-evil-normal-mode)
+                        ad-do-it
+                    (evil-append 0)
+                    ad-do-it
+                    (evil-normal-state))))
+        )
+
+    (leaf org-roam-ui
+        :after org-roam
+        :custom
+        ((org-roam-ui-sync-theme . t)
+         (org-roam-ui-follow . t)
+         (org-roam-ui-update-on-save . t)
+         (org-roam-ui-open-on-start . t)))
+
+    (leaf consult-org-roam
+        :after org-roam
+
+        :custom
+        ;; Use `ripgrep' for searching with `consult-org-roam-search'
+        (consult-org-roam-grep-func . #'consult-ripgrep)
+        ;; Configure a custom narrow key for `consult-buffer'
+        (consult-org-roam-buffer-narrow-key . ?r)
+        ;; Display org-roam buffers right after non-org-roam buffers
+        ;; in consult-buffer (and not down at the bottom)
+        (consult-org-roam-buffer-after-buffers . t)
+
+        :config
+        (require 'consult-org-roam)
+        ;; Activate the minor mode
+        (consult-org-roam-mode 1)
+
+        ;; Eventually suppress previewing for certain functions
+        (consult-customize
+         consult-org-roam-forward-links
+         :preview-key (kbd "M-."))
+
+        ;; :bind
+        ;; ;; Define some convenient keybindings as an addition
+        ;; ("C-c n e" . consult-org-roam-file-find)
+        ;; ("C-c n b" . consult-org-roam-backlinks)
+        ;; ("C-c n l" . consult-org-roam-forward-links)
+        ;; ("C-c n r" . consult-org-roam-search)
+        )
 
     )
 

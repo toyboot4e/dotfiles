@@ -45,3 +45,9 @@
     ;; Restore the preferred value after 1 second
     (defun toy/gc-restore () (run-at-time 1 nil (lambda () (setq gc-cons-threshold toy/gc))))
     (add-hook 'minibuffer-exit-hook #'toy/gc-restore))
+
+(progn ;; Long lines
+    (setq-default bidi-paragraph-direction 'left-to-right)
+    (if (version<= "27.1" emacs-version)
+            (setq bidi-inhibit-bpa t)))
+

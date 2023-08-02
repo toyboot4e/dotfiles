@@ -197,27 +197,36 @@
                    (lsp-ui-mode)
                    (flycheck-mode))))
 
-;; TODO: idirs2-mode?
 (leaf idris-mode
+    :after lsp-mode
     :mode "\\.l?idr\\'"
     :hook lsp-deferred
     :custom
-    (idris-interpreter-path . "~/.idris2/bin/idris2")
+    (idris-interpreter-path . "idris2")
     :config
     (add-to-list 'lsp-language-id-configuration '(idris-mode . "idris2"))
 
-    ;; (with-eval-after-load 'lsp-mode ;; LSP support for tlp-mode
+    ;; (with-eval-after-load 'lsp-mode
     (lsp-register-client
      (make-lsp-client
       :new-connection (lsp-stdio-connection "idris2-lsp")
       :major-modes '(idris-mode)
-      :server-id 'idris2-lsp))
-    ;; )
-    )
+      :server-id 'idris2-lsp)))
+
+;; Common Lisp
+
+(leaf folding-mode
+    :ensure nil
+    :straight (folding-mode :type git :host github :repo "jaalto/project-emacs--folding-mode"))
 
 (leaf slime
-    :config
-    (setq inferior-lisp-program "sbcl"))
+    :if (file-exists-p "~/.roswell/helper.el")
+    ;; :ensure slime-company
+    :init (load "~/.roswell/helper.el")
+    :custom (inferior-lisp-program . "sbcl")
+    ;; :custom (inferior-lisp-program "ros -Q run")
+    ;; :config (slime-setup '(slime-fancy slime-company))
+    )
 
 ;; (leaf html-ls)
 

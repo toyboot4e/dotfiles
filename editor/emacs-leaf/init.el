@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 ;; NOTE: Open / source `init.el' with `:ed' and `:s' (defined with `leaf evil')
-;; NOTE: Run `:exit-minibuffer' on when `d' motion went wrong (Evil).
+;; NOTE: Run `:exit-minibuffer' (Spc-Spc-r) when `d' motion went wrong (Evil).
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
