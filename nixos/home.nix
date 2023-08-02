@@ -2,9 +2,14 @@
 
 { config, pkgs, ... }:
 
-# let
-#   unstable = import <unstable> { config = { allowUnfree = true; }; };
-# in
+let
+#  unstable = import <unstable> { config = { allowUnfree = true; }; };
+  fcitx5-mozc-patched = pkgs.fcitx5-mozc.overrideAttrs (oldAttrs: rec {
+     preFixup = ''
+       wrapQtApp $out/lib/mozc/mozc_tool
+     '';
+  });
+in
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -16,10 +21,18 @@
     notify = false;
   };
 
-  # ----------------------------------------------------------------------------------------------------
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "python-2.7.18.6"
+  # ];
+  # i18n.inputMethod = {
+  #   enabled = "fcitx";
+  #   fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
+  # };
+
   i18n.inputMethod = {
     enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+    # fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+    fcitx5.addons = with pkgs; [ fcitx5-mozc-patched fcitx5-gtk ];
   };
 
   # Use `sxhkd` service, but without overwriting the configuration file
@@ -64,7 +77,7 @@
   #   TERMINAL = "kitty";
   # };
 
-  # fenix: <https://github.com/nix-community/fenix>
+  # # fenix: <https://github.com/nix-community/fenix>
   nixpkgs.overlays = [
     (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
   ];
@@ -74,28 +87,40 @@
     # kitty firefox qutebrowser rofi
 
     arandr bluetuith
-    gnome.nautilus xfce.thunar
+    cinnamon.nemo gnome.nautilus xfce.thunar
     xdg-ninja emacs neovim
-    geekbench neofetch meson ninja
+    # geekbench
+    neofetch meson ninja
 
-    cmake gcc go nodejs deno yarn python3
-    # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
-    # rustc cargo rustfmt clippy rust-analyzer
+    # CPU temperature
+    lm_sensors
+
+    gnumake cmake gcc go nodejs deno yarn python3 roswell
+    # goenv
+    # idris2.. using `idris2-pack` instead
+    # https://github.com/stefan-hoeck/idris2-pack
+    chez zig zls
+
+    #### # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
+    #### # rustc cargo rustfmt clippy rust-analyzer
     (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
     rust-analyzer-nightly
 
     # python3
     docker
-    slack zulip vscode mpv gimp evince blender
-    ghc stack cabal-install zlib haskellPackages.implicit-hie
-    pandoc texlive.combined.scheme-full calibre minify
+    slack zulip vscode mpv gimp evince
+    # blender
+    # https://github.com/NixOS/nixpkgs/issues/241125
+    ghc stack cabal-install zlib haskellPackages.implicit-hie ormolu
+    drawio mdbook pandoc texlive.combined.scheme-full calibre minify
     pup jq watchexec
     jdk ditaa graphviz plantuml
 
     # TODO: replace `sxhkd` package with `sxhkd` service
     # sxhkd
 
-    discord vkmark unityhub steamtinkerlaunch
+    # GUI
+    discord vkmark unityhub steamtinkerlaunch obs-studio zeal
   ];
 
   # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>

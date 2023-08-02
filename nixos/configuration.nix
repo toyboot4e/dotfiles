@@ -1,5 +1,3 @@
-# configuration.nix(5)
-# nixos-help
 
 # `unstable` channel by default (previously 22.11)
 
@@ -17,11 +15,6 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # FIXME:
-  nixpkgs.config.permittedInsecurePackages = [
-    "python-2.7.18.6"
-  ];
 
   imports =
     [ # Include the results of the hardware scan.
@@ -55,6 +48,14 @@
       "\${XDG_BIN_HOME}"
     ];
   };
+
+  # # For high DPI support on Xorg?:
+  # # <https://nixos.wiki/wiki/Xorg>
+  # environment.variables = {
+  #   GDK_SCALE = "2";
+  #   GDK_DPI_SCALE = "0.5";
+  #   _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+  # };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -128,9 +129,6 @@
   #   noCheck = true;
   # };
 
-  # Working?
-  hardware.video.hidpi.enable = true;
-
   # Fonts https://nixos.wiki/wiki/Fonts
   fonts = {
     fontDir.enable = true;
@@ -150,7 +148,15 @@
         serif = [ "noto-fonts-cjk" ];
         sansSerif = [ "noto-fonts-cjk" ];
         monospace = [ "noto-sans-font-cjk" ];
-     };
+      };
+
+      # FIXME: seems to be not wokring
+      antialias = true;
+      hinting = {
+        enable = true;
+        style = "full"; # no difference?
+        autohint = true; # no difference?
+      };
     };
   };
 
@@ -159,6 +165,8 @@
   environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
   services.xserver = {
     enable = true;
+    dpi = 163;
+    # dpi = 326;
 
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
     exportConfiguration = true;
@@ -224,6 +232,10 @@
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
 
+  # TODO: works as expected on unstable?
+  # https://nixos.wiki/wiki/Nvidia#Fix_graphical_corruption_on_suspend.2Fresume
+  hardware.nvidia.powerManagement.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -232,21 +244,36 @@
 
   # Enable Japanese input using `fcitx` (fcitx4)
   #
-  # https://ykonomi.hatenablog.com/entry/2021/04/27/022803
-  #
-  # ----
   # $ # Enable Mozc input:
   # $ fcitx-configtool
   # $ # Input mode: romaji
   # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
-  # ----
+  #
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "python-2.7.18.6"
+  # ];
   # i18n.inputMethod = {
   #   enabled = "fcitx";
   #   fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
   # };
+  #
+  # $ # Enable Mozc input:
+  # $ fcitx5-configtool
+  # $ # Input mode: romaji
+  # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
+  #
+  # i18n.inputMethod = {
+  #   enabled = "fcitx5";
+  #   fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+  # };
 
   # Enable `nix-ld`:
   programs.nix-ld.enable = true;
+
+  # # <https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/>
+  # programs.nix-ld.libraries = with pkgs; [
+  #   stdenv.cc.cc zlib fuse3 icu zlib nss openssl curl expat
+  # ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -268,6 +295,9 @@
 
     # Nix LSP: https://github.com/oxalica/nil
     nil
+
+    # wine: <https://nixos.wiki/wiki/Wine>
+    wineWowPackages.staging winetricks
   ];
 
   # Steam: https://nixos.wiki/wiki/Steam
@@ -279,6 +309,7 @@
 
   # home-manager as a NixOS module: https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
 
+  programs.fish.enable = true;
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
@@ -302,10 +333,11 @@
   programs.ssh.startAgent = true;
   services.openssh = {
     enable = true;
-    settings = {
-      passwordAuthentication = false;
-      kbdInteractiveAuthentication = false;
-    };
+    # On NixOS 23.05, duplicate key?:
+    # settings = {
+    #   passwordAuthentication = false;
+    #   kbdInteractiveAuthentication = false;
+    # };
     # permitRootLogin = "yes";
   };
 
