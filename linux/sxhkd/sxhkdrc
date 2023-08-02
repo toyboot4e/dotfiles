@@ -25,14 +25,19 @@ super + shift + e
 
 # GUI screenshot (flameshot)
 super + shift + g
-  QT_SCALE_FACTOR=2 flameshot gui
+  flameshot gui
 
-# window screenshot
-super + shift + w
+# capture the current window
+super + shift + p
   ~/dev/bash/toy-scripts/x11-screen -w ~/ss/new
 
-# FIXME: region screenshot
-# bindsym $mod+Shift+s exec ~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
+# capture the whole screen
+super + shift + o
+  ~/dev/bash/toy-scripts/x11-screen -s ~/ss/new
+
+# capture interactively
+super + shift + i
+  ~/ss/new~/dev/bash/toy-scripts/x11-screen -r ~/ss/new
 
 # --------------------------------------------------------------------------------
 # Menus, metas
@@ -57,11 +62,16 @@ super { h, j, k, l, Left, Down, Up, Right  }
 
 # move focused window
 super + shift + { h, j, k, l, Left, Down, Up, Right  }
-  i3-msg focus { left, down, up, right, left, down, up, right }
+  i3-msg move { left, down, up, right, left, down, up, right } 200 px
 
-# resize
-super + shift + {Left, Down, Up, Right}
-  i3-msg move { left, Down, Up, Right } 200 px
+# TODO: resize commands
+# super + shift + { a, s, w, d }
+#   i3-msg move { left, down, up, right } 200 px
+
+# h resize shrink width 200 px or 200 ppt
+# l resize grow width 200 px or 200 ppt
+# k resize shrink height 200 px or 200 ppt
+# j resize grow height 200 px or 200 ppt
 
 # --------------------------------------------------------------------------------
 # Workspaces

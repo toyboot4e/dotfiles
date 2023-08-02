@@ -107,14 +107,25 @@
 
 ;; [GUI] Font
 (when (display-graphic-p)
-    (set-face-attribute 'default nil :family "Menlo" :height 110)
+    ;; (set-face-attribute 'default nil :family "roboto-mono" :height 110)
+    ;; (set-face-attribute 'default nil :family "roboto-mono")
+    ;; (set-face-attribute 'default nil :family "Noto Sans Mono")
+
+    ;; TODO: setup monospaced font
     (set-fontset-font (frame-parameter nil 'font)
                       'japanese-jisx0208
                       ;; TODO: fallback
                       ;; (font-spec :family "Hiragino Kaku Gothic ProN")
-                      (font-spec :family "Noto Sans CJK JP"))
-    (add-to-list 'face-font-rescale-alist
-                 '(".*Hiragino Kaku Gothic ProN.*" . 1.1)))
+                      (font-spec :family "Noto Sans Mono CJK JP")
+                      )
+
+    ;; FIXME: proper way to align org tables?
+    (setq face-font-rescale-alist
+          '(("Noto Sans Mono CJK JP" . 1.25)))
+
+    ;; (setq face-font-rescale-alist
+    ;;       '(("roboto.*" . 1.0)))
+    )
 
 ;; If on terminal
 (when (not (display-graphic-p))

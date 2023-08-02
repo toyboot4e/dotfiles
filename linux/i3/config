@@ -82,7 +82,8 @@ for_window [class="executor"] floating enable
 # `scratchpad` keyt bindings in `i3` did not work well for me (somehow).
 # So I'm calling `xdotools` from `sxhkd` instead.
 
-for_window [class="dropdown-terminal"] floating enable, resize set 1920 1080, move position center
+# for_window [class="dropdown-terminal"] floating enable, resize set 1920 1080, move position center
+for_window [class="dropdown-terminal"] floating enable, resize set 2880 1620, move position center
 for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
 
 # --------------------------------------------------------------------------------
@@ -236,7 +237,7 @@ mode "resize" {
   bindsym Right resize grow width 200 px or 200 ppt
   bindsym Up resize shrink height 200 px or 200 ppt
   bindsym Down resize grow height 200 px or 200 ppt
-  
+
   # back to normal: Enter or Escape or $mod+r
   bindsym Return mode "default"
   bindsym Escape mode "default"
