@@ -15,3 +15,15 @@ if command -sq direnv
     direnv hook fish | source
 end
 
+# `home-manager` session variables
+# <https://rycee.gitlab.io/home-manager/index.html#_why_are_the_session_variables_not_set>
+
+if test -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    # source `export=..` statements in the sh file:
+    for kv in (cat "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" | grep '^export' | sed 's;^export ;;g')
+        set k (printf '%s' "$kv" | cut -d '=' -f1)
+        set v (printf '%s' "$kv" | cut -d '=' -f2- | tr -d '"')
+	set "$k" "$v"
+    end
+end
+
