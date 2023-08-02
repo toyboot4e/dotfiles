@@ -421,15 +421,32 @@
         :hook (haskell-mode-hook . lsp-deferred)
         :hook (haskell-literate-mode-hook . lsp-deferred)
         :config
+        (defun ormolu-format-buffer ()
+            "Formats current buffer with `ormolu'.
+Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
+            (interactive)
+            (setq last-point (point))
+            (shell-command-on-region
+             (point-min) (point-max)
+             (format "ormolu --stdin-input-file %s" (buffer-file-name))
+             ;; output buffer, replace?, name of error buffer, show it
+             (current-buffer) t
+             "*Ormolu Error Buffer*" t)
+            (goto-char last-point))
+
         (leaf consult-hoogle
             :ensure nil
             :straight (consult-hoogle :type git :host github :repo "aikrahguzar/consult-hoogle"))
+
         (leaf lsp-haskell
             :after lsp-mode
             :custom
             :url "https://github.com/emacs-lsp/lsp-haskell")
+
         (evil-define-key 'normal 'haskell-mode-map
-            (kbd "C-c h") 'consult-hoogle))
+            (kbd "C-c h") 'consult-hoogle
+            (kbd "C-c f") 'ormolu-format-buffer)
+        )
 
     (leaf helpful
         :bind ([remap describe-command]
