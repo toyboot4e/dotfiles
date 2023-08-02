@@ -15,8 +15,8 @@
     (interactive)
     ;; Let's use logical lines. Line wrapping does not work well with Japanese text,
     ;; inserting needless whitespaces in output:
-    ;; (visual-line-mode)
-    ;; (setq fill-column 100)
+    (visual-line-mode)
+    (setq fill-column 100)
     ;; (turn-on-auto-fill)
     )
 

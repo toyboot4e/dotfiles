@@ -218,6 +218,8 @@
     ;; (global-corfu-mode)
 
     (leaf corfu-popupinfo
+        ;; Today it comes with `corfu'.
+        :ensure nil
         :custom ((coruf-popupinfo-delay . 0))
         :hook (corfu-mode-hook . corfu-popupinfo-mode)
         )

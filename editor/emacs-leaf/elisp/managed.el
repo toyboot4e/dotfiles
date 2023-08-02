@@ -325,6 +325,7 @@
         :commands (evilnc-comment-or-uncomment-lines))
 
     (leaf evil-org
+        :doc "TODO: replace with evil-collection"
         :after evil org
         :hook (org-mode-hook . evil-org-mode)
         :hook (evil-org-mode-hook . toy/init-evil-org)
@@ -654,9 +655,11 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         ;; :mode "\\.nix\\'"
         :hook (nix-mode-hook . lsp-deferred)
         :config
-        (leaf lsp-nix
-            :custom
-            (lsp-nix-nil-formatter . ["nixpkgs-fmt"])))
+        ;; FIXME: not found?
+        ;; (leaf lsp-nix
+        ;;     :custom
+        ;;     (lsp-nix-nil-formatter . ["nixpkgs-fmt"]))
+        )
 
     (leaf olivetti
         :doc "Zen mode *per buffer* (not per frame and that is great!)"
