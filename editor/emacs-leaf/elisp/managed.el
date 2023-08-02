@@ -108,10 +108,19 @@
         (centaur-tabs-mode t)
         :defer-config (centaur-tabs-headline-match))
 
-    (leaf clipetty
-        :after evil
-        :config
-        (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
+    ;; Didn't woring working on `tmux' int 'kitty'
+    ;; (leaf clipetty
+    ;;     :after evil
+    ;;     :config
+    ;;     (evil-ex-define-cmd "copy" #'clipetty-kill-ring-save))
+    ;;
+    ;; (leaf simpleclip-mode
+    ;;     :ensure nil
+    ;;     :straight (simpleclip-mode :type git :host github :repo "rolandwalker/simpleclip")
+    ;;     :config (simpleclip-mode 1))
+
+    (leaf xclip
+        :config (xclip-mode))
 
     (leaf cmake-mode)
 
