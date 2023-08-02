@@ -214,26 +214,29 @@
     (leaf evil-collection
         :after evil
         :leaf-defer nil
-        :commands (evil-collection-dired-setup evil-collection-elisp-mode-setup evil-collection-eww-setup evil-collection-elfeed-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup evil-collection-pdf-setup evil-collection-doc-view-setup)
+        :commands (evil-collection-dired-setup evil-collection-elfeed-setup evil-collection-elisp-mode-setup evil-collection-eww-setup evil-collection-info-setup evil-collection-markdown-mode-setup evil-collection-consult-setup evil-collection-corfu-setup evil-collection-embark-setup evil-collection-vterm-setup evil-collection-magit-setup evil-collection-pdf-setup evil-collection-doc-view-setup evil-collection-minibuffer-mode-setup evil-collection-slime-setup evil-collection-sly-setup)
         :custom (evil-collection-magit-use-z-for-folds . t)
         :config
         (with-eval-after-load 'dired
             (evil-collection-dired-setup))
 
-        (with-eval-after-load 'eww
-            (evil-collection-eww-setup))
+        (with-eval-after-load 'elfeed
+            (evil-collection-elfeed-setup))
 
         (with-eval-after-load 'elisp-mode
             (evil-collection-elisp-mode-setup))
 
-        (with-eval-after-load 'elfeed
-            (evil-collection-elfeed-setup))
+        (with-eval-after-load 'eww
+            (evil-collection-eww-setup))
 
         (with-eval-after-load 'info
             (evil-collection-info-setup))
 
         (with-eval-after-load 'markdown-mode
             (evil-collection-markdown-mode-setup))
+
+        (with-eval-after-load 'minibuffer-mode
+            (evil-collection-minibuffer-mode-setup))
 
         (with-eval-after-load 'consult
             (evil-collection-consult-setup))
@@ -250,11 +253,20 @@
         (with-eval-after-load 'doc-view
             (evil-collection-doc-view-setup))
 
+        (with-eval-after-load 'org-roam
+            (evil-collection-org-roam-setup))
+
         (with-eval-after-load 'pdf
             (evil-collection-pdf-setup))
 
         (with-eval-after-load 'vterm
             (evil-collection-vterm-setup))
+
+        (with-eval-after-load 'slime
+            (evil-collection-slime-setup))
+
+        (with-eval-after-load 'sly
+            (evil-collection-sly-setup))
 
         (with-eval-after-load 'magit
             (evil-define-key 'normal magit-mode-map "zz" #'evil-scroll-line-to-center "z-" #'evil-scroll-line-to-bottom
