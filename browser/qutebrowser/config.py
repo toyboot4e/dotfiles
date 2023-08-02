@@ -74,6 +74,7 @@ c.url.searchengines = {
     '@hoogle': 'https://hoogle.haskell.org/?hoogle={}',
     '@abc': 'https://atcoder.jp/contests/abc{}/tasks',
 
+    "my": 'https://github.com/toyboot4e/{}',
     "@my": 'https://github.com/toyboot4e/{}',
     "@d": 'https://docs.rs/{}',
     "@doc": 'https://docs.rs/{}',
