@@ -13,10 +13,20 @@ export HISTCONTROL=ignoredups
 _exists() { command -v "$1" > /dev/null ; }
 
 _path() {
-    [ $# -eq 0 ] && return
-    [ -d "${1}" ] || return
+    if [ $# -eq 0 ] ; then
+        return
+    fi
+
+    if [ -d "${1}" ] ; then
+        return
+    fi
+
     printf "$PATH" | tr : '\n' | grep ^"${1}"'$' > /dev/null
-    [ $? -eq 0 ] && return
+
+    if [ $? -eq 0 ] ; then
+        return
+    fi
+
     export PATH="${1}:$PATH"
 }
 
@@ -32,9 +42,6 @@ src() {
 
 # --------------------------------------------------------------------------------
 # System
-
-# Utilities
-_exists() { command -v "$1" > /dev/null ; }
 
 _alias() {
     if _exists "$1" ; then
@@ -164,32 +171,15 @@ _alias ffmpeg audio-convert 'ffmpeg -i'
 _alias asciidoctor adoc
 
 # --------------------------------------------------------------------------------
-# Preference
+# End
 
-##### narou routines ######
-if _exists narou ; then
-  narou() {
-    pushd `@narou` > /dev/null || return 1
-    command narou "$@"
-    [ "$1" = 'd' -o "$1" = 'send' ] && narou-rename
-    popd > /dev/null
-  }
-  alias nd='narou d'
-fi
-
-# --------------------------------------------------------------------------------
-# EoF
-
+# direnv
 if command -v "direnv" > /dev/null ; then
     eval "$(direnv hook bash)"
 fi
 
-# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/toy/.sdkman"
-[[ -s "/Users/toy/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/toy/.sdkman/bin/sdkman-init.sh"
-
-export PATH="$PATH:$HOME/.ghcup/bin"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# home-manager session variables
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ] ; then
+    source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 
+fi
 

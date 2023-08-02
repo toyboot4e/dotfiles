@@ -1,37 +1,70 @@
 # Login-specific initilizations (setting up environmental variable)
-# and sourcing ~/.bashrc
+
+# needed?
+source ~/.bashrc
 
 _path "$HOME/bin"
 _path "$HOME/.local/bin"
-# _path "/Applications/MacVim.app/Contents/bin"
 
 _path "$HOME/.nix-profile/bin"
 _path "$HOME/.npm-global/bin"
 
-" SDL2
-export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
+# # SDL2
+# export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
 
-# _exists stack && _path "$(stack path --local-bin)"
+# [ -r '/usr/local/etc/bash_completion.d/git-completion.bash' ] && src '/usr/local/etc/bash_completion.d/git-completion.bash'
+# [ -r "$HOME/.fzf.bash" ] && src "$HOME/.fzf.bash"
 
-_exists rbenv && eval "$(rbenv init -)"
-_exists pipenv && eval "$(pipenv --completion)"
-[ -r '/usr/local/etc/bash_completion.d/git-completion.bash' ] && src '/usr/local/etc/bash_completion.d/git-completion.bash'
-[ -r "$HOME/.fzf.bash" ] && src "$HOME/.fzf.bash"
+# FIXME: such commands all make my bash crash, why
 
-_exists w3m && export BROWSER=w3m
+# # if _exists w3m ; then
+# if command -v w3m > /dev/null ; then
+#     export BROWSER=w3m
+# fi
 
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# # --------------------------------------------------------------------------------
+# # Virtual environment (?)
+# # --------------------------------------------------------------------------------
+# 
+# # # Go
+# # if [ _exists goenv ] ; then
+# #     eval "$(goenv init -)"
+# #     export GOPATH="$(go env GOPATH)"
+# # fi
 
-# Go
-eval "$(goenv init -)"
-export GOPATH="$(go env GOPATH)"
+# `rbenv`
+# _exists rbenv && eval "$(rbenv init -)"
 
-# perl5
-source /Users/toy/perl5/perlbrew/etc/bashrc
+# `pipenv` or such
+# _exists pipenv && eval "$(pipenv --completion)"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# # --------------------------------------------------------------------------------
+# # PATH
+# # --------------------------------------------------------------------------------
+# 
+# # Load RVM into a shell session *as a function*
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-[ -r "$HOME/.bashrc" ] && source "$HOME/.bashrc" && psn
+# home-manager session variables
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ] ; then
+    source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 
+fi
+
+# # `ghcup`
+# if [ -d "$HOME/.ghcup" ] ; then
+#     export PATH="$PATH:$HOME/.ghcup/bin"
+# fi
+
+# # `rvm`
+# if [ -d "$HOME/.rvm" ] ; then
+#     export PATH="$PATH:$HOME/.rvm/bin"
+# fi
+
+# # TODO: I need to remember what is this
+# if [ -d "$HOME/.sdkman" ]; then
+#     export SDKMAN_DIR="$HOME/.sdkman"
+#     [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# fi
+
+# # [ -r "$HOME/.bashrc" ] && source "$HOME/.bashrc" && psn
 
