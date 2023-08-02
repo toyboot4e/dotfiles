@@ -22,34 +22,95 @@ haskell-mode
 
 ;; debug
 (traceShow "!_ = traceShow (" (p "") ") ()")
+(dbg "!_ = dbg (" (p "") ")")
+(assert "!_ = dbgAssert (" (p "") ")")
 
 ;; competitive programming
 (yn "if " (p "result") " then \"Yes\" else \"No\"")
 
-(list "[n] <- getLineIntList")
-(vec "xs <- getLineIntList")
+(getL "[!n] <- getLineIntList")
+(getV "!xs <- getLineIntList")
 
-(graphGen "input <- concatMap (\\[a, b] -> [(a, b), (b, a)]) <$> replicateM nEdges getLineIntList" n>
-          "let graph = accumArray @Array (flip (:)) [] (1, nVerts) input" n>)
+(graphGen "!input <- concatMap (\\[a, b] -> [(a, b), (b, a)]) <$> replicateM nEdges getLineIntList" n>
+          "let !graph = accumArray @Array (flip (:)) [] (1, nVerts) input" n>)
 
-(fold "let result = foldl' step s0 " (p "input") n>
+(fold "let !result = foldl' step s0 " (p "input") n>
       "    s0 = " (p "_") n>
-      "    step = " (p "_"))
+      "    step = !" (p "_"))
 
-(runSTUArray "let dp = runSTArray $ do" n>
-        "arr <- newArray ((0, 0), (h - 1, w - 1)) (0 :: Int)" n>
-        "      return arr")
+(runSTUArray
+ "runSTUAray $ do
+    !arr <- VUM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
+    return arr")
 
-(VU.create "let dp = VU.create $ do" n>
-        "vec <- VUM.replicate (h * w) (0 :: Int)" n>
-        "      return vec")
+(create
+  "VU.create $ do
+     !vec <- VUM.replicate (h * w) (0 :: Int)
+     return vec")
 
 (for2 "forM_ [0 .. h - 1] $ \\y -> do" n>
         "forM_ [0 .. w - 1] $ \\x -> do" n>)
 
+(error "error \"unreachable\"")
+
 ;; examples
-(mapAccumL "mapAccumL (\\acc x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
-(stateMap "runState (mapM (\\x -> state $ \\acc -> (x, x + acc)) [1, 2, 3]) (0 :: Int)")
+(mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
+(stateMap "evalState (mapM (\\ !x -> state $ \\ !acc -> (x, x + acc)) [1, 2, 3]) (0 :: Int)")
+
+(fixDP
+  "let !result = VU.create $ do
+        !dp <- VUM.replicate (succ n) undef
+        VUM.write dp 0 (0 :: Int)
+
+        !_ <- flip fix n $ \loop_ i -> do
+          if i < 0
+            then return 0
+            else do
+              !x0 <- VUM.read dp i
+              if x0 /= undef
+                then return x0
+                else do
+                  x1 <- succ <$> loop_ (i - 1)
+                  x2 <- succ <$> loop_ (i - 2)
+
+                  let x = divModF (x1 * p1 `rem` 998244353 + x2 * p2 `rem` 998244353) 100 998244353
+                  -- let !_ = traceShow (i, x1, x2, x) ()
+
+                  VUM.write dp i x
+                  return x
+
+        return dp")
+
+(monoidAction
+"-- | Add
+newtype Op = Op Int
+  deriving (Eq, Ord, Show)
+
+derivingUnbox "Op" [t|Op -> Int|] [|\(Op !x) -> x|] [|\ !x -> Op x|]
+
+instance Semigroup Op where
+  (Op !x1) <> (Op !x2) = Op (x1 + x2)
+
+instance Monoid Op where
+  mempty = Op 0
+
+instance SemigroupAction Op Acc where
+  sact (Op !o) (Acc !a) = Acc (o + a)
+
+instance MonoidAction Op Acc
+
+-- | Max
+newtype Acc = Acc Int
+  deriving (Eq, Ord, Show)
+
+derivingUnbox "Acc" [t|Acc -> Int|] [|\(Acc !x) -> x|] [|\ !x -> Acc x|]
+
+instance Semigroup Acc where
+  (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
+
+instance Monoid Acc where
+  mempty = Acc (minBound @Int) -- as `Max`")
+
 
 org-mode
 
