@@ -10,7 +10,7 @@ fundamental-mode ;; Available everywhere
 haskell-mode
 
 ;; stack script
-(script "#!/usr/bin/env stack" n "{- stack script --resolver lts-16.11 -}")
+(script "#!/usr/bin/env stack" n "{- stack script --resolver lts-21.6 -}")
 
 ;; header
 (langauge "{-# LANGUAGE " (p "BangPatterns") " #-}")
@@ -21,22 +21,8 @@ haskell-mode
 (ormolu "{- ORMULU_DISABLE -}" n "{- ORMOLU_ENABLE -}")
 
 ;; debug
-(traceShow "!_ = traceShow (" (p "") ") ()")
 (dbg "!_ = dbg (" (p "") ")")
 (assert "!_ = dbgAssert (" (p "") ")")
-
-;; competitive programming
-(yn "if " (p "result") " then \"Yes\" else \"No\"")
-
-(getL "[!n] <- getLineIntList")
-(getV "!xs <- getLineIntList")
-
-(graphGen "!input <- concatMap (\\[a, b] -> [(a, b), (b, a)]) <$> replicateM nEdges getLineIntList" n>
-          "let !graph = accumArray @Array (flip (:)) [] (1, nVerts) input" n>)
-
-(fold "let !result = foldl' step s0 " (p "input") n>
-      "    s0 = " (p "_") n>
-      "    step = !" (p "_"))
 
 (runSTUArray
  "runSTUAray $ do
@@ -48,38 +34,15 @@ haskell-mode
      !vec <- VUM.replicate (h * w) (0 :: Int)
      return vec")
 
-(for2 "forM_ [0 .. h - 1] $ \\y -> do" n>
-        "forM_ [0 .. w - 1] $ \\x -> do" n>)
+(dir4 "!dir4 = VU.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
+(crossDir4 "!dir4 = VU.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
+(dir8 "!dir8 = VU.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
 
 (error "error \"unreachable\"")
 
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
 (stateMap "evalState (mapM (\\ !x -> state $ \\ !acc -> (x, x + acc)) [1, 2, 3]) (0 :: Int)")
-
-(fixDP
-  "let !result = VU.create $ do
-        !dp <- VUM.replicate (succ n) undef
-        VUM.write dp 0 (0 :: Int)
-
-        !_ <- flip fix n $ \loop_ i -> do
-          if i < 0
-            then return 0
-            else do
-              !x0 <- VUM.read dp i
-              if x0 /= undef
-                then return x0
-                else do
-                  x1 <- succ <$> loop_ (i - 1)
-                  x2 <- succ <$> loop_ (i - 2)
-
-                  let x = divModF (x1 * p1 `rem` 998244353 + x2 * p2 `rem` 998244353) 100 998244353
-                  -- let !_ = traceShow (i, x1, x2, x) ()
-
-                  VUM.write dp i x
-                  return x
-
-        return dp")
 
 (monoidAction
 "-- | Add
@@ -111,27 +74,41 @@ instance Semigroup Acc where
 instance Monoid Acc where
   mempty = Acc (minBound @Int) -- as `Max`")
 
+(modInt
+"data MyModulo = MyModulo
+
+instance TypeInt MyModulo where
+  -- typeInt _ = 1_000_000_007
+  typeInt _ = 998244353
+
+type MyModInt = ModInt MyModulo
+
+myModulo :: Int
+myModulo = typeInt (Proxy @MyModulo)
+
+modInt :: Int -> MyModInt
+modInt = ModInt . (`rem` myModulo)")
 
 org-mode
 
-(caption "#+caption: ")
+(caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")
-(begin "#+begin_" (s name) n> r> n "#+end_" name)
-(quote "#+begin_quote" n> r> n "#+end_quote")
-(sidenote "#+begin_sidenote" n> r> n "#+end_sidenote")
-(marginnote "#+begin_marginnote" n> r> n "#+end_marginnote")
-(example "#+begin_example" n> r> n "#+end_example")
-(center "#+begin_center" n> r> n "#+end_center")
-(ascii "#+begin_export ascii" n> r> n "#+end_export")
-(html "#+begin_export html" n> r> n "#+end_export")
-(latex "#+begin_export latex" n> r> n "#+end_export")
-(comment "#+begin_comment" n> r> n "#+end_comment")
-(verse "#+begin_verse" n> r> n "#+end_verse")
-(src "#+begin_src " q n> "#+end_src")
-(gnuplot "#+begin_src gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+end_src" :post (org-edit-src-code))
-(elisp "#+begin_src emacs-lisp" n> r> n "#+end_src" :post (org-edit-src-code))
+(begin "#+BEGIN_" (s name) n> r> n "#+END_" name)
+(quote "#+BEGIN_QUOTE" n> r> n "#+END_QUOTE")
+(sidenote "#+BEGIN_SIDENOTE" n> r> n "#+END_SIDENOTE")
+(marginnote "#+BEGIN_MARGINNOTE" n> r> n "#+END_MARGINNOTE")
+(example "#+BEGIN_EXAMPLE" n> r> n "#+END_EXAMPLE")
+(center "#+BEGIN_CENTER" n> r> n "#+END_CENTER")
+(ascii "#+BEGIN_EXPORT ascii" n> r> n "#+END_EXPORT")
+(html "#+BEGIN_EXPORT html" n> r> n "#+END_EXPORT")
+(latex "#+BEGIN_EXPORT latex" n> r> n "#+END_EXPORT")
+(comment "#+BEGIN_COMMENT" n> r> n "#+END_COMMENT")
+(verse "#+BEGIN_VERSE" n> r> n "#+end_verse")
+(src "#+BEGIN_SRC " q n> "#+END_SRC")
+(gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
+(elisp "#+BEGIN_SRC emacs-lisp" n> r> n "#+END_SRC" :post (org-edit-src-code))
 ;; (inlsrc "src_" p "{" q "}")
-(title "#+title: " p n "#+author: Daniel Mendler" n "#+language: en")
+(title "#+TITLE: " p n "#+AUTHOR: Daniel Mendler" n "#+LANGUAGE: en")
 
 ;; Local Variables:
 ;; mode: lisp-data
