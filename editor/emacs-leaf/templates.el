@@ -29,6 +29,21 @@ haskell-mode
     !arr <- VUM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
     return arr")
 
+(bounds "!bounds_ = ((0, 0), (h - 1, w - 1))")
+
+(undef
+ "undef :: Int
+undef = -1")
+
+(twos
+  "twos :: VU.Vector MyModInt
+twos = VU.iterateN (2000 * 2) (\x -> x * x) (modInt 2)")
+
+(pattern
+ "pattern INSERT, DELETE :: Int
+pattern INSERT = 0
+pattern DELETE = 1")
+
 (create
   "VU.create $ do
      !vec <- VUM.replicate (h * w) (0 :: Int)
@@ -42,7 +57,7 @@ haskell-mode
 
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
-(stateMap "evalState (mapM (\\ !x -> state $ \\ !acc -> (x, x + acc)) [1, 2, 3]) (0 :: Int)")
+(stateMap "evalState (VU.mapM (\\x -> state $ \\acc -> (x, x + acc)) (VU.fromList [1, 2, 3])) (0 :: Int)")
 
 (monoidAction
 "-- | Add
@@ -83,8 +98,8 @@ instance TypeInt MyModulo where
 
 type MyModInt = ModInt MyModulo
 
-myModulo :: Int
-myModulo = typeInt (Proxy @MyModulo)
+myMod :: Int
+myMod = typeInt (Proxy @MyModulo)
 
 modInt :: Int -> MyModInt
 modInt = ModInt . (`rem` myModulo)")
@@ -105,6 +120,7 @@ org-mode
 (comment "#+BEGIN_COMMENT" n> r> n "#+END_COMMENT")
 (verse "#+BEGIN_VERSE" n> r> n "#+end_verse")
 (src "#+BEGIN_SRC " q n> "#+END_SRC")
+(details "#+BEGIN_DETAILS " q n> "#+END_DETAILS")
 (gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
 (elisp "#+BEGIN_SRC emacs-lisp" n> r> n "#+END_SRC" :post (org-edit-src-code))
 ;; (inlsrc "src_" p "{" q "}")
