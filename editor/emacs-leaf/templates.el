@@ -102,7 +102,7 @@ myMod :: Int
 myMod = typeInt (Proxy @MyModulo)
 
 modInt :: Int -> MyModInt
-modInt = ModInt . (`rem` myModulo)")
+modInt = ModInt . (`rem` myMod)")
 
 org-mode
 
@@ -119,12 +119,31 @@ org-mode
 (latex "#+BEGIN_EXPORT latex" n> r> n "#+END_EXPORT")
 (comment "#+BEGIN_COMMENT" n> r> n "#+END_COMMENT")
 (verse "#+BEGIN_VERSE" n> r> n "#+end_verse")
-(src "#+BEGIN_SRC " q n> "#+END_SRC")
+(src "#+BEGIN_SRC " (p "hs") n> "#+END_SRC")
 (details "#+BEGIN_DETAILS " q n> "#+END_DETAILS")
+(export "#+BEGIN_EXPORT " (p "html") n> "#+END_EXPORT")
 (gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
 (elisp "#+BEGIN_SRC emacs-lisp" n> r> n "#+END_SRC" :post (org-edit-src-code))
 ;; (inlsrc "src_" p "{" q "}")
 (title "#+TITLE: " p n "#+AUTHOR: Daniel Mendler" n "#+LANGUAGE: en")
+
+;; for diary
+(abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加した。
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]] では
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_b][B 問題]] では
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_c][C 問題]] では
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_d][D 問題]] では
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]] では
+
+[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]] では
+")
+
+(ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加した。")
 
 ;; Local Variables:
 ;; mode: lisp-data
