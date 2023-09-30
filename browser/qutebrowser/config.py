@@ -5,10 +5,11 @@ def scaled(x):
     return 2 * x
 
 def text_scaled(x):
-    return 1 * x
+    return 1.0 * x
 
-FONT_SIZE=text_scaled(10)
 DEFAULT_ZOOM=scaled(75)
+c.fonts.default_size = "18pt"
+FONT_SIZE=18
 
 config.load_autoconfig(False)
 
