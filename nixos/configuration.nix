@@ -1,11 +1,7 @@
-
 # `unstable` channel by default (previously 22.11)
 
 # TODOs:
-# - [ ] Bluetooth support
 # - [ ] Monitoring applications
-# - [ ] Automatic USB mounting (or not)
-# - [ ] Blender
 
 { config, pkgs, ... }:
 
@@ -99,6 +95,9 @@
   # <https://flathub.org/apps/details/com.bitwig.BitwigStudio>
   services.flatpak.enable = true;
 
+  # iOS: <https://nixos.wiki/wiki/IOS>
+  services.usbmuxd.enable = true;
+
   # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
   xdg.portal = {
     enable = true;
@@ -132,10 +131,10 @@
   # Fonts https://nixos.wiki/wiki/Fonts
   fonts = {
     fontDir.enable = true;
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
 
     # Font packages TODO: Add more fonts
-    fonts = with pkgs; [
+    packages = with pkgs; [
       # SauceCodePro is distributed as SourceCodePro
       (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
       noto-fonts noto-fonts-cjk font-awesome pango monoid roboto-mono vistafonts
@@ -283,7 +282,7 @@
     xorg.xdpyinfo pavucontrol sysstat yad xdotool
 
     kitty bash fish zsh tmux git gh ghq w3m fzf wezterm feh
-    tree as-tree ripgrep fd bat delta diff-so-fancy difftastic exa as-tree tokei zoxide tealdeer
+    tree as-tree ripgrep fd bat delta diff-so-fancy difftastic eza as-tree tokei zoxide tealdeer
     direnv nix-direnv
     qutebrowser firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
 
@@ -298,6 +297,9 @@
 
     # wine: <https://nixos.wiki/wiki/Wine>
     wineWowPackages.staging winetricks
+
+    # iOS: <https://nixos.wiki/wiki/IOS>
+    libimobiledevice ifuse
   ];
 
   # Steam: https://nixos.wiki/wiki/Steam

@@ -21,14 +21,6 @@ in
     notify = false;
   };
 
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "python-2.7.18.6"
-  # ];
-  # i18n.inputMethod = {
-  #   enabled = "fcitx";
-  #   fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
-  # };
-
   i18n.inputMethod = {
     enabled = "fcitx5";
     # fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
@@ -85,12 +77,14 @@ in
   home.packages = with pkgs; [
     # ----------------------------------------------------------------------------------------------------
     # kitty firefox qutebrowser rofi
+    google-chrome
 
-    arandr bluetuith
+    arandr bluetuith blueberry
     cinnamon.nemo gnome.nautilus xfce.thunar
     xdg-ninja emacs neovim
     # geekbench
     neofetch meson ninja
+    exiftool
 
     # CPU temperature
     lm_sensors
@@ -106,15 +100,22 @@ in
     (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
     rust-analyzer-nightly
 
-    # python3
+    koka
+
     docker
+    readline rlwrap
+    sqlite-interactive sqlite-web sqlite-utils
     slack zulip vscode mpv gimp evince
     # blender
     # https://github.com/NixOS/nixpkgs/issues/241125
-    ghc stack cabal-install zlib haskellPackages.implicit-hie ormolu
+    ghc stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
     drawio mdbook pandoc texlive.combined.scheme-full calibre minify
     pup jq watchexec
+    rename
     jdk ditaa graphviz plantuml
+    nkf
+
+    cmatrix figlet
 
     # TODO: replace `sxhkd` package with `sxhkd` service
     # sxhkd
