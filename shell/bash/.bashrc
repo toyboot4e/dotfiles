@@ -143,15 +143,15 @@ if _exists bat ; then
     export BAT_PAGER='less -isNMR'
 fi
 
-# exa <- ls, tree
-if _exists exa ; then
-  exa() { command exa -F "$@" ; }
-  alias e='exa'
-  alias el='exa -la'
-  alias ea='exa -a'
-  alias ed='exa -d'
-  alias eT='exa -dT'
-  alias edT='exa-dT'
+# eza <- ls, tree
+if _exists eza ; then
+  eza() { command eza -F "$@" ; }
+  alias e='eza'
+  alias el='eza -la'
+  alias ea='eza -a'
+  alias ed='eza -d'
+  alias eT='eza -dT'
+  alias edT='eza-dT'
 fi
 
 if _exists fzf ; then

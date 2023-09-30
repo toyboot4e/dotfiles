@@ -247,11 +247,11 @@ alias pd prevd
 alias nd nextd
 alias hd dirh
 
-if command -sq exa
-    alias e 'exa -F'
-    alias ea 'exa -aF'
-    alias el 'exa -alF'
-    alias et 'exa -T'
+if command -sq eza
+    alias e 'eza -F'
+    alias ea 'eza -aF'
+    alias el 'eza -alF'
+    alias et 'eza -T'
 end
 
 if command -sq ls

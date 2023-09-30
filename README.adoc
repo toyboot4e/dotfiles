@@ -29,7 +29,7 @@
 :fd: https://github.com/sharkdp/fd[fd]
 :as-tree: https://github.com/jez/as-tree[as-tree]
 :bat: https://github.com/sharkdp/bat[bat]
-:exa: https://github.com/ogham/exa[exa]
+:eza: https://github.com/eza-community/eza[eza]
 :delta: https://github.com/delta-io/delta[delta]
 
 :xdg-ninja: https://github.com/b3nj5m1n/xdg-ninja[xdg-ninja]
@@ -50,7 +50,7 @@ image::readme/ss.png[]
 | Linux    | X11, {i3}, {flameshot}
 |===
 
-{ghq}, {gh}, {rg}, {hgrep}, {fd}, {as-tree}, {bat}, {exa}, {delta}, GNU sed, GNU xargs and `rename`
+{ghq}, {gh}, {rg}, {hgrep}, {fd}, {as-tree}, {bat}, {eza}, {delta}, GNU sed, GNU xargs and `rename`
 
 == Installations (WIP)
 
