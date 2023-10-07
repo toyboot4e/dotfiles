@@ -60,11 +60,15 @@ pattern DELETE = 1")
 (stateMap "evalState (VU.mapM (\\x -> state $ \\acc -> (x, x + acc)) (VU.fromList [1, 2, 3])) (0 :: Int)")
 
 (monoidAction
-"-- | Add
+ "-- | Add
 newtype Op = Op Int
-  deriving (Eq, Ord, Show)
+  deriving (Eq, Ord, Show, VP.Prim)
 
-derivingUnbox "Op" [t|Op -> Int|] [|\(Op !x) -> x|] [|\ !x -> Op x|]
+newtype instance VU.MVector s Op = MV_Op (VP.MVector s Op)
+newtype instance VU.Vector Op = V_Op (VP.Vector Op)
+deriving via (VU.UnboxViaPrim Op) instance VGM.MVector VUM.MVector Op
+deriving via (VU.UnboxViaPrim Op) instance VG.Vector VU.Vector Op
+instance VU.Unbox Op
 
 instance Semigroup Op where
   (Op !x1) <> (Op !x2) = Op (x1 + x2)
@@ -79,15 +83,27 @@ instance MonoidAction Op Acc
 
 -- | Max
 newtype Acc = Acc Int
-  deriving (Eq, Ord, Show)
+  deriving (Eq, Ord, Show, VP.Prim)
 
-derivingUnbox "Acc" [t|Acc -> Int|] [|\(Acc !x) -> x|] [|\ !x -> Acc x|]
+newtype instance VU.MVector s Acc = MV_Acc (VP.MVector s Acc)
+newtype instance VU.Vector Acc = V_Acc (VP.Vector Acc)
+deriving via (VU.UnboxViaPrim Acc) instance VGM.MVector VUM.MVector Acc
+deriving via (VU.UnboxViaPrim Acc) instance VG.Vector VU.Vector Acc
+instance VU.Unbox Acc
 
 instance Semigroup Acc where
   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
 
 instance Monoid Acc where
-  mempty = Acc (minBound @Int) -- as `Max`")
+  mempty = Acc (minBound @Int)
+")
+
+(unbox
+"newtype instance VU.MVector s " (p "Type" type) " = MV_" (s type) " (VP.MVector s " (s type) ")
+newtype instance VU.Vector " (s type) " = V_" (s type) " (VP.Vector " (s type) ")
+deriving via (VU.UnboxViaPrim " (s type) ") instance VGM.MVector VUM.MVector " (s type) "
+deriving via (VU.UnboxViaPrim " (s type) ") instance VG.Vector VU.Vector " (s type) "
+instance VU.Unbox " (s type))
 
 (modInt
 "data MyModulo = MyModulo
