@@ -241,30 +241,15 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable Japanese input using `fcitx` (fcitx4)
-  #
-  # $ # Enable Mozc input:
-  # $ fcitx-configtool
-  # $ # Input mode: romaji
-  # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
-  #
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "python-2.7.18.6"
-  # ];
-  # i18n.inputMethod = {
-  #   enabled = "fcitx";
-  #   fcitx.engines = with pkgs.fcitx-engines; [ mozc ];
-  # };
-  #
-  # $ # Enable Mozc input:
-  # $ fcitx5-configtool
-  # $ # Input mode: romaji
-  # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
-  #
   # i18n.inputMethod = {
   #   enabled = "fcitx5";
   #   fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
   # };
+  #
+  # $ # To enable Mozc input, run:
+  # $ fcitx5-configtool
+  # $ # Input mode: romaji
+  # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
 
   # Enable `nix-ld`:
   programs.nix-ld.enable = true;
@@ -281,10 +266,12 @@
     vulkan-tools
     xorg.xdpyinfo pavucontrol sysstat yad xdotool
 
-    kitty bash fish zsh tmux git gh ghq w3m fzf wezterm feh
+    # kitty
+    bash fish zsh tmux git gh ghq w3m fzf wezterm feh
     tree as-tree ripgrep fd bat delta diff-so-fancy difftastic eza as-tree tokei zoxide tealdeer
     direnv nix-direnv
-    qutebrowser firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
+    # qutebrowser
+    firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
 
     # semi-DE
     ranger cmus
@@ -309,8 +296,6 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  # home-manager as a NixOS module: https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
-
   programs.fish.enable = true;
   users.users.tbm = {
     shell = pkgs.fish;
@@ -318,8 +303,24 @@
     extraGroups = [ "wheel" "audio" "networkManager" ];
   };
 
-  # home-manager as NixOS module: <https://nix-community.github.io/home-manager/index.html>
+  # home-manager as a NixOS module:
+  # <https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module>
+  # <https://nix-community.github.io/home-manager/index.html>
   home-manager.users.tbm.imports = [ ./home.nix ];
+
+  # core dump on startup?
+  # # VirtualBox: <https://nixos.wiki/wiki/VirtualBox>
+  # virtualisation.virtualbox = {
+  #   host = {
+  #     enable = true;
+  #     enableExtensionPack = true;
+  #   };
+  #   guest = {
+  #     enable = true;
+  #     x11 = true;
+  #   };
+  # };
+  # users.extraGroups.vboxusers.members = [ "tbm" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

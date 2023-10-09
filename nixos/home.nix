@@ -3,16 +3,23 @@
 { config, pkgs, ... }:
 
 let
-#  unstable = import <unstable> { config = { allowUnfree = true; }; };
-  fcitx5-mozc-patched = pkgs.fcitx5-mozc.overrideAttrs (oldAttrs: rec {
-     preFixup = ''
-       wrapQtApp $out/lib/mozc/mozc_tool
-     '';
-  });
+  # unstable = import <unstable> { config = { allowUnfree = true; }; };
+  # local = import "/home/tbm/ghq/github.com/nix-community/home-manager";
 in
 
 {
   nixpkgs.config.allowUnfree = true;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # FIXME: local?
+  # programs.home-manager.path = "/home/tbm/ghq/github.com/nix-community/home-manager";
+
+  # overlays
+  # <https://github.com/nix-community/home-manager/issues/1107>
+  nixpkgs.overlays = [
+    # fenix: <https://github.com/nix-community/fenix>
+    (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
+  ];
 
   # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
   services.udiskie = {
@@ -21,10 +28,10 @@ in
     notify = false;
   };
 
+  # TODO: trying `fcitx5` from `home-manager` (is `QT_PLUGIN_PATH` exported?)
   i18n.inputMethod = {
     enabled = "fcitx5";
-    # fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
-    fcitx5.addons = with pkgs; [ fcitx5-mozc-patched fcitx5-gtk ];
+    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
   };
 
   # Use `sxhkd` service, but without overwriting the configuration file
@@ -51,6 +58,7 @@ in
     defaultApplications = {
       "application/pdf" = ["org.gnome.Evince.desktop"];
 
+      # FIXME: not working correctly
       "x-scheme-handler/http" = "org.firefox.firefox.desktop";
       "x-scheme-handler/https" = "org.firefox.firefox.desktop";
       "x-scheme-handler/about" = "org.firefox.firefox.desktop";
@@ -69,14 +77,11 @@ in
   #   TERMINAL = "kitty";
   # };
 
-  # # fenix: <https://github.com/nix-community/fenix>
-  nixpkgs.overlays = [
-    (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
-  ];
-
   home.packages = with pkgs; [
     # ----------------------------------------------------------------------------------------------------
-    # kitty firefox qutebrowser rofi
+    kitty
+    qutebrowser
+    # firefox rofi
     google-chrome
 
     arandr bluetuith blueberry
@@ -85,6 +90,7 @@ in
     # geekbench
     neofetch meson ninja
     exiftool
+    zip
 
     # CPU temperature
     lm_sensors
@@ -106,14 +112,24 @@ in
     readline rlwrap
     sqlite-interactive sqlite-web sqlite-utils
     slack zulip vscode mpv gimp evince
-    # blender
-    # https://github.com/NixOS/nixpkgs/issues/241125
+
+    blender
+
+    # (openai-whisper.override { cudaSupport = true; })
+    openai-whisper-cpp
+    # whisper-ctranslate2
+
+    espeak-classic
+    # arcanPackages.espeak
+    # python311Packages.pyttsx3
+
     ghc stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
     drawio mdbook pandoc texlive.combined.scheme-full calibre minify
+
     pup jq watchexec
     rename
     jdk ditaa graphviz plantuml
-    nkf
+    nkf gnuplot
 
     cmatrix figlet
 
@@ -137,4 +153,3 @@ in
   # changes in each release.
   home.stateVersion = "22.11";
 }
-
