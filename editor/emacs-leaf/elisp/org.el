@@ -229,7 +229,7 @@
           . '(
               ("d" "default" plain
                "%?"
-               :if-new (file+head "%${slug}.org" "#+title: ${title}\n#+filetags: :problem:")
+               :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: :problem:")
                ;; :if-new (file+head "%<%Y>-${slug}.org" "#+title: ${title}\n#+filetags: :problem:")
                ;; :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                :unnarrowed t)

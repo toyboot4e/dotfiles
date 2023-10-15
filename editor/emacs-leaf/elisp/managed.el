@@ -582,9 +582,10 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
             (kbd "z RET")
             #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top)
-        (leaf magit-todos
-            :commands (magit-todos-list)
-            :after magit)
+
+        ;; (leaf magit-todos
+        ;;     :commands (magit-todos-list)
+        ;;     :after magit)
 
         (leaf forge
             :doc "Use GitHub on Emacs"))
@@ -594,6 +595,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :mode (("README\\.md\\'" . gfm-mode)
                ("\\.md\\'" . markdown-mode)
                ("\\.markdown\\'" . markdown-mode))
+        :hook (markdown-mode . orgtbl-mode)
         :after evil
         :custom (markdown-command . "multimarkdown")
         :config
@@ -762,6 +764,9 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :url "http://elpa.gnu.org/packages/sml-mode.html"
         :mode ("\\.ml\\'" . sml-mode)
         :mode ("\\.mli\\'" . sml-mode))
+
+    (leaf sql-indent
+        :after sql)
 
     (leaf vimish-fold
         :after evil
