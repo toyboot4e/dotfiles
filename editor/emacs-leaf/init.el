@@ -12,6 +12,8 @@
 ;; remove after merge
 (setq-default rustic-cargo-auto-add-missing-dependencies nil)
 
+;; "tempel-snippets.el"
+
 (setq toy/init-files
       '(
         "elisp/env.el"                   ;; User environment and preferences

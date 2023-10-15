@@ -61,13 +61,14 @@ pattern DELETE = 1")
 
 (monoidAction
  "-- | Add
-newtype Op = Op Int
-  deriving (Eq, Ord, Show, VP.Prim)
+type OpRepr = Int
+newtype Op = Op OpRepr
+  deriving (Eq, Ord, Show)
 
-newtype instance VU.MVector s Op = MV_Op (VP.MVector s Op)
-newtype instance VU.Vector Op = V_Op (VP.Vector Op)
-deriving via (VU.UnboxViaPrim Op) instance VGM.MVector VUM.MVector Op
-deriving via (VU.UnboxViaPrim Op) instance VG.Vector VU.Vector Op
+newtype instance VU.MVector s Op = MV_Op (VUM.MVector s OpRepr)
+newtype instance VU.Vector Op = V_Op (VU.Vector OpRepr)
+deriving via (Op `VU.As` OpRepr) instance VGM.MVector VUM.MVector Op
+deriving via (Op `VU.As` OpRepr) instance VG.Vector VU.Vector Op
 instance VU.Unbox Op
 
 instance Semigroup Op where
@@ -82,7 +83,8 @@ instance SemigroupAction Op Acc where
 instance MonoidAction Op Acc
 
 -- | Max
-newtype Acc = Acc Int
+type AccRepr = Int
+newtype Acc = Acc AccRepr
   deriving (Eq, Ord, Show, VP.Prim)
 
 newtype instance VU.MVector s Acc = MV_Acc (VP.MVector s Acc)
@@ -104,6 +106,23 @@ newtype instance VU.Vector " (s type) " = V_" (s type) " (VP.Vector " (s type) "
 deriving via (VU.UnboxViaPrim " (s type) ") instance VGM.MVector VUM.MVector " (s type) "
 deriving via (VU.UnboxViaPrim " (s type) ") instance VG.Vector VU.Vector " (s type) "
 instance VU.Unbox " (s type))
+
+(isounbox
+"instance VU.IsoUnbox Acc AccRepr where
+  {-# INLINE toURepr #-}
+  toURepr (Acc x) = x
+  {-# INLINE fromURepr #-}
+  fromURepr = Acc
+
+newtype instance VU.MVector s Acc = MV_Acc (VUM.MVector s AccRepr)
+
+newtype instance VU.Vector Acc = V_Acc (VU.Vector AccRepr)
+
+deriving via (Acc `VU.As` AccRepr) instance VGM.MVector VUM.MVector Acc
+
+deriving via (Acc `VU.As` AccRepr) instance VG.Vector VU.Vector Acc
+
+instance VU.Unbox Acc")
 
 (modInt
 "data MyModulo = MyModulo
@@ -157,6 +176,15 @@ org-mode
 [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]] では
 
 [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]] では
+")
+
+(arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加した。
+
+[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]] では
+
+[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]] では
+
+[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]] では
 ")
 
 (ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加した。")
