@@ -26,18 +26,22 @@ haskell-mode
 
 (runSTUArray
  "runSTUAray $ do
-    !arr <- VUM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
+    !arr <- UM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
     return arr")
 
-(bounds "!bounds_ = ((0, 0), (h - 1, w - 1))")
+(g1 "!" (p "n") " <- ints1")
+(g2 "(!" (p "h") ", !" (p "w") ") <- ints2")
+(g3 "(!" (p "z") ", !"(p "y") ", !" (p "x") ") <- ints3")
+
+(bnd "!bnd = ((0, 0), (h - 1, w - 1))")
 
 (undef
  "undef :: Int
 undef = -1")
 
 (twos
-  "twos :: VU.Vector MyModInt
-twos = VU.iterateN (2000 * 2) (\x -> x * x) (modInt 2)")
+  "twos :: U.Vector MyModInt
+twos = U.iterateN (2000 * 2) (\x -> x * x) (modInt 2)")
 
 (pattern
  "pattern INSERT, DELETE :: Int
@@ -45,19 +49,19 @@ pattern INSERT = 0
 pattern DELETE = 1")
 
 (create
-  "VU.create $ do
-     !vec <- VUM.replicate (h * w) (0 :: Int)
+  "U.create $ do
+     !vec <- UM.replicate (h * w) (0 :: Int)
      return vec")
 
-(dir4 "!dir4 = VU.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
-(crossDir4 "!dir4 = VU.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
-(dir8 "!dir8 = VU.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
+(dir4 "!dir4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
+(crossDir "!dir4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
+(dir8 "!dir8 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
 
 (error "error \"unreachable\"")
 
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
-(stateMap "evalState (VU.mapM (\\x -> state $ \\acc -> (x, x + acc)) (VU.fromList [1, 2, 3])) (0 :: Int)")
+(stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
 
 (monoidAction
  "-- | Add
@@ -65,11 +69,11 @@ type OpRepr = Int
 newtype Op = Op OpRepr
   deriving (Eq, Ord, Show)
 
-newtype instance VU.MVector s Op = MV_Op (VUM.MVector s OpRepr)
-newtype instance VU.Vector Op = V_Op (VU.Vector OpRepr)
-deriving via (Op `VU.As` OpRepr) instance VGM.MVector VUM.MVector Op
-deriving via (Op `VU.As` OpRepr) instance VG.Vector VU.Vector Op
-instance VU.Unbox Op
+newtype instance U.MVector s Op = MV_Op (UM.MVector s OpRepr)
+newtype instance U.Vector Op = V_Op (U.Vector OpRepr)
+deriving via (Op `U.As` OpRepr) instance GM.MVector UM.MVector Op
+deriving via (Op `U.As` OpRepr) instance G.Vector U.Vector Op
+instance U.Unbox Op
 
 instance Semigroup Op where
   (Op !x1) <> (Op !x2) = Op (x1 + x2)
@@ -87,11 +91,11 @@ type AccRepr = Int
 newtype Acc = Acc AccRepr
   deriving (Eq, Ord, Show, VP.Prim)
 
-newtype instance VU.MVector s Acc = MV_Acc (VP.MVector s Acc)
-newtype instance VU.Vector Acc = V_Acc (VP.Vector Acc)
-deriving via (VU.UnboxViaPrim Acc) instance VGM.MVector VUM.MVector Acc
-deriving via (VU.UnboxViaPrim Acc) instance VG.Vector VU.Vector Acc
-instance VU.Unbox Acc
+newtype instance U.MVector s Acc = MV_Acc (VP.MVector s Acc)
+newtype instance U.Vector Acc = V_Acc (VP.Vector Acc)
+deriving via (U.UnboxViaPrim Acc) instance GM.MVector UM.MVector Acc
+deriving via (U.UnboxViaPrim Acc) instance G.Vector U.Vector Acc
+instance U.Unbox Acc
 
 instance Semigroup Acc where
   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
@@ -101,28 +105,28 @@ instance Monoid Acc where
 ")
 
 (unbox
-"newtype instance VU.MVector s " (p "Type" type) " = MV_" (s type) " (VP.MVector s " (s type) ")
-newtype instance VU.Vector " (s type) " = V_" (s type) " (VP.Vector " (s type) ")
-deriving via (VU.UnboxViaPrim " (s type) ") instance VGM.MVector VUM.MVector " (s type) "
-deriving via (VU.UnboxViaPrim " (s type) ") instance VG.Vector VU.Vector " (s type) "
-instance VU.Unbox " (s type))
+"newtype instance U.MVector s " (p "Type" type) " = MV_" (s type) " (VP.MVector s " (s type) ")
+newtype instance U.Vector " (s type) " = V_" (s type) " (VP.Vector " (s type) ")
+deriving via (U.UnboxViaPrim " (s type) ") instance GM.MVector UM.MVector " (s type) "
+deriving via (U.UnboxViaPrim " (s type) ") instance G.Vector U.Vector " (s type) "
+instance U.Unbox " (s type))
 
 (isounbox
-"instance VU.IsoUnbox Acc AccRepr where
+"instance U.IsoUnbox Acc AccRepr where
   {-# INLINE toURepr #-}
   toURepr (Acc x) = x
   {-# INLINE fromURepr #-}
   fromURepr = Acc
 
-newtype instance VU.MVector s Acc = MV_Acc (VUM.MVector s AccRepr)
+newtype instance U.MVector s Acc = MV_Acc (UM.MVector s AccRepr)
 
-newtype instance VU.Vector Acc = V_Acc (VU.Vector AccRepr)
+newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr)
 
-deriving via (Acc `VU.As` AccRepr) instance VGM.MVector VUM.MVector Acc
+deriving via (Acc `U.As` AccRepr) instance GM.MVector UM.MVector Acc
 
-deriving via (Acc `VU.As` AccRepr) instance VG.Vector VU.Vector Acc
+deriving via (Acc `U.As` AccRepr) instance G.Vector U.Vector Acc
 
-instance VU.Unbox Acc")
+instance U.Unbox Acc")
 
 (modInt
 "data MyModulo = MyModulo
@@ -140,6 +144,10 @@ modInt :: Int -> MyModInt
 modInt = ModInt . (`rem` myMod)")
 
 org-mode
+
+(img "#+CAPTION: " p n
+"[[./img/" p q "]]")
+(width "#+ATTR_HTML: :width " p "px")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")
