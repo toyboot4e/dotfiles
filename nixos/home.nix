@@ -45,7 +45,8 @@ in
   home.pointerCursor = {
     name = "Adwaita";
     package = pkgs.gnome.adwaita-icon-theme;
-    size = 24;
+    # size = 24;
+    size = 32;
   };
 
   xdg.mimeApps = {
@@ -80,13 +81,14 @@ in
   home.packages = with pkgs; [
     # ----------------------------------------------------------------------------------------------------
     kitty
+    convmv
     qutebrowser
     # firefox rofi
     google-chrome
 
     arandr bluetuith blueberry
     cinnamon.nemo gnome.nautilus xfce.thunar
-    xdg-ninja emacs neovim
+    xdg-ninja emacs neovim helix
     # geekbench
     neofetch meson ninja
     exiftool
@@ -108,10 +110,14 @@ in
 
     koka
 
-    docker
+    # docker
     readline rlwrap
     sqlite-interactive sqlite-web sqlite-utils
     slack zulip vscode mpv gimp evince
+
+    # https://github.com/mkaz/termgraph
+    python311Packages.termgraph
+    # https://github.com/red-data-tools/YouPlot
 
     blender
 
@@ -124,6 +130,7 @@ in
     # python311Packages.pyttsx3
 
     ghc stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
+    ruby
     drawio mdbook pandoc texlive.combined.scheme-full calibre minify
 
     pup jq watchexec

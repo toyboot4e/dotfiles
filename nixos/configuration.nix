@@ -10,7 +10,18 @@
 # in
 
 {
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = ["nix-command" "flakes"];
+    };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
 
   imports =
     [ # Include the results of the hardware scan.
@@ -47,11 +58,12 @@
 
   # # For high DPI support on Xorg?:
   # # <https://nixos.wiki/wiki/Xorg>
-  # environment.variables = {
+  environment.variables = {
+  #   XCURSOR_SIZE = "48";
   #   GDK_SCALE = "2";
   #   GDK_DPI_SCALE = "0.5";
   #   _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
-  # };
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -90,6 +102,9 @@
     package = pkgs.pulseaudioFull;
   };
   nixpkgs.config.pulseaudio = true;
+
+  # lower moise for microphones
+  programs.noisetorch.enable = true;
 
   # `bitwig` is distributed with `flatpak` for example:
   # <https://flathub.org/apps/details/com.bitwig.BitwigStudio>
@@ -138,6 +153,7 @@
       # SauceCodePro is distributed as SourceCodePro
       (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
       noto-fonts noto-fonts-cjk font-awesome pango monoid roboto-mono vistafonts
+      intel-one-mono
     ];
 
     fontconfig = {
@@ -146,7 +162,7 @@
         # TODO: use SourceCodePro?
         serif = [ "noto-fonts-cjk" ];
         sansSerif = [ "noto-fonts-cjk" ];
-        monospace = [ "noto-sans-font-cjk" ];
+        monospace = [ "intel-one-mono" "noto-sans-font-cjk" ];
       };
 
       # FIXME: seems to be not wokring
@@ -266,8 +282,8 @@
     vulkan-tools
     xorg.xdpyinfo pavucontrol sysstat yad xdotool
 
-    # kitty
-    bash fish zsh tmux git gh ghq w3m fzf wezterm feh
+    kitty
+    bash fish zsh tmux zellij git gh ghq w3m fzf wezterm feh
     tree as-tree ripgrep fd bat delta diff-so-fancy difftastic eza as-tree tokei zoxide tealdeer
     direnv nix-direnv
     # qutebrowser
@@ -300,7 +316,7 @@
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkManager" ];
+    extraGroups = [ "audio" "docker" "networkManager" "wheel" ];
   };
 
   # home-manager as a NixOS module:
@@ -321,6 +337,19 @@
   #   };
   # };
   # users.extraGroups.vboxusers.members = [ "tbm" ];
+
+  # Docker: <https://nixos.wiki/wiki/Docker>
+ virtualisation = {
+   docker = {
+     enable = true;
+     enableNvidia = true;
+     rootless = {
+       enable = true;
+       # $DOCKER_HOST
+       setSocketVariable = true;
+     };
+   };
+ };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
