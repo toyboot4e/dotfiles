@@ -275,6 +275,12 @@
   #   stdenv.cc.cc zlib fuse3 icu zlib nss openssl curl expat
   # ];
 
+  # Virtualization (virt-manager): <https://nixos.wiki/wiki/Virt-manager>
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+  # virtualisation.libvirtd.enable = true;
+  # environment.systemPackages = with pkgs; [ virt-manager ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -316,7 +322,7 @@
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "audio" "docker" "networkManager" "wheel" ];
+    extraGroups = [ "audio" "docker" "libvirtd" "networkManager" "wheel" ];
   };
 
   # home-manager as a NixOS module:

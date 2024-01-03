@@ -21,6 +21,14 @@ in
     (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
   ];
 
+  # virutalization (virt-manager): https://nixos.wiki/wiki/Virt-manager
+  # dconf.settings = {
+  #   "org/virt-manager/virt-manager/connections" = {
+  #     autoconnect = ["qemu:///system"];
+  #     uris = ["qemu:///system"];
+  #   };
+  # };
+
   # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
   services.udiskie = {
     enable = true;
@@ -88,11 +96,14 @@ in
 
     arandr bluetuith blueberry
     cinnamon.nemo gnome.nautilus xfce.thunar
-    xdg-ninja emacs neovim helix
+    xdg-ninja
+    neovim helix
+    emacs emacsPackages.ddskk skk-dicts
     # geekbench
     neofetch meson ninja
     exiftool
     zip
+    moreutils
 
     # CPU temperature
     lm_sensors
