@@ -3,11 +3,17 @@
 
 ;; Press `C-j' to insert snippet (with my current configuration)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 fundamental-mode ;; Available everywhere
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (today (format-time-string "%Y-%m-%d"))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 haskell-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(verification-helper "-- verification-helper: PROBLEM ")
 
 ;; stack script
 (script "#!/usr/bin/env stack" n "{- stack script --resolver lts-21.6 -}")
@@ -23,6 +29,8 @@ haskell-mode
 ;; debug
 (dbg "!_ = dbg (" (p "") ")")
 (assert "!_ = dbgAssert (" (p "") ")")
+
+(default "default (Integer, Int)")
 
 (runSTUArray
  "runSTUAray $ do
@@ -53,9 +61,11 @@ pattern DELETE = 1")
      !vec <- UM.replicate (h * w) (0 :: Int)
      return vec")
 
-(dir4 "!dir4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
+(dir4 "dir4 :: U.Vector (Int, Int)" n> r>
+"dir4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
 (crossDir "!dir4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
-(dir8 "!dir8 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
+(dir8 "dir8 :: U.Vector (Int, Int)" n> r>
+"dir8 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
 
 (error "error \"unreachable\"")
 
@@ -64,15 +74,15 @@ pattern DELETE = 1")
 (stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
 
 (monoidAction
- "-- | Add
+"-- | Add
 type OpRepr = Int
 newtype Op = Op OpRepr
-  deriving (Eq, Ord, Show)
+  deriving newtype (Eq, Ord, Show)
 
-newtype instance U.MVector s Op = MV_Op (UM.MVector s OpRepr)
+newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr)
 newtype instance U.Vector Op = V_Op (U.Vector OpRepr)
-deriving via (Op `U.As` OpRepr) instance GM.MVector UM.MVector Op
-deriving via (Op `U.As` OpRepr) instance G.Vector U.Vector Op
+deriving instance GM.MVector UM.MVector Op
+deriving instance G.Vector U.Vector Op
 instance U.Unbox Op
 
 instance Semigroup Op where
@@ -89,24 +99,26 @@ instance MonoidAction Op Acc
 -- | Max
 type AccRepr = Int
 newtype Acc = Acc AccRepr
-  deriving (Eq, Ord, Show, VP.Prim)
+  deriving newtype (Eq, Ord, Show)
 
-newtype instance U.MVector s Acc = MV_Acc (VP.MVector s Acc)
-newtype instance U.Vector Acc = V_Acc (VP.Vector Acc)
-deriving via (U.UnboxViaPrim Acc) instance GM.MVector UM.MVector Acc
-deriving via (U.UnboxViaPrim Acc) instance G.Vector U.Vector Acc
+unAcc :: Acc -> AccRepr
+unAcc (Acc x) = x
+
+newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr)
+newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr)
+deriving instance GM.MVector UM.MVector Acc
+deriving instance G.Vector U.Vector Acc
 instance U.Unbox Acc
 
 instance Semigroup Acc where
   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
 
 instance Monoid Acc where
-  mempty = Acc (minBound @Int)
-")
+  mempty = Acc (minBound @Int)")
 
-(unbox
-"newtype instance U.MVector s " (p "Type" type) " = MV_" (s type) " (VP.MVector s " (s type) ")
-newtype instance U.Vector " (s type) " = V_" (s type) " (VP.Vector " (s type) ")
+(unbox_
+"newtype instance U.MVector s " (p "Type" type) " = MV_" (s type) " (P.MVector s " (s type) ")
+newtype instance U.Vector " (s type) " = V_" (s type) " (P.Vector " (s type) ")
 deriving via (U.UnboxViaPrim " (s type) ") instance GM.MVector UM.MVector " (s type) "
 deriving via (U.UnboxViaPrim " (s type) ") instance G.Vector U.Vector " (s type) "
 instance U.Unbox " (s type))
@@ -143,7 +155,9 @@ myMod = typeInt (Proxy @MyModulo)
 modInt :: Int -> MyModInt
 modInt = ModInt . (`rem` myMod)")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (img "#+CAPTION: " p n
 "[[./img/" p q "]]")
@@ -193,6 +207,15 @@ org-mode
 [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]] では
 
 [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]] では
+")
+
+(agc "[[https://atcoder.jp/contests/agc"  (p "100" no) "][AGC " (s no) "]] に参加した。
+
+[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_a][A 問題]] では
+
+[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_b][B 問題]] では
+
+[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_c][C 問題]] では
 ")
 
 (ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加した。")

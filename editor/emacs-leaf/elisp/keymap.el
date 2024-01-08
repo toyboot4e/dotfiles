@@ -497,3 +497,9 @@
 (define-key evil-read-key-map (kbd "C-j") (kbd "、"))
 (define-key evil-read-key-map (kbd "C-l") (kbd "。"))
 
+;; ------------------------------ Hack ------------------------------
+
+(evil-define-key 'normal 'toy/global-mode-map
+    " e" (_fn (evil-vimish-fold-mode) (evil-vimish-fold-mode) (evil-close-folds)))
+
+
