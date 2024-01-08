@@ -57,27 +57,6 @@
                 (buffer-substring-no-properties (point) end)))))
 
 ;; --------------------------------------------------------------------------------
-;; Shell
-;; --------------------------------------------------------------------------------
-
-
-;; TODO: shell
-(leaf vterm
-    :commands vterm--internal
-    ;;
-    )
-
-;; (leaf vterm-toggle
-;;                                         ;j    :custom
-;;     (vterm-toggle-fullscreen-p nil "Open a vterm in another window.")
-;;     (vterm-toggle-scope 'projectile)
-;;     ;; :bind (("C-c t" . #'vterm-toggle)
-;;     ;;        :map vterm-mode-map
-;;     ;;        ("s-t" . #'vterm) ; Open up new tabs quickly
-;;     ;;        )
-;;     )
-
-;; --------------------------------------------------------------------------------
 ;; Language supports
 ;; --------------------------------------------------------------------------------
 

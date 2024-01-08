@@ -159,6 +159,9 @@
 
         :defer-config (doom-modeline-mode))
 
+    ;; Terminal emulator.. still not works well on `tmux' though.
+    (leaf eat)
+
     (leaf editorconfig
         :config
         (editorconfig-mode 1))
