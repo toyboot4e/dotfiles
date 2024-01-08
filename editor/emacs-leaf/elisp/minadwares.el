@@ -164,11 +164,25 @@
     ;; show all the matching results
     (setq affe-count most-positive-fixnum)
 
+    ;; Use `orderless':
+    ;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
     ;; better regex (copied from the README)
-    (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (defun consult--orderless-regexp-compiler (input type &rest _config)
         (setq input (orderless-pattern-compiler input))
-        (cons input (lambda (str) (orderless--highlight input str))))
-    (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+        (cons
+         (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+         (lambda (str) (orderless--highlight input t str))))
+
+    ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
+    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
+
+    ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
+    ;; (defun consult--with-orderless (&rest args)
+    ;;     (minibuffer-with-setup-hook
+    ;;             (lambda ()
+    ;;                 (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+    ;;         (apply args)))
+    ;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
     )
 
 ;; --------------------------------------------------------------------------------
@@ -315,7 +329,7 @@
     :doc "Tempo templates/snippets with in-buffer field editing"
     :url "https://github.com/minad/tempel"
     :config
-    (setq tempel-path (concat user-emacs-directory "templates.el"))
+    (setq tempel-path (concat user-emacs-directory "tempel-snippets.el"))
 
     ;; FIXME: not working well?
     (defun tempel-setup-capf nil
@@ -325,10 +339,9 @@
     (add-hook 'text-mode-hook 'tempel-setup-capf)
 
     (evil-define-key 'insert 'global
-        (kbd "C-j")
-        #'tempel-complete
-        (kbd "C-l")
-        #'tempel-insert
-        (kbd "C-t")
-        #'tempel-expand))
+        (kbd "C-y") #'tempel-complete
+        (kbd "C-l") #'tempel-insert
+        (kbd "C-t") #'tempel-expand
+        (kbd "C-n") #'tempel-next
+        (kbd "C-p") #'tempel-previous))
 

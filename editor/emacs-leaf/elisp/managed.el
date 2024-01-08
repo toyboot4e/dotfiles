@@ -389,6 +389,7 @@
         :hook (haskell-mode-hook . lsp-deferred)
         :hook (haskell-literate-mode-hook . lsp-deferred)
         :config
+        (setq lsp-lens-enable nil)
         (defun ormolu-format-buffer ()
             "Formats current buffer with `ormolu'.
 Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
@@ -408,7 +409,6 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 
         (leaf lsp-haskell
             :after lsp-mode
-            :custom
             :url "https://github.com/emacs-lsp/lsp-haskell")
 
         (evil-define-key 'normal 'haskell-mode-map
@@ -526,7 +526,9 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :url "https://github.com/magit/magit"
         :commands (magit)
         :after evil
-        :custom (magit-log-section-commit-count . 40)
+        :custom
+        ((magit-log-section-commit-count . 15)
+         (magit-refresh-status-buffer . nil))
         :config
         (defun magit-rev-format (format &optional rev args)
             "lighter magit revision format"
