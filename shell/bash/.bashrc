@@ -183,3 +183,8 @@ if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ] ; then
     source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 
 fi
 
+# https://codeberg.org/akib/emacs-eat
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
+
