@@ -25,22 +25,30 @@
     :mode ("\\.org.draft\\'" . org-mode)
     :hook (org-mode-hook . toy/init-org)
     :hook (org-babel-after-execute . org-redisplay-inline-images)
+    :custom
+    ((org-directory . "~/org-priv")
+     (org-cycle-emulate-tab . nil)
+     (org-ditaa-jar-path . "~/.nix-profile/lib/ditaa.jar")
+     (org-plantuml-jar-path . "~/.nix-profile/lib/plantuml.jar")
+     )
     :config
-    (setq org-directory "~/org")
+    (setq org-default-notes-file (concat org-directory "/tasks.org"))
 
+    ;; fold
     (evil-define-key 'normal org-mode-map
-        "za" #'org-cycle)
+        "za" #'org-cycle
+        "zR" #'org-fold-show-all
+        ;; close/open
+        "zC" #'org-fold-hide-sublevels
+        "zO" #'org-fold-show-subtree
+        )
 
     (progn ;; Setup diagram programs
         ;; Installation via `home-manager' is assumed:
-        (setq org-ditaa-jar-path "~/.nix-profile/lib/ditaa.jar")
-        (setq org-plantuml-jar-path "~/.nix-profile/lib/plantuml.jar")
-
-        (org-babel-do-load-languages 'org-babel-load-languages
-                                     (append org-babel-load-languages
-                                             '((ditaa . t))
-                                             '((dot . t))
-                                             ))
+        (org-babel-do-load-languages
+         'org-babel-load-languages '((ditaa . t)
+                                     (dot . t)
+                                     (shell . t)))
 
         ;; (setq org-plantuml "plantuml")
 
@@ -48,25 +56,42 @@
         ;; (org-babel-do-load-languages ‘org-babel-load-languages ‘((ditaa . t) (dot . t) (plantuml . t)))
         )
 
-    (leaf simple-httpd
-        :doc "`httpd-serve-directory' mainly for the org site"
-        :config
-        (defun toy/org-serve ()
-            (interactive)
-            (httpd-serve-directory "out")))
-
     (setq org-agenda-files
           (mapcar (lambda (path) (concat org-directory path))
                   '(
-                    "/web.org"
-                    "/ved.org"
-                    "/dev-ink.org"
-                    "/agenda.org"
-                    "/bevy.org"
-                    "/read.org"
+                    ;; "/agenda.org"
+                    "/journal.org"
+                    ;; "/web.org"
+                    ;; "/ved.org"
+                    ;; "/dev-ink.org"
+                    ;; "/agenda.org"
+                    ;; "/bevy.org"
+                    ;; "/read.org"
                     )))
 
-    (setq org-todo-keywords '((sequence "TODO(t)" "DONE(d)" "WIP(w)" "NOPE(n)")))
+    (setq org-agenda-span 7
+          org-agenda-start-day "+0d"
+          org-agenda-skip-timestamp-if-done t
+          org-agenda-skip-scheduled-if-done t
+          org-agenda-skip-scheduled-if-deadline-is-shown t
+          org-agenda-skip-timestamp-if-deadline-is-shown t)
+
+    ;; Start from Monday
+    (setq calendar-week-start-day 1)
+
+    ;; (setq org-agenda-current-time-string ""
+    ;;       org-agenda-time-grid '((daily) () "" ""))
+
+    (setq org-todo-keywords '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "KILL(k)")))
+
+    ;; `https://orgmode.org/manual/Breaking-Down-Tasks.html'
+    (defun org-summary-todo (n-done n-not-done)
+        "Switch entry to DONE when all subentries are done, to TODO otherwise."
+        (let (org-log-done org-todo-log-states)   ; turn off logging
+            (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+    (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
+
 
     ;; appearance
     (setq org-ellipsis "⤵")
@@ -77,45 +102,16 @@
           org-use-speed-commands t)
 
     ;; agenda and timer
-    (setq org-agenda-custom-commands
-          '(("@" "Contexts"
-             ((tags-todo "@email"
-                         ((org-agenda-overriding-header "Emails")))
-              (tags-todo "@phone"
-                         ((org-agenda-overriding-header "Phone")))))))
+    ;; (setq org-agenda-custom-commands
+    ;;       '(("@" "Contexts"
+    ;;          ((tags-todo "@email"
+    ;;                      ((org-agenda-overriding-header "Emails")))
+    ;;           (tags-todo "@phone"
+    ;;                      ((org-agenda-overriding-header "Phone")))))))
 
     (setq org-clock-persist t)
 
     (setq org-time-clocksum-format '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
-
-    :defer-config
-    (org-clock-persistence-insinuate)
-
-    (leaf org-appear
-        :doc "Uninline format on cursor"
-        :url "https://github.com/awth13/org-appear"
-        :hook (org-mode-hook . org-appear-mode)
-        :config
-        (setq org-appear-autolinks t))
-
-    ;; (leaf org-bullets
-    ;;     :after org-mode
-    ;;     :commands org-bullets-mode
-    ;;     :hook (org-mode-hook\. org-bullets-mode))
-
-    (leaf org-superstar
-        :commands org-superstar-mode
-        ;; :straight (org-superstar :type git :host github :repo "integral-dw/org-superstar-mode")
-        ;; :straight '(org-superstar :fork (:host github :repo "thibautbenjamin/org-superstar-mode"))
-        :hook (org-mode-hook . org-superstar-mode)
-        :config
-        (setq org-superstar-special-todo-items t))
-
-    (setq org-hide-emphasis-markers t)
-
-    ;; Very dependent on font style:
-    ;; (leaf org-modern
-    ;;     :hook (org-mode-hook . org-modern-mode))
 
     (progn ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
         ;; TODO: working?
@@ -138,55 +134,176 @@
          '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
          '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
 
-    (setq prettify-symbols-alist '(("TODO" . "")
-                                   ("WAIT" . "")
-                                   ("WIP" . "")
-                                   ("NOPE" . "")
-                                   ("DONE" . "")
+    (progn ;; prettify symbols
+        ;; (setq prettify-symbols-alist '(
+        ;;                                ("TODO" . "")
+        ;;                                ("WAIT" . "")
+        ;;                                ("WIP" . "")
+        ;;                                ("NOPE" . "")
+        ;;                                ("DONE" . "")
 
-                                   ("[#A]" . "")
-                                   ("[#B]" . "")
-                                   ("[#C]" . "")
-                                   ("[ ]" . "")
-                                   ("[x]" . "")
-                                   ("[X]" . "")
-                                   ("[-]" . "")
+        ;;                                ("[#A]" . "")
+        ;;                                ("[#B]" . "")
+        ;;                                ("[#C]" . "")
+        ;;                                ("[ ]" . "")
+        ;;                                ("[x]" . "")
+        ;;                                ("[X]" . "")
+        ;;                                ("[-]" . "")
 
-                                   ("lambda" . "λ")
-                                   ("|>" . "▷")
-                                   ("<|" . "◁")
-                                   ("->>" . "↠")
-                                   ("->" . "→")
-                                   ("<-" . "←")
-                                   ("=>" . "⇒")
-                                   ("<=" . "≤")
-                                   (">=" . "≥")
+        ;;                                ("lambda" . "λ")
+        ;;                                ("|>" . "▷")
+        ;;                                ("<|" . "◁")
+        ;;                                ("->>" . "↠")
+        ;;                                ("->" . "→")
+        ;;                                ("<-" . "←")
+        ;;                                ("=>" . "⇒")
+        ;;                                ("<=" . "≤")
+        ;;                                (">=" . "≥")
 
-                                   ("#+BEGIN_SRC" . "")
-                                   ("#+END_SRC" . "―")
-                                   (":PROPERTIES:" . "")
-                                   (":END:" . "―")
-                                   ("#+STARTUP:" . "")
-                                   ("#+TITLE: " . "")
-                                   ("#+RESULTS:" . "")
-                                   ("#+NAME:" . "")
-                                   ("#+ROAM_TAGS:" . "")
-                                   ("#+FILETAGS:" . "")
-                                   ("#+HTML_HEAD:" . "")
-                                   ("#+SUBTITLE:" . "")
-                                   ("#+AUTHOR:" . "")
-                                   (":Effort:" . "")
-                                   ("SCHEDULED:" . "")
-                                   ("DEADLINE:" . "")
+        ;;                                ("#+BEGIN_SRC" . "")
+        ;;                                ("#+END_SRC" . "―")
+        ;;                                (":PROPERTIES:" . "")
+        ;;                                (":END:" . "―")
+        ;;                                ("#+STARTUP:" . "")
+        ;;                                ("#+TITLE: " . "")
+        ;;                                ("#+RESULTS:" . "")
+        ;;                                ("#+NAME:" . "")
+        ;;                                ("#+ROAM_TAGS:" . "")
+        ;;                                ("#+FILETAGS:" . "")
+        ;;                                ("#+HTML_HEAD:" . "")
+        ;;                                ("#+SUBTITLE:" . "")
+        ;;                                ("#+AUTHOR:" . "")
+        ;;                                (":Effort:" . "")
+        ;;                                ("SCHEDULED:" . "")
+        ;;                                ("DEADLINE:" . "")
 
-                                   ))
-    (prettify-symbols-mode 1)
+        ;;                                ))
+        ;; (prettify-symbols-mode 1)
+        )
+
+    :defer-config
+    (org-clock-persistence-insinuate)
+
+    (leaf calfw)
+    (leaf calfw-org
+        :commands cfw:open-org-calendar)
+
+    (defun toy/open-calendar ()
+        (interactive)
+        (split-window-right)
+        (other-window 1)
+        (cfw:open-org-calendar))
+
+    (leaf simple-httpd
+        :doc "`httpd-serve-directory' mainly for the org site"
+        :config
+        (defun toy/org-serve ()
+            (interactive)
+            (httpd-serve-directory "out")))
+
+    (leaf ox-zenn
+        :url "https://github.com/conao3/ox-zenn.el"
+        :custom ((org-zenn-with-last-modified . nil)
+                 (org-export-with-toc . nil))
+
+        :config
+        (defun org-zenn-export-to-markdown-as (outfile &optional async subtreep visible-only)
+            (interactive "sOutfile: ")
+            (org-export-to-file 'zennmd outfile async subtreep visible-only))
+
+        (defun org-zenn-export-book (&optional org-dir)
+            "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
+            (interactive "sBook directory: ")
+            (setq org-dir (expand-file-name (or org-dir ".")))
+            (let* ((book (file-name-nondirectory org-dir))
+                   (zenn (file-name-directory (directory-file-name (file-name-directory org-dir))))
+                   (md-dir (concat zenn "books/" book "/")))
+                (if (not (and (file-directory-p org-dir) (file-directory-p md-dir)))
+                        (message "Not an org book directroy?")
+                    (dolist (src-file-name (seq-filter (lambda (s) (string-suffix-p ".org" s)) (directory-files org-dir)))
+                        (let* ((src-file (concat org-dir "/" src-file-name))
+                               (dst-file-name (concat (file-name-base src-file-name) ".md"))
+                               (dst-file (concat md-dir dst-file-name)))
+                            (with-temp-buffer
+                                (insert-file-contents src-file)
+                                (org-zenn-export-to-markdown-as dst-file nil nil nil))))))))
+
+    (leaf org-appear
+        :doc "Uninline format on cursor"
+        :url "https://github.com/awth13/org-appear"
+        :hook (org-mode-hook . org-appear-mode)
+        :custom
+        (org-appear-autolinks . t))
+
+    ;; (leaf org-bullets
+    ;;     :after org-mode
+    ;;     :commands org-bullets-mode
+    ;;     :hook (org-mode-hook\. org-bullets-mode))
+
+    (setq org-hide-emphasis-markers t)
+
+    ;; `https://emacs.stackexchange.com/a/17832'
+    (setq org-agenda-prefix-format
+          '(
+            ;; (agenda  . "  • ")
+            (agenda  . " %i %t% s")
+            ;; (agenda  . " %i %-12:c%?-12t% s") ;; file name + org-agenda-entry-type
+            (timeline  . "  % s")
+            (todo . " %i %-12:c")
+            (tags  . " %i %-12:c")
+            (search . " %i %-12:c")))
+
+    ;; FIXME: Why date pops up?
+    ;; (leaf org-super-agenda
+    ;;     :url "https://github.com/alphapapa/org-super-agenda"
+    ;;     :config
+    ;;     (setq org-super-agenda-groups
+    ;;           '( ;; Life
+    ;;             (:name "Next to do" :todo "next" :order 1)
+    ;;             (:name "Due Today" :deadline today :order 2)
+    ;;             (:name "Important" :tag "important" :priority "A" :order 6)
+    ;;             (:name "Life" :tag "life" :order 10)
+    ;;             (:name "Social" :tag "book" :order 11)
+    ;;
+    ;;             ;; Stronger
+    ;;             (:name "Web dev" :tag "web_dev" :order 20)
+    ;;             (:name "Competitive programming" :tag "compe" :order 30)
+    ;;
+    ;;             ;; Output
+    ;;             (:name "Devlog"
+    ;;                    :tag "devlog"
+    ;;                    :order 100)
+    ;;
+    ;;             ;; Input
+    ;;             (:name "Book" :tag "book" :order 110)
+    ;;
+    ;;             ;; Relax
+    ;;             (:name "Novels" :tag "novel" :order 120)
+    ;;             (:name "Video" :tag "video" :order 121)
+    ;;             (:name "Game" :tag "game" :order 122)
+    ;;             (:name "Animations" :tag "anim" :order 123)
+    ;;             ))
+    ;;
+    ;;     (org-super-agenda-mode 1))
+
+    (leaf org-superstar
+        :commands org-superstar-mode
+        :hook (org-mode-hook . org-superstar-mode)
+        :custom
+        (org-superstar-special-todo-items . nil))
+
+    ;; (leaf org-modern
+    ;;     :hook (org-mode-hook . org-modern-mode))
 
     ;; html view
     (leaf org-preview-html
         :commands org-preview-html-mode org-preview-html/preview)
 
-    (leaf org-journal)
+    ;; C-c C-j: create entry
+    (leaf org-journal
+        :custom ((org-journal-dir . "~/org-priv/journal/")
+                 (org-journal-date-format . "%Y-%m-%d"))
+        )
 
     ;; (leaf org-pdfview)
 

@@ -424,18 +424,23 @@
     " rk" #'google-translate-at-point
     )
 
-;; ;; [o]rg-mode
-;; (evil-define-key 'normal 'toy/global-mode-map
-;;     " ol" #' org-store-link
-;;     " oc" #' org-capture
-;;     " oa" #' org-agenda
-;;     " ob" #' org-iswitchb
-;;     " or" #' org-refile
-;;     " oj" #' org-clock-goto
-;;     " oo" #' org-clock-out
-;;     ;; toggle
-;;     " otl" #'org-toggle-link-display
-;;     )
+;; [o]rg-mode
+(evil-define-key 'normal 'toy/global-mode-map
+    " ol" #' org-store-link
+    ;; TODO: copy upstream link URL instead
+    " oL" #' org-insert-link
+    " oc" #' org-capture
+    " oa" #' (lambda () (interactive) (org-agenda-list))
+
+    " ob" #' org-iswitchb
+    " or" #' org-refile
+    ;; TODO: roam
+
+    " oj" #' org-clock-goto
+    " oo" #' org-clock-out
+
+    ;; toggle
+    " otl" #'org-toggle-link-display)
 
 ;; (evil-define-key 'normal 'org-mode-map
 ;;     ;; insert
