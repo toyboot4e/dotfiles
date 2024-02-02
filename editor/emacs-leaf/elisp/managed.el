@@ -186,6 +186,11 @@
                                     (interactive)
                                     (evil-edit
                                      (concat user-emacs-directory "init.el"))))
+            (evil-ex-define-cmd "o"
+                                (lambda nil
+                                    (interactive)
+                                    (evil-edit
+                                     (expand-file-name "~/org-priv/journal.org"))))
             (evil-ex-define-cmd "s" #'toy/reload)
             (evil-ex-define-cmd "Bd" #'kill-this-buffer)
             (evil-ex-define-cmd "BD" #'kill-this-buffer)
@@ -243,7 +248,6 @@
            ))
 
         (with-eval-after-load 'org
-            ;; (evil-collection-org-setup)
             (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete))
 
         (with-eval-after-load 'magit
