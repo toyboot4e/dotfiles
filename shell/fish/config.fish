@@ -54,3 +54,7 @@ if test -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" > /dev/null
 end
 
+# volta
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
+

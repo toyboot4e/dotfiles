@@ -188,3 +188,5 @@ fi
   source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
