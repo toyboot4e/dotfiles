@@ -338,7 +338,9 @@
                                           ((t
                                             (:background "#84edb9" :foreground "#2f2f2f")))) (git-gutter:deleted quote
                                           ((t
-                                            (:background "#d75f5f" :foreground "#2f2f2f")))))
+                                            (:background "#d75f5f" :foreground "#2f2f2f"))))
+        :defer-config
+        (setq git-gutter:update-hooks '(after-save-hook after-revert-hook)))
 
     (leaf git-gutter-fringe
         :doc "Show git status on line numbers (GUI)"
@@ -353,7 +355,9 @@
                                              ((t
                                                (:background "#84edb9" :foreground "#2f2f2f")))) (git-gutter-fr:deleted quote
                                              ((t
-                                               (:background "#d75f5f" :foreground "#2f2f2f")))))
+                                               (:background "#d75f5f" :foreground "#2f2f2f"))))
+        :defer-config
+        (setq git-gutter:update-hooks '(after-save-hook after-revert-hook)))
 
     (leaf git-link
         :commands (git-link git-link-commit)
