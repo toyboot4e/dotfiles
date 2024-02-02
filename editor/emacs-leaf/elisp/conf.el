@@ -226,6 +226,14 @@
     :config
     (add-hook 'vue-mode-hook #'lsp-deferred))
 
+(leaf emmet-mode
+    :hook
+    ((html-mode-hook . emmet-mode)
+     (web-mode-hook . emmet-mode)
+     (css-mode-hook . emmet-mode)
+     (typescript-tsx-mode-hook . emmet-mode)
+     (vue-mode-hook . emmet-mode)))
+
 ;; (leaf tide
 ;;     :after (typescript-mode company flycheck)
 ;;     :hook ((typescript-mode-hook . tide-setup)
