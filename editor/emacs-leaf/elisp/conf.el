@@ -217,8 +217,7 @@
     (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
     (setq-default typescript-indent-level 2)
 
-    :hook lsp-deferred
-    ;; FIXME: `:hook` fails on byte compile
+    :hook (typescript-mode-hook . lsp-deferred)
     :config
     (add-hook 'before-save-hook #'lsp-format-buffer))
 
