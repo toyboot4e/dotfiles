@@ -209,6 +209,14 @@
 
 ;; (leaf html-ls)
 
+(leaf prettier
+    :doc "Aggressive source format on save.
+Maybe use `dir-locals.el' or similars rather than to hooks:
+https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per-directory"
+    :custom (prettier-inline-errors-flag . t)
+    :hook (typescript-mode-hook . prettier-mode)
+    :hook (css-mode-hook . prettier-mode))
+
 (leaf typescript-mode
     :mode "\\.ts\\'"
     :init
@@ -218,8 +226,10 @@
     (setq-default typescript-indent-level 2)
 
     :hook (typescript-mode-hook . lsp-deferred)
-    :config
-    (add-hook 'before-save-hook #'lsp-format-buffer))
+    ;; Using prettier instaead, but both should be unified
+    ;; :config
+    ;; (add-hook 'before-save-hook #'lsp-format-buffer)
+    )
 
 (leaf vue-mode
     :config
