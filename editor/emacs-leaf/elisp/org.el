@@ -61,6 +61,7 @@
                   '(
                     ;; "/agenda.org"
                     "/journal.org"
+                    "/timeline/"
                     ;; "/web.org"
                     ;; "/ved.org"
                     ;; "/dev-ink.org"
@@ -108,6 +109,14 @@
     ;;                      ((org-agenda-overriding-header "Emails")))
     ;;           (tags-todo "@phone"
     ;;                      ((org-agenda-overriding-header "Phone")))))))
+    (setq org-tag-alist
+          '(
+            ("compe" . ?c)
+            ("emacs" . ?e)
+            ("life" . ?l)
+            ("social" . ?s)
+            ("work" . ?w)
+            ))
 
     (setq org-clock-persist t)
 
