@@ -61,9 +61,16 @@ pattern DELETE = 1")
      !vec <- UM.replicate (h * w) (0 :: Int)
      return vec")
 
-(dir4 "dir4 :: U.Vector (Int, Int)" n> r>
-"dir4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]")
-(crossDir "!dir4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
+(ortho4 "ortho4 :: U.Vector (Int, Int)
+ortho4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+{-# INLINE ortho4' #-}
+ortho4' :: ((Int, Int), (Int, Int)) -> (Int, Int) -> U.Vector (Int, Int)
+ortho4' bnd base = U.filter (inRange bnd) $ U.map (add2 base) ortho4")
+
+(cross4 "cross4 :: U.Vector (Int, Int)
+cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
+
 (dir8 "dir8 :: U.Vector (Int, Int)" n> r>
 "dir8 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]")
 

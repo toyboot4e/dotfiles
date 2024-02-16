@@ -248,7 +248,8 @@
            ))
 
         (with-eval-after-load 'org
-            (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete))
+            (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete)
+            (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle))
 
         (with-eval-after-load 'magit
             (evil-define-key 'normal magit-mode-map "zz" #'evil-scroll-line-to-center "z-" #'evil-scroll-line-to-bottom

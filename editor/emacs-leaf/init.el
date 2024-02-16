@@ -6,11 +6,8 @@
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
 
-;; Profiling
-;; (load-file (concat user-emacs-directory "elisp/profile.el"))
-
-;; remove after merge
-(setq-default rustic-cargo-auto-add-missing-dependencies nil)
+;; what?: `https://github.com/doomemacs/doomemacs/issues/5682'
+(defvar native-comp-deferred-compilation-deny-list nil)
 
 ;; "tempel-snippets.el"
 
