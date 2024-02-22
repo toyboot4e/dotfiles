@@ -17,7 +17,7 @@
     :hook (org-mode-hook . toy/init-org)
     :hook (org-babel-after-execute . org-redisplay-inline-images)
     :custom
-    ((org-directory . "~/org-priv")
+    ((org-directory . "~/org")
      (org-cycle-emulate-tab . nil)
      (org-ditaa-jar-path . "~/.nix-profile/lib/ditaa.jar")
      (org-plantuml-jar-path . "~/.nix-profile/lib/plantuml.jar")
@@ -58,12 +58,12 @@
           (todo . " %i %-12:c")
           (tags  . " %i %-12:c")
           (search . " %i %-12:c")))
-
-     (org-capture-templates
-      . '(("j" "Journal" entry (file+datetree "~/org-priv/journal.org") "* ")))
      )
     :config
     (setq org-default-notes-file (concat org-directory "/tasks.org"))
+
+    (setq org-capture-templates
+          ,(("j" "Journal" entry (file+datetree "journal.org") "* ")))
 
     ;; fold
     (evil-define-key 'normal org-mode-map
