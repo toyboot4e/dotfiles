@@ -404,7 +404,6 @@
     " ft" #'tab-bar-switch-to-tab
 
     ;; TODO: prefer fuzzy search
-    " fO" #'org-switchb
     " fR" #'consult-org-roam-file-find
 
     " fg" #'centaur-tabs-switch-group

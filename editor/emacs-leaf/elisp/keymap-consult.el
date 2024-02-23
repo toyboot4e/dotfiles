@@ -33,19 +33,20 @@
     " fF" #'toy/proj-find
     " fb" #'consult-buffer
     " fB" #'consult-buffer-other-window
+    ;; " fB" #'org-switchb
 
     " fr" #'consult-recentf
     " fh" #'consult-history
 
     " fl" #'consult-line
     " fo" #'consult-outline
-    " fO" #'org-switchb
+    " fO" (lambda () (interactive) (cd org-directory) (call-interactively #'find-file))
 
     " fi" #'consult-imenu
     " fd" #'consult-lsp-diagnostics
     " fs" #'consult-lsp-symbols
 
-    " fp" #'projectile-switch-project
+    " fp" (lambda () (interactive) (call-interactively #'projectile-invalidate-cache) (projectile-switch-project))
     " fG" #'consult-ghq-find
     " fD" #'consult-dir
 
