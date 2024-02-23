@@ -143,13 +143,16 @@
         :leaf-defer nil
         :custom ((doom-modeline-icon display-graphic-p)
                  (doom-modeline-major-mode-icon display-graphic-p)
-                 (doom-modeline-height . 18)
+                 ;; (doom-modeline-height . 1)
+                 ;; (doom-modeline-icon . nil)
                  (doom-modeline-buffer-encoding)
                  (doom-modeline-buffer-file-name-style quote truncate-upto-project))
         :config
+        ;; remove Git:
         (advice-add 'vc-git-mode-line-string :filter-return
                     (lambda (arg)
                         (substring arg 4)))
+
         (leaf minions
             :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
             :custom ((minions-mode-line-lighter . "[+]")
@@ -178,6 +181,7 @@
                  (evil-want-Y-yank-to-eol . t)
                  (evil-move-cursor-back \.t)
                  (evil-search-module quote evil-search))
+
         :config
         (evil-mode 1)
         (progn
