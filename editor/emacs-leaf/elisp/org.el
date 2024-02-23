@@ -63,7 +63,7 @@
     (setq org-default-notes-file (concat org-directory "/tasks.org"))
 
     (setq org-capture-templates
-          ,(("j" "Journal" entry (file+datetree "journal.org") "* ")))
+          '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
 
     ;; fold
     (evil-define-key 'normal org-mode-map
@@ -172,12 +172,16 @@
                                 (org-zenn-export-to-markdown-as dst-file nil nil nil)))))))
 
         (defun org-zenn-export-buffer-to-book (&optional org-dir)
-            "Runs subtree export to each level 1 headings"
+            "Runs subtree export to each level 1 headings. Respects `#+BOOK_DIR'."
             (interactive)
-            (org-map-entries
-             (lambda ()
-                 (org-zenn-export-to-markdown nil t))
-             "LEVEL=1")))
+            (let* ((dir default-directory)
+                   (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR" "XYZ")))))))
+                ;; cd into the target directory, but manually:
+                (when pub-dir (cd pub-dir))
+                ;; export all the top level headings and come back:
+                (unwind-protect
+                        (org-map-entries (lambda () (org-zenn-export-to-markdown nil t)) "LEVEL=1")
+                    (when pub-dir (cd dir))))))
 
     (leaf org-appear
         :doc "Uninline format on cursor"
@@ -200,7 +204,7 @@
 
     ;; C-c C-j: create entry
     (leaf org-journal
-        :custom ((org-journal-dir . "~/org-priv/journal/")
+        :custom ((org-journal-dir . "~/org/journal/")
                  (org-journal-date-format . "%Y-%m-%d")))
 
     ;; `org-roam' mappings:

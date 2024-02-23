@@ -194,7 +194,7 @@
                                 (lambda nil
                                     (interactive)
                                     (evil-edit
-                                     (expand-file-name "~/org-priv/journal.org"))))
+                                     (concat org-directory "/journal.org"))))
             (evil-ex-define-cmd "s" #'toy/reload)
             (evil-ex-define-cmd "Bd" #'kill-this-buffer)
             (evil-ex-define-cmd "BD" #'kill-this-buffer)
