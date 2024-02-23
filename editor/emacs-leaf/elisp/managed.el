@@ -417,16 +417,37 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
             (goto-char last-point))
 
         (leaf consult-hoogle
-            :ensure nil
-            :straight (consult-hoogle :type git :host github :repo "aikrahguzar/consult-hoogle"))
+            ;; :ensure nil
+            ;; :straight (consult-hoogle :type git :host github :repo "aikrahguzar/consult-hoogle"
+            )
 
         (leaf lsp-haskell
             :after lsp-mode
             :url "https://github.com/emacs-lsp/lsp-haskell")
 
         (evil-define-key 'normal 'haskell-mode-map
-            (kbd "C-c h") 'consult-hoogle
-            (kbd "C-c f") 'ormolu-format-buffer)
+            (kbd "C-c h") #'consult-hoogle
+            (kbd "C-c f") #'ormolu-format-buffer)
+
+        ;; The `o` / `O` fix works anyways:
+        ;; https://emacs.stackexchange.com/a/35877
+        (defun haskell-evil-open-above ()
+            (interactive)
+            ;; (evil-digit-argument-or-evil-beginning-of-line)
+            (evil-beginning-of-line)
+            (haskell-indentation-newline-and-indent)
+            (evil-previous-line)
+            (haskell-indentation-indent-line)
+            (evil-append-line nil))
+
+        (defun haskell-evil-open-below ()
+            (interactive)
+            (evil-append-line nil)
+            (haskell-indentation-newline-and-indent))
+
+        (evil-define-key 'normal haskell-mode-map
+            "o" 'haskell-evil-open-below
+            "O" 'haskell-evil-open-above)
         )
 
     (leaf helpful
