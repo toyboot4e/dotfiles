@@ -81,16 +81,8 @@ cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
 (stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
 
 (monoidAction
-"-- | Add
+ "-- | Add
 type OpRepr = Int
-newtype Op = Op OpRepr
-  deriving newtype (Eq, Ord, Show)
-
-newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr)
-newtype instance U.Vector Op = V_Op (U.Vector OpRepr)
-deriving instance GM.MVector UM.MVector Op
-deriving instance G.Vector U.Vector Op
-instance U.Unbox Op
 
 instance Semigroup Op where
   (Op !x1) <> (Op !x2) = Op (x1 + x2)
@@ -99,29 +91,64 @@ instance Monoid Op where
   mempty = Op 0
 
 instance SemigroupAction Op Acc where
-  sact (Op !o) (Acc !a) = Acc (o + a)
-
-instance MonoidAction Op Acc
+  sact (Op !dx) (Acc !x) = Acc (x + dx)
 
 -- | Max
 type AccRepr = Int
-newtype Acc = Acc AccRepr
-  deriving newtype (Eq, Ord, Show)
-
-unAcc :: Acc -> AccRepr
-unAcc (Acc x) = x
-
-newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr)
-newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr)
-deriving instance GM.MVector UM.MVector Acc
-deriving instance G.Vector U.Vector Acc
-instance U.Unbox Acc
 
 instance Semigroup Acc where
   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
 
 instance Monoid Acc where
-  mempty = Acc (minBound @Int)")
+  mempty = Acc minBound
+
+{- ORMOLU_DISABLE -}
+newtype Op = Op OpRepr deriving newtype (Eq, Ord, Show) ; newtype Acc = Acc AccRepr deriving newtype (Eq, Ord, Show) ; unAcc :: Acc -> AccRepr ; unAcc (Acc x) = x ; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr) ; newtype instance U.Vector Op = V_Op (U.Vector OpRepr) ; deriving instance GM.MVector UM.MVector Op ; deriving instance G.Vector U.Vector Op ; instance U.Unbox Op ; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr) ; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr) ; deriving instance GM.MVector UM.MVector Acc ; deriving instance G.Vector U.Vector Acc ; instance U.Unbox Acc ;
+instance MonoidAction Op Acc
+{- ORMOLU_ENABLE -}")
+
+;; (monoidAction
+;; "-- | Add
+;; type OpRepr = Int
+;; newtype Op = Op OpRepr
+;;   deriving newtype (Eq, Ord, Show)
+;; 
+;; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr)
+;; newtype instance U.Vector Op = V_Op (U.Vector OpRepr)
+;; deriving instance GM.MVector UM.MVector Op
+;; deriving instance G.Vector U.Vector Op
+;; instance U.Unbox Op
+;; 
+;; instance Semigroup Op where
+;;   (Op !x1) <> (Op !x2) = Op (x1 + x2)
+;; 
+;; instance Monoid Op where
+;;   mempty = Op 0
+;; 
+;; instance SemigroupAction Op Acc where
+;;   sact (Op !o) (Acc !a) = Acc (o + a)
+;; 
+;; instance MonoidAction Op Acc
+;; 
+;; -- | Max
+;; type AccRepr = Int
+;; newtype Acc = Acc AccRepr
+;;   deriving newtype (Eq, Ord, Show)
+;; 
+;; unAcc :: Acc -> AccRepr
+;; unAcc (Acc x) = x
+;; 
+;; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr)
+;; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr)
+;; deriving instance GM.MVector UM.MVector Acc
+;; deriving instance G.Vector U.Vector Acc
+;; instance U.Unbox Acc
+;; 
+;; instance Semigroup Acc where
+;;   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
+;; 
+;; instance Monoid Acc where
+;;   mempty = Acc (minBound @Int)")
 
 (unbox_
 "newtype instance U.MVector s " (p "Type" type) " = MV_" (s type) " (P.MVector s " (s type) ")
@@ -148,19 +175,19 @@ deriving via (Acc `U.As` AccRepr) instance G.Vector U.Vector Acc
 instance U.Unbox Acc")
 
 (modInt
-"data MyModulo = MyModulo
-
-instance TypeInt MyModulo where
-  -- typeInt _ = 1_000_000_007
-  typeInt _ = 998244353
+ "type MyModulo = (998244353 :: Nat)
+-- type MyModulo = (1_000_000_007 :: Nat)
 
 type MyModInt = ModInt MyModulo
 
 myMod :: Int
-myMod = typeInt (Proxy @MyModulo)
+myMod = fromInteger $ natVal' @MyModulo proxy#
 
+{-# INLINE modInt #-}
 modInt :: Int -> MyModInt
-modInt = ModInt . (`rem` myMod)")
+modInt = ModInt . (`rem` myMod)
+
+type RH' = RH HashInt MyModulo")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
