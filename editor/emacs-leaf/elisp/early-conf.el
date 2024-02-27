@@ -31,7 +31,6 @@
 (progn ;; Show more
     ;; show line numbers
     (global-display-line-numbers-mode)
-    (global-display-line-numbers-mode)
 
     ;; highlight current line
     ;; (global-hl-line-mode t)
@@ -116,8 +115,7 @@
                       'japanese-jisx0208
                       ;; TODO: fallback
                       ;; (font-spec :family "Hiragino Kaku Gothic ProN")
-                      (font-spec :family "Noto Sans Mono CJK JP")
-                      )
+                      (font-spec :family "Noto Sans Mono CJK JP"))
 
     ;; FIXME: proper way to align org tables?
     (setq face-font-rescale-alist
