@@ -6,6 +6,8 @@
 ;; --------------------------------------------------------------------------------
 ;; Bootstrapping
 
+;; TODO: Just use `use-package' for bootstrapping?
+
 (setq straight-vc-git-default-protocol 'ssh)
 
 (progn ;; `straight.el'
@@ -41,19 +43,7 @@
         :custom ((leaf-defaults . '(:ensure t))))
 
     (leaf leaf-keywords
-        :init
-        ;; (leaf feather
-        ;;     :doc "Parallel thread modern package manager"
-        ;;     :url "https://github.com/conao3/feather.el"
-        ;;     :req "emacs-26.3" "async-await-1.0" "ppp-1.0" "page-break-lines-0.1"
-        ;;     :tag "convenience" "package" "emacs>=26.3"
-        ;;     :emacs>= 26.3
-        ;;     :ensure t)
-
         :config
-        ;; I'm using `minions'
-        ;; (leaf diminish :ensure t)
-
         (leaf-keywords-init))
     )
 ;; </leaf-install-code>
@@ -61,4 +51,22 @@
 ;; (leaf setup
 ;;     :doc "Helpful Configuration Macro"
 ;;     :straigh (setup :type git :host github :repo "github.com/zk-phi/setup"))
+
+;; --------------------------------------------------------------------------------
+;; Meta
+;; --------------------------------------------------------------------------------
+
+(leaf no-littering
+    :url "https://github.com/emacscollective/no-littering"
+    :init
+    (setq no-littering-etc-directory
+          (expand-file-name "etc/" user-emacs-directory))
+    (setq no-littering-var-directory
+          (expand-file-name "var/" user-emacs-directory))
+    :config
+    (require 'recentf)
+    (add-to-list 'recentf-exclude
+                 (recentf-expand-file-name no-littering-var-directory))
+    (add-to-list 'recentf-exclude
+                 (recentf-expand-file-name no-littering-etc-directory)))
 

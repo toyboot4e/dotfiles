@@ -174,12 +174,7 @@
 
     ;; NOTE: it overwrites digraph key
     "\C-k" 'evil-delete-line
-    "\C-u" #'toy/backward-kill-line
-
-    ;; NOTE: prefer to use `C-n` and `C-p` for completion
-    ;; "\C-n" 'evil-next-line
-    ;; "\C-p" 'evil-previous-line
-    )
+    "\C-u" #'toy/backward-kill-line)
 
 ;; ------------------------------ Misc ------------------------------
 

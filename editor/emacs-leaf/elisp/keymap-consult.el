@@ -18,12 +18,12 @@
 (defun toy/proj-find ()
     "Find a file from project files."
     (interactive)
-    (affe-find (projectile-project-root) ". "))
+    (consult-find (projectile-project-root) ". "))
 
 (defun toy/proj-grep ()
     "Find a file from project files."
     (interactive)
-    (affe-grep (projectile-project-root) ""))
+    (consult-ripgrep (projectile-project-root) ""))
 
 (evil-define-key 'normal 'toy/global-mode-map
     " v" (lambda () (interactive) (when (toy/vf) (toy/force-center)))
@@ -46,7 +46,8 @@
     " fd" #'consult-lsp-diagnostics
     " fs" #'consult-lsp-symbols
 
-    " fp" (lambda () (interactive) (call-interactively #'projectile-invalidate-cache) (projectile-switch-project))
+    ;; " fp" (lambda () (interactive) (call-interactively #'projectile-invalidate-cache) (projectile-switch-project))
+    " fp" #'projectile-switch-project
     " fG" #'consult-ghq-find
     " fD" #'consult-dir
 
@@ -63,7 +64,7 @@
     " gb" #'consult-line
     ;; in all buffer
     ;; " gB" #'
-    " gr" #'affe-grep
+    " gr" (lambda () (interactive) (consult-grep "." ". "))
     " gR" #'toy/proj-grep
     )
 

@@ -21,6 +21,7 @@
      (org-cycle-emulate-tab . nil)
      (org-ditaa-jar-path . "~/.nix-profile/lib/ditaa.jar")
      (org-plantuml-jar-path . "~/.nix-profile/lib/plantuml.jar")
+     ;; (ob-mermaid-cli-path .  "~/.nix-profile/bin/mmdc")
      ;; Do not count TODOs recursively
      (org-hierarchial-todo-statics . nil)
      ;; Do not indent source code
@@ -75,10 +76,17 @@
         )
 
     (progn ;; Setup diagram programs
-        ;; Installation via `home-manager' is assumed:
+        (leaf ob-mermaid
+            :config
+            (with-eval-after-load 'org-src
+                (add-to-list 'org-src-lang-modes '("mermaid" . mermaid))))
+
         (org-babel-do-load-languages
          'org-babel-load-languages '((ditaa . t)
+                                     (mermaid . t)
+                                     (plantuml . t)
                                      (dot . t)
+                                     (haskell . t)
                                      (shell . t)))
 
         ;; (setq org-plantuml "plantuml")

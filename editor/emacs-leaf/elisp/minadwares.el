@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+;; TODO: Fix corfu
+
 ;; --------------------------------------------------------------------------------
 ;; `completing-read'
 ;; --------------------------------------------------------------------------------
@@ -9,23 +11,18 @@
     ;; :hook (completion-list-mode-hook . consult-preview-at-point-mode)
 
     :custom
-    `((consult-preview-raw-size . 1024000)
-      (consult-preview-key  . "C-l")
-      (consult-narrow-key   . "<")
-      (consult-async-min-input . 2))
+    ((consult-preview-raw-size . 1024000)
+     (consult-preview-key  . "C-l")
+     (consult-narrow-key   . "<")
+     (consult-async-min-input . 2)
+     (register-preview-delay . 0)
+     (register-preview-function #'consult-register-format)
+     (xref-show-xrefs-function . #'consult-xref)
+     (xref-show-definitions-function . #'consult-xref))
 
-    ;; strictly evaluated
     :init
-    ;; for faster register preview
-    (setq register-preview-delay 0
-          register-preview-function #'consult-register-format)
-
     ;; adds thin lines, sorting and hides the mode line of the window.
     (advice-add #'register-preview :override #'consult-register-window)
-
-    ;; use Consult to select xref locations with preview
-    (setq xref-show-xrefs-function #'consult-xref
-          xref-show-definitions-function #'consult-xref)
 
     :config
     ;; use `fd`
@@ -72,19 +69,20 @@
 (leaf vertico
     :doc "Show minibuffer items in rows"
     :hook (after-init-hook . vertico-mode)
-    :preface
-    (setq vertico-cycle t)
-    (setq vertico-count 20)
-    (setq vertico-scroll-margin 4))
+    :custom
+    ((vertico-cycle . t)
+     (vertico-count . 20)
+     (vertico-scroll-margin . 4)))
 
 (leaf orderless
     :doc "Find with space-separated components in any order"
-    :init
-    (setq completion-styles '(orderless basic)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles . (partial-completion))))
-          ;; completion-category-overrides '((file (styles . (initials))))
-          ))
+    :custom
+    ((completion-styles . '(orderless partial-completion basic))
+     (completion-category-defaults .  nil)
+     ;; TODO: ?
+     (completion-category-overrides . '((file (styles basic partial-completion))))
+     ;; completion-category-overrides '((file (styles . (initials))))
+     ))
 
 (leaf emacs
     :init
@@ -131,6 +129,7 @@
 
 (leaf embark
     :doc "Context menu in minibufffers"
+    :url "https://github.com/oantolin/embark"
     :bind
     (:minibuffer-local-map
      (("C-x" . embark-act)
@@ -151,39 +150,25 @@
     :hook
     (embark-collect-mode-hook . consult-preview-at-point-mode))
 
-(leaf affe
-    :doc "Alternatives to find-file and grep"
-    :after (consult orderless)
-    :init
-    (consult-customize affe-grep :preview-key (kbd "C-l"))
-    ;; use `fd'
-    (when (executable-find "fd")
-        ;; (setq affe-find-command "fd -HI -t f")
-        (setq affe-find-command "fd --color=never --full-path -t f"))
+;; Use `orderless':
+;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
+;; better regex (copied from the README)
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+    (setq input (orderless-pattern-compiler input))
+    (cons
+     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+     (lambda (str) (orderless--highlight input t str))))
 
-    ;; show all the matching results
-    (setq affe-count most-positive-fixnum)
+;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
+(setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
-    ;; Use `orderless':
-    ;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
-    ;; better regex (copied from the README)
-    (defun consult--orderless-regexp-compiler (input type &rest _config)
-        (setq input (orderless-pattern-compiler input))
-        (cons
-         (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-         (lambda (str) (orderless--highlight input t str))))
-
-    ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
-    (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
-
-    ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
-    ;; (defun consult--with-orderless (&rest args)
-    ;;     (minibuffer-with-setup-hook
-    ;;             (lambda ()
-    ;;                 (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-    ;;         (apply args)))
-    ;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-    )
+;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
+;; (defun consult--with-orderless (&rest args)
+;;     (minibuffer-with-setup-hook
+;;             (lambda ()
+;;                 (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+;;         (apply args)))
+;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
 
 ;; --------------------------------------------------------------------------------
 ;; Completion
@@ -192,67 +177,53 @@
 (leaf corfu
     :doc "Be sure to configure `lsp-mode' with `corfu'"
     :url "https://github.com/minad/corfu"
+
     ;; Optional customizations
     :custom
     ((corfu-cycle .  t)
      (corfu-auto . t)                 ;; Enable auto completion
      (corfu-count . 30)
-     ;; (corfu-separator . ?\s)          ;; Orderless field separator
-     ;; (corfu-quit-at-boundary . nil)   ;; Never quit at completion boundary
-     ;; (corfu-quit-no-match . nil)      ;; Never quit, even if there is no match
-     ;; (corfu-preview-current . nil)    ;; Disable current candidate preview
-     ;; (corfu-preselect-first . nil)    ;; Disable candidate preselection
-     ;; (corfu-on-exact-match . nil)     ;; Configure handling of exact matches
-     ;; (corfu-echo-documentation . nil) ;; Disable documentation in the echo area
-     ;; (corfu-scroll-margin . 5)        ;; Use scroll margin
-     (coruf-popupinfo-delay . 0)
+     (corfu-preselect . 'prompt)       ;; Do not select the first candidate
+     (coruf-popupinfo-delay . 0.1)
+     (tab-always-indent . 'complete)
+     (completion-cycle-threshold .  3)
+     (corfu-auto-prefix . 3)
      )
-    :hook (corfu-mode-hook . corfu-popupinfo-mode)
-
-    :pre-setq ((tab-always-indent . 'complete)
-               (corfu-cycle . t)
-               (corfu-auto . t)
-               (corfu-auto-prefix . 1)
-               (corfu-preselect-first . nil))
 
     :config
-    (leaf kind-icon
-        :url "https://github.com/jdtsmith/kind-icon"
-        :custom (kind-icon-default-face . 'corfu-default)
-        :config
-        ;; FIXME: void?
-        (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+    (global-corfu-mode)
 
-    ;; Deprecated:
-    ;; (leaf corfu-doc
-    ;;     :url "https://github.com/galeo/corfu-doc"
-    ;;     :when (display-graphic-p)
-    ;;     :hook (corfu-mode-hook . corfu-doc-mode))
-    ;; :init
-    ;; (global-corfu-mode)
+    ;; https://github.com/minad/corfu#completing-in-the-minibuffer
+    (defun corfu-enable-in-minibuffer ()
+        "Enable Corfu in the minibuffer."
+        (when (local-variable-p 'completion-at-point-functions)
+            ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+            (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                        corfu-popupinfo-delay nil)
+            (corfu-mode 1)))
+    (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
 
-    (leaf corfu-popupinfo
-        ;; Today it comes with `corfu'.
-        :ensure nil
-        :custom ((coruf-popupinfo-delay . 0))
-        :hook (corfu-mode-hook . corfu-popupinfo-mode)
-        )
     )
 
-;; A few more useful configurations...
-(leaf emacs
-    :init
-    ;; TAB cycle if there are only few candidates
-    (setq completion-cycle-threshold 3)
+(leaf kind-icon
+    :url "https://github.com/jdtsmith/kind-icon"
+    ;; :custom (kind-icon-default-face . 'corfu-default)
+    :config
+    ;; FIXME: void?
+    ;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+    (add-hook 'my-completion-ui-mode-hook
+   	          (lambda ()
+   	              (setq completion-in-region-function
+   		                (kind-icon-enhance-completion
+   		                 completion-in-region-function)))))
 
-    ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-    ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-    ;; (setq read-extended-command-predicate
-    ;;       #'command-completion-default-include-p)
-
-    ;; Enable indentation+completion using the TAB key.
-    ;; `completion-at-point' is often bound to M-TAB.
-    (setq tab-always-indent 'complete))
+;; Deprecated:
+;; (leaf corfu-doc
+;;     :url "https://github.com/galeo/corfu-doc"
+;;     :when (display-graphic-p)
+;;     :hook (corfu-mode-hook . corfu-doc-mode))
+;; :init
+;; (global-corfu-mode)
 
 (leaf cape
     :url "https://github.com/minad/cape"
@@ -294,32 +265,37 @@
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
 
-(unless (display-graphic-p)
-    (leaf popon
-        :url "https://codeberg.org/akib/emacs-popon"
-        :unless (display-graphic-p)
-        :ensure nil
-        :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
+;; (leaf popon
+;; :url "https://codeberg.org/akib/emacs-popon"
+;; :unless (display-graphic-p)
+;; :ensure nil
+;; :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
 
-    (leaf corfu-terminal
-        :url "https://codeberg.org/akib/emacs-corfu-terminal"
-        :after popon
-        :unless (display-graphic-p)
-        :ensure nil
-        :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
-        :config
-        (corfu-terminal-mode +1))
+(leaf corfu-popupinfo
+    ;; Today it comes with `corfu'.
+    :ensure nil
+    :after corfu
+    :custom ((coruf-popupinfo-delay . 0))
+    :hook (corfu-mode-hook . corfu-popupinfo-mode))
 
-    ;; TODO: deprecated?
-    ;; (leaf corfu-doc-terminal
-    ;;     :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
-    ;;     :unless (display-graphic-p)
-    ;;     :ensure nil
-    ;;     :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
-    ;;     :config
-    ;;     (corfu-doc-terminal-mode +1))
+(leaf corfu-terminal
+    :url "https://codeberg.org/akib/emacs-corfu-terminal"
+    :after (corfu corfu-popupinfo)
+    :unless (display-graphic-p)
+    :ensure nil
+    :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
+    :hook (corfu-mode-hook . corfu-terminal-mode))
+;; :config
+;; (corfu-terminal-mode +1))
 
-    )
+;; TODO: deprecated?
+;; (leaf corfu-doc-terminal
+;;     :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
+;;     :unless (display-graphic-p)
+;;     :ensure nil
+;;     :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
+;;     :config
+;;     (corfu-doc-terminal-mode +1))
 
 ;; --------------------------------------------------------------------------------
 ;; Snippets
@@ -338,10 +314,21 @@
     (add-hook 'prog-mode-hook 'tempel-setup-capf)
     (add-hook 'text-mode-hook 'tempel-setup-capf)
 
+    ;; TODO: Replace with `embark' (probably).
+    ;; TODO: Use `corfu' and `cape' rather than direct call.
     (evil-define-key 'insert 'global
         (kbd "C-y") #'tempel-complete
         (kbd "C-l") #'tempel-insert
-        (kbd "C-t") #'tempel-expand
-        (kbd "C-n") #'tempel-next
-        (kbd "C-p") #'tempel-previous))
+        (kbd "C-t") #'tempel-expand)
+
+    ;; ;; FIXME: not working since it's not a mode?
+    ;; (evil-define-key 'insert 'tempel-map
+    ;;     "C-n" #'tempel-next
+    ;;     "C-p" #'tempel-previous
+    ;;     "C-<RET>" #'tempel-done)
+
+    ;; ;; FIXME: not working since it's not a mode?
+    ;; (evil-define-key 'normal 'tempel-map
+    ;;     "C-<RET>" #'tempel-done)
+    )
 

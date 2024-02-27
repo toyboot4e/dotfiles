@@ -28,18 +28,23 @@ haskell-mode
 
 ;; debug
 (dbg "!_ = dbg (" (p "") ")")
+(d "!_ = dbg (" (p "") ")")
+
 (assert "!_ = dbgAssert (" (p "") ")")
+(a "!_ = dbgAssert (" (p "") ")")
 
 (default "default (Integer, Int)")
 
+(f (s name) " :: " (p "") p n> (s name))
+(w "where" n> r> n)
+
 (runSTUArray
- "runSTUAray $ do
+ "runSTUArray $ do
     !arr <- UM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
     return arr")
 
-(g1 "!" (p "n") " <- ints1")
-(g2 "(!" (p "h") ", !" (p "w") ") <- ints2")
-(g3 "(!" (p "z") ", !"(p "y") ", !" (p "x") ") <- ints3")
+(i11 "(both pred <$> ints2)")
+(i110 "(add3 (-1, 0, 0) <$> ints3)")
 
 (bnd "!bnd = ((0, 0), (h - 1, w - 1))")
 
@@ -219,7 +224,7 @@ org-mode
 (title "#+TITLE: " p n "#+AUTHOR: Daniel Mendler" n "#+LANGUAGE: en")
 
 ;; for diary
-(abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加した。
+(abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加しました。
 
 [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]] では
 
@@ -234,7 +239,7 @@ org-mode
 [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]] では
 ")
 
-(arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加した。
+(arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加しました。
 
 [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]] では
 
