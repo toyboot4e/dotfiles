@@ -67,5 +67,6 @@
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-var-directory))
     (add-to-list 'recentf-exclude
-                 (recentf-expand-file-name no-littering-etc-directory)))
+                 (recentf-expand-file-name no-littering-etc-directory))
+    (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
