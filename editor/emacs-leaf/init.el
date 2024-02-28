@@ -33,7 +33,7 @@
         "elisp/end.el"                   ;; Run after startup
         ))
 
-(defun toy/load-sub-config ()
+(defun toy/load-configuration ()
     (interactive)
     (dolist (x toy/init-files)
         (load-file (concat user-emacs-directory x))))
@@ -42,13 +42,7 @@
     (interactive)
     (load-file (concat user-emacs-directory "init.el")))
 
-(defun toy/on-startup ()
-    (toy/load-sub-config)
-    (toy/on-start))
-
-;; TODO: delay most code load
-
-(toy/load-sub-config)
+(toy/load-configuration)
 (add-hook 'window-setup-hook #'toy/on-start)
 
 ;;; init.el ends here

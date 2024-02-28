@@ -187,8 +187,7 @@
      (coruf-popupinfo-delay . 0.1)
      (tab-always-indent . 'complete)
      (completion-cycle-threshold .  3)
-     (corfu-auto-prefix . 3)
-     )
+     (corfu-auto-prefix . 3))
 
     :config
     (global-corfu-mode)

@@ -1,6 +1,124 @@
 ;; -*- lexical-binding: t -*-
 
 ;; --------------------------------------------------------------------------------
+;; Builitin UI
+;; --------------------------------------------------------------------------------
+
+(progn ;; Show more
+    ;; show line numbers
+    (global-display-line-numbers-mode)
+
+    ;; highlight current line
+    ;; (global-hl-line-mode t)
+
+    ;; show trailing whitespaces
+    (setq-default show-trailing-whitespace t)
+
+    ;; show tabs
+    (require 'whitespace)
+    (whitespace-mode 1)
+    (setq whitespace-style '(tabs  tab-mark))
+
+    (progn ;; show matching parentheses
+        (setq-default show-paren-delay 0)
+        (show-paren-mode 1))
+
+    ;; show `line:column` in the modeline
+    (column-number-mode))
+
+;; [GUI]
+(set-cursor-color "#8fee96")
+(set-fringe-mode 10)
+
+;; Scroll like Vim
+(setq scroll-preserve-screen-position t
+      scroll-conservatively 100
+      scroll-margin 3)
+
+;; --------------------------------------------------------------------------------
+;; Builtin packages
+;; --------------------------------------------------------------------------------
+
+;; TODO: put them in leaf
+
+(progn ;; save command history
+    (setq history-length 1000
+          history-delete-duplicates t)
+    (savehist-mode))
+
+(progn ;; sync buffers to storage per second
+    (setq auto-revert-interval 1)
+    (global-auto-revert-mode))
+
+;; save cursor positions per file
+(save-place-mode 1)
+
+(progn ;; HACK: re-center curspr position with `save-place-mode`:
+    ;; https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
+    (defun toy/fix-save-place ()
+        "Force windows to recenter current line (with saved position)."
+        (run-with-timer 0 nil
+                        (lambda (buf)
+                            (when (buffer-live-p buf)
+                                (dolist (win (get-buffer-window-list buf nil t))
+                                    (with-selected-window win (recenter)))))
+                        (current-buffer)))
+    (add-hook 'find-file-hook #'toy/fix-save-place))
+
+(progn ;; keep a list of recently opened files
+    (setq recentf-max-saved-items 1000)
+    (recentf-mode 1))
+
+(progn ;; show duplicate file names as `file<parent-directory>`
+    (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+    (require 'uniquify))
+
+;; --------------------------------------------------------------------------------
+;; GUI/Terminal
+;; --------------------------------------------------------------------------------
+
+;; [GUI] Font
+(when (display-graphic-p)
+    ;; (set-face-attribute 'default nil :family "roboto-mono" :height 110)
+    ;; (set-face-attribute 'default nil :family "roboto-mono")
+    ;; (set-face-attribute 'default nil :family "Noto Sans Mono")
+
+    ;; TODO: setup monospaced font
+    (set-fontset-font (frame-parameter nil 'font)
+                      'japanese-jisx0208
+                      ;; TODO: fallback
+                      ;; (font-spec :family "Hiragino Kaku Gothic ProN")
+                      (font-spec :family "Noto Sans Mono CJK JP"))
+
+    ;; FIXME: proper way to align org tables?
+    (setq face-font-rescale-alist
+          '(("Noto Sans Mono CJK JP" . 1.25)))
+
+    ;; (setq face-font-rescale-alist
+    ;;       '(("roboto.*" . 1.0)))
+    )
+
+;; If on terminal
+(when (not (display-graphic-p))
+    ;; Two exclusive options:
+    ;; 1. use left click to move cursor:
+    (xterm-mouse-mode 1)
+    ;; 2. use left click to select (and copy):
+    ;; (xterm-mouse-mode -1)
+
+    ;; use mouse wheel for scrolling
+    (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+    (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+
+;; --------------------------------------------------------------------------------
+;; Elisp
+;; --------------------------------------------------------------------------------
+
+(setq-default lisp-body-indent 4
+              indent-tabs-mode nil
+              tab-width 4)
+
+;; --------------------------------------------------------------------------------
 ;; Custom package settings
 ;; --------------------------------------------------------------------------------
 
@@ -57,7 +175,7 @@
                 (buffer-substring-no-properties (point) end)))))
 
 ;; --------------------------------------------------------------------------------
-;; Language supports
+;; Textlint
 ;; --------------------------------------------------------------------------------
 
 ;; (defun toy/lint-ja ()
@@ -99,6 +217,10 @@
 ;;     ;; FIXME: byte compile error?
 ;;     ;;     :hook (flycheck-mode-hook . flycheck-inline-mode))
 ;;     )
+
+;; --------------------------------------------------------------------------------
+;; Language supports
+;; --------------------------------------------------------------------------------
 
 (leaf prolog-mode
     :ensure nil
@@ -273,7 +395,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 ;; Markup languages
 ;; --------------------------------------------------------------------------------
 
-(with-eval-after-load 'evil 
+(with-eval-after-load 'evil
     (evil-define-key 'normal outline-minor-mode-map
         "z1" (_fn (outline-hide-sublevels 3))
         "z2" (_fn (outline-hide-sublevels 4))
@@ -282,8 +404,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
         "z5" (_fn (outline-hide-sublevels 7))
         "z6" (_fn (outline-hide-sublevels 8))
         "z9" (_fn (outline-hide-sublevels 11))
-        "z0" #'evil-open-folds
-        ))
+        "z0" #'evil-open-folds))
 
 ;; --------------------------------------------------------------------------------
 ;; @Sidebar (`lsp-ui-imenu-mode' and `neotree')

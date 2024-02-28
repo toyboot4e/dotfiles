@@ -5,6 +5,13 @@
 
 (setq package-enable-at-startup nil)
 
+;; Hide byte compile cache
+;; https://github.com/emacscollective/no-littering
+(when (fboundp 'startup-redirect-eln-cache)
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+
 (progn ;; Hide some builtin UI
     ;; GUI
     (scroll-bar-mode -1)

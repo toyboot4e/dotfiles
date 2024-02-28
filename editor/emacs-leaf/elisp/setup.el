@@ -44,8 +44,7 @@
 
     (leaf leaf-keywords
         :config
-        (leaf-keywords-init))
-    )
+        (leaf-keywords-init)))
 ;; </leaf-install-code>
 
 ;; (leaf setup

@@ -158,7 +158,6 @@
 
     (define-key evil-ex-completion-map "\C-d" 'evil-delete-char)
     (define-key evil-ex-completion-map "\C-h" 'evil-delete-backward-char)
-
     (define-key evil-ex-completion-map "\C-k" 'evil-delete-line)
     (define-key evil-ex-completion-map "\C-u" 'toy/backward-kill-line))
 
@@ -169,12 +168,12 @@
     "\C-f" #'evil-forward-char
     "\C-b" #'evil-backward-char
 
-    "\C-d" #'evil-delete-char
+    ;; FIXME: it overwrite `corfu' keys by evil collection
+    ;; "\C-d" #'evil-delete-char
     "\C-h" #'evil-delete-backward-char
-
-    ;; NOTE: it overwrites digraph key
     "\C-k" 'evil-delete-line
-    "\C-u" #'toy/backward-kill-line)
+    ;; "\C-u" #'toy/backward-kill-line
+    )
 
 ;; ------------------------------ Misc ------------------------------
 

@@ -18,12 +18,12 @@
 (defun toy/proj-find ()
     "Find a file from project files."
     (interactive)
-    (consult-find (projectile-project-root) ". "))
+    (consult-fd (projectile-project-root) ". "))
 
 (defun toy/proj-grep ()
     "Find a file from project files."
     (interactive)
-    (consult-ripgrep (projectile-project-root) ""))
+    (consult-ripgrep (projectile-project-root) " . "))
 
 (evil-define-key 'normal 'toy/global-mode-map
     " v" (lambda () (interactive) (when (toy/vf) (toy/force-center)))
@@ -64,9 +64,8 @@
     " gb" #'consult-line
     ;; in all buffer
     ;; " gB" #'
-    " gr" (lambda () (interactive) (consult-grep "." ". "))
-    " gR" #'toy/proj-grep
-    )
+    " gr" (lambda () (interactive) (consult-grep "." " . "))
+    " gR" #'toy/proj-grep)
 
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)

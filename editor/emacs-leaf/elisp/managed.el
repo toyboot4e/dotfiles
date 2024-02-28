@@ -53,8 +53,6 @@
         :if (display-graphic-p))
 
     (leaf auto-package-update
-        :init
-        (setq auto-package-update-last-update-day-filename (concat user-emacs-directory "tmp/.last-package-update-day"))
         :custom ((auto-package-update-delete-old-versions . t)
                  (auto-package-update-interval . 7))
         :config
@@ -212,7 +210,8 @@
 
         (leaf evil-anzu
             :url "https://github.com/emacsorphanage/evil-anzu"
-            :commands "anzu-query-replace-regexp")
+            ;; :commands "anzu-query-replace-regexp"
+            )
 
         (leaf evil-surround
             :config
@@ -256,7 +255,11 @@
             (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle))
 
         (with-eval-after-load 'magit
-            (evil-define-key 'normal magit-mode-map "zz" #'evil-scroll-line-to-center "z-" #'evil-scroll-line-to-bottom
+            (evil-define-key 'normal magit-mode-map
+                "zz" #'evil-scroll-line-to-center
+                "z-" #'evil-scroll-line-to-bottom
+                "za" #'magit-section-toggle
+                (kbd "Tab") #'magit-section-toggle
                 (kbd "z RET")
                 #'evil-scroll-line-to-top
                 (kbd "SPC RET")
@@ -480,12 +483,9 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :after evil
         :commands (lsp-mode lsp-deferred)
         :doc "`lsp-semantic-token-enable' is set to `nil' preferring `tree-sitter'"
-        :hook (lsp-mode-hook . lsp-enable-which-key-integration)
-        :hook (lsp-mode-hook . hs-minor-mode)
-        :hook (c-mode-hook . lsp-deferred)
-        :hook (cpp-mode-hook . lsp-deferred)
         :custom ((lsp-completion-provider . :none)
                  (lsp-completion-show-kind)
+	             (lsp-enable-snippet . nil)
                  (lsp-keymap-prefix)
                  (lsp-idle-delay . 0.5)
                  (lsp-log-io)
@@ -498,7 +498,15 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                  (lsp-headerline-breadcrumb-enable)
                  (lsp-modeline-diagnostics-scope . :workspace)
                  (lsp-semantic-tokens-enable))
-        :preface
+        :hook (lsp-mode-hook . lsp-enable-which-key-integration)
+        :hook (lsp-mode-hook . hs-minor-mode)
+        :hook (c-mode-hook . lsp-deferred)
+        :hook (cpp-mode-hook . lsp-deferred)
+        :init
+        (defun my/lsp-mode-setup-completion ()
+            "`corfu' integration: https://github.com/minad/corfu/wiki#example-configuration-with-flex"
+            (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(flex)))
+        :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
         :config
         (progn
             (defun toy/c-on-save nil
@@ -553,8 +561,8 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :doc "interactive macro expander"
         :config
         (define-key emacs-lisp-mode-map
-            (kbd "C-c e")
-            'macrostep-expand))
+                    (kbd "C-c e")
+                    'macrostep-expand))
 
     (leaf magit
         :url "https://github.com/magit/magit"
@@ -576,12 +584,6 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                 (unless (string-equal str "")
                     str)))
 
-        (setq-default transient-history-file
-                      (concat user-emacs-directory "tmp/transient/history.el")
-                      transient-values-file
-                      (concat user-emacs-directory "tmp/transient/values.el")
-                      transient-levels-file
-                      (concat user-emacs-directory "tmp/transient/levels.el"))
         (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
             (kbd "z RET")
             #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top)
@@ -689,10 +691,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 
     (leaf projectile
         :leaf-defer nil
-        :custom (projectile-enable-caching . t)
-        :init
-        (setq projectile-cache-file (concat user-emacs-directory "tmp/projectile.cache")
-              projectile-known-projects-file (concat user-emacs-directory "tmp/projectile-bookmarks.eld"))
+        :custom (projectile-enable-caching . nil)
         :config
         (projectile-mode 1))
 
@@ -809,8 +808,8 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                  (which-key-idle-secondary-delay . 0.01))
         :config
         (define-key help-map
-            (kbd "M")
-            'which-key-show-major-mode)
+                    (kbd "M")
+                    'which-key-show-major-mode)
         (which-key-mode))
 
     (leaf yaml-mode)
