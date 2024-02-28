@@ -1,8 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;; don't save custom variables
-(setq custom-file (make-temp-file ""))
-
 ;; don't create backup~ files
 (setq make-backup-files nil)
 
