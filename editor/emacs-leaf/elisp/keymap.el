@@ -44,6 +44,7 @@
     ;; Do not treat `-' as a word boundary on lisp mode
     (modify-syntax-entry ?- "w" lisp-mode-syntax-table)
     (modify-syntax-entry ?- "w" emacs-lisp-mode-syntax-table)
+
     ;; Or, make motions based on _symbols_, instead of _words_:
     ;; (defalias 'forward-evil-word 'forward-evil-symbol)
 
@@ -150,7 +151,7 @@
     (kill-line (- 1 arg)))
 
 (progn ;; Emacs-like in ex mode
-    ;; TODO: why can't use evil-define-key
+    ;; TODO: why can't use evil-define-key?
     (define-key evil-ex-completion-map "\C-f" 'forward-char)
     (define-key evil-ex-completion-map "\C-b" 'backward-char)
     (define-key evil-ex-completion-map "\C-a" 'move-beginning-of-line)
@@ -162,54 +163,50 @@
     (define-key evil-ex-completion-map "\C-u" 'toy/backward-kill-line))
 
 ;; Emacs-like in insert mode
-(evil-define-key 'insert 'toy/global-mode-map
+(evil-define-key 'insert 'global
     "\C-a" #'evil-first-non-blank
     "\C-e" #'end-of-line
     "\C-f" #'evil-forward-char
     "\C-b" #'evil-backward-char
 
-    ;; FIXME: it overwrite `corfu' keys by evil collection
-    ;; "\C-d" #'evil-delete-char
+    "\C-d" #'evil-delete-char
     "\C-h" #'evil-delete-backward-char
     "\C-k" 'evil-delete-line
-    ;; "\C-u" #'toy/backward-kill-line
-    )
+    "\C-u" #'toy/backward-kill-line)
 
 ;; ------------------------------ Misc ------------------------------
 
-(progn ;; `SPC /` to comment out
-    (evil-define-key '(normal visual) 'global
-        " /" 'evilnc-comment-or-uncomment-lines)
-    )
+;; `SPC /` to comment out
+(evil-define-key '(normal visual) 'global
+    " /" 'evilnc-comment-or-uncomment-lines)
 
-;; `C-s` for saving
+;; Use `C-s` for saving
 (evil-define-key 'insert 'global
     "\C-s" (_fn (evil-force-normal-state)
                 (save-buffer)))
 
 ;; ------------------------------ [] ------------------------------
 
-(progn ;; helpers
-    (defun toy/swap-line-up ()
-        (let ((col (current-column)))
-            (progn
-                (forward-line)
-                (transpose-lines -1)
-                (move-to-column col)
-                )))
+(defun toy/swap-line-up ()
+    (let ((col (current-column)))
+        (progn
+            (forward-line)
+            (transpose-lines -1)
+            (move-to-column col)
+            )))
 
-    (defun toy/swap-line-down ()
-        (interactive)
-        (let ((col (current-column)))
-            (progn
-                (forward-line)
-                (transpose-lines 1)
-                (forward-line -2)
-                (move-to-column col) ;; we have to manually restore the column position if we modify the line
-                )))
+(defun toy/swap-line-down ()
+    (interactive)
+    (let ((col (current-column)))
+        (progn
+            (forward-line)
+            (transpose-lines 1)
+            (forward-line -2)
+            ;; we have to manually restore the column position if we modify the line
+            (move-to-column col))))
 
-    (defun toy/insert-line-down (count)
-        (dotimes (_ count) (save-excursion (evil-insert-newline-below)))))
+(defun toy/insert-line-down (count)
+    (dotimes (_ count) (save-excursion (evil-insert-newline-below))))
 
 (defun toy/is-star (name)
     (or (string-prefix-p "*" name)
@@ -293,11 +290,12 @@
             (browse-url (toy/parse-url url))
             (message "opening repo %s" url))))
 
+;; TODO: replace with `embark'
+;; TODO: store local/upstream for org mode etc.
 (evil-define-key 'normal 'toy/global-mode-map
     ;; open link
     "gB" #'browse-url
-    "gR" #'toy/magit-open-repo
-    )
+    "gR" #'toy/magit-open-repo)
 
 ;; ------------------------------ Leaders ------------------------------
 

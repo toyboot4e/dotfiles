@@ -487,11 +487,12 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 ;; (add-hook 'window-configuration-change-hook #'toy/lsp-imenu-update-focus)
 
 ;; --------------------------------------------------------------------------------
-;; ⊥ Bottom bar  (`vterm')
+;; ⊥ Bottom bar  (`vterm' terminal)
 ;; --------------------------------------------------------------------------------
 
 ;; (get-buffer-create "⊥ scratch")
 
+;; TODO: relace with `eat'
 (defun toy/bottom-vterm ()
     (interactive)
     (let ((last-name nil))
