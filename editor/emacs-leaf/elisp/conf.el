@@ -92,21 +92,19 @@
 
     ;; FIXME: proper way to align org tables?
     (setq face-font-rescale-alist
-          '(("Noto Sans Mono CJK JP" . 1.25)))
-
-    ;; (setq face-font-rescale-alist
-    ;;       '(("roboto.*" . 1.0)))
-    )
+          '(("Noto Sans Mono CJK JP" . 1.25))))
 
 ;; If on terminal
 (when (not (display-graphic-p))
     ;; Two exclusive options:
     ;; 1. use left click to move cursor:
     (xterm-mouse-mode 1)
+
     ;; 2. use left click to select (and copy):
     ;; (xterm-mouse-mode -1)
 
-    ;; use mouse wheel for scrolling
+    ;; Use mouse wheel for scrolling
+    ;; TODO: do not map it to a specific command.
     (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
     (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
 

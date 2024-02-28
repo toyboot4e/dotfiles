@@ -247,9 +247,9 @@
            org-roam
            pdf
            slime
-           sly
-           ))
+           sly))
 
+        ;; FIXME: `evil-collection' bug?
         (with-eval-after-load 'org
             (evil-define-key 'motion 'evil-org-mode "d" 'evil-delete)
             (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle))
@@ -283,13 +283,6 @@
                              (line-number-at-pos))))
             (evil-collection-magit-setup)))
 
-    (leaf evil-escape
-        :doc "Smart escape with `jk` or `kj`"
-        :custom ((evil-escape-key-sequence . "jk")
-                 (evil-escape-unordered-key-sequenceu . t))
-        :config
-        (evil-escape-mode))
-
     (leaf evil-exchange
         :doc "Use `gx` to swap"
         :url "https://github.com/Dewdrops/evil-exchange"
@@ -317,17 +310,6 @@
     (leaf evil-string-inflection
         :doc "Add `g~` operator to cycle through string cases"
         :url "https://github.com/ninrod/evil-string-inflection")
-
-    (leaf fill-column-indicator
-        :doc "Graphically indicate the fill column"
-        :if nil
-        :custom (fci-rule-color . "#c0b18b")
-        :config
-        (setq-default fill-column 100)
-        (define-globalized-minor-mode global-fci-mode fci-mode
-            (lambda nil
-                (fci-mode 1)))
-        (global-fci-mode 1))
 
     (leaf fish-mode)
 

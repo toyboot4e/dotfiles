@@ -40,16 +40,13 @@
 
     ;; Always `ensure t'
     (leaf leaf
+        ;; FIXME: the custom value should be after `no-jittering'
         :custom ((leaf-defaults . '(:ensure t))))
 
     (leaf leaf-keywords
         :config
         (leaf-keywords-init)))
 ;; </leaf-install-code>
-
-;; (leaf setup
-;;     :doc "Helpful Configuration Macro"
-;;     :straigh (setup :type git :host github :repo "github.com/zk-phi/setup"))
 
 ;; --------------------------------------------------------------------------------
 ;; Meta
@@ -69,4 +66,5 @@
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-etc-directory))
     (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+
 
