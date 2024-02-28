@@ -1,0 +1,4 @@
+* NeoVim configuration
+
+Outdated. See [[../emacs-leaf]].
+
