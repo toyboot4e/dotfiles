@@ -43,6 +43,5 @@
     (load-file (concat user-emacs-directory "init.el")))
 
 (toy/load-configuration)
-(add-hook 'window-setup-hook #'toy/on-start)
 
 ;;; init.el ends here

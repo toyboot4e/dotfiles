@@ -1,13 +1,13 @@
 ;; -*- lexical-binding: t -*-
-;;
-;; Emacs configuration with no dependency
 
 ;; don't save custom variables
 (setq custom-file (make-temp-file ""))
 
-(setq make-backup-files nil        ; don't create backup~ files
-      auto-save-default nil        ; don't create #autosave# files
-      )
+;; don't create backup~ files
+(setq make-backup-files nil)
+
+;; don't create #autosave# files
+(setq auto-save-default nil)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq initial-scratch-message "")
