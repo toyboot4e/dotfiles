@@ -1,7 +1,7 @@
 * `init.el`
-#+LINK+ evil https://github.com/emacs-evil/evil
-#+LINK+ leaf https://github.com/conao3/leaf.el
-#+LINK+ leaf-manager https://github.com/conao3/leaf-manager.el
+#+LINK: evil https://github.com/emacs-evil/evil
+#+LINK: leaf https://github.com/conao3/leaf.el
+#+LINK: leaf-manager https://github.com/conao3/leaf-manager.el
 
 My Emacs configuration based on:
 
