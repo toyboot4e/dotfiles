@@ -172,11 +172,14 @@
         :tag "builtin")
 
     (leaf evil
-        :custom ((evil-toggle-key . "")
-                 (evil-want-keybinding)
+        :custom (;; free `z` for background
+                 (evil-toggle-key . "")
+                 ;; for `evil-collection'
+                 (evil-want-keybinding . nil)
                  (evil-want-C-u-delete . t)
                  (evil-want-C-u-scroll . t)
                  (evil-want-Y-yank-to-eol . t)
+                 ;; else
                  (evil-move-cursor-back \.t)
                  (evil-search-module quote evil-search))
 
