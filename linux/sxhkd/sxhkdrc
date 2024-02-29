@@ -17,7 +17,7 @@ super + shift + Return
   x11-pad --class 'dropdown-terminal' ' kitty --class="dropdown-terminal"'
 
 super + shift + e
-  x11-pad --title 'dropdown-emacs' 'emacs --with-profile leaf --title "dropdown-emacs"'
+  x11-pad --title 'dropdown-emacs' 'emacs --init-directory ~/dotfiles/editor/emacs-leaf --title "dropdown-emacs"'
 
 # --------------------------------------------------------------------------------
 # Screenshot
@@ -45,6 +45,11 @@ super + shift + i
 
 super + shift + q
   i3-msg kill
+
+# pkill -f firefox
+
+# super + shift + q
+#   kill
 
 super + d
   rofi -modi drun,run -show drun -font 'hack 20'
