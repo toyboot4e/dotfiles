@@ -1,0 +1,11 @@
+* NixOS settings
+
+#+LINK: nix https://github.com/NixOS/nix
+#+LINK: hm https://github.com/nix-community/home-manager
+#+LINK: flakes https://nixos.wiki/wiki/Flakes
+#+LINK: nix-darwin https://github.com/LnL7/nix-darwin
+#+LINK: hm https://github.com/nix-community/home-manager
+#+LINK: nix-env-fish https://github.com/lilyball/nix-env.fish
+
+TODO: Update README
+

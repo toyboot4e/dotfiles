@@ -23,6 +23,9 @@
     };
   };
 
+  # TODO: working?
+  # swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -116,6 +119,7 @@
   # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
   xdg.portal = {
     enable = true;
+    # config.common.default = "gtk";
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
@@ -216,9 +220,13 @@
     # Keyboard
     # TODO: consier using `extraLayouts` instead?
     # https://nixos.wiki/wiki/Keyboard_Layout_Customization
-    layout = "jp";
-    xkbModel = "ja106";
-    xkbOptions = "ctrl:nocaps";
+    # xkbModel = "ja106";
+    # xkbOptions = "ctrl:nocaps";
+    xkb = {
+      layout = "jp";
+      model = "ja106";
+      options = "ctrl:nocaps";
+    };
 
     # Monitors
     # FIXME: not wokring. consider instead using displayManager.setupCommands or i3 commands
@@ -278,15 +286,18 @@
   # Virtualization (virt-manager): <https://nixos.wiki/wiki/Virt-manager>
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
-  # virtualisation.libvirtd.enable = true;
-  # environment.systemPackages = with pkgs; [ virt-manager ];
+
+  # for high resolution
+  services.spice-vdagentd.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vimHugeX xclip wget curl unzip killall mlocate
     vulkan-tools
-    xorg.xdpyinfo pavucontrol sysstat yad xdotool
+
+    xorg.xdpyinfo xorg.xev
+    pavucontrol sysstat yad xdotool
 
     kitty
     bash fish zsh tmux zellij git gh ghq w3m fzf wezterm feh
@@ -397,6 +408,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
-
 }
 

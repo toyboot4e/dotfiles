@@ -22,12 +22,12 @@ in
   ];
 
   # virutalization (virt-manager): https://nixos.wiki/wiki/Virt-manager
-  # dconf.settings = {
-  #   "org/virt-manager/virt-manager/connections" = {
-  #     autoconnect = ["qemu:///system"];
-  #     uris = ["qemu:///system"];
-  #   };
-  # };
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
+  };
 
   # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
   services.udiskie = {
@@ -68,6 +68,7 @@ in
       "application/pdf" = ["org.gnome.Evince.desktop"];
 
       # FIXME: not working correctly
+      "text/html" = ["org.firefox.firefox.desktop"];
       "x-scheme-handler/http" = "org.firefox.firefox.desktop";
       "x-scheme-handler/https" = "org.firefox.firefox.desktop";
       "x-scheme-handler/about" = "org.firefox.firefox.desktop";
@@ -108,7 +109,9 @@ in
     # CPU temperature
     lm_sensors
 
-    gnumake cmake gcc go nodejs deno yarn python3 roswell
+    gnumake cmake gcc go
+    nodejs deno yarn volta
+    python3 roswell
     # goenv
     # idris2.. using `idris2-pack` instead
     # https://github.com/stefan-hoeck/idris2-pack
@@ -124,13 +127,15 @@ in
     # docker
     readline rlwrap
     sqlite-interactive sqlite-web sqlite-utils
-    slack zulip vscode mpv gimp evince
+    slack zulip vscode
+    mpv gimp evince ghostscript pdfarranger
 
     # https://github.com/mkaz/termgraph
     python311Packages.termgraph
     # https://github.com/red-data-tools/YouPlot
 
     blender
+    kicad-small
 
     # (openai-whisper.override { cudaSupport = true; })
     openai-whisper-cpp
@@ -146,7 +151,7 @@ in
 
     pup jq watchexec
     rename
-    jdk ditaa graphviz plantuml
+    jdk ditaa graphviz mermaid-cli plantuml
     nkf gnuplot
 
     cmatrix figlet
@@ -156,6 +161,8 @@ in
 
     # GUI
     discord vkmark unityhub steamtinkerlaunch obs-studio zeal
+
+    # Web
   ];
 
   # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
