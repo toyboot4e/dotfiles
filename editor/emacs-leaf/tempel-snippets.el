@@ -108,7 +108,8 @@ instance Monoid Acc where
   mempty = Acc minBound
 
 {- ORMOLU_DISABLE -}
-newtype Op = Op OpRepr deriving newtype (Eq, Ord, Show) ; newtype Acc = Acc AccRepr deriving newtype (Eq, Ord, Show) ; unAcc :: Acc -> AccRepr ; unAcc (Acc x) = x ; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr) ; newtype instance U.Vector Op = V_Op (U.Vector OpRepr) ; deriving instance GM.MVector UM.MVector Op ; deriving instance G.Vector U.Vector Op ; instance U.Unbox Op ; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr) ; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr) ; deriving instance GM.MVector UM.MVector Acc ; deriving instance G.Vector U.Vector Acc ; instance U.Unbox Acc ;
+newtype Acc = Acc AccRepr deriving newtype (Eq, Ord, Show) ; unAcc :: Acc -> AccRepr ; unAcc (Acc x) = x ; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr) ; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr) ; deriving instance GM.MVector UM.MVector Acc ; deriving instance G.Vector U.Vector Acc ; instance U.Unbox Acc ;
+newtype Op = Op OpRepr deriving newtype (Eq, Ord, Show) ; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr) ; newtype instance U.Vector Op = V_Op (U.Vector OpRepr) ; deriving instance GM.MVector UM.MVector Op ; deriving instance G.Vector U.Vector Op ; instance U.Unbox Op ;
 instance MonoidAction Op Acc
 {- ORMOLU_ENABLE -}")
 
@@ -180,19 +181,24 @@ deriving via (Acc `U.As` AccRepr) instance G.Vector U.Vector Acc
 instance U.Unbox Acc")
 
 (modInt
- "type MyModulo = (998244353 :: Nat)
--- type MyModulo = (1_000_000_007 :: Nat)
+"{- ORMULU_DISABLE -}
+type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
+type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ;
+{- ORMOLU_ENABLE -}")
 
-type MyModInt = ModInt MyModulo
-
-myMod :: Int
-myMod = fromInteger $ natVal' @MyModulo proxy#
-
-{-# INLINE modInt #-}
-modInt :: Int -> MyModInt
-modInt = ModInt . (`rem` myMod)
-
-type RH' = RH HashInt MyModulo")
+;; (modInt
+;;  "type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
+;; 
+;; type MyModInt = ModInt MyModulo
+;; 
+;; myMod :: Int
+;; myMod = fromInteger $ natVal' @MyModulo proxy#
+;; 
+;; {-# INLINE modInt #-}
+;; modInt :: Int -> MyModInt
+;; modInt = ModInt . (`rem` myMod)
+;; 
+;; type RH' = RH HashInt MyModulo")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
@@ -226,38 +232,38 @@ org-mode
 ;; for diary
 (abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加しました。
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_b][B 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_b][B 問題]]
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_c][C 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_c][C 問題]]
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_d][D 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_d][D 問題]]
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]]
 
-[[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]] では
+* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]]
 ")
 
 (arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加しました。
 
-[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]] では
+* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]]
 
-[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]] では
+* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]]
 
-[[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]] では
+* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]]
 ")
 
-(agc "[[https://atcoder.jp/contests/agc"  (p "100" no) "][AGC " (s no) "]] に参加した。
+(agc "[[https://atcoder.jp/contests/agc"  (p "100" no) "][AGC " (s no) "]] に参加しました。
 
-[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_a][A 問題]] では
+* [[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_a][A 問題]]
 
-[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_b][B 問題]] では
+* [[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_b][B 問題]]
 
-[[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_c][C 問題]] では
+* [[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_c][C 問題]]
 ")
 
-(ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加した。")
+(ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加しました。")
 
 ;; Local Variables:
 ;; mode: lisp-data
