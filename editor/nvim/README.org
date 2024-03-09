@@ -1,4 +1,4 @@
-* NeoVim configuration
+* NeoVim
 
-Outdated. See [[../emacs-leaf]].
+Just read =.vimrc=, as I removed all the obsolute settings.
 
