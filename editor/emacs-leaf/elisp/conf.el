@@ -509,3 +509,20 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
                 (let ((dh (- toy/bottom-bar-height (window-body-height))))
                     (enlarge-window dh))))))
 
+
+(progn ;; OCaml
+    (add-to-list 'auto-mode-alist '("\\.ml\\'" . tuareg-mode))
+    (autoload 'merlin-mode "merlin" "Merlin mode" t)
+    (add-hook 'tuareg-mode-hook #'merlin-mode)
+    (add-hook 'caml-mode-hook #'merlin-mode))
+
+(leaf flycheck-ocaml
+    :custom (merlin-error-after-save . nil)
+    :hook ((tuareg-mode-hook . flycheck-ocaml-setup)
+           (tuareg-mode-hook . flycheck-mode)))
+
+(leaf flycheck-inline
+    :hook (tuareg-mode-hook . flycheck-inline-mode))
+
+(leaf dune)
+
