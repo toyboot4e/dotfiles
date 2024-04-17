@@ -43,10 +43,9 @@ haskell-mode
     !arr <- UM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
     return arr")
 
-(i11 "(both pred <$> ints2)")
-(i110 "(add3 (-1, 0, 0) <$> ints3)")
-
 (bnd "!bnd = ((0, 0), (h - 1, w - 1))")
+
+(foldM "(\\f -> U.foldM'_ f s0 xs) $ \\acc x -> do")
 
 (undef
  "undef :: Int
@@ -54,7 +53,9 @@ undef = -1")
 
 (twos
   "twos :: U.Vector MyModInt
-twos = U.iterateN (2000 * 2) (\x -> x * x) (modInt 2)")
+twos = U.iterateN (2000 * 2) (\\x -> 2 * x) (modInt 1)")
+
+(inline "{-# INLINE " (p "f") " #-}")
 
 (pattern
  "pattern INSERT, DELETE :: Int
@@ -66,7 +67,8 @@ pattern DELETE = 1")
      !vec <- UM.replicate (h * w) (0 :: Int)
      return vec")
 
-(ortho4 "ortho4 :: U.Vector (Int, Int)
+(ortho4 "{-# INLINE ortho4 #-}
+ortho4 :: U.Vector (Int, Int)
 ortho4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
 {-# INLINE ortho4' #-}
@@ -83,28 +85,54 @@ cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
 
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
-(stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
+;; (stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
+(stateMap "(`evalState` x0) $ U.mapM (state . step) xs
+  where
+    -- step :: x -> acc -> (x', acc')
+    step x acc = (acc, x)")
+
+;; let !xs' = (`evalState` IM.empty) $ U.forM xs $ \x -> state $ \im -> do
+;;       let !cnt = fromMaybe 0 $ IM.lookup x im
+;;       -- (IM.insertWith (+) x 1 im, section * x + cnt)
+;;       (section * x + cnt, IM.insertWith (+) x 1 im)
+
+(sort "U.modify VAI.sort")
+(sortD "U.modify (VAI.sortBy (comparing Down))")
+
+(factMods "factMods :: U.Vector MyModInt
+factMods = U.scanl' (*) (modInt 1) (U.generate (2 * 10 ^ 5) (modInt . succ))
+
+invFactMods :: U.Vector MyModInt
+invFactMods = U.map recip factMods
+
+combMods :: Int -> Int -> MyModInt
+combMods n k = factMods U.! n * invFactMods U.! k * invFactMods U.! (n - k)")
 
 (monoidAction
  "-- | Add
 type OpRepr = Int
 
 instance Semigroup Op where
+  {-# INLINE (<>) #-}
   (Op !x1) <> (Op !x2) = Op (x1 + x2)
 
 instance Monoid Op where
+  {-# INLINE mempty #-}
   mempty = Op 0
 
 instance SemigroupAction Op Acc where
+  {-# INLINE sact #-}
   sact (Op !dx) (Acc !x) = Acc (x + dx)
 
 -- | Max
 type AccRepr = Int
 
 instance Semigroup Acc where
+  {-# INLINE (<>) #-}
   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
 
 instance Monoid Acc where
+  {-# INLINE mempty #-}
   mempty = Acc minBound
 
 {- ORMOLU_DISABLE -}
@@ -181,9 +209,9 @@ deriving via (Acc `U.As` AccRepr) instance G.Vector U.Vector Acc
 instance U.Unbox Acc")
 
 (modInt
-"{- ORMULU_DISABLE -}
+"{- ORMOLU_DISABLE -}
 type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
-type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ;
+type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ; instance ShowBSB MyModInt where showBSB = BSB.intDec . unModInt ;
 {- ORMOLU_ENABLE -}")
 
 ;; (modInt
@@ -199,6 +227,21 @@ type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @
 ;; modInt = ModInt . (`rem` myMod)
 ;; 
 ;; type RH' = RH HashInt MyModulo")
+
+(qc
+"propQC :: QC.Property
+propQC =
+  -- 1 <= N <= maxN
+  QC.forAll (QC.choose (1, maxN)) $ \n ->
+    -- [x | 1 <= x <= 5,000]
+    QC.forAll (QC.vectorOf n (QC.choose (1, 5000))) \xs ->
+      let !xs' = U.fromList xs
+       in solveAC n xs' QC.=== solveWA n xs'
+  where
+    maxN = 1000
+
+runQC :: IO ()
+runQC = QC.quickCheck propQC")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
@@ -232,26 +275,26 @@ org-mode
 ;; for diary
 (abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加しました。
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_b][B 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_b][B 問題]]
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_c][C 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_c][C 問題]]
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_d][D 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_d][D 問題]]
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_e][E 問題]]
 
-* [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]]
+** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]]
 ")
 
 (arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加しました。
 
-* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]]
+** [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]]
 
-* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]]
+** [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_b][B 問題]]
 
-* [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]]
+** [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]]
 ")
 
 (agc "[[https://atcoder.jp/contests/agc"  (p "100" no) "][AGC " (s no) "]] に参加しました。
