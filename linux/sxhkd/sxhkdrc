@@ -73,10 +73,14 @@ super + shift + { h, j, k, l, Left, Down, Up, Right  }
 # super + shift + { a, s, w, d }
 #   i3-msg move { left, down, up, right } 200 px
 
-# h resize shrink width 200 px or 200 ppt
-# l resize grow width 200 px or 200 ppt
-# k resize shrink height 200 px or 200 ppt
-# j resize grow height 200 px or 200 ppt
+super + alt + h
+  resize shrink width 200 px or 200 ppt
+super + alt + l
+  resize grow width 200 px or 200 ppt
+super + alt + k
+  resize shrink height 200 px or 200 ppt
+super + alt + j
+  resize grow height 200 px or 200 ppt
 
 # --------------------------------------------------------------------------------
 # Workspaces
