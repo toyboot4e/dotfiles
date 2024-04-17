@@ -182,14 +182,25 @@
         (defun org-zenn-export-buffer-to-book (&optional org-dir)
             "Runs subtree export to each level 1 headings. Respects `#+BOOK_DIR'."
             (interactive)
-            (let* ((dir default-directory)
-                   (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR" "XYZ")))))))
-                ;; cd into the target directory, but manually:
+            (org-babel-tangle)
+
+            ;; export all
+            (let* ((default-dir default-directory)
+                   (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR")))))))
+                ;; cd into the target directory
                 (when pub-dir (cd pub-dir))
-                ;; export all the top level headings and come back:
+                ;; export all
                 (unwind-protect
-                        (org-map-entries (lambda () (org-zenn-export-to-markdown nil t)) "LEVEL=1")
-                    (when pub-dir (cd dir))))))
+                        (org-map-entries
+                         (lambda ()
+                             (let* ((is-draft (org-entry-get nil "DRAFT")))
+                                 (unless is-draft
+                                     (org-zenn-export-to-markdown nil t))))
+                         "LEVEL=1")
+                    ;; be sure to come back to the default directory
+                    (when pub-dir (cd default-dir)))))
+
+        )
 
     (leaf org-appear
         :doc "Uninline format on cursor"
