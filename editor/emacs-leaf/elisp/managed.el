@@ -747,11 +747,6 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                 ("C-j" . scratch-comment-eval-sexp))))
     (leaf popup)
 
-    (leaf sml-mode
-        :url "http://elpa.gnu.org/packages/sml-mode.html"
-        :mode ("\\.ml\\'" . sml-mode)
-        :mode ("\\.mli\\'" . sml-mode))
-
     (leaf sql-indent
         :after sql)
 

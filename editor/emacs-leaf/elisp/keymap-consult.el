@@ -50,6 +50,7 @@
     " fp" #'projectile-switch-project
     " fG" #'consult-ghq-find
     " fD" #'consult-dir
+    " fE" #'consult-flycheck
 
     ;; evil
     ;; " fm" #'consult-evil-marks
@@ -72,5 +73,7 @@
 
 (with-eval-after-load 'vertico
     ;; TODO: recenter-top-bottom for vertico buffer
-    (define-key vertico-map (kbd "\C-o") #'other-window))
+    (define-key vertico-map (kbd "\C-o") #'other-window)
+    (define-key vertico-map (kbd "\C-u") #'vertico-scroll-down)
+    (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up))
 

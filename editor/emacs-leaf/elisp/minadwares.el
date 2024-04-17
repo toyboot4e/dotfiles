@@ -61,6 +61,9 @@
 
 (leaf consult-dir)
 
+(leaf consult-flycheck
+    )
+
 (leaf consult-lsp
     :after (consult lsp)
     :config
