@@ -509,12 +509,30 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
                 (let ((dh (- toy/bottom-bar-height (window-body-height))))
                     (enlarge-window dh))))))
 
+;; koka
+(leaf koka-mode
+    :ensure nil
+    :load-path `,(concat user-emacs-directory "straight/repos/koka/support/emacs/")
+    :straight (koka-mode :type git :host github :repo "koka-lang/koka")
+    :require t)
+
+;; SML (NOTE: It conflicts with the OCaml settings)
+;; (leaf sml-mode
+;;     :url "http://elpa.gnu.org/packages/sml-mode.html"
+;;     :mode ("\\.ml\\'" . sml-mode)
+;;     :mode ("\\.mli\\'" . sml-mode))
 
 (progn ;; OCaml
     (add-to-list 'auto-mode-alist '("\\.ml\\'" . tuareg-mode))
     (autoload 'merlin-mode "merlin" "Merlin mode" t)
     (add-hook 'tuareg-mode-hook #'merlin-mode)
     (add-hook 'caml-mode-hook #'merlin-mode))
+
+(leaf ocamlformat
+    :init
+    (defun reserve-ocaml-format-on-save ()
+        (add-hook 'before-save-hook 'ocamlformat-before-save))
+    :hook (tuareg-mode-hook . reserve-ocaml-format-on-save))
 
 (leaf flycheck-ocaml
     :custom (merlin-error-after-save . nil)
@@ -525,4 +543,6 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :hook (tuareg-mode-hook . flycheck-inline-mode))
 
 (leaf dune)
+(leaf utop
+    :hook (tuareg-mode-hook . utop-minor-mode))
 
