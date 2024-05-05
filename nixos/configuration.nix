@@ -106,6 +106,9 @@
   };
   nixpkgs.config.pulseaudio = true;
 
+  # QMK
+  hardware.keyboard.qmk.enable = true;
+
   # lower moise for microphones
   programs.noisetorch.enable = true;
 
@@ -120,11 +123,14 @@
   xdg.portal = {
     enable = true;
     # config.common.default = "gtk";
+    # FIXME: I used to use this:
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # mount command
   services.udisks2.enable = true;
+  # autoount
+  services.gvfs.enable = true;
 
   # Bluetooth
   services.blueman.enable = true;
@@ -142,10 +148,17 @@
   # # Bluetooth fix
   # # <https://github.com/NixOS/nixpkgs/issues/170573>
   # fileSystems."/var/lib/bluetooth" = {
-  #   device = "/persist/var/lib/bluetooth";
+  #   devic = "/persist/var/lib/bluetooth";
   #   options = [ "bind" "noauto" "x-systemd.automount" ];
   #   noCheck = true;
   # };
+
+  fileSystems."/d" = {
+    device = "/dev/disk/by-uuid/85f41130-4c61-4cb9-b116-b13701009b43";
+    fsType = "ext4";
+    # TODO: user permission?
+    options = ["users" "nofail" "exec"];
+  };
 
   # Fonts https://nixos.wiki/wiki/Fonts
   fonts = {
@@ -286,6 +299,9 @@
   # Virtualization (virt-manager): <https://nixos.wiki/wiki/Virt-manager>
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  # virtualisation.spiceUSBRedirection.enable = true;
+  # start default network for virt manager:
+  # $ sudo virsh net-start default
 
   # for high resolution
   services.spice-vdagentd.enable = true;
@@ -304,7 +320,9 @@
     tree as-tree ripgrep fd bat delta diff-so-fancy difftastic eza as-tree tokei zoxide tealdeer
     direnv nix-direnv
     # qutebrowser
-    firefox chromium ffmpeg imagemagick dmenu rofi flameshot xdragon
+    firefox chromium ffmpeg dmenu rofi flameshot xdragon
+    # (imagemagick.override { libwebpSupport = true ; })
+    imagemagick
 
     # semi-DE
     ranger cmus
@@ -312,11 +330,18 @@
     # Dock
     plank
 
-    # Nix LSP: https://github.com/oxalica/nil
-    nil
+    
+    # Nix
+    nil # Nix LSP: https://github.com/oxalica/nil
+    rippkgs
 
     # wine: <https://nixos.wiki/wiki/Wine>
     wineWowPackages.staging winetricks
+
+    # virt manager: <https://discourse.nixos.org/t/virt-manager-cannot-find-virtiofsd/26752>
+    virtiofsd
+    # On creating a shared directory, add the following inside the `<filesystem>` tag:
+    # <binary path="/run/current-system/sw/bin/virtiofsd"/>
 
     # iOS: <https://nixos.wiki/wiki/IOS>
     libimobiledevice ifuse
@@ -333,7 +358,7 @@
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "audio" "docker" "libvirtd" "networkManager" "wheel" ];
+    extraGroups = [ "audio" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
   };
 
   # home-manager as a NixOS module:

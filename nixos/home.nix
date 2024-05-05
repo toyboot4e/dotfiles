@@ -122,7 +122,7 @@ in
     (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
     rust-analyzer-nightly
 
-    koka
+    # koka
 
     # docker
     readline rlwrap
@@ -135,7 +135,9 @@ in
     # https://github.com/red-data-tools/YouPlot
 
     blender
+
     kicad-small
+    qmk
 
     # (openai-whisper.override { cudaSupport = true; })
     openai-whisper-cpp
@@ -147,7 +149,12 @@ in
 
     ghc stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
     ruby
-    drawio mdbook pandoc texlive.combined.scheme-full calibre minify
+    drawio mdbook pandoc texlive.combined.scheme-full
+    # calibre
+    minify
+
+    # OCaml
+    ocaml opam dune_3 ocamlPackages.merlin
 
     pup jq watchexec
     rename
@@ -161,6 +168,11 @@ in
 
     # GUI
     discord vkmark unityhub steamtinkerlaunch obs-studio zeal
+
+    # DAW
+    # reaper
+    bitwig-studio
+    yabridge yabridgectl
 
     # Web
   ];
