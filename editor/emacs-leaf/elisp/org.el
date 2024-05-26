@@ -193,8 +193,9 @@
                 (unwind-protect
                         (org-map-entries
                          (lambda ()
-                             (let* ((is-draft (org-entry-get nil "DRAFT")))
-                                 (unless is-draft
+                             (let* ((is-draft (org-entry-get nil "DRAFT"))
+                                    (exports (org-entry-get nil "EXPORT_FILE_NAME")))
+                                 (when (and (not is-draft) exports)
                                      (org-zenn-export-to-markdown nil t))))
                          "LEVEL=1")
                     ;; be sure to come back to the default directory
