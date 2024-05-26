@@ -8,12 +8,15 @@ fundamental-mode ;; Available everywhere
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (today (format-time-string "%Y-%m-%d"))
+(m469762049 "469762049")
+(m998244353 "998244353")
+(m1000000007 "1000000007")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 haskell-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(verification-helper "-- verification-helper: PROBLEM ")
+(verify "-- verification-helper: PROBLEM " (p "url"))
 
 ;; stack script
 (script "#!/usr/bin/env stack" n "{- stack script --resolver lts-21.6 -}")
@@ -91,13 +94,13 @@ cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
     -- step :: x -> acc -> (x', acc')
     step x acc = (acc, x)")
 
-;; let !xs' = (`evalState` IM.empty) $ U.forM xs $ \x -> state $ \im -> do
+;; let !xs' = (`evalState` IM.empty) $ U.forM xs $ \\x -> state $ \\im -> do
 ;;       let !cnt = fromMaybe 0 $ IM.lookup x im
 ;;       -- (IM.insertWith (+) x 1 im, section * x + cnt)
 ;;       (section * x + cnt, IM.insertWith (+) x 1 im)
 
 (sort "U.modify VAI.sort")
-(sortD "U.modify (VAI.sortBy (comparing Down))")
+;; (sortD "U.modify (VAI.sortBy (comparing Down))")
 
 (factMods "factMods :: U.Vector MyModInt
 factMods = U.scanl' (*) (modInt 1) (U.generate (2 * 10 ^ 5) (modInt . succ))
@@ -137,52 +140,8 @@ instance Monoid Acc where
 
 {- ORMOLU_DISABLE -}
 newtype Acc = Acc AccRepr deriving newtype (Eq, Ord, Show) ; unAcc :: Acc -> AccRepr ; unAcc (Acc x) = x ; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr) ; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr) ; deriving instance GM.MVector UM.MVector Acc ; deriving instance G.Vector U.Vector Acc ; instance U.Unbox Acc ;
-newtype Op = Op OpRepr deriving newtype (Eq, Ord, Show) ; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr) ; newtype instance U.Vector Op = V_Op (U.Vector OpRepr) ; deriving instance GM.MVector UM.MVector Op ; deriving instance G.Vector U.Vector Op ; instance U.Unbox Op ;
-instance MonoidAction Op Acc
+newtype Op = Op OpRepr deriving newtype (Eq, Ord, Show) ; unOp :: Op -> OpRepr ; unOp (Op x) = x; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr) ; newtype instance U.Vector Op = V_Op (U.Vector OpRepr) ; deriving instance GM.MVector UM.MVector Op ; deriving instance G.Vector U.Vector Op ; instance U.Unbox Op ;
 {- ORMOLU_ENABLE -}")
-
-;; (monoidAction
-;; "-- | Add
-;; type OpRepr = Int
-;; newtype Op = Op OpRepr
-;;   deriving newtype (Eq, Ord, Show)
-;; 
-;; newtype instance U.MVector s Op = MV_Op (U.MVector s OpRepr)
-;; newtype instance U.Vector Op = V_Op (U.Vector OpRepr)
-;; deriving instance GM.MVector UM.MVector Op
-;; deriving instance G.Vector U.Vector Op
-;; instance U.Unbox Op
-;; 
-;; instance Semigroup Op where
-;;   (Op !x1) <> (Op !x2) = Op (x1 + x2)
-;; 
-;; instance Monoid Op where
-;;   mempty = Op 0
-;; 
-;; instance SemigroupAction Op Acc where
-;;   sact (Op !o) (Acc !a) = Acc (o + a)
-;; 
-;; instance MonoidAction Op Acc
-;; 
-;; -- | Max
-;; type AccRepr = Int
-;; newtype Acc = Acc AccRepr
-;;   deriving newtype (Eq, Ord, Show)
-;; 
-;; unAcc :: Acc -> AccRepr
-;; unAcc (Acc x) = x
-;; 
-;; newtype instance U.MVector s Acc = MV_Acc (U.MVector s AccRepr)
-;; newtype instance U.Vector Acc = V_Acc (U.Vector AccRepr)
-;; deriving instance GM.MVector UM.MVector Acc
-;; deriving instance G.Vector U.Vector Acc
-;; instance U.Unbox Acc
-;; 
-;; instance Semigroup Acc where
-;;   (Acc !x1) <> (Acc !x2) = Acc (x1 `max` x2)
-;; 
-;; instance Monoid Acc where
-;;   mempty = Acc (minBound @Int)")
 
 (unbox_
 "newtype instance U.MVector s " (p "Type" type) " = MV_" (s type) " (P.MVector s " (s type) ")
@@ -211,32 +170,18 @@ instance U.Unbox Acc")
 (modInt
 "{- ORMOLU_DISABLE -}
 type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
-type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ; instance ShowBSB MyModInt where showBSB = BSB.intDec . unModInt ;
+type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ;
 {- ORMOLU_ENABLE -}")
 
-;; (modInt
-;;  "type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
-;; 
-;; type MyModInt = ModInt MyModulo
-;; 
-;; myMod :: Int
-;; myMod = fromInteger $ natVal' @MyModulo proxy#
-;; 
-;; {-# INLINE modInt #-}
-;; modInt :: Int -> MyModInt
-;; modInt = ModInt . (`rem` myMod)
-;; 
-;; type RH' = RH HashInt MyModulo")
-
-(qc
+(quickcheck
 "propQC :: QC.Property
 propQC =
   -- 1 <= N <= maxN
-  QC.forAll (QC.choose (1, maxN)) $ \n ->
+  QC.forAll (QC.choose (1, maxN)) $ \\n -> do
     -- [x | 1 <= x <= 5,000]
-    QC.forAll (QC.vectorOf n (QC.choose (1, 5000))) \xs ->
+    QC.forAll (QC.vectorOf n (QC.choose (1, 5000))) \\xs -> do
       let !xs' = U.fromList xs
-       in solveAC n xs' QC.=== solveWA n xs'
+      solveAC n xs' QC.=== solveWA n xs'
   where
     maxN = 1000
 
@@ -249,6 +194,7 @@ org-mode
 
 (img "#+CAPTION: " p n
 "[[./img/" p q "]]")
+(attr "#+ATTR_HTML: :width " p "px")
 (width "#+ATTR_HTML: :width " p "px")
 
 (caption "#+CAPTION: ")
@@ -273,7 +219,20 @@ org-mode
 (title "#+TITLE: " p n "#+AUTHOR: Daniel Mendler" n "#+LANGUAGE: en")
 
 ;; for diary
-(abc "[[https://atcoder.jp/contests/abc"  (p "300" no) "][ABC " (s no) "]] に参加しました。
+(abc "* ABC " (p "300" no) "
+
+[[https://atcoder.jp/contests/abc"  (s no) "][ABC " (s no) "]] に参加しました。
+
+#+BEGIN_DETAILS Diff 予想
+| 問題   | 予想 diff | 実際の diff |
+|--------+-----------+-------------|
+| A 問題 |           |             |
+| B 問題  |           |             |
+| C 問題 |           |             |
+| D 問題 |           |             |
+| E 問題  |           |             |
+| F 問題  |           |             |
+#+END_DETAILS
 
 ** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
 
@@ -288,7 +247,9 @@ org-mode
 ** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_f][F 問題]]
 ")
 
-(arc "[[https://atcoder.jp/contests/arc"  (p "100" no) "][ARC " (s no) "]] に参加しました。
+(arc "* ARC " (p "100" no) "
+
+[[https://atcoder.jp/contests/arc"  (s no) "][ARC " (s no) "]] に参加しました。
 
 ** [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_a][A 問題]]
 
@@ -297,7 +258,9 @@ org-mode
 ** [[https://atcoder.jp/contests/arc" (s no) "/tasks/arc" (s no) "_c][C 問題]]
 ")
 
-(agc "[[https://atcoder.jp/contests/agc"  (p "100" no) "][AGC " (s no) "]] に参加しました。
+(agc "* AGC" (p "100" no) "
+
+[[https://atcoder.jp/contests/agc" (s no) "][AGC " (s no) "]] に参加しました。
 
 * [[https://atcoder.jp/contests/agc" (s no) "/tasks/agc" (s no) "_a][A 問題]]
 
