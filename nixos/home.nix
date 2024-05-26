@@ -101,7 +101,7 @@ in
     neovim helix
     emacs emacsPackages.ddskk skk-dicts
     # geekbench
-    neofetch meson ninja
+    fastfetch meson ninja
     exiftool
     zip
     moreutils
@@ -172,6 +172,7 @@ in
     # DAW
     # reaper
     bitwig-studio
+    wineWowPackages.staging winetricks
     yabridge yabridgectl
 
     # Web
