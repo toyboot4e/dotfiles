@@ -86,6 +86,7 @@
     rmc = rm --cached
 
     s   = status --short
+    ss  = status
     st  = status
     sub = submodule
 
@@ -135,4 +136,8 @@
     diffFilter = delta --color-only --features=interactive
 
 [github]
-	user = toyboot4e
+    user = toyboot4e
+
+[ghq]
+    root=/d/ghq
+
