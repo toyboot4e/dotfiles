@@ -1,4 +1,11 @@
-/* ~/Library/Application Support/Firefox/Profiles/<name_of_your_profile>/chrome/userChrome.css */
+/* on macOS:
+ * ~/Library/Application Support/Firefox/Profiles/<name_of_your_profile>/chrome/userChrome.css
+ *
+ * on Linux:
+ * ~/.mozilla/firefox/*.default/chrome
+ *
+ * about:config, `toolkit.legacyUserProfileCustomizations.stylesheets`
+ * */
 
 /* Hide address bar and addon icons */
 /* DO NOT USE THIS IF YOU CANT DO WITHOUT THEM */
