@@ -176,11 +176,12 @@
                  (evil-toggle-key . "")
                  ;; for `evil-collection'
                  (evil-want-keybinding . nil)
-                 (evil-want-C-u-delete . t)
+                 ;; (evil-want-C-u-delete . t)
                  (evil-want-C-u-scroll . t)
+                 (evil-want-C-d-scroll . t)
                  (evil-want-Y-yank-to-eol . t)
                  ;; else
-                 (evil-move-cursor-back \.t)
+                 (evil-move-cursor-back . t)
                  (evil-search-module quote evil-search))
 
         :config
@@ -239,6 +240,7 @@
            doc-view
            elfeed
            elisp-mode
+           ;; neotree
            embark
            eww
            forge
@@ -250,7 +252,8 @@
            org-roam
            pdf
            slime
-           sly))
+           sly
+           w3m))
 
         ;; FIXME: `evil-collection' bug?
         (with-eval-after-load 'org
@@ -387,8 +390,9 @@
 
     (leaf haskell-mode
         :url "https://github.com/haskell/haskell-mode"
-        :hook (haskell-mode-hook . lsp-deferred)
-        :hook (haskell-literate-mode-hook . lsp-deferred)
+        :hook ((haskell-mode-hook . lsp-deferred)
+               ;; (haskell-mode-hook . toggle-truncate-lines)
+               (haskell-literate-mode-hook . lsp-deferred))
         :config
         (setq lsp-lens-enable nil)
         (defun ormolu-format-buffer ()
@@ -453,6 +457,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                  (hl-todo-keyword-faces \`
                                         (("TODO" warning bold)
                                          ("FIXME" error bold)
+                                         ("WARNING" warning bold)
                                          ("HACK" font-lock-constant-face bold)
                                          ("REVIEW" font-lock-keyword-face bold)
                                          ("NOTE" success bold)

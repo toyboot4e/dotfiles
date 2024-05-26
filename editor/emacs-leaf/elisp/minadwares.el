@@ -273,20 +273,21 @@
 ;; :ensure nil
 ;; :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
 
-(leaf corfu-popupinfo
-    ;; Today it comes with `corfu'.
-    :ensure nil
-    :after corfu
-    :custom ((coruf-popupinfo-delay . 0))
-    :hook (corfu-mode-hook . corfu-popupinfo-mode))
-
-(leaf corfu-terminal
-    :url "https://codeberg.org/akib/emacs-corfu-terminal"
-    :after (corfu corfu-popupinfo)
-    :unless (display-graphic-p)
-    :ensure nil
-    :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
-    :hook (corfu-mode-hook . corfu-terminal-mode))
+;; FIXME: too slow with lsp
+;; (leaf corfu-popupinfo
+;;     ;; Today it comes with `corfu'.
+;;     :ensure nil
+;;     :after corfu
+;;     :custom ((coruf-popupinfo-delay . 0))
+;;     :hook (corfu-mode-hook . corfu-popupinfo-mode))
+;; 
+;; (leaf corfu-terminal
+;;     :url "https://codeberg.org/akib/emacs-corfu-terminal"
+;;     :after (corfu corfu-popupinfo)
+;;     :unless (display-graphic-p)
+;;     :ensure nil
+;;     :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
+;;     :hook (corfu-mode-hook . corfu-terminal-mode))
 ;; :config
 ;; (corfu-terminal-mode +1))
 
