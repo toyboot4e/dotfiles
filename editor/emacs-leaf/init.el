@@ -20,6 +20,7 @@
         "locals/locals.el"               ;; Local packages
         "elisp/conf.el"                  ;; Basic configurations
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
+        "elisp/hacks.el"                 ;; Dirty fix ELisp
         "elisp/minadwares.el"            ;; minad packages
         ;; "elisp/ide-dap.el"               ;; dap-mode
 
