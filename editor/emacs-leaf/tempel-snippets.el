@@ -186,7 +186,7 @@ propQC =
     maxN = 1000
 
 runQC :: IO ()
-runQC = QC.quickCheck propQC")
+runQC = QC.quickCheck (QC.withMaxSuccess 100 propQC)")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
