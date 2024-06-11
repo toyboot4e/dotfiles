@@ -77,7 +77,7 @@
                  (centaur-tabs-set-modified-marker . t)
                  (centaur-tabs-gray-out-icons quote buffer)
                  (centaur-tabs-show-navigation-buttons)
-                 (centaur-tabs-set-icons display-graphic-p))
+                 (centaur-tabs-set-icons . t))
         :custom (centaur-tabs-buffer-groups-function function toy/centaur-tabs-group)
         :config
         (defun toy/centaur-tabs-group nil
@@ -617,13 +617,23 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
              (outline-hide-sublevels 9))
             "z0" #'evil-open-folds))
 
+    (leaf nerd-icons
+        :if (not (display-graphic-p))
+        :config
+        (leaf nerd-icons-completion
+            :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
+            :config
+            (nerd-icons-completion-mode))
+        (leaf nerd-icons-dired
+            :hook (dired-mode-hook . nerd-icons-dired-mode)))
+
     (leaf neotree
         :url "https://github.com/jaypei/emacs-neotree"
         :after evil
         :commands (neotree-quick-look)
         :init
         (setq neo-theme (if (display-graphic-p)
-                                'icons 'arrows))
+                                'icons 'nerd-icons))
         :custom ((neo-window-position quote right)
                  (neo-window-width . toy/sidebar-width)
                  (neo-window-fixed-size)
@@ -640,10 +650,11 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
             #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
             (kbd "TAB")
             'neotree-stretch-toggle)
-        :defer-config (defun neo-path--shorten (path length)
-                          "Override `neotree' header string"
-                          (file-name-nondirectory
-                           (directory-file-name path)))
+        :defer-config
+        (defun neo-path--shorten (path length)
+            "Override `neotree' header string"
+            (file-name-nondirectory
+             (directory-file-name path)))
         (advice-add 'neotree-select-up-node :after
                     (lambda (&rest _)
                         (evil-first-non-blank))))
