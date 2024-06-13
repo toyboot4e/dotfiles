@@ -625,7 +625,15 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
             :config
             (nerd-icons-completion-mode))
         (leaf nerd-icons-dired
-            :hook (dired-mode-hook . nerd-icons-dired-mode)))
+            :hook (dired-mode-hook . nerd-icons-dired-mode))
+        (leaf magit-file-icons
+            :after magit
+            ;; :init
+            :hook (magit-status-mode-hook . magit-file-icons-mode)
+            :custom
+            (magit-file-icons-enable-diff-file-section-icons . t)
+            (magit-file-icons-enable-untracked-icons . t)
+            (magit-file-icons-enable-diffstat-icons . t)))
 
     (leaf neotree
         :url "https://github.com/jaypei/emacs-neotree"
