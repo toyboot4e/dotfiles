@@ -130,6 +130,20 @@
                  (dhall-format-arguments
                   `("--ascii"))))
 
+    (leaf diff-hl
+        :custom-face
+        ;; (diff-hl-insert . '((t (:foreground "#87edb9" :background "#87edb9"))))
+        (diff-hl-change . '((t (:foreground "#c0b18b" :background "#c0b18b"))))
+        (diff-hl-delete . '((t (:foreground "#d75f5f" :background "#d75f5f"))))
+        :init
+        (global-diff-hl-mode)
+        (unless display-graphic-p
+            (diff-hl-margin-mode))
+        (diff-hl-flydiff-mode)
+        :hook
+        ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
+         (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
+
     (leaf dirvish
         :doc "A modern file manager based on dired mode"
         :req "emacs-27.1"
@@ -320,40 +334,6 @@
     (leaf fish-mode)
 
     (leaf flycheck)
-
-    (leaf git-gutter
-        :doc "Show git status on line numbers (terminal)"
-        :if (not (display-graphic-p))
-        :global-minor-mode (global-git-gutter-mode)
-        :custom ((git-gutter:modified-sign . "~")
-                 (git-gutter:added-sign . "+")
-                 (git-gutter:deleted-sign . "-"))
-        :custom-face (git-gutter:modified quote
-                                          ((t
-                                            (:background "#c0b18b" :foreground "#2f2f2f")))) (git-gutter:added quote
-                                          ((t
-                                            (:background "#84edb9" :foreground "#2f2f2f")))) (git-gutter:deleted quote
-                                          ((t
-                                            (:background "#d75f5f" :foreground "#2f2f2f"))))
-        :defer-config
-        (setq git-gutter:update-hooks '(after-save-hook after-revert-hook)))
-
-    (leaf git-gutter-fringe
-        :doc "Show git status on line numbers (GUI)"
-        :if (display-graphic-p)
-        :global-minor-mode (global-git-gutter-mode)
-        :custom ((git-gutter-fr:modified-sign . "~")
-                 (git-gutter-fr:added-sign . "+")
-                 (git-gutter-fr:deleted-sign . "-"))
-        :custom-face (git-gutter-fr:modified quote
-                                             ((t
-                                               (:background "#c0b18b" :foreground "#2f2f2f")))) (git-gutter-fr:added quote
-                                             ((t
-                                               (:background "#84edb9" :foreground "#2f2f2f")))) (git-gutter-fr:deleted quote
-                                             ((t
-                                               (:background "#d75f5f" :foreground "#2f2f2f"))))
-        :defer-config
-        (setq git-gutter:update-hooks '(after-save-hook after-revert-hook)))
 
     (leaf git-link
         :commands (git-link git-link-commit)
