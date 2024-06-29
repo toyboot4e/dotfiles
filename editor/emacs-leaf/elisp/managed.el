@@ -190,6 +190,7 @@
                  (evil-toggle-key . "")
                  ;; for `evil-collection'
                  (evil-want-keybinding . nil)
+                 (evil-want-minibuffer . t) ;; wip
                  ;; (evil-want-C-u-delete . t)
                  (evil-want-C-u-scroll . t)
                  (evil-want-C-d-scroll . t)
