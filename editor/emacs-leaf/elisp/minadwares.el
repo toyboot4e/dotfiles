@@ -135,7 +135,7 @@
     :url "https://github.com/oantolin/embark"
     :bind
     (:minibuffer-local-map
-     (("C-x" . embark-act)
+     (("C-." . embark-act)
       ;; alternative for `describe-bindings'
       ("C-h B" . embark-bindings)))
 
