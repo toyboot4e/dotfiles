@@ -10,9 +10,6 @@
                    "~/.nix-profile/bin"
                    "/usr/local/bin"
                    "~/bin"
-                   ;; Unforunate path to LaTeX on my mac
-                   "/Library/TeX/texbin"
-                   "/usr/local/texlive/2019/bin/x86_64-darwin/"
                    ))
 
     (when (and (file-exists-p dir) (not (member dir exec-path)))

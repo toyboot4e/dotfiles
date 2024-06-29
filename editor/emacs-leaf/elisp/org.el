@@ -2,6 +2,8 @@
 
 ;; ------------------------------ org-mode ------------------------------
 
+;; =insert-char= (C-x 8 RET) zero space width for escaping :: in list
+
 (defun toy/init-org ()
     (interactive)
     ;; Let's use logical lines. Line wrapping does not work well with Japanese text,
@@ -14,8 +16,9 @@
 ;; TODO: preview latex
 (leaf org
     :mode ("\\.org\\'" . org-mode)
-    :hook (org-mode-hook . toy/init-org)
-    :hook (org-babel-after-execute . org-redisplay-inline-images)
+    :hook
+    ((org-mode-hook . toy/init-org)
+     (org-babel-after-execute . org-redisplay-inline-images))
     :custom
     ((org-directory . "~/org")
      (org-cycle-emulate-tab . nil)
@@ -87,7 +90,8 @@
                                      (plantuml . t)
                                      (dot . t)
                                      (haskell . t)
-                                     (shell . t)))
+                                     (shell . t)
+                                     (sqlite . t)))
 
         ;; (setq org-plantuml "plantuml")
 
@@ -162,6 +166,24 @@
             (interactive "sOutfile: ")
             (org-export-to-file 'zennmd outfile async subtreep visible-only))
 
+        (defun org-babel-execute:shell (body params)
+            "Execute a block of Shell commands with Babel.
+This function is called by `org-babel-execute-src-block'."
+            (let* ((session (org-babel-sh-initiate-session
+		                     (cdr (assoc :session params))))
+	               (stdin (let ((stdin (cdr (assoc :stdin params))))
+                              (when stdin (org-babel-sh-var-to-string
+                                           (org-babel-ref-resolve stdin)))))
+	               (cmdline (cdr (assoc :cmdline params)))
+                   (full-body (org-babel-expand-body:generic
+		                       body params (org-babel-variable-assignments:shell params))))
+                (org-babel-reassemble-table
+                 (org-babel-sh-evaluate session full-body params stdin cmdline)
+                 (org-babel-pick-name
+                  (cdr (assoc :colname-names params)) (cdr (assoc :colnames params)))
+                 (org-babel-pick-name
+                  (cdr (assoc :rowname-names params)) (cdr (assoc :rownames params))))))
+
         (defun org-zenn-export-book-files (&optional org-dir)
             "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
             (interactive "sBook directory: ")
@@ -208,9 +230,8 @@
         :url "https://github.com/awth13/org-appear"
         :hook (org-mode-hook . org-appear-mode)
         :custom
-        (org-appear-autolinks . t))
-
-    (setq org-hide-emphasis-markers t)
+        (org-appear-autolinks . t)
+        (org-hide-emphasis-markers . t))
 
     (leaf org-superstar
         :commands org-superstar-mode

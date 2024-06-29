@@ -6,18 +6,15 @@
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
 
-;; what?: `https://github.com/doomemacs/doomemacs/issues/5682'
-(defvar native-comp-deferred-compilation-deny-list nil)
-
 ;; "tempel-snippets.el"
 
 (setq toy/init-files
       '(
         "elisp/env.el"                   ;; User environment and preferences
         "elisp/early-conf.el"            ;; No-deps configuration
-        "elisp/setup.el"                 ;; Bootstrapping
+        "elisp/setup.el"                 ;; Bootstrapping + no-littering
 
-        "locals/locals.el"               ;; Local packages
+        "locals/locals.el"               ;; Local packages (if any)
         "elisp/conf.el"                  ;; Basic configurations
         "elisp/managed.el"               ;; ELisp files managed with `leaf-manager'
         "elisp/hacks.el"                 ;; Dirty fix ELisp
@@ -30,6 +27,7 @@
         "elisp/hydra.el"                 ;; Hydra-based key mappigns
         "elisp/keymap.el"                ;; Key mappings
         "elisp/keymap-consult.el"        ;; Key mappings
+        ;; "elisp/ddskk-conf.el"            ;; IME
 
         "elisp/end.el"                   ;; Run after startup
         ))

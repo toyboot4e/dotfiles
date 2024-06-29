@@ -57,7 +57,8 @@
             ;; (when (= (point) (+ (point-max) 1))
             (when (= (point) (+ (point-max) 0))
                 (forward-line -1))))
-    (add-hook 'post-command-hook (_fn (toy/fix-point))))
+    (add-hook 'post-command-hook (_fn (toy/fix-point)))
+    )
 
 ;; [Evil] Let `{` and `}` skip multiple bullets (`* ..` in markdown) like Vim:
 (with-eval-after-load 'evil
@@ -285,6 +286,7 @@
 (defun toy/magit-open-repo ()
     "open remote repo URL"
     (interactive)
+    ;; FIXME: `magit-get' is not there
     (let ((url (magit-get "remote" "origin" "url")))
         (progn
             (browse-url (toy/parse-url url))

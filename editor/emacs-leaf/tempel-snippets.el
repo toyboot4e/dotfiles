@@ -17,6 +17,7 @@ haskell-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (verify "-- verification-helper: PROBLEM " (p "url"))
+(tr "import Debug.Trace")
 
 ;; stack script
 (script "#!/usr/bin/env stack" n "{- stack script --resolver lts-21.6 -}")

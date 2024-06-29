@@ -41,6 +41,15 @@ interval=10
 label=📚
 interval=10
 
+# Temperature
+#
+# Support multiple chips, though lm-sensors.
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[temperature]
+label=🔥
+interval=10
+
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,
@@ -142,15 +151,6 @@ interval=5
 # Support multiple VPN, with colors.
 #[openvpn]
 #interval=20
-
-# Temperature
-#
-# Support multiple chips, though lm-sensors.
-# The script may be called with -w and -c switches to specify thresholds,
-# see the script for details.
-#[temperature]
-#label=TEMP
-#interval=10
 
 # Key indicators
 #

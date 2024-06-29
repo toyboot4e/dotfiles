@@ -375,7 +375,7 @@
                ;; (haskell-mode-hook . toggle-truncate-lines)
                (haskell-literate-mode-hook . lsp-deferred))
         :config
-        (setq lsp-lens-enable nil)
+        ;; (setq lsp-lens-enable nil)
         (defun ormolu-format-buffer ()
             "Formats current buffer with `ormolu'.
 Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
