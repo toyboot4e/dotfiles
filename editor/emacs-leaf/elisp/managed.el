@@ -541,7 +541,8 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :after evil
         :custom
         ((magit-log-section-commit-count . 15)
-         (magit-refresh-status-buffer . nil))
+         (magit-refresh-status-buffer . nil)
+         (dired-vc-rename-file . t))
         :config
         (defun magit-rev-format (format &optional rev args)
             "lighter magit revision format"
