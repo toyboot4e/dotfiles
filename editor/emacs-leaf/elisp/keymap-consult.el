@@ -70,10 +70,13 @@
 
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
+(define-key minibuffer-local-map (kbd "\C-r") #'evil-paste-from-register)
 
 (with-eval-after-load 'vertico
     ;; TODO: recenter-top-bottom for vertico buffer
     (define-key vertico-map (kbd "\C-o") #'other-window)
     (define-key vertico-map (kbd "\C-u") #'vertico-scroll-down)
-    (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up))
+    (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up)
+    ;; TODO: use isearch forward?
+    (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
 
