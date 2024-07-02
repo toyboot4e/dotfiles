@@ -197,7 +197,7 @@ in
     # Font packages TODO: Add more fonts
     packages = with pkgs; [
       # SauceCodePro is distributed as SourceCodePro
-      (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
+      (nerdfonts.override { fonts = [ "Intel One Mono" "SourceCodePro" ]; })
       noto-fonts noto-fonts-cjk font-awesome pango monoid roboto-mono vistafonts
       intel-one-mono
     ];
@@ -208,6 +208,7 @@ in
         # TODO: use SourceCodePro?
         serif = [ "noto-fonts-cjk" ];
         sansSerif = [ "noto-fonts-cjk" ];
+	# "IntoneMono Nerd Font"
         monospace = [ "intel-one-mono" "noto-sans-font-cjk" ];
       };
 

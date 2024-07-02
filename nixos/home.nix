@@ -158,7 +158,7 @@ in
 
     pup jq watchexec
     rename
-    jdk ditaa graphviz mermaid-cli plantuml
+    jdk ditaa graphviz xdot mermaid-cli plantuml
     nkf gnuplot
 
     cmatrix figlet
