@@ -8,18 +8,22 @@ let
 in
 
 {
+  # FIXME:
+  # home.username = "tbm";
+  # home.homeDirectory = "/home/tbm";
+
   nixpkgs.config.allowUnfree = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # FIXME: local?
   # programs.home-manager.path = "/home/tbm/ghq/github.com/nix-community/home-manager";
 
-  # overlays
-  # <https://github.com/nix-community/home-manager/issues/1107>
-  nixpkgs.overlays = [
-    # fenix: <https://github.com/nix-community/fenix>
-    (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
-  ];
+  # # overlays
+  # # <https://github.com/nix-community/home-manager/issues/1107>
+  # nixpkgs.overlays = [
+  #   # fenix: <https://github.com/nix-community/fenix>
+  #   (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
+  # ];
 
   # virutalization (virt-manager): https://nixos.wiki/wiki/Virt-manager
   dconf.settings = {
@@ -117,10 +121,9 @@ in
     # https://github.com/stefan-hoeck/idris2-pack
     chez zig zls
 
-    #### # rustup # TODO: `rustup componend add` does not add ~/.cargo/bin/* symlinks
-    #### # rustc cargo rustfmt clippy rust-analyzer
-    (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
-    rust-analyzer-nightly
+    # FIXME: fenix with flakes
+    # (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
+    # rust-analyzer-nightly
 
     # koka
 

@@ -27,11 +27,13 @@ in
 
   imports =
     [ # Include the results of the hardware scan.
+      # FIXME: path?
       ./hardware-configuration.nix
 
       # home-manager as NixOS module:
       # <https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module>
-      <home-manager/nixos>
+      # FIXME: not needed with flakes?
+      # <home-manager/nixos>
     ];
 
   nixpkgs.config.allowUnfree = true;
@@ -197,7 +199,7 @@ in
     # Font packages TODO: Add more fonts
     packages = with pkgs; [
       # SauceCodePro is distributed as SourceCodePro
-      (nerdfonts.override { fonts = [ "Intel One Mono" "SourceCodePro" ]; })
+      (nerdfonts.override { fonts = [ "IntelOneMono" "SourceCodePro" ]; })
       noto-fonts noto-fonts-cjk font-awesome pango monoid roboto-mono vistafonts
       intel-one-mono
     ];
@@ -403,7 +405,8 @@ in
   # home-manager as a NixOS module:
   # <https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module>
   # <https://nix-community.github.io/home-manager/index.html>
-  home-manager.users.tbm.imports = [ ./home.nix ];
+  # FIXME: not needed with flakes?
+  # home-manager.users.tbm.imports = [ ./home.nix ];
 
   # core dump on startup?
   # # VirtualBox: <https://nixos.wiki/wiki/VirtualBox>
