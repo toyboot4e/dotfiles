@@ -1,5 +1,3 @@
-# `unstable` channel by default (previously 22.11)
-
 # TODOs:
 # - [ ] Monitoring applications
 
@@ -25,16 +23,7 @@ in
   # TODO: working?
   # swapDevices = [ { device = "/dev/disk/by-label/swap"; } ];
 
-  imports =
-    [ # Include the results of the hardware scan.
-      # FIXME: path?
-      ./hardware-configuration.nix
-
-      # home-manager as NixOS module:
-      # <https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module>
-      # FIXME: not needed with flakes?
-      # <home-manager/nixos>
-    ];
+  imports = [./hardware-configuration.nix];
 
   nixpkgs.config.allowUnfree = true;
 

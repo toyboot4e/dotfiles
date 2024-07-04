@@ -8,9 +8,9 @@ let
 in
 
 {
-  # FIXME:
-  # home.username = "tbm";
-  # home.homeDirectory = "/home/tbm";
+  # imports = [
+  #   ./virtual.nix
+  # ]
 
   nixpkgs.config.allowUnfree = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -24,14 +24,6 @@ in
   #   # fenix: <https://github.com/nix-community/fenix>
   #   (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
   # ];
-
-  # virutalization (virt-manager): https://nixos.wiki/wiki/Virt-manager
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
-  };
 
   # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
   services.udiskie = {
