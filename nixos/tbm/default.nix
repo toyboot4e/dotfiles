@@ -1,6 +1,6 @@
 # `home-manager` configuraiton
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
   # unstable = import <unstable> { config = { allowUnfree = true; }; };
@@ -8,80 +8,15 @@ let
 in
 
 {
-  # imports = [
-  #   ./virtual.nix
-  # ]
+  imports = [
+    ./desktop.nix
+    ./input-mozc.nix
+    ./services.nix
+    ./virtual.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # FIXME: local?
-  # programs.home-manager.path = "/home/tbm/ghq/github.com/nix-community/home-manager";
-
-  # # overlays
-  # # <https://github.com/nix-community/home-manager/issues/1107>
-  # nixpkgs.overlays = [
-  #   # fenix: <https://github.com/nix-community/fenix>
-  #   (import "${fetchTarball "https://github.com/nix-community/fenix/archive/main.tar.gz"}/overlay.nix")
-  # ];
-
-  # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
-  services.udiskie = {
-    enable = true;
-    automount = true;
-    notify = false;
-  };
-
-  # TODO: trying `fcitx5` from `home-manager` (is `QT_PLUGIN_PATH` exported?)
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
-  };
-
-  # Use `sxhkd` service, but without overwriting the configuration file
-  # - sxhkd: <https://nix-community.github.io/home-manager/options.html#opt-services.sxhkd.enable>
-  # - configFile.<name>.enable: <https://rycee.gitlab.io/home-manager/options.html#opt-xdg.configFile._name_.enable>
-  services.sxhkd.enable = true;
-  xdg.configFile."sxhkd/sxhkdrc".enable = false;
-
-  # TODO: change cursor
-  # home.pointerCursor = 
-  home.pointerCursor = {
-    name = "Adwaita";
-    package = pkgs.gnome.adwaita-icon-theme;
-    # size = 24;
-    size = 32;
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-
-    associations.added = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-    };
-
-    defaultApplications = {
-      "application/pdf" = ["org.gnome.Evince.desktop"];
-
-      # FIXME: not working correctly
-      "text/html" = ["org.firefox.firefox.desktop"];
-      "x-scheme-handler/http" = "org.firefox.firefox.desktop";
-      "x-scheme-handler/https" = "org.firefox.firefox.desktop";
-      "x-scheme-handler/about" = "org.firefox.firefox.desktop";
-      "x-scheme-handler/unknown" = "org.firefox.firefox.desktop";
-    };
-  };
-
-  # Let `home-manager` overwrite `mimeapps.list` so that it doesn't fail:
-  xdg.configFile."mimeapps.list".force = true;
-
-  # NOTE: You have to let `home-manager` manage your shell config file, or the
-  # `home.sessionVariables` does NOT take effect.
-  # home.sessionVariables = {
-  #   EDITOR = "nvim";
-  #   BROWSER = "firefox";
-  #   TERMINAL = "kitty";
-  # };
 
   home.packages = with pkgs; [
     # ----------------------------------------------------------------------------------------------------
@@ -172,9 +107,6 @@ in
 
     # Web
   ];
-
-  # Bluetooth headset buttons: <https://nixos.wiki/wiki/Bluetooth>
-  services.mpris-proxy.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
