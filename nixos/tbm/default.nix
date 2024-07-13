@@ -31,6 +31,7 @@ in
     xdg-ninja
     neovim helix
     emacs emacsPackages.ddskk skk-dicts
+    emacs-lsp-booster # defined in `flake.nix`
     # geekbench
     fastfetch meson ninja
     exiftool

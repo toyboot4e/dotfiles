@@ -137,12 +137,14 @@
         (diff-hl-delete . '((t (:foreground "#d75f5f" :background "#d75f5f"))))
         :init
         (global-diff-hl-mode)
-        (unless display-graphic-p
-            (diff-hl-margin-mode))
-        (diff-hl-flydiff-mode)
+        (defun toy/on-diff-hl ()
+            (unless display-graphic-p
+                (diff-hl-margin-mode))
+            (diff-hl-flydiff-mode))
         :hook
         ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
-         (magit-post-refresh-hook . diff-hl-magit-post-refresh)))
+         (magit-post-refresh-hook . diff-hl-magit-post-refresh)
+         (diff-hl-mode-hook . toy/on-diff-hl)))
 
     (leaf dirvish
         :doc "A modern file manager based on dired mode"
@@ -469,6 +471,9 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                  (lsp-enable-symbol-highlighting)
                  (lsp-headerline-breadcrumb-enable)
                  (lsp-modeline-diagnostics-scope . :workspace)
+                 ;; This is for `emacs-lsp-booster'.
+                 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+                 (lsp-use-plists . toy/use-plists)
                  (lsp-semantic-tokens-enable))
         :hook (lsp-mode-hook . lsp-enable-which-key-integration)
         :hook (lsp-mode-hook . hs-minor-mode)
@@ -478,6 +483,36 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         (defun my/lsp-mode-setup-completion ()
             "`corfu' integration: https://github.com/minad/corfu/wiki#example-configuration-with-flex"
             (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(flex)))
+
+        :init
+        (when toy/use-plists ;; `emacs-lsp-booster'
+            (defun lsp-booster--advice-json-parse (old-fn &rest args)
+                "Try to parse bytecode instead of json."
+                (or
+                 (when (equal (following-char) ?#)
+                     (let ((bytecode (read (current-buffer))))
+                         (when (byte-code-function-p bytecode)
+                             (funcall bytecode))))
+                 (apply old-fn args)))
+            (advice-add (if (progn (require 'json)
+                                   (fboundp 'json-parse-buffer))
+                                'json-parse-buffer
+                            'json-read)
+                        :around
+                        #'lsp-booster--advice-json-parse)
+            (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+                "Prepend emacs-lsp-booster command to lsp CMD."
+                (let ((orig-result (funcall old-fn cmd test?)))
+                    (if (and (not test?)                             ;; for check lsp-server-present?
+                             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+                             lsp-use-plists
+                             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+                             (executable-find "emacs-lsp-booster"))
+                            (progn
+                                (message "Using emacs-lsp-booster for %s!" orig-result)
+                                (cons "emacs-lsp-booster" orig-result))
+                        orig-result)))
+            (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
         :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
         :config
         (progn

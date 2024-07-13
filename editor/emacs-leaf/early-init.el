@@ -58,3 +58,11 @@
     (if (version<= "27.1" emacs-version)
             (setq bidi-inhibit-bpa t)))
 
+;; Use `plists' for LSP deserialization. This is for `emasc-lsp-booster'.
+;; - https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
+;; - https://github.com/blahgeek/emacs-lsp-booster
+;; See also: `lsp-use-lists' and `emacs-booster' in `flake.nix'.
+(defvar toy/use-plists nil)
+(when toy/use-plists
+    (setenv "LSP_USE_PLISTS" "true"))
+
