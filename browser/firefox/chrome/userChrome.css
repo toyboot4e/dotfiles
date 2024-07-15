@@ -2,7 +2,10 @@
  * ~/Library/Application Support/Firefox/Profiles/<name_of_your_profile>/chrome/userChrome.css
  *
  * on Linux:
- * ~/.mozilla/firefox/*.default/chrome
+ * ~/.mozilla/firefox/*.default/chrome/userChrome.css
+ *
+ * on Windows:
+ * %AppData%\Mozilla\Firefox\Profiles\<your_profile>\chrome\userChrome.css
  *
  * about:config, `toolkit.legacyUserProfileCustomizations.stylesheets`
  * */
