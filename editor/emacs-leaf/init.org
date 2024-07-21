@@ -955,15 +955,6 @@ Optional NODE-NAME is used for the `icons' theme"
     :defer-config (centaur-tabs-headline-match))
 #+END_SRC
 
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
 ** Diff-hl
 
 #+BEGIN_SRC elisp
@@ -1026,15 +1017,6 @@ Optional NODE-NAME is used for the `icons' theme"
 
 #+BEGIN_SRC elisp
 (leaf eat)
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
 #+END_SRC
 
 ** hl-todo
@@ -1449,18 +1431,6 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
              (dhall-format-arguments
               `("--ascii"))))
               #+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
-
-#+BEGIN_SRC elisp
-#+END_SRC
 
 ** Markdown
 
