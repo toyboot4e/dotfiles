@@ -1,10 +1,14 @@
 #+TITLE: My Emacs Configuration
 #+AUTHOR: toyboot4e
 #+PROPERTY: header-args :tangle init.el
+#+LINK: evil https://github.com/emacs-evil/evil
+#+LINK: leaf https://github.com/conao3/leaf.el
 
 * Introduction
 
-** Relevant files
+This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
+
+** Other files
 
 - [[./early-init.el]]
 - [[./template-snippets.el]]
@@ -109,28 +113,29 @@ TODO: use =exec-ptah-from-shell=.
 ** UTF-8 encoding
 
 #+BEGIN_SRC elisp
-(progn ;; UTF-8
-    (set-charset-priority 'unicode)
-    (prefer-coding-system 'utf-8)
-    (setq locale-coding-system 'utf-8)
-    (set-language-environment 'utf-8)
-    (set-default-coding-systems 'utf-8)
-    ;; it modifies the buffer
-    ;; (set-buffer-file-coding-system 'utf-8)
-    ;; it requires flusing
-    ;; (set-terminal-coding-system 'utf-8)
-    (set-clipboard-coding-system 'utf-8)
-    (set-file-name-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (set-selection-coding-system 'utf-8)
-    (modify-coding-system-alist 'process "*" 'utf-8))
+(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-default-coding-systems 'utf-8)
+;; it modifies the buffer
+;; (set-buffer-file-coding-system 'utf-8)
+;; it requires flusing
+;; (set-terminal-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(set-file-name-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(modify-coding-system-alist 'process "*" 'utf-8)
 #+END_SRC
+
+** TODO Byte compile
 
 * Boot strapping
 
 ** straight
 
-TODO: Move to elpaca
+TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
 (setq straight-vc-git-default-protocol 'ssh)
@@ -153,8 +158,6 @@ TODO: Move to elpaca
 ** leaf
 
 #+BEGIN_SRC elisp
-;; <leaf-install-code>
-;; `leaf.el'
 (eval-and-compile
     (customize-set-variable
      'package-archives '(("org" . "https://orgmode.org/elpa/")
@@ -175,7 +178,6 @@ TODO: Move to elpaca
     (leaf leaf-keywords
         :config
         (leaf-keywords-init)))
-;; </leaf-install-code>
 #+END_SRC
 
 * Pre configuration
@@ -218,9 +220,9 @@ TODO: Move to elpaca
 (whitespace-mode 1)
 (setq whitespace-style '(tabs  tab-mark))
 
-(progn ;; show matching parentheses
-    (setq-default show-paren-delay 0)
-    (show-paren-mode 1))
+;; show matching parentheses
+(setq-default show-paren-delay 0)
+(show-paren-mode 1)
 
 ;; show `line:column` in the modeline
 (column-number-mode)
@@ -229,7 +231,6 @@ TODO: Move to elpaca
 *** GUI settings
 
 #+BEGIN_SRC elisp
-;; [GUI]
 (set-cursor-color "#8fee96")
 (set-fringe-mode 10)
 #+END_SRC
@@ -318,14 +319,14 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 (add-hook 'find-file-hook #'toy/fix-save-place)
 #+END_SRC
 
-*** Remember ecently opended files
+*** Remember recently opended files
 
 #+BEGIN_SRC elisp
 (setq recentf-max-saved-items 1000)
 (recentf-mode 1)
 #+END_SRC
 
-*** Duplicate file names as =file<parent-directory>=
+*** Display duplicate file names as =file<parent-directory>=
 
 #+BEGIN_SRC elisp
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
