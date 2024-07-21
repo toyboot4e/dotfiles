@@ -3,14 +3,9 @@
 #+LINK: leaf https://github.com/conao3/leaf.el
 #+LINK: leaf-manager https://github.com/conao3/leaf-manager.el
 
-My Emacs configuration based on:
+My Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
-- [[leaf][leaf.el]]
-  Declartive package configuration framework. It's faster than `use-package` for unknown reason.
+** Bootstrapping
 
-- [[leaf-manager][leaf-manager.el]]
-  Editor for a leaf-based file.
-
-- [[evil][evil]]
- The Vim emulation.
+Run =org-bable-tangle-file= over [[./init.org]].
 
