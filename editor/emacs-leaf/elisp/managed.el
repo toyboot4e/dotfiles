@@ -79,6 +79,9 @@
                  (centaur-tabs-show-navigation-buttons)
                  (centaur-tabs-set-icons . t))
         :custom (centaur-tabs-buffer-groups-function function toy/centaur-tabs-group)
+        :init
+        ;; (when (display-graphics-p)
+        ;;     (customize-set-variable centaur-tabs-set-icons 'nerd-icons))
         :config
         (defun toy/centaur-tabs-group nil
             "Add `Sidebar' and `Bottom bar' groups / use `projectile' buffer gruups"
@@ -121,6 +124,8 @@
         :config (xclip-mode))
 
     (leaf cmake-mode)
+
+    (leaf dap-mode)
 
     (leaf dhall-mode
         :mode "\\.dhall\\'"
@@ -424,6 +429,48 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         (evil-define-key 'normal haskell-mode-map
             "o" 'haskell-evil-open-below
             "O" 'haskell-evil-open-above)
+
+        (progn
+            ;; https://github.com/phoityne/hdx4emacs
+            (require 'dap-mode)
+            (require 'dap-utils)
+
+            (dap-mode 1)
+            (dap-ui-mode 1)
+            (dap-tooltip-mode 1)
+            (tooltip-mode 1)
+            (setq debug-on-error t)
+
+            (dap-register-debug-provider
+             "hda"
+             ;; FIXME:
+             (lambda (conf)
+                 (plist-put conf :dap-server-path (list "haskell-debug-adapter" "--hackage-version=0.0.31.0"))
+                 conf))
+
+            (dap-register-debug-template
+             "haskell-debug-adapter"
+             (list :type "hda"
+                   :request "launch"
+                   :name "haskell-debug-adapter"
+                   :internalConsoleOptions "openOnSessionStart"
+                   :workspace (lsp-find-session-folder (lsp-session) (buffer-file-name))
+                   ;; :workspace "C:/work/haskell/sample"
+                   :startup "~/dev/hs/abc-hs/arc179/c/Main.hs"
+                   ;; :startup "C:/work/haskell/sample/app/Main.hs"
+                   :startupFunc ""
+                   :startupArgs ""
+                   :stopOnEntry t
+                   :mainArgs ""
+                   :ghciPrompt "H>>= "
+                   :ghciInitialPrompt "Prelude>"
+                   :ghciCmd "stack ghci --test --no-load --no-build --main-is TARGET --ghci-options -fprint-evld-with-show"
+                   :ghciEnv (list :dummy "")
+                   ;; :logFile "C:/work/haskell/sample/hdx4emacs.log"
+                   :logFile "/tmp/my-dap-haskell"
+                   :logLevel "WARNING"
+                   :forceInspect nil)))
+
         )
 
     (leaf helpful
@@ -667,13 +714,27 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         :config
         (setq neo-buffer-name "@tree")
         (when (display-graphic-p)
+            ;; change icon size
             (add-hook 'neo-after-create-hook
                       (lambda (_)
                           (text-scale-adjust 0)
                           (text-scale-decrease 0.5))))
-        (evil-define-key 'normal neotree-mode-map "gh" #'neotree-select-up-node "oo" #'neotree-enter
-            (kbd "RET")
-            #'neotree-enter "ov" #'neotree-enter-vertical-split "oh" #'neotree-enter-horizontal-split "cd" #'neotree-change-root "cu" #'neotree-select-up-node "cc" #'neotree-copy-node "mc" #'neotree-create-node "md" #'neotree-delete-node "mr" #'neotree-rename-node "h" #'neotree-hidden-file-toggle "r" #'neotree-refresh "q" #'neotree-hide
+        (evil-define-key 'normal neotree-mode-map
+            "gh" #'neotree-select-up-node
+            "oo" #'neotree-enter
+            (kbd "RET") #'neotree-enter
+            "ov" #'neotree-enter-vertical-split
+            "oh" #'neotree-enter-horizontal-split
+            "cd" #'neotree-change-root
+            "cu" #'neotree-select-up-node
+            (kbd "C-c C-u") #'neotree-select-up-node
+            "cc" #'neotree-copy-node
+            "mc" #'neotree-create-node
+            "md" #'neotree-delete-node
+            "mr" #'neotree-rename-node
+            "h" #'neotree-hidden-file-toggle
+            "r" #'neotree-refresh
+            "q" #'neotree-hide
             (kbd "TAB")
             'neotree-stretch-toggle)
         :defer-config
@@ -719,23 +780,28 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
     (leaf projectile
         :leaf-defer nil
         :custom (projectile-enable-caching . nil)
+        :defer
         :config
         (projectile-mode 1))
 
-    (leaf racket-mode
-        :doc "https://github.com/jeapostrophe/racket-langserver"
-        :url "https://www.racket-mode.com/"
+    (leaf persistent-scratch
         :config
-        (with-eval-after-load 'lsp-mode
-            (add-to-list 'lsp-language-id-configuration
-                         '(racket-mode . "racket"))
-            (lsp-register-client
-             (make-lsp-client :new-connection
-                              (lsp-stdio-connection
-                               '("racket" "-l" "racket-langserver"))
-                              :activation-fn
-                              (lsp-activate-on "racket")
-                              :server-id 'racket-langserver))))
+        (persistent-scratch-setup-default))
+
+    ;; (leaf racket-mode
+    ;;     :doc "https://github.com/jeapostrophe/racket-langserver"
+    ;;     :url "https://www.racket-mode.com/"
+    ;;     :config
+    ;;     (with-eval-after-load 'lsp-mode
+    ;;         (add-to-list 'lsp-language-id-configuration
+    ;;                      '(racket-mode . "racket"))
+    ;;         (lsp-register-client
+    ;;          (make-lsp-client :new-connection
+    ;;                           (lsp-stdio-connection
+    ;;                            '("racket" "-l" "racket-langserver"))
+    ;;                           :activation-fn
+    ;;                           (lsp-activate-on "racket")
+    ;;                           :server-id 'racket-langserver))))
 
     (leaf rainbow-delimiters
         :config
@@ -791,6 +857,10 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 
     (leaf sql-indent
         :after sql)
+
+    (leaf sqlite-mode-extras
+        :url "https://github.com/xenodium/sqlite-mode-extras"
+        :hook ((sqlite-mode-hook . sqlite-extras-minor-mode)))
 
     (leaf vimish-fold
         :after evil

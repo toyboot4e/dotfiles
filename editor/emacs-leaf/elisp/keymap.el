@@ -170,6 +170,9 @@
     "\C-f" #'evil-forward-char
     "\C-b" #'evil-backward-char
 
+    ;; FIXME: undo tree
+    "\C-_" (_fn (message "undo-tree-undo removed"))
+
     "\C-d" #'evil-delete-char
     "\C-h" #'evil-delete-backward-char
     "\C-k" 'evil-delete-line

@@ -42,11 +42,6 @@ haskell-mode
 (f (s name) " :: " (p "") p n> (s name))
 (w "where" n> r> n)
 
-(runSTUArray
- "runSTUArray $ do
-    !arr <- UM.replicate ((0, 0), (pred n, pred n)) (0 :: Int)
-    return arr")
-
 (bnd "!bnd = ((0, 0), (h - 1, w - 1))")
 
 (foldM "(\\f -> U.foldM'_ f s0 xs) $ \\acc x -> do")
@@ -60,6 +55,7 @@ undef = -1")
 twos = U.iterateN (2000 * 2) (\\x -> 2 * x) (modInt 1)")
 
 (inline "{-# INLINE " (p "f") " #-}")
+(noinline "{-# NOINLINE " (p "f") " #-}")
 
 (pattern
  "pattern INSERT, DELETE :: Int
@@ -70,14 +66,6 @@ pattern DELETE = 1")
   "U.create $ do
      !vec <- UM.replicate (h * w) (0 :: Int)
      return vec")
-
-(ortho4 "{-# INLINE ortho4 #-}
-ortho4 :: U.Vector (Int, Int)
-ortho4 = U.fromList [(0, 1), (0, -1), (1, 0), (-1, 0)]
-
-{-# INLINE ortho4' #-}
-ortho4' :: ((Int, Int), (Int, Int)) -> (Int, Int) -> U.Vector (Int, Int)
-ortho4' bnd base = U.filter (inRange bnd) $ U.map (add2 base) ortho4")
 
 (cross4 "cross4 :: U.Vector (Int, Int)
 cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")

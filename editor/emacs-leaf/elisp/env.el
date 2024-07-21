@@ -3,6 +3,8 @@
 ;; --------------------------------------------------------------------------------
 ;; User environment
 
+;; TODO: use exec-ptah-from-shell
+
 ;; Set up `PATH` and `exec-path`
 (dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
                    "~/.cargo/bin"
