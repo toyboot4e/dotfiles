@@ -285,7 +285,7 @@ TODO: Move to elpaca
 
 #+BEGIN_SRC elisp
 (setq history-length 1000
-    history-delete-duplicates t)
+      history-delete-duplicates t)
 (savehist-mode)
 #+END_SRC
 
@@ -539,7 +539,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
                         (interactive)
                         (evil-edit
                          (concat org-directory "/journal.org"))))
-                         #+END_SRC
+#+END_SRC
 
 *** Quits
 
@@ -2851,6 +2851,8 @@ m[1-9]  move
 
 * Key Mappings
 
+** Global mode
+
 #+BEGIN_SRC elisp
 (defvar toy/global-mode-map (make-sparse-keymap)
     "High precedence keymap.")
@@ -2865,6 +2867,147 @@ m[1-9]  move
     (evil-make-intercept-map
      (evil-get-auxiliary-keymap toy/global-mode-map state t t)
      state))
+#+END_SRC
+
+** Evil fix
+
+*** Evil everywhere
+
+https://github.com/noctuid/evil-guide#use-evil-everywhere
+
+#+BEGIN_SRC elisp
+(setq evil-emacs-state-modes nil
+      evil-insert-state-modes nil
+      evil-motion-state-modes nil)
+#+END_SRC
+
+*** Help mode
+
+#+BEGIN_SRC elisp
+(evil-define-key 'normal help-mode-map
+    "q" #'kill-this-buffer
+    "Q" #'evil-delete-buffer)
+#+END_SRC
+
+*** Word policy
+
+#+BEGIN_SRC elisp
+;; Do not treat `_' as a word boundary (thought it still treats `-` as a word boundary):
+(modify-syntax-entry ?_ "w")
+
+;; Do not treat `-' as a word boundary on lisp mode
+(modify-syntax-entry ?- "w" lisp-mode-syntax-table)
+(modify-syntax-entry ?- "w" emacs-lisp-mode-syntax-table)
+
+;; Or, make motions based on _symbols_, instead of _words_:
+;; (defalias 'forward-evil-word 'forward-evil-symbol)
+
+;; c.f. https://evil.readthedocs.io/en/latest/faq.html
+#+END_SRC
+
+*** Prevent cursor from going to the next line of EoF
+
+#+BEGIN_SRC elisp
+(defun toy/fix-point ()
+    (unless (window-minibuffer-p)
+        (when (= (point) (+ (point-max) 0))
+            (forward-line -1))))
+(add-hook 'post-command-hook (_fn (toy/fix-point)))
+#+END_SRC
+
+*** Let ={=, =}= skip multiple bulelts like Vim
+
+#+BEGIN_SRC elisp
+(with-eval-after-load 'evil
+    (defadvice forward-evil-paragraph (around default-values activate)
+        (let ((paragraph-start (default-value 'paragraph-start))
+              (paragraph-separate (default-value 'paragraph-separate)))
+            ad-do-it)))
+#+END_SRC
+
+*** Translate `ESC` or `C-c` to `C-g`
+
+#+BEGIN_SRC elisp
+(defun toy/do-tr-esc ()
+    (or (evil-insert-state-p) (evil-normal-state-p)
+        (evil-replace-state-p) (evil-visual-state-p)))
+
+(defun toy/smart-esc-tr (_)
+    (if (toy/do-tr-esc) (kbd "ESC") (kbd "C-g")))
+(define-key key-translation-map (kbd "ESC") #'toy/smart-esc-tr)
+#+END_SRC
+
+*** Vertical f/F
+
+Cannot be repated though.
+
+#+BEGIN_SRC elisp
+(defun toy/vf--impl (target-char delta-move)
+    (let* ((start-point (point))
+           (start-col (current-column))
+           (jump-point nil))
+        (while (and (not jump-point)
+                    (eq 0 (forward-line delta-move)))
+            (when (and (eq (move-to-column start-col) start-col)
+                       (eq (char-after) target-char))
+                (setq jump-point (point))))
+        (goto-char (or jump-point start-point))
+        jump-point))
+
+(defun toy/vf (&optional target-char)
+    "Searches forward a character in the same column. Returns the point on jump or nil on failure."
+    (interactive)
+    (toy/vf--impl (or target-char (evil-read-key)) 1))
+
+(defun toy/vF (&optional target-char)
+    "Searches backward a character in the same column. Returns the point on jump or nil on failure."
+    (interactive)
+    (toy/vf--impl (or target-char (evil-read-key)) -1))
+    #+END_SRC
+
+*** Blackhole register
+
+#+BEGIN_SRC elisp
+;; seems like we can't use keyboard macros for these mappings (?)
+
+;; `x` -> `"_x`
+(evil-define-operator toy/null-x (beg end type register)
+    :motion evil-forward-char
+    (interactive "<R><x>")
+    (evil-delete beg end type ?_))
+(define-key evil-normal-state-map "x" 'toy/null-x)
+
+;; `s` -> `"_s` (use `d` to copy to the register)
+(evil-define-operator toy/null-s (beg end type register)
+    :motion evil-forward-char
+    (interactive "<R><x>")
+    (evil-change beg end type ?_))
+(define-key evil-normal-state-map "s" 'toy/null-s)
+
+;; more generic helper: https://github.com/syl20bnr/spacemacs/issues/6977#issuecomment-24^4014379
+#+END_SRC
+
+*** Center cursor on search
+
+#+BEGIN_SRC elisp
+(advice-add 'evil-ex-search-next :after (lambda (&rest _) (recenter)))
+(advice-add 'evil-ex-search-previous :after (lambda (&rest _) (recenter)))
+;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
+(advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
+(advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
+#+END_SRC
+
+*** Center cursor on jump
+
+#+BEGIN_SRC elisp
+;; ` and '
+(advice-add 'evil-goto-mark :after (lambda (&rest _) (recenter)))
+(advice-add 'evil-goto-mark-line :after (lambda (&rest _) (recenter)))
+;; `C-o` and `C-i`
+(advice-add 'evil-jump-backward :after (lambda (&rest _) (recenter)))
+(advice-add 'evil-jump-forward :after (lambda (&rest _) (recenter)))
+;; `<number>G` FIXME: other than `G`
+(advice-add 'evil-goto-line :after (lambda (&rest count) (recenter)))
 #+END_SRC
 
 ** Emacs-like
