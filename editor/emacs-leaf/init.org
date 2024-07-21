@@ -338,6 +338,8 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 
 #+BEGIN_SRC elisp
 (leaf evil
+    :leaf-defer nil
+    :commands evil-define-key
     :custom (;; free `z` for background
              (evil-toggle-key . "")
              ;; for `evil-collection'
@@ -353,21 +355,6 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 
     :config
     (evil-mode 1)
-    (progn
-        (evil-ex-define-cmd "ed"
-                            (lambda nil
-                                (interactive)
-                                (evil-edit
-                                 (concat user-emacs-directory "init.el"))))
-        (evil-ex-define-cmd "o"
-                            (lambda nil
-                                (interactive)
-                                (evil-edit
-                                 (concat org-directory "/journal.org"))))
-        (evil-ex-define-cmd "s" #'toy/reload)
-        (evil-ex-define-cmd "Bd" #'kill-this-buffer)
-        (evil-ex-define-cmd "BD" #'kill-this-buffer)
-        (evil-ex-define-cmd "hs" #'evil-window-split))
 
     (leaf empv
         :ensure nil
@@ -524,6 +511,37 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 #+END_SRC
 
 ** Ex Commands
+
+*** Buffers
+
+#+BEGIN_SRC elisp
+(evil-ex-define-cmd "Bd" #'kill-this-buffer)
+(evil-ex-define-cmd "BD" #'kill-this-buffer)
+(evil-ex-define-cmd "hs" #'evil-window-split)
+#+END_SRC
+
+*** Configuration loading
+
+#+BEGIN_SRC elisp
+(evil-ex-define-cmd "ed"
+                    (lambda nil
+                        (interactive)
+                        (evil-edit
+                         (concat user-emacs-directory "init.org"))))
+(evil-ex-define-cmd "s" #'toy/reload)
+#+END_SRC
+
+*** Bookmarks
+
+#+BEGIN_SRC elisp
+(evil-ex-define-cmd "o"
+                    (lambda nil
+                        (interactive)
+                        (evil-edit
+                         (concat org-directory "/journal.org"))))
+                         #+END_SRC
+
+*** Quits
 
 #+BEGIN_SRC elisp
 (defun toy/evil-quit ()
@@ -2833,7 +2851,25 @@ m[1-9]  move
 
 * Key Mappings
 
+#+BEGIN_SRC elisp
+(defvar toy/global-mode-map (make-sparse-keymap)
+    "High precedence keymap.")
+
+(define-minor-mode toy/global-mode
+    "Global minor mode for higher precedence key mappings."
+    :global t)
+
+(toy/global-mode)
+
+(dolist (state '(normal visual insert))
+    (evil-make-intercept-map
+     (evil-get-auxiliary-keymap toy/global-mode-map state t t)
+     state))
+#+END_SRC
+
 ** Emacs-like
+
+*** Auxiliary functions
 
 #+BEGIN_SRC elisp
 (defun toy/backward-kill-line (arg)
@@ -2928,6 +2964,8 @@ m[1-9]  move
     (call-interactively #'evil-search-forward)
     (recenter))
 #+END_SRC
+
+*** Main
 
 #+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
@@ -3132,7 +3170,7 @@ TODO: merge all
 ;; https://ddskk.readthedocs.io/
 
 ;; In Nix, I install `emacsPackages.ddskk' and `skk-dicts'.
-(require 'ddskk)
+;; (require 'ddskk)
 
 ;; TODO: git-gutter alternative (forgot the name)
 
@@ -3163,7 +3201,7 @@ TODO: merge all
 ;; / から始めることでアルファベットを変換対象にできる (Greak/greek など)
 ;; \ から始めることで
 
-(setq default-input-method "japanese-skk")
+;; (setq default-input-method "japanese-skk")
 
 ;; skk-kakutei key binding
 #+END_SRC
@@ -3557,7 +3595,6 @@ TODO: merge
 ;;; init.el ends here
 #+END_SRC
 
-
 * TODOs
 
 Better editig experience
@@ -3568,9 +3605,8 @@ Better editig experience
 Neotree key bindings like org-mode
 - C-c C-n
 - C-c C-p
-- C-c C-u
 
-Delayed loading
+Delayed async-like loading
 - for dotfiles
 - for org-mode
 - for haskell
