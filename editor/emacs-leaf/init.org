@@ -1,3 +1,17 @@
+#+TITLE: My Emacs Configuration
+#+AUTHOR: toyboot4e
+#+PROPERTY: header-args :tangle init.el
+
+* Introduction
+
+** Relevant files
+
+- [[./early-init.el]]
+- [[./template-snippets.el]]
+
+* Basics
+
+#+BEGIN_SRC elisp
 ;; -*- lexical-binding: t -*-
 
 ;; NOTE: Open / source `init.el' with `:ed' and `:s' (defined with `leaf evil')
@@ -5,7 +19,11 @@
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setq vc-follow-symlinks t)
+#+END_SRC
 
+** Reloading
+
+#+BEGIN_SRC elisp
 (setq toy/init-files
       '(
         "elisp/env.el"                   ;; User environment and preferences
@@ -29,7 +47,9 @@
 
         "elisp/end.el"                   ;; Run after startup
         ))
+#+END_SRC
 
+#+BEGIN_SRC elisp
 (defun toy/load-configuration ()
     (interactive)
     (dolist (f toy/init-files)
@@ -41,12 +61,49 @@
     (require 'ob-tangle)
     (org-babel-tangle-file (concat user-emacs-directory "init.org"))
     (load-file (concat user-emacs-directory "init.el")))
+#+END_SRC
 
+** Startup
+
+#+BEGIN_SRC elisp
 ;; FIXME: emacs-init-time is lying??
 (defun toy/after-startup ()
     (message "Emacs ready in %s with %d garbage collections."
              (emacs-init-time) gcs-done))
 (add-hook 'emacs-startup-hook #'toy/after-startup)
+#+END_SRC
 
+#+BEGIN_SRC elisp
 (toy/load-configuration)
 ;;; init.el ends here
+#+END_SRC
+
+* TODOs
+
+Better editig experience
+- Create corfu key binding
+- Better tempel key mappings
+- How to check specfic mappings for mode
+
+Neotree key bindings like org-mode
+- C-c C-n
+- C-c C-p
+- C-c C-u
+
+Delayed loading
+- for dotfiles
+- for org-mode
+- for haskell
+- for rust
+
+Terminal
+- Fix Japanese font on tmux (fontconfig for tmux?)
+
+embark
+- put grep result into a buffer
+- remove which-key
+
+Flakes
+- Flakes for nix-direnv
+- Flakes for Emacs?
+
