@@ -7,5 +7,10 @@
 #+LINK: hm https://github.com/nix-community/home-manager
 #+LINK: nix-env-fish https://github.com/lilyball/nix-env.fish
 
-TODO: Update README
+** Commands
+
+#+BEGIN_SRC sh
+$ nix flake update
+$ sudo nixos-rebuild switch --flake .#tbm
+#+END_SRC
 

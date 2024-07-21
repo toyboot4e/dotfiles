@@ -1,11 +1,6 @@
 # `home-manager` configuraiton
 
-{ config, pkgs, inputs, ... }:
-
-let
-  # unstable = import <unstable> { config = { allowUnfree = true; }; };
-  # local = import "/home/tbm/ghq/github.com/nix-community/home-manager";
-in
+{ pkgs, ... }:
 
 {
   imports = [
@@ -49,8 +44,7 @@ in
     # https://github.com/stefan-hoeck/idris2-pack
     chez zig zls
 
-    # FIXME: fenix with flakes
-    # (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
+    (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
     # rust-analyzer-nightly
 
     # koka
