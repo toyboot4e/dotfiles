@@ -1,12 +1,13 @@
 # TODOs:
 # - [ ] Monitoring applications
-
-{ config, pkgs, lib, ... }:
-
-let
-  # unstable = import <unstable> { config = { allowUnfree = true; }; };
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  # unstable = import <unstable> { config = { allowUnfree = true; }; };
+in {
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
@@ -19,23 +20,65 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vimHugeX xclip wget curl unzip p7zip killall mlocate
+    vimHugeX
+    xclip
+    wget
+    curl
+    unzip
+    p7zip
+    killall
+    mlocate
     vulkan-tools
 
-    xorg.xdpyinfo xorg.xev
-    pavucontrol sysstat yad xdotool
+    xorg.xdpyinfo
+    xorg.xev
+    pavucontrol
+    sysstat
+    yad
+    xdotool
 
     kitty
-    bash fish zsh tmux zellij git gh ghq w3m fzf wezterm feh
-    tree as-tree ripgrep fd bat delta diff-so-fancy difftastic eza as-tree tokei zoxide tealdeer
-    direnv nix-direnv
+    bash
+    fish
+    zsh
+    tmux
+    zellij
+    git
+    gh
+    ghq
+    w3m
+    fzf
+    wezterm
+    feh
+    tree
+    as-tree
+    ripgrep
+    fd
+    bat
+    delta
+    diff-so-fancy
+    difftastic
+    eza
+    as-tree
+    tokei
+    zoxide
+    tealdeer
+    direnv
+    nix-direnv
     # qutebrowser
-    firefox chromium ffmpeg dmenu rofi flameshot xdragon
+    firefox
+    chromium
+    ffmpeg
+    dmenu
+    rofi
+    flameshot
+    xdragon
     # (imagemagick.override { libwebpSupport = true ; })
     imagemagick
 
     # semi-DE
-    ranger cmus
+    ranger
+    cmus
 
     # Dock
     plank
@@ -55,14 +98,15 @@ in
     # <binary path="/run/current-system/sw/bin/virtiofsd"/>
 
     # iOS: <https://nixos.wiki/wiki/IOS>
-    libimobiledevice ifuse
+    libimobiledevice
+    ifuse
   ];
 
   # TODO: Is it needed?
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = [ "audio" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
+    extraGroups = ["audio" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -78,4 +122,3 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 }
-

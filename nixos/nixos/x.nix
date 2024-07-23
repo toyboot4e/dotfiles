@@ -1,12 +1,15 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # X11 + i3
   # https://nixos.wiki/wiki/I3
   # links /libexec from derivations to /run/current-system/sw
   # TODO: needed?
-  environment.pathsToLink = [ "/libexec" ];
+  environment.pathsToLink = ["/libexec"];
 
+  services.displayManager.defaultSession = "none+i3";
   services.xserver = {
     enable = true;
     dpi = 163;
@@ -15,11 +18,10 @@
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
     exportConfiguration = true;
 
-    desktopManager = { };
-    displayManager.defaultSession = "none+i3";
+    desktopManager = {};
 
     # https://nixos.wiki/wiki/Nvidia
-    videoDrivers = [ "nvidia" ];
+    videoDrivers = ["nvidia"];
 
     # less screen tearing
     screenSection = ''
@@ -57,8 +59,8 @@
     # FIXME: not wokring. consider instead using displayManager.setupCommands or i3 commands
     xrandrHeads = [
       {
-      	output = "HDMI-0";
-	# TODO: add `DisplaySize` for corret DPI
+        output = "HDMI-0";
+        # TODO: add `DisplaySize` for corret DPI
         monitorConfig = ''
           Option "PreferredMode" "1920x1080"
           Option "Rotate" "left"
@@ -72,7 +74,7 @@
           Option "RightOf" "HDMI-0"
           Option "PreferredMode" "3840x2160"
         '';
-        }
+      }
     ];
   };
 }

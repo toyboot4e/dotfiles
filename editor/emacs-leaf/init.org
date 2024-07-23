@@ -1682,11 +1682,8 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 (leaf nix-mode
     ;; :mode "\\.nix\\'"
     :hook (nix-mode-hook . lsp-deferred)
+    :custom (lsp-nix-nil-formatter . ["alejandra"])
     :config
-    ;; FIXME: not found?
-    ;; (leaf lsp-nix
-    ;;     :custom
-    ;;     (lsp-nix-nil-formatter . ["nixpkgs-fmt"]))
     )
 #+END_SRC
 

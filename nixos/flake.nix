@@ -11,8 +11,13 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, fenix, emacs-lsp-booster, ... }:
-  {
+  outputs = inputs @ {
+    nixpkgs,
+    home-manager,
+    fenix,
+    emacs-lsp-booster,
+    ...
+  }: {
     packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
     nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";

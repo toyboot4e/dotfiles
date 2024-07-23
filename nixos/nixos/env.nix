@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   nix = {
     settings = {
       auto-optimise-store = true;
@@ -21,15 +23,15 @@
     DEFAULT_BROWSER = "firefox";
     TERMINAL = "kitty";
 
-    XDG_CACHE_HOME  = "\${HOME}/.cache";
+    XDG_CACHE_HOME = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
-    XDG_BIN_HOME    = "\${HOME}/.local/bin";
-    XDG_DATA_HOME   = "\${HOME}/.local/share";
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    XDG_DATA_HOME = "\${HOME}/.local/share";
 
-    GTK_IM_MODULE   = "fcitx";
-    QT_IM_MODULE    = "fcitx";
-    XMODIFIERS      = "@im=fcitx";
-    GLFW_IM_MODULE  = "ibus";
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
+    GLFW_IM_MODULE = "ibus";
 
     PATH = [
       "\${XDG_BIN_HOME}"

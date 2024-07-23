@@ -1,8 +1,5 @@
 # `home-manager` configuraiton
-
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./desktop.nix
     ./input-mozc.nix
@@ -21,14 +18,24 @@
     # firefox rofi
     google-chrome
 
-    arandr bluetuith blueberry
-    cinnamon.nemo gnome.nautilus xfce.thunar
+    arandr
+    bluetuith
+    blueberry
+    cinnamon.nemo
+    nautilus
+    xfce.thunar
     xdg-ninja
-    neovim helix
-    emacs emacsPackages.ddskk skk-dicts
+    neovim
+    helix
+    devbox
+    emacs
+    emacsPackages.ddskk
+    skk-dicts
     emacs-lsp-booster # defined in `flake.nix`
     # geekbench
-    fastfetch meson ninja
+    fastfetch
+    meson
+    ninja
     exiftool
     zip
     moreutils
@@ -36,24 +43,43 @@
     # CPU temperature
     lm_sensors
 
-    gnumake cmake gcc go
-    nodejs deno yarn volta
-    python3 roswell
+    gnumake
+    cmake
+    gcc
+    go
+    nodejs
+    deno
+    yarn
+    volta
+    python3
+    roswell
     # goenv
     # idris2.. using `idris2-pack` instead
     # https://github.com/stefan-hoeck/idris2-pack
-    chez zig zls
+    chez
+    zig
+    zls
+    alejandra
 
-    (fenix.complete.withComponents [ "cargo" "clippy" "rust-src" "rustc" "rustfmt" ])
+    (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
     # rust-analyzer-nightly
 
     # koka
 
     # docker
-    readline rlwrap
-    sqlite-interactive sqlite-web sqlite-utils
-    slack zulip vscode
-    mpv gimp evince ghostscript pdfarranger
+    readline
+    rlwrap
+    sqlite-interactive
+    sqlite-web
+    sqlite-utils
+    slack
+    zulip
+    vscode
+    mpv
+    gimp
+    evince
+    ghostscript
+    pdfarranger
 
     # https://github.com/mkaz/termgraph
     python311Packages.termgraph
@@ -72,33 +98,61 @@
     # arcanPackages.espeak
     # python311Packages.pyttsx3
 
-    ghc stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
+    ghc
+    stack
+    cabal-install
+    haskell-language-server
+    zlib
+    haskellPackages.implicit-hie
+    ormolu
     ruby
-    drawio mdbook pandoc texlive.combined.scheme-full
+    drawio
+    mdbook
+    pandoc
+    texlive.combined.scheme-full
     # calibre
     minify
 
     # OCaml
-    ocaml opam dune_3 ocamlPackages.merlin
+    ocaml
+    opam
+    dune_3
+    ocamlPackages.merlin
 
-    pup jq watchexec
+    pup
+    jq
+    watchexec
     rename
-    jdk ditaa graphviz xdot mermaid-cli plantuml
-    nkf gnuplot
+    jdk
+    ditaa
+    graphviz
+    xdot
+    mermaid-cli
+    plantuml
+    nkf
+    gnuplot
 
-    cmatrix figlet
+    cmatrix
+    figlet
 
     # TODO: replace `sxhkd` package with `sxhkd` service
     # sxhkd
 
     # GUI
-    discord vkmark unityhub steamtinkerlaunch obs-studio zeal
+    discord
+    vkmark
+    unityhub
+    steamtinkerlaunch
+    obs-studio
+    zeal
 
     # DAW
     # reaper
     bitwig-studio
-    wineWowPackages.staging winetricks
-    yabridge yabridgectl
+    wineWowPackages.staging
+    winetricks
+    yabridge
+    yabridgectl
 
     # Web
   ];

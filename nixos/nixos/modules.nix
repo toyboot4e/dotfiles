@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # networking.hostName = "nixos";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -21,13 +23,13 @@
     # permitRootLogin = "yes";
   };
 
-  # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
-  xdg.portal = {
-    enable = true;
-    # config.common.default = "gtk";
-    # FIXME: I used to use this:
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
+  # # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
+  # xdg.portal = {
+  #   enable = true;
+  #   # config.common.default = "gtk";
+  #   # FIXME: I used to use this:
+  #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -36,7 +38,6 @@
 
   # Audio
   nixpkgs.config.pulseaudio = true;
-  sound.enable = true;
   hardware.pulseaudio = {
     enable = true;
     support32Bit = true;
@@ -52,7 +53,7 @@
 
   # `bitwig` is distributed with `flatpak` for example:
   # <https://flathub.org/apps/details/com.bitwig.BitwigStudio>
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
   # iOS: <https://nixos.wiki/wiki/IOS>
   services.usbmuxd.enable = true;
@@ -86,8 +87,8 @@
   # };
 
   # TODO: nedded?
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
 
   # TODO: works as expected on unstable?
   # https://nixos.wiki/wiki/Nvidia#Fix_graphical_corruption_on_suspend.2Fresume
@@ -101,6 +102,9 @@
       runAsRoot = true;
       ovmf.enable = true;
     };
+    # https://www.reddit.com/r/NixOS/comments/190qrpt/is_there_a_declarative_way_to_run_sudo_virsh/
+    # $ sudo dirsh net-start default
+    onBoot = "start";
   };
 
   # start default network for virt manager:
@@ -146,5 +150,4 @@
   };
 
   programs.fish.enable = true;
-
 }
