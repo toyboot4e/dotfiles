@@ -1243,7 +1243,7 @@ Optional NODE-NAME is used for the `icons' theme"
     :after evil
     :commands (lsp-mode lsp-deferred)
     :doc "`lsp-semantic-token-enable' is set to `nil' preferring `tree-sitter'"
-    :custom ((lsp-completion-provider . :none)
+    :custom ((lsp-completion-provider . :none) ;; use `cape'
              (lsp-completion-show-kind)
 	         (lsp-enable-snippet . nil)
              (lsp-keymap-prefix)
@@ -1261,14 +1261,26 @@ Optional NODE-NAME is used for the `icons' theme"
              ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
              (lsp-use-plists . toy/use-plists)
              (lsp-semantic-tokens-enable))
-    :hook (lsp-mode-hook . lsp-enable-which-key-integration)
-    :hook (lsp-mode-hook . hs-minor-mode)
-    :hook (c-mode-hook . lsp-deferred)
-    :hook (cpp-mode-hook . lsp-deferred)
+    :hook ((lsp-mode-hook . lsp-enable-which-key-integration)
+           (lsp-mode-hook . hs-minor-mode)
+           (c-mode-hook . lsp-deferred)
+           (cpp-mode-hook . lsp-deferred))
     :init
+    ;; https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless
+    (defun my/orderless-dispatch-flex-first (_pattern index _total)
+        (and (eq index 0) 'orderless-flex))
+
     (defun my/lsp-mode-setup-completion ()
-        "`corfu' integration: https://github.com/minad/corfu/wiki#example-configuration-with-flex"
-        (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(flex)))
+        (interactive)
+        (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+              '(orderless))
+        ;; Optionally configure the first word as flex filtered.
+        (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
+        ;; Optionally configure the cape-capf-buster.
+        (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
+
+    :hook
+    (lsp-completion-mode . my/lsp-mode-setup-completion)
 
     :init
     (when toy/use-plists ;; `emacs-lsp-booster'
@@ -1313,7 +1325,10 @@ Optional NODE-NAME is used for the `icons' theme"
 
         (add-hook 'before-save-hook #'toy/cpp-on-save))
 
-    :defer-config (define-key evil-normal-state-map " l" lsp-command-map) (evil-define-key 'normal lsp-mode-map "K" #'lsp-describe-thing-at-point))
+    :defer-config
+    (define-key evil-normal-state-map " l" lsp-command-map)
+    (evil-define-key 'normal lsp-mode-map
+        "K" #'lsp-describe-thing-at-point))
 #+END_SRC
 
 ** LSP UI
@@ -1563,10 +1578,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
          "*Ormolu Error Buffer*" t)
         (goto-char last-point))
 
-    (leaf consult-hoogle
-        ;; :ensure nil
-        ;; :straight (consult-hoogle :type git :host github :repo "aikrahguzar/consult-hoogle"
-        )
+    (leaf consult-hoogle)
 
     (leaf lsp-haskell
         :after lsp-mode
@@ -1682,9 +1694,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 (leaf nix-mode
     ;; :mode "\\.nix\\'"
     :hook (nix-mode-hook . lsp-deferred)
-    :custom (lsp-nix-nil-formatter . ["alejandra"])
-    :config
-    )
+    :custom (lsp-nix-nil-formatter . ["alejandra"]))
 #+END_SRC
 
 ** OCaml
@@ -2082,44 +2092,59 @@ FIXME
     ;; Optional customizations
     :custom
     ((corfu-cycle .  t)
-     (corfu-auto . t)                 ;; Enable auto completion
-     (corfu-count . 30)
+     (corfu-auto . t)                  ;; Enable auto completion
+     (corfu-auto-delay . 0)
+     (corfu-count . 10)
      (corfu-preselect . 'prompt)       ;; Do not select the first candidate
      (coruf-popupinfo-delay . 0.1)
+     ;; (corfu-on-exact-match . nil)
      (tab-always-indent . 'complete)
      (completion-cycle-threshold .  3)
-     (corfu-auto-prefix . 3))
+     (corfu-auto-prefix . 2))
 
     :config
     (global-corfu-mode)
 
-    ;; https://github.com/minad/corfu#completing-in-the-minibuffer
-    (defun corfu-enable-in-minibuffer ()
-        "Enable Corfu in the minibuffer."
-        (when (local-variable-p 'completion-at-point-functions)
-            ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
-            (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
-                        corfu-popupinfo-delay nil)
-            (corfu-mode 1)))
-    (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
+    (with-eval-after-load 'orderless
+        (add-hook 'corfu-mode-hook
+                  (lambda ()
+                      (setq-local orderless-matching-styles '(orderless-flex)))))
 
+    ;; ;; https://github.com/minad/corfu#completing-in-the-minibuffer
+    ;; (defun corfu-enable-in-minibuffer ()
+    ;;     "Enable Corfu in the minibuffer."
+    ;;     (when (local-variable-p 'completion-at-point-functions)
+    ;;         ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+    ;;         (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+    ;;                     corfu-popupinfo-delay nil)
+    ;;         (corfu-mode 1)))
+    ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
     )
 #+END_SRC
 
 ** kind-icon
 
 #+BEGIN_SRC elisp
-(leaf kind-icon
-    :url "https://github.com/jdtsmith/kind-icon"
-    ;; :custom (kind-icon-default-face . 'corfu-default)
+;; (leaf kind-icon
+;;     :url "https://github.com/jdtsmith/kind-icon"
+;;     ;; :custom (kind-icon-default-face . 'corfu-default)
+;;     :config
+;;     ;; FIXME: void?
+;;     ;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+;;     (add-hook 'my-completion-ui-mode-hook
+;;    	          (lambda ()
+;;    	              (setq completion-in-region-function
+;;    		                (kind-icon-enhance-completion
+;;    		                 completion-in-region-function)))))
+#+END_SRC
+
+** nerd-icons-corfu
+
+#+BEGIN_SRC elisp
+(leaf nerd-icons-corfu
+    :after corfu
     :config
-    ;; FIXME: void?
-    ;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-    (add-hook 'my-completion-ui-mode-hook
-   	          (lambda ()
-   	              (setq completion-in-region-function
-   		                (kind-icon-enhance-completion
-   		                 completion-in-region-function)))))
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 #+END_SRC
 
 ** cape
@@ -2172,10 +2197,19 @@ FIXME
 
 #+BEGIN_SRC elisp
 ;; (leaf popon
-;; :url "https://codeberg.org/akib/emacs-popon"
-;; :unless (display-graphic-p)
-;; :ensure nil
-;; :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
+;;     :url "https://codeberg.org/akib/emacs-popon"
+;;     :unless (display-graphic-p)
+;;     :ensure nil
+;;     :straight (popon :type git :repo "https://codeberg.org/akib/emacs-popon"))
+
+(leaf corfu-terminal
+    :url "https://codeberg.org/akib/emacs-corfu-terminal"
+    :after corfu
+    ;; :unless (display-graphic-p)
+    :ensure nil
+    :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
+    :hook (corfu-mode-hook . corfu-terminal-mode)
+    :config)
 
 ;; FIXME: too slow with lsp
 ;; (leaf corfu-popupinfo
@@ -2184,25 +2218,6 @@ FIXME
 ;;     :after corfu
 ;;     :custom ((coruf-popupinfo-delay . 0))
 ;;     :hook (corfu-mode-hook . corfu-popupinfo-mode))
-;; 
-;; (leaf corfu-terminal
-;;     :url "https://codeberg.org/akib/emacs-corfu-terminal"
-;;     :after (corfu corfu-popupinfo)
-;;     :unless (display-graphic-p)
-;;     :ensure nil
-;;     :straight (corfu-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-terminal")
-;;     :hook (corfu-mode-hook . corfu-terminal-mode))
-;; :config
-;; (corfu-terminal-mode +1))
-
-;; TODO: deprecated?
-;; (leaf corfu-doc-terminal
-;;     :url "https://codeberg.org/akib/emacs-corfu-doc-terminal"
-;;     :unless (display-graphic-p)
-;;     :ensure nil
-;;     :straight (corfu-doc-terminal :type git :repo "https://codeberg.org/akib/emacs-corfu-doc-terminal")
-;;     :config
-;;     (corfu-doc-terminal-mode +1))
 #+END_SRC
 
 ** tempel
