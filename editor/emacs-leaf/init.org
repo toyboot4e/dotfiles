@@ -303,7 +303,7 @@ TODO: Switch to elpaca
 (save-place-mode 1)
 #+END_SRC
 
-*** HACK: re-center curspr position with `save-place-mode`:
+*** HACK: re-center cursor position with =save-place-mode=:
 
 https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 
@@ -2230,6 +2230,7 @@ FIXME
     (setq tempel-path (concat user-emacs-directory "tempel-snippets.el"))
 
     ;; FIXME: not working well?
+    ;; TODO: cape
     (defun tempel-setup-capf nil
         (setq-local completion-at-point-functions
                     (cons #'tempel-expand completion-at-point-functions)))
@@ -3411,8 +3412,8 @@ TODO: merge all
     "]T" #'toy/tab-move-right  ;; NOTE: defined in `hydra.el`
 
     ;; goto previous/next hunk and center cursor
-    "[c" (_fn (git-gutter:previous-hunk 1) (recenter))
-    "]c" (_fn (git-gutter:next-hunk 1) (recenter))
+    "[c" (_fn (diff-hl-previous-hunk) (recenter))
+    "]c" (_fn (diff-hl-next-hunk) (recenter))
 
     ;; go to next/previous error and center the cursor
     "[l" (_fn (previous-error) (recenter))
