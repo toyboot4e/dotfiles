@@ -1037,7 +1037,24 @@ Optional NODE-NAME is used for the `icons' theme"
 #+BEGIN_SRC elisp
 (leaf indent-bars
     :ensure nil
-    :straight (indent-bar :type git :host github :repo "jdtsmith/indent-bars"))
+    :straight (indent-bar :type git :host github :repo "jdtsmith/indent-bars")
+    :custom
+    ((indent-bars-treesit-support . t)
+     (indent-bars-treesit-ignore-blank-lines-types  '("module"))
+     ;; FIXME:
+     ;; https://github.com/jdtsmith/indent-bars/wiki/indent%E2%80%90bars-config-Wiki#tree-sitter-config
+     (indent-bars-treesit-scope .
+                                '((haskell function_definition class_definition for_statement if_statement with_statement while_statement))))
+    ;; It breaks tree-sitter highlight
+    ;; :hook (prog-mode-hook . indent-bars-mode)
+    :config
+    (defun toy/setup-indent-bars-2 ()
+        (interactive)
+        (setq-local indent-bars-spacing-override 2))
+    (with-eval-after-load 'haskell-mode
+        (add-hook 'haskell-mode-hook #'toy/setup-indent-bars-2))
+    (with-eval-after-load 'tree-sitter
+        (add-hook 'tree-sitter-after-on-hook #'indent-bars-mode)))
 #+END_SRC
 
 ** neotree
