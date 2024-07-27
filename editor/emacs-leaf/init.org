@@ -11,7 +11,7 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 ** Other files
 
 - [[./early-init.el]]
-- [[./template-snippets.el]]
+- [[./tempel-snippets.el]]
 
 * Basics
 
@@ -1039,26 +1039,12 @@ Optional NODE-NAME is used for the `icons' theme"
     (global-hl-todo-mode 1))
 #+END_SRC
 
-** nerd-icons
+** indent-bars
 
 #+BEGIN_SRC elisp
-(leaf nerd-icons
-    :if (not (display-graphic-p))
-    :config
-    (leaf nerd-icons-completion
-        :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
-        :config
-        (nerd-icons-completion-mode))
-    (leaf nerd-icons-dired
-        :hook (dired-mode-hook . nerd-icons-dired-mode))
-    (leaf magit-file-icons
-        :after magit
-        ;; :init
-        :hook (magit-status-mode-hook . magit-file-icons-mode)
-        :custom
-        (magit-file-icons-enable-diff-file-section-icons . t)
-        (magit-file-icons-enable-untracked-icons . t)
-        (magit-file-icons-enable-diffstat-icons . t)))
+(leaf indent-bars
+    :ensure nil
+    :straight (indent-bar :type git :host github :repo "jdtsmith/indent-bars"))
 #+END_SRC
 
 ** neotree
@@ -1110,6 +1096,28 @@ Optional NODE-NAME is used for the `icons' theme"
                 (lambda (&rest _)
                     (evil-first-non-blank))))
 #+END_SRC
+** nerd-icons
+
+#+BEGIN_SRC elisp
+(leaf nerd-icons
+    :if (not (display-graphic-p))
+    :config
+    (leaf nerd-icons-completion
+        :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
+        :config
+        (nerd-icons-completion-mode))
+    (leaf nerd-icons-dired
+        :hook (dired-mode-hook . nerd-icons-dired-mode))
+    (leaf magit-file-icons
+        :after magit
+        ;; :init
+        :hook (magit-status-mode-hook . magit-file-icons-mode)
+        :custom
+        (magit-file-icons-enable-diff-file-section-icons . t)
+        (magit-file-icons-enable-untracked-icons . t)
+        (magit-file-icons-enable-diffstat-icons . t)))
+#+END_SRC
+
 ** olivetti
 
 #+BEGIN_SRC elisp
@@ -2230,7 +2238,6 @@ FIXME
     (setq tempel-path (concat user-emacs-directory "tempel-snippets.el"))
 
     ;; FIXME: not working well?
-    ;; TODO: cape
     (defun tempel-setup-capf nil
         (setq-local completion-at-point-functions
                     (cons #'tempel-expand completion-at-point-functions)))
