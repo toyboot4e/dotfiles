@@ -889,13 +889,6 @@ Optional NODE-NAME is used for the `icons' theme"
 
 * View
 
-** All the icons
-
-#+BEGIN_SRC elisp
-(leaf all-the-icons
-    :if (display-graphic-p))
-#+END_SRC
-
 ** Blamer
 
 #+BEGIN_SRC elisp
@@ -925,7 +918,7 @@ Optional NODE-NAME is used for the `icons' theme"
              (centaur-tabs-set-icons . t))
     :custom (centaur-tabs-buffer-groups-function function toy/centaur-tabs-group)
     :init
-    ;; (when (display-graphics-p)
+    ;; (when (display-graphic-p)
     ;;     (customize-set-variable centaur-tabs-set-icons 'nerd-icons))
     :config
     (defun toy/centaur-tabs-group nil
@@ -966,8 +959,7 @@ Optional NODE-NAME is used for the `icons' theme"
     :init
     (global-diff-hl-mode)
     (defun toy/on-diff-hl ()
-        (unless display-graphic-p
-            (diff-hl-margin-mode))
+        (unless (display-graphic-p) (diff-hl-margin-mode))
         (diff-hl-flydiff-mode))
     :hook
     ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
@@ -990,12 +982,13 @@ Optional NODE-NAME is used for the `icons' theme"
 #+BEGIN_SRC elisp
 (leaf doom-modeline
     :url "https://github.com/seagle0128/doom-modeline"
-    :leaf-defer nil
-    :custom ((doom-modeline-icon display-graphic-p)
-             (doom-modeline-major-mode-icon display-graphic-p)
+    :after nerd-icons
+    :custom ((doom-modeline-icon . t)
+             (doom-modeline-major-mode-icon . t)
+             (doom-modeline-modal . t)
              ;; (doom-modeline-height . 1)
-             ;; (doom-modeline-icon . nil)
              (doom-modeline-buffer-encoding)
+             ;; Is it working?
              (doom-modeline-buffer-file-name-style quote truncate-upto-project))
     :config
     ;; remove Git:
@@ -1010,7 +1003,7 @@ Optional NODE-NAME is used for the `icons' theme"
         :config
         (minions-mode 1))
 
-    :defer-config (doom-modeline-mode))
+    (doom-modeline-mode))
 #+END_SRC
 
 ** Eat terminal
@@ -1055,20 +1048,13 @@ Optional NODE-NAME is used for the `icons' theme"
     :after evil
     :commands (neotree-quick-look)
     :init
-    (setq neo-theme (if (display-graphic-p)
-                            'icons 'nerd-icons))
+    (setq neo-theme 'nerd-icons)
     :custom ((neo-window-position quote right)
              (neo-window-width . toy/sidebar-width)
              (neo-window-fixed-size)
              (neo-show-hidden-files . t))
     :config
     (setq neo-buffer-name "@tree")
-    (when (display-graphic-p)
-        ;; change icon size
-        (add-hook 'neo-after-create-hook
-                  (lambda (_)
-                      (text-scale-adjust 0)
-                      (text-scale-decrease 0.5))))
     (evil-define-key 'normal neotree-mode-map
         "gh" #'neotree-select-up-node
         "oo" #'neotree-enter
@@ -1100,7 +1086,7 @@ Optional NODE-NAME is used for the `icons' theme"
 
 #+BEGIN_SRC elisp
 (leaf nerd-icons
-    :if (not (display-graphic-p))
+    :leaf-defer nil
     :config
     (leaf nerd-icons-completion
         :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
