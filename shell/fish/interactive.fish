@@ -194,12 +194,16 @@ end
 # ----------------------------------------
 # PROGRAMMING
 
-if command -sq cargo
-    alias c cargo
-    alias cn 'cargo +nightly'
-    alias rust 'cargo script'
-    alias atcoder 'cargo atcoder'
-    alias miri 'cargo +nightly miri'
+# if command -sq cargo
+#     alias c cargo
+#     alias cn 'cargo +nightly'
+#     alias rust 'cargo script'
+#     alias atcoder 'cargo atcoder'
+#     alias miri 'cargo +nightly miri'
+# end
+
+if command -sq cabal
+    alias c cabal
 end
 
 if command -sq colordiff

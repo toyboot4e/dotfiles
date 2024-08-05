@@ -105,6 +105,7 @@ combMods n k = factMods U.! n * invFactMods U.! k * invFactMods U.! (n - k)")
 type OpRepr = Int
 
 instance Semigroup Op where
+  -- @new <> old@ on segment tree
   {-# INLINE (<>) #-}
   (Op !x1) <> (Op !x2) = Op (x1 + x2)
 
@@ -159,8 +160,10 @@ instance U.Unbox Acc")
 (modInt
 "{- ORMOLU_DISABLE -}
 type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
-type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ; type RH' = RH HashInt MyModulo ;
+type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ;
 {- ORMOLU_ENABLE -}")
+
+(rh "type RH' = RH HashInt MyModulo ;")
 
 (quickcheck
 "propQC :: QC.Property
@@ -185,6 +188,8 @@ org-mode
 "[[./img/" p q "]]")
 (attr "#+ATTR_HTML: :width " p "px")
 (width "#+ATTR_HTML: :width " p "px")
+
+(ai "#+BEGIN_AI" n> r> n "#+END_AI")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")

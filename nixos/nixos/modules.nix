@@ -67,6 +67,12 @@
   # Bluetooth
   services.blueman.enable = true;
 
+  # ollama: https://wiki.nixos.org/wiki/Ollama
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+
   hardware.bluetooth = {
     enable = true;
     # TODO: what is this? (it's from the guide)

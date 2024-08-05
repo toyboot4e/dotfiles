@@ -362,7 +362,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
         :straight (empv :type git :host github :repo "isamert/empv.el"))
 
     (leaf undo-tree
-        :custom (undo-tree-auto-save-history)
+        :custom (undo-tree-auto-save-history . nil)
         :init
         (evil-set-undo-system 'undo-tree)
         (global-undo-tree-mode))
@@ -798,8 +798,6 @@ Handles the repeat-count of the insertion command."
                                             (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
 #+END_SRC
 
-
-
 *** neotree nerd-icons support
 
 Now that it's merged, should be removed before long.
@@ -977,7 +975,7 @@ Optional NODE-NAME is used for the `icons' theme"
     :emacs>= 27.1)
 #+END_SRC
 
-** Doom Modeline
+** Doom Modeline + Minions
 
 #+BEGIN_SRC elisp
 (leaf doom-modeline
@@ -991,19 +989,18 @@ Optional NODE-NAME is used for the `icons' theme"
              ;; Is it working?
              (doom-modeline-buffer-file-name-style quote truncate-upto-project))
     :config
-    ;; remove Git:
+    ;; remove `Git':
     (advice-add 'vc-git-mode-line-string :filter-return
                 (lambda (arg)
                     (substring arg 4)))
-
-    (leaf minions
-        :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
-        :custom ((minions-mode-line-lighter . "[+]")
-                 (doom-modeline-minor-modes . t))
-        :config
-        (minions-mode 1))
-
     (doom-modeline-mode))
+
+(leaf minions
+    :doc "Hide minor mode names in the [+] tab (no need for `diminish'!)"
+    :custom ((minions-mode-line-lighter . "[+]")
+             (doom-modeline-minor-modes . t))
+    :config
+    (minions-mode 1))
 #+END_SRC
 
 ** Eat terminal
@@ -1041,10 +1038,11 @@ Optional NODE-NAME is used for the `icons' theme"
     :custom
     ((indent-bars-treesit-support . t)
      (indent-bars-treesit-ignore-blank-lines-types  '("module"))
-     ;; FIXME:
+     ;; FIXME: Haskell indentation guides are not properly rendered
      ;; https://github.com/jdtsmith/indent-bars/wiki/indent%E2%80%90bars-config-Wiki#tree-sitter-config
-     (indent-bars-treesit-scope .
-                                '((haskell function_definition class_definition for_statement if_statement with_statement while_statement))))
+     (indent-bars-treesit-scope
+      . '((haskell function_definition class_definition for_statement if_statement with_statement while_statement))))
+
     ;; It breaks tree-sitter highlight
     ;; :hook (prog-mode-hook . indent-bars-mode)
     :config
@@ -1256,7 +1254,7 @@ Optional NODE-NAME is used for the `icons' theme"
     :doc "`lsp-semantic-token-enable' is set to `nil' preferring `tree-sitter'"
     :custom ((lsp-completion-provider . :none) ;; use `cape'
              (lsp-completion-show-kind)
-	         (lsp-enable-snippet . nil)
+             (lsp-enable-snippet . nil)
              (lsp-keymap-prefix)
              (lsp-idle-delay . 0.5)
              (lsp-log-io)
@@ -1849,9 +1847,10 @@ Toolings (TODO: move):
     (define-derived-mode typescript-tsx-mode typescript-mode "TSX"
         "Major mode for editing TSX files.")
     (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
-    (setq-default typescript-indent-level 2)
-
+    (add-to-list 'auto-mode-alist '("\\.eslintrc.cjs\\'" . typescript-ts-mode))
+    :custom (typescript-indent-level . 2)
     :hook (typescript-mode-hook . lsp-deferred)
+    :config
     ;; Using prettier instaead, but both should be unified
     ;; :config
     ;; (add-hook 'before-save-hook #'lsp-format-buffer)
@@ -2347,8 +2346,7 @@ FIXME
         "zR" #'org-fold-show-all
         ;; close/open
         "zC" #'org-fold-hide-sublevels
-        "zO" #'org-fold-show-subtree
-        )
+        "zO" #'org-fold-show-subtree)
 
     (evil-define-key 'visual org-mode-map
         "{" #'evil-backward-paragraph
@@ -2635,6 +2633,13 @@ space rather than before."
             ("https://cp-algorithms.com/feed_rss_created.xml"))))
 #+END_SRC
 
+*** org-sliced-images
+
+#+BEGIN_SRC elisp
+(leaf org-sliced-images
+  :hook (org-mode-hook . org-sliced-images-mode))
+#+END_SRC
+
 ** md4rd
 
 #+BEGIN_SRC elisp
@@ -2779,7 +2784,6 @@ WASD: swap      x: kill, X: both    u: undo window change
 
     ("ESC" nil))
     #+END_SRC
-
 
 ** Tab
 
@@ -3037,13 +3041,22 @@ Cannot be repated though.
     "\C-e" #'end-of-line
     "\C-f" #'evil-forward-char
     "\C-b" #'evil-backward-char
-
-    "\C-_" (_fn (message "undo-tree-undo removed"))
-
     "\C-d" #'evil-delete-char
     "\C-h" #'evil-delete-backward-char
     "\C-k" 'evil-delete-line
     "\C-u" #'toy/backward-kill-line)
+#+END_SRC
+
+*** =undo-tree=
+
+#+BEGIN_SRC elisp
+;; (evil-define-key 'normal 'global
+;;     "\C-_" (_fn (message "undo-tree-undo removed"))
+;;     "\M-_" (_fn (message "undo-tree-redo removed")))
+
+;; (evil-define-key 'insert 'global
+;;     "\C-_" (_fn (message "undo-tree-undo removed"))
+;;     "\M-_" (_fn (message "undo-tree-redo removed")))
 #+END_SRC
 
 ** g
@@ -3689,33 +3702,88 @@ TODO: merge
              (zig-format-show-buffer)))
 #+END_SRC
 
+* LLM
+
+** llm
+
+#+BEGIN_SRC elisp
+(leaf llm)
+#+END_SRC
+
+** ellama
+
+#+BEGIN_SRC elisp
+(leaf llm
+    :custom
+    ((ellama-language . "Japanese")
+     (ellama-naming-scheme . 'ellama-generate-name-by-llm))
+
+    :config
+    ;; TODO: leaf
+    (require 'llm-ollama)
+    (setopt ellama-provider (make-llm-ollama
+                             :chat-model "codestral:22b-v0.1-q4_K_S"
+                             :embedding-model "codestral:22b-v0.1-q4_K_S"))
+
+    (setopt ellama-translation-provider (make-llm-ollama
+                                         :chat-model "aya:35b-23-q4_K_S"
+                                         :embedding-model "aya:35b-23-q4_K_S"))
+
+    (setopt ellama-providers
+            '(("codestral" . (make-llm-ollama
+                              :chat-model "codestral:22b-v0.1-q4_K_S"
+                              :embedding-model "codestral:22b-v0.1-q4_K_S"))
+              ("gemma2" . (make-llm-ollama
+                           :chat-model "gemma2:27b-instruct-q4_K_S"
+                           :embedding-model "gemma2:27b-instruct-q4_K_S"))
+              ("command-r" . (make-llm-ollama
+                              :chat-model "command-r:35b"
+                              :embedding-model "command-r:35b"))
+              ("llama3.1" . (make-llm-ollama
+                             :chat-model "llama3.1:8b"
+                             :embedding-model "llama3.1:8b")))))
+#+END_SRC
+
+** =org-ai=
+
+#+BEGIN_SRC elisp
+(leaf org-ai
+    :hook (org-mode-hook . org-ai-mode)
+    :custom (org-ai-default-chat-model . "gpt-4o")
+    :init
+    (org-ai-global-mode))
+#+END_SRC
+
 * At the end
 
 #+BEGIN_SRC elisp
 (defun toy/setup-theme ()
+    (interactive)
     (leaf doom-themes
-        :config
-        (setq doom-themes-enable-bold t
-              doom-themes-enable-italic t)
+        ;; :custom
+        ;; ((doom-themes-enable-bold . t)
+        ;;  (doom-themes-enable-italic . t))
+        )
 
-        ;; First load doom theme and then overwrite most colors
-        (load-theme 'doom-opera t)
-        (leaf smyx-theme
-            :straight (smyx-theme :type git :host github :repo "tacit7/smyx")
-            :config
-            (load-theme 'smyx t))))
+    (leaf smyx-theme
+        :ensure nil
+        :straight (smyx-theme :type git :host github :repo "tacit7/smyx"))
+    (load-theme 'doom-opera t)
+    (load-theme 'smyx t)
+    )
 #+END_SRC
 
 #+BEGIN_SRC elisp
 (defun toy/setup-light-theme ()
+    (interactive)
     (leaf doom-themes
-        :config
-        (setq doom-themes-enable-bold t
-              doom-themes-enable-italic t)
+        ;; :custom
+        ;; ((doom-themes-enable-bold . t)
+        ;;  (doom-themes-enable-italic . t))
 
+        :config
         ;; First load doom theme and then overwrite most colors
-        (load-theme 'doom-opera-light t))
-    )
+        (load-theme 'doom-opera-light t)))
 #+END_SRC
 
 #+BEGIN_SRC elisp

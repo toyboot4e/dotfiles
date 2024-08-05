@@ -27,9 +27,10 @@
       noto-fonts
       noto-fonts-cjk
       font-awesome
-      # as of today, some of them are broken:
-      # pango monoid roboto-mono vistafonts
+      vistafonts roboto-mono
       intel-one-mono
+      # as of today, these are broken:
+      # monoid pango
     ];
 
     fontconfig = {
