@@ -1209,7 +1209,9 @@ Optional NODE-NAME is used for the `icons' theme"
 (leaf flycheck)
 #+END_SRC
 
-** Magit
+** Magit + Forge + Diffstatic
+
+*** Magit
 
 #+BEGIN_SRC elisp
 (leaf magit
@@ -1235,14 +1237,41 @@ Optional NODE-NAME is used for the `icons' theme"
 
     (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
         (kbd "z RET")
-        #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top)
+        #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top))
+#+END_SRC
 
-    ;; (leaf magit-todos
-    ;;     :commands (magit-todos-list)
-    ;;     :after magit)
+#+BEGIN_SRC elisp
+;; (leaf magit-todos
+;;     :commands (magit-todos-list)
+;;     :after magit)
+#+END_SRC
 
-    (leaf forge
-        :doc "Use GitHub on Emacs"))
+*** Forge
+
+#+BEGIN_SRC elisp
+(leaf forge
+    :doc "Use GitHub on Emacs")
+#+END_SRC
+
+*** Difftastic
+
+FIXME: Not working under Evil
+
+#+BEGIN_SRC elisp
+(leaf difftastic
+    :config
+    (with-eval-after-load
+            'magit-diff
+        (transient-append-suffix 'magit-diff '(-1 -1)
+            [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
+             ("S" "Difftastic show" difftastic-magit-show)]))
+
+    (add-hook 'magit-blame-read-only-mode-hook
+              (lambda ()
+                  (keymap-set magit-blame-read-only-mode-map
+                              "D" #'difftastic-magit-show)
+                  (keymap-set magit-blame-read-only-mode-map
+                              "S" #'difftastic-magit-show))))
 #+END_SRC
 
 ** LSP mode
