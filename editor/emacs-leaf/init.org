@@ -1495,7 +1495,10 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
            ("\\.markdown\\'" . markdown-mode))
     :hook (markdown-mode . orgtbl-mode)
     :after evil
-    :custom (markdown-command . "multimarkdown")
+    :custom
+    ((markdown-command . "multimarkdown")
+     (markdown-hide-markup . t)
+     (markdown-fontify-code-blocks-natively . t))
     :config
     (evil-define-key 'normal markdown-mode-map "z1"
         (_fn
