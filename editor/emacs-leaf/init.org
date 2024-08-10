@@ -1061,6 +1061,7 @@ Optional NODE-NAME is used for the `icons' theme"
 (leaf neotree
     :url "https://github.com/jaypei/emacs-neotree"
     :after evil
+    :after projectile
     :commands (neotree-quick-look)
     :init
     (setq neo-theme 'nerd-icons)
@@ -1203,6 +1204,15 @@ Optional NODE-NAME is used for the `icons' theme"
      (vue-mode-hook . emmet-mode)))
 #+END_SRC
 
+** Envrc
+
+#+BEGIN_SRC elisp
+(use-package envrc
+  :config
+  (envrc-global-mode))
+
+#+END_SRC
+
 ** Flycheck
 
 #+BEGIN_SRC elisp
@@ -1299,10 +1309,13 @@ FIXME: Not working under Evil
              ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
              (lsp-use-plists . toy/use-plists)
              (lsp-semantic-tokens-enable))
+
     :hook ((lsp-mode-hook . lsp-enable-which-key-integration)
            (lsp-mode-hook . hs-minor-mode)
            (c-mode-hook . lsp-deferred)
-           (cpp-mode-hook . lsp-deferred))
+           (cpp-mode-hook . lsp-deferred)
+           (lsp-completion-mode . my/lsp-mode-setup-completion))
+
     :init
     ;; https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless
     (defun my/orderless-dispatch-flex-first (_pattern index _total)
@@ -1316,9 +1329,6 @@ FIXME: Not working under Evil
         (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
         ;; Optionally configure the cape-capf-buster.
         (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
-
-    :hook
-    (lsp-completion-mode . my/lsp-mode-setup-completion)
 
     :init
     (when toy/use-plists ;; `emacs-lsp-booster'
@@ -1349,8 +1359,10 @@ FIXME: Not working under Evil
                             (cons "emacs-lsp-booster" orig-result))
                     orig-result)))
         (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
-    :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
+
     :config
+    ;; Broken: https://github.com/emacs-lsp/lsp-mode/issues/3577
+    (delete 'lsp-terraform lsp-client-packages)
     (progn
         (defun toy/c-on-save nil
             (when (eq major-mode 'c-mode)
@@ -1713,6 +1725,8 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
       :server-id 'idris2-lsp)))
 #+END_SRC
 
+** JavaScript
+
 ** Koka
 
 #+BEGIN_SRC elisp
@@ -1742,6 +1756,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 
 #+BEGIN_SRC elisp
 (add-to-list 'auto-mode-alist '("\\.ml\\'" . tuareg-mode))
+(add-to-list 'auto-mode-alist '("\\.ocaml\\'" . tuareg-mode))
 (autoload 'merlin-mode "merlin" "Merlin mode" t)
 (add-hook 'tuareg-mode-hook #'merlin-mode)
 (add-hook 'caml-mode-hook #'merlin-mode)
@@ -3697,7 +3712,6 @@ TODO: merge
 (leaf projectile
     :leaf-defer nil
     :custom (projectile-enable-caching . nil)
-    :defer
     :config
     (projectile-mode 1))
 #+END_SRC
