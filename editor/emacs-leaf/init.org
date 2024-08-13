@@ -355,34 +355,57 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
              (evil-search-module quote evil-search))
 
     :config
-    (evil-mode 1)
-
-    (leaf empv
-        :ensure nil
-        :straight (empv :type git :host github :repo "isamert/empv.el"))
-
-    (leaf undo-tree
-        :custom (undo-tree-auto-save-history . nil)
-        :init
-        (evil-set-undo-system 'undo-tree)
-        (global-undo-tree-mode))
-
-    (leaf evil-anzu
-        :url "https://github.com/emacsorphanage/evil-anzu"
-        ;; :commands "anzu-query-replace-regexp"
-        )
-
-    (leaf evil-surround
-        :config
-        (global-evil-surround-mode))
-
-    (leaf expand-region
-        :after evil
-        :config
-        (evil-define-key 'visual 'global "v" #'er/expand-region "V" #'er/contract-region)))
+    (evil-mode 1))
 #+END_SRC
 
-** Evil Collection
+** empv
+
+#+BEGIN_SRC elisp
+(leaf empv
+    :ensure nil
+    :after evil
+    :straight (empv :type git :host github :repo "isamert/empv.el"))
+#+END_SRC
+
+** undo-tree
+
+#+BEGIN_SRC elisp
+(leaf undo-tree
+    :custom (undo-tree-auto-save-history . nil)
+    :init
+    (evil-set-undo-system 'undo-tree)
+    (global-undo-tree-mode))
+#+END_SRC
+
+** evil-anzu
+
+#+BEGIN_SRC elisp
+(leaf evil-anzu
+    :after evil
+    :url "https://github.com/emacsorphanage/evil-anzu"
+    ;; :commands "anzu-query-replace-regexp"
+    )
+#+END_SRC
+
+** evl-surround
+
+#+BEGIN_SRC elisp
+(leaf evil-surround
+    :after evil
+    :config
+    (global-evil-surround-mode))
+#+END_SRC
+
+** expand-region
+
+#+BEGIN_SRC elisp
+(leaf expand-region
+    :after evil
+    :config
+    (evil-define-key 'visual 'global "v" #'er/expand-region "V" #'er/contract-region))
+#+END_SRC
+
+** evil-collection
 
 #+BEGIN_SRC elisp
 (leaf evil-collection
@@ -449,21 +472,53 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
         (evil-collection-magit-setup)))
 #+END_SRC
 
-** Evil Exchange
+** evil-exchange
 
 #+BEGIN_SRC elisp
 (leaf evil-exchange
-    :doc "Use `gx` to swap"
+    :doc "Use `gx' + text object for swapping"
     :url "https://github.com/Dewdrops/evil-exchange"
+    :after evil
     :config
     (evil-exchange-install))
 #+END_SRC
 
-** Evil Lion
+** evil-args
+
+Typical combo is =gxia=.
+
+#+BEGIN_SRC elisp
+(leaf evil-args
+    :doc "Add `a'rgument text object"
+    :config
+    ;; bind evil-args text objects
+    (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+    (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
+    ;; bind evil-forward/backward-args
+    (define-key evil-normal-state-map "L" 'evil-forward-arg)
+    (define-key evil-normal-state-map "H" 'evil-backward-arg)
+    (define-key evil-motion-state-map "L" 'evil-forward-arg)
+    (define-key evil-motion-state-map "H" 'evil-backward-arg)
+
+    ;; bind evil-jump-out-args
+    ;; (define-key evil-normal-state-map "K" 'evil-jump-out-args)
+    )
+#+END_SRC
+
+** TODO evil-textobj-tree-sitter
+
+https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file#custom-textobjects
+
+#+BEGIN_SRC elisp
+;; (leaf evil-textobj-tree-sitter)
+#+END_SRC
+
+** evil-lion
 
 #+BEGIN_SRC elisp
 (leaf evil-lion
-    :doc "Add `gl` and `gL` algin operators"
+    :doc "Add `gl' and `gL' algin operators"
     :url "https://github.com/edkolev/evil-lion"
     :after evil
     :config
@@ -472,7 +527,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     (evil-lion-mode))
 #+END_SRC
 
-** Evil Matchit
+** evil-matchit
 
 #+BEGIN_SRC elisp
 (leaf evil-matchit
@@ -481,7 +536,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     (global-evil-matchit-mode 1))
 #+END_SRC
 
-** Evil nerd commenter
+** evil-nerd-commenter
 
 #+BEGIN_SRC elisp
 (leaf evil-nerd-commenter
@@ -489,7 +544,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     :commands (evilnc-comment-or-uncomment-lines))
 #+END_SRC
 
-** Evil string inflection
+** evil-string-inflection
 
 #+BEGIN_SRC elisp
 (leaf evil-string-inflection
@@ -1207,7 +1262,7 @@ Optional NODE-NAME is used for the `icons' theme"
 ** Envrc
 
 #+BEGIN_SRC elisp
-(use-package envrc
+(leaf envrc
   :config
   (envrc-global-mode))
 

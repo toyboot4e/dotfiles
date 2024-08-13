@@ -65,6 +65,9 @@ _link tool/mpv                       ~/.config/mpv
 _link shell/bash/.bashrc             ~/.bashrc
 _link shell/fish/config.fish         ~/.config/fish/config.fish
 
+# direnv
+_link tool/direnv                    ~/.config/direnv
+
 # editors
 _link editor/vim/.vimrc              ~/.vimrc
 _link editor/vim/.vimrc              ~/.config/nvim/init.vim

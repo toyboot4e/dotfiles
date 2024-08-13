@@ -63,7 +63,6 @@ $ brew install kitty
 $ brew install --cask qutebrowser
 $ brew install emacs-plus --with-no-titlebar
 $ brew install ccls node make cmake llvm
-$ brew install bandcamp-dl
 ```
 
 macOS-only:
