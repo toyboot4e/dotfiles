@@ -30,10 +30,16 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 ** Startup
 
 #+BEGIN_SRC elisp
+(progn ;; disable magic file name on startup for a little bit faster start
+    (defconst my-saved-file-name-handler-alist file-name-handler-alist)
+    (setq file-name-handler-alist nil))
+
 ;; FIXME: emacs-init-time is lying??
 (defun toy/after-startup ()
     (message "Emacs ready in %s with %d garbage collections."
-             (emacs-init-time) gcs-done))
+             (emacs-init-time) gcs-done)
+    ;; re-enable magic file name
+    (setq file-name-handler-alist my-saved-file-name-handler-alist))
 (add-hook 'emacs-startup-hook #'toy/after-startup)
 #+END_SRC
 
@@ -91,8 +97,8 @@ TODO: use =exec-ptah-from-shell=.
 ** No backup files
 
 #+BEGIN_SRC elisp
-;; don't create backup~ files
-(setq make-backup-files nil)
+;; save backup files, but in other directory:
+(setq make-backup-files (expand-file-name "backup/" user-emacs-dierctroy))
 
 ;; don't create #autosave# files
 (setq auto-save-default nil)

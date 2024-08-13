@@ -37,7 +37,7 @@
     (setq gc-cons-threshold most-positive-fixnum
           gc-cons-percentage 0.6)
 
-    ;; and then reset it to the  preferred value (`toy/gc`)
+    ;; and then reset it to the preferred value (`toy/gc`)
     (add-hook 'emacs-startup-hook
               (lambda () (setq gc-cons-threshold toy/gc
                                gc-cons-percentage 0.1)))
