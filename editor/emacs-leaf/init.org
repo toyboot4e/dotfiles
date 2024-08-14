@@ -20,11 +20,11 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 #+BEGIN_SRC elisp
 ;; -*- lexical-binding: t -*-
 
-(setq user-full-name    "toyboot4e"
-      user-mail-address "toyboot4e@gmail.com")
+(setopt user-full-name    "toyboot4e"
+        user-mail-address "toyboot4e@gmail.com")
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
-(setq vc-follow-symlinks t)
+(setopt vc-follow-symlinks t)
 #+END_SRC
 
 ** Startup
@@ -32,14 +32,14 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 #+BEGIN_SRC elisp
 (progn ;; disable magic file name on startup for a little bit faster start
     (defconst my-saved-file-name-handler-alist file-name-handler-alist)
-    (setq file-name-handler-alist nil))
+    (setopt file-name-handler-alist nil))
 
 ;; FIXME: emacs-init-time is lying??
 (defun toy/after-startup ()
     (message "Emacs ready in %s with %d garbage collections."
              (emacs-init-time) gcs-done)
     ;; re-enable magic file name
-    (setq file-name-handler-alist my-saved-file-name-handler-alist))
+    (setopt file-name-handler-alist my-saved-file-name-handler-alist))
 (add-hook 'emacs-startup-hook #'toy/after-startup)
 #+END_SRC
 
@@ -56,33 +56,14 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 * Enviroments
 
-** =PATH= and =exec-path=
-
-TODO: use =exec-ptah-from-shell=.
-
-#+BEGIN_SRC elisp
-;; Set up `PATH` and `exec-path`
-(dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
-                   "~/.cargo/bin"
-                   ;; "~/.idris2/bin"
-                   "~/.nix-profile/bin"
-                   "/usr/local/bin"
-                   "~/bin"
-                   ))
-
-    (when (and (file-exists-p dir) (not (member dir exec-path)))
-        (setenv "PATH" (concat dir ":" (getenv "PATH")))
-        (setq exec-path (append (list dir) exec-path))))
-#+END_SRC
-
 ** Compliation
 
 #+BEGIN_SRC elisp
 ;; $ brew install emacs-plus --with-no-titlebar
-(setq frame-resize-pixelwise t)
+(setopt frame-resize-pixelwise t)
 
 ;; "Package 'cl is deprecated".. I know!
-(setq byte-compile-warnings '(not cl-functions obsolete))
+(setopt byte-compile-warnings '(not cl-functions obsolete))
 #+END_SRC
 
 ** Macro utilities
@@ -97,11 +78,16 @@ TODO: use =exec-ptah-from-shell=.
 ** No backup files
 
 #+BEGIN_SRC elisp
-;; save backup files, but in other directory:
-(setq make-backup-files (expand-file-name "backup/" user-emacs-dierctroy))
+;; TODO: save backup files, but in other directory:
+(setopt make-backup-files nil)
+(setopt backup-directory-alist
+      `(("." . ,(expand-file-name "backup/" user-emacs-directory))))
+
+(setopt lock-file-name-transforms
+      `(("\\`/.*/\\([^/]+\\)\\'" ,(expand-file-name "backup/\\1" user-emacs-directory) t)))
 
 ;; don't create #autosave# files
-(setq auto-save-default nil)
+(setopt auto-save-default nil)
 #+END_SRC
 
 ** y/n
@@ -113,7 +99,7 @@ TODO: use =exec-ptah-from-shell=.
 ** Initial scratch message
 
 #+BEGIN_SRC elisp
-(setq initial-scratch-message "")
+(setopt initial-scratch-message "")
 #+END_SRC
 
 ** UTF-8 encoding
@@ -121,7 +107,7 @@ TODO: use =exec-ptah-from-shell=.
 #+BEGIN_SRC elisp
 (set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
+(setopt locale-coding-system 'utf-8)
 (set-language-environment 'utf-8)
 (set-default-coding-systems 'utf-8)
 ;; it modifies the buffer
@@ -144,7 +130,7 @@ TODO: use =exec-ptah-from-shell=.
 TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
-(setq straight-vc-git-default-protocol 'ssh)
+(setopt straight-vc-git-default-protocol 'ssh)
 
 (progn ;; `straight.el'
     (defvar bootstrap-version)
@@ -186,23 +172,54 @@ TODO: Switch to elpaca
         (leaf-keywords-init)))
 #+END_SRC
 
+** =PATH= and =exec-path=
+
+#+BEGIN_SRC elisp
+;; (leaf exec-path-from-shell
+;;     :url "https://github.com/purcell/exec-path-from-shell"
+;;     :custom
+;;     ((exec-path-from-shell-shell-name . "sh")
+;;      (exec-path-from-shell-variables . '("PATH"
+;;                                          "GOROOT"
+;;                                          "GOPATH"
+;;                                          "LSP_USE_PLISTS"
+;;                                          "TERM")))
+;;     :config
+;;     (exec-path-from-shell-initialize))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+;; Set up `PATH` and `exec-path`
+(dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
+                   "~/.cargo/bin"
+                   ;; "~/.idris2/bin"
+                   "~/.nix-profile/bin"
+                   "/usr/local/bin"
+                   "~/bin"
+                   "/run/current-system/sw/bin"
+                   ))
+    (when (and (file-exists-p dir) (not (member dir exec-path)))
+        (setenv "PATH" (concat dir ":" (getenv "PATH")))
+        (setopt exec-path (append (list dir) exec-path))))
+#+END_SRC
+
 * Pre configuration
 
 #+BEGIN_SRC elisp
 (leaf no-littering
     :url "https://github.com/emacscollective/no-littering"
     :init
-    (setq no-littering-etc-directory
-          (expand-file-name "etc/" user-emacs-directory))
-    (setq no-littering-var-directory
-          (expand-file-name "var/" user-emacs-directory))
+    (setopt no-littering-etc-directory
+            (expand-file-name "etc/" user-emacs-directory))
+    (setopt no-littering-var-directory
+            (expand-file-name "var/" user-emacs-directory))
     :config
     (require 'recentf)
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-var-directory))
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-etc-directory))
-    (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+    (setopt custom-file (no-littering-expand-etc-file-name "custom.el")))
 #+END_SRC
 
 * What?
@@ -224,7 +241,7 @@ TODO: Switch to elpaca
 ;; show tabs
 (require 'whitespace)
 (whitespace-mode 1)
-(setq whitespace-style '(tabs  tab-mark))
+(setopt whitespace-style '(tabs  tab-mark))
 
 ;; show matching parentheses
 (setq-default show-paren-delay 0)
@@ -257,8 +274,8 @@ TODO: Switch to elpaca
                       (font-spec :family "Noto Sans Mono CJK JP"))
 
     ;; FIXME: proper way to align org tables?
-    (setq face-font-rescale-alist
-          '(("Noto Sans Mono CJK JP" . 1.25))))
+    (setopt face-font-rescale-alist
+            '(("Noto Sans Mono CJK JP" . 1.25))))
 #+END_SRC
 
 *** On terminal
@@ -281,9 +298,9 @@ TODO: Switch to elpaca
 *** Scroll like vim
 
 #+BEGIN_SRC elisp
-(setq scroll-preserve-screen-position t
-      scroll-conservatively 100
-      scroll-margin 3)
+(setopt scroll-preserve-screen-position t
+        scroll-conservatively 100
+        scroll-margin 3)
 #+END_SRC
 
 ** Builtin packages
@@ -291,15 +308,15 @@ TODO: Switch to elpaca
 *** Save command history
 
 #+BEGIN_SRC elisp
-(setq history-length 1000
-      history-delete-duplicates t)
+(setopt history-length 1000
+        history-delete-duplicates t)
 (savehist-mode)
 #+END_SRC
 
 *** Sync buffers with the storage
 
 #+BEGIN_SRC elisp
-(setq auto-revert-interval 1)
+(setopt auto-revert-interval 1)
 (global-auto-revert-mode)
 #+END_SRC
 
@@ -328,14 +345,14 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 *** Remember recently opended files
 
 #+BEGIN_SRC elisp
-(setq recentf-max-saved-items 1000)
+(setopt recentf-max-saved-items 1000)
 (recentf-mode 1)
 #+END_SRC
 
 *** Display duplicate file names as =file<parent-directory>=
 
 #+BEGIN_SRC elisp
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(setopt uniquify-buffer-name-style 'post-forward-angle-brackets)
 (require 'uniquify)
 #+END_SRC
 
@@ -676,7 +693,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
           base-point offset pair mark imstack result)
         (save-excursion
             (move-end-of-line 1)
-            (setq base-point (point)))
+            (setopt base-point (point)))
 
         ;; Element = ("name" . marker)
         ;;         | ("submenu" ("name" . marker) ... )
@@ -1125,13 +1142,13 @@ Optional NODE-NAME is used for the `icons' theme"
     :after projectile
     :commands (neotree-quick-look)
     :init
-    (setq neo-theme 'nerd-icons)
+    (setopt neo-theme 'nerd-icons)
     :custom ((neo-window-position quote right)
              (neo-window-width . toy/sidebar-width)
              (neo-window-fixed-size)
              (neo-show-hidden-files . t))
     :config
-    (setq neo-buffer-name "@tree")
+    (setopt neo-buffer-name "@tree")
     (evil-define-key 'normal neotree-mode-map
         "gh" #'neotree-select-up-node
         "oo" #'neotree-enter
@@ -1603,8 +1620,8 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 (leaf ron-mode
     :mode (("\\.ron\\'" . ron-mode))
     :hook (ron-mode-hook lambda nil
-                         (setq comment-start "// "
-                               comment-end "")))
+                         (setopt comment-start "// "
+                                 comment-end "")))
 #+END_SRC
 
 ** YAML
@@ -1678,7 +1695,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
            (haskell-literate-mode-hook . lsp-deferred))
     :config
     ;; TOO SLOW
-    (setq lsp-lens-enable nil)
+    (setopt lsp-lens-enable nil)
     (defun ormolu-format-buffer ()
         "Formats current buffer with `ormolu'.
 Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
@@ -1731,7 +1748,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
         (dap-ui-mode 1)
         (dap-tooltip-mode 1)
         (tooltip-mode 1)
-        (setq debug-on-error t)
+        (setopt debug-on-error t)
 
         (dap-register-debug-provider
          "hda"
@@ -1935,7 +1952,7 @@ Toolings (TODO: move):
     (defun toy/on-rust-mode nil
         (interactive)
         (visual-line-mode)
-        (setq fill-column 100)
+        (setopt fill-column 100)
         (turn-on-auto-fill))
 
     ;; (defun toy/on-save-rust ()
@@ -2011,14 +2028,14 @@ Toolings (TODO: move):
     :config
     ;; use `fd`
     (when (executable-find "fd")
-        (setq consult-find-command "fd --color=never --full-path ARG OPTS"))
+        (setopt consult-find-command "fd --color=never --full-path ARG OPTS"))
 
     ;; `which-key` alternative
     ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
     ;; detect project root with `projectile'
     (autoload 'projectile-project-root "projectile")
-    (setq consult-project-root-function #'projectile-project-root)
+    (setopt consult-project-root-function #'projectile-project-root)
 
     :defer-config
     ;; TODO: how can I use it like org-switchb
@@ -2104,14 +2121,14 @@ Toolings (TODO: move):
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
     ;; grow/shrink minibuffer
-    ;;(setq resize-mini-windows t)
+    ;;(setopt resize-mini-windows t)
 
     ;; forbit the cursor in the minibuffer prompt
-    (setq minibuffer-prompt-properties
-          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (setopt minibuffer-prompt-properties
+            '(read-only t cursor-intangible t face minibuffer-prompt))
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-    (setq enable-recursive-minibuffers t))
+    (setopt enable-recursive-minibuffers t))
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -2120,13 +2137,13 @@ Toolings (TODO: move):
 ;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
 ;; better regex (copied from the README)
 (defun consult--orderless-regexp-compiler (input type &rest _config)
-    (setq input (orderless-pattern-compiler input))
+    (setopt input (orderless-pattern-compiler input))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
      (lambda (str) (orderless--highlight input t str))))
 
 ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
-(setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
+(setopt consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
 ;; (defun consult--with-orderless (&rest args)
@@ -2180,7 +2197,7 @@ Toolings (TODO: move):
       ("C-h B" . embark-bindings)))
 
     :init
-    (setq prefix-help-command #'embark-prefix-help-command)
+    (setopt prefix-help-command #'embark-prefix-help-command)
 
     :config
     ;; Hide the mode line of the Embark live/completions buffers
@@ -2251,9 +2268,9 @@ FIXME
 ;;     ;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
 ;;     (add-hook 'my-completion-ui-mode-hook
 ;;    	          (lambda ()
-;;    	              (setq completion-in-region-function
-;;    		                (kind-icon-enhance-completion
-;;    		                 completion-in-region-function)))))
+;;    	              (setopt completion-in-region-function
+;;    		                  (kind-icon-enhance-completion
+;;    		                   completion-in-region-function)))))
 #+END_SRC
 
 ** nerd-icons-corfu
@@ -2345,7 +2362,7 @@ FIXME
     :doc "Tempo templates/snippets with in-buffer field editing"
     :url "https://github.com/minad/tempel"
     :config
-    (setq tempel-path (concat user-emacs-directory "tempel-snippets.el"))
+    (setopt tempel-path (concat user-emacs-directory "tempel-snippets.el"))
 
     ;; FIXME: not working well?
     (defun tempel-setup-capf nil
@@ -2383,7 +2400,7 @@ FIXME
     ;; Let's use logical lines. Line wrapping does not work well with Japanese text,
     ;; inserting needless whitespaces in output:
     (visual-line-mode)
-    (setq fill-column 100)
+    (setopt fill-column 100)
     ;; (turn-on-auto-fill)
     )
 #+END_SRC
@@ -2441,10 +2458,10 @@ FIXME
           (search . " %i %-12:c")))
      )
     :config
-    (setq org-default-notes-file (concat org-directory "/tasks.org"))
+    (setopt org-default-notes-file (concat org-directory "/tasks.org"))
 
-    (setq org-capture-templates
-          '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
+    (setopt org-capture-templates
+            '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
 
     ;; fold
     (evil-define-key 'normal org-mode-map
@@ -2475,15 +2492,15 @@ FIXME
                                      (shell . t)
                                      (sqlite . t)))
 
-        ;; (setq org-plantuml "plantuml")
+        ;; (setopt org-plantuml "plantuml")
 
         ;; FIXME: not wokring why
         ;; (org-babel-do-load-languages ‘org-babel-load-languages ‘((ditaa . t) (dot . t) (plantuml . t)))
         )
 
-    (setq org-agenda-files
-          (mapcar (lambda (path) (concat org-directory path))
-                  '("/journal.org" "/timeline/")))
+    (setopt org-agenda-files
+            (mapcar (lambda (path) (concat org-directory path))
+                    '("/journal.org" "/timeline/")))
 
     ;; Start from Monday
 
@@ -2569,7 +2586,7 @@ This function is called by `org-babel-execute-src-block'."
         (defun org-zenn-export-book-files (&optional org-dir)
             "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
             (interactive "sBook directory: ")
-            (setq org-dir (expand-file-name (or org-dir ".")))
+            (setopt org-dir (expand-file-name (or org-dir ".")))
             (let* ((book (file-name-nondirectory org-dir))
                    (zenn (file-name-directory (directory-file-name (file-name-directory org-dir))))
                    (md-dir (concat zenn "books/" book "/")))
@@ -2736,9 +2753,9 @@ space rather than before."
     ;; `y`: yank URL, `b`: browse in GUI browser
     ;; `r`: mark as read, `u`: mark as unread
     :config
-    (setq elfeed-feeds
-          '(("https://matklad.github.io/feed.xml")
-            ("https://cp-algorithms.com/feed_rss_created.xml"))))
+    (setopt elfeed-feeds
+            '(("https://matklad.github.io/feed.xml")
+              ("https://cp-algorithms.com/feed_rss_created.xml"))))
 #+END_SRC
 
 *** org-sliced-images
@@ -2760,8 +2777,8 @@ space rather than before."
 ;; (leaf eww
 ;;     :commands eww eww-follow-link
 ;;     :init
-;;     ;; (setq browse-url-browser-function 'eww-browse-url)
-;;     (setq eww-search-prefix "http://www.google.com/search?q=")
+;;     ;; (setopt browse-url-browser-function 'eww-browse-url)
+;;     (setopt eww-search-prefix "http://www.google.com/search?q=")
 ;; 
 ;;     (defun eww-wiki (text)
 ;;         "Function used to search wikipedia for the given text."
@@ -2982,9 +2999,9 @@ m[1-9]  move
 https://github.com/noctuid/evil-guide#use-evil-everywhere
 
 #+BEGIN_SRC elisp
-(setq evil-emacs-state-modes nil
-      evil-insert-state-modes nil
-      evil-motion-state-modes nil)
+(setopt evil-emacs-state-modes nil
+        evil-insert-state-modes nil
+        evil-motion-state-modes nil)
 #+END_SRC
 
 *** Help mode
@@ -3459,7 +3476,7 @@ TODO: merge all
 ;; / から始めることでアルファベットを変換対象にできる (Greak/greek など)
 ;; \ から始めることで
 
-;; (setq default-input-method "japanese-skk")
+;; (setopt default-input-method "japanese-skk")
 
 ;; skk-kakutei key binding
 #+END_SRC
