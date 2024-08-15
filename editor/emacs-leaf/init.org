@@ -61,9 +61,6 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 #+BEGIN_SRC elisp
 ;; $ brew install emacs-plus --with-no-titlebar
 (setopt frame-resize-pixelwise t)
-
-;; "Package 'cl is deprecated".. I know!
-(setopt byte-compile-warnings '(not cl-functions obsolete))
 #+END_SRC
 
 ** Macro utilities
@@ -2017,7 +2014,7 @@ Toolings (TODO: move):
      (consult-narrow-key   . "<")
      (consult-async-min-input . 2)
      (register-preview-delay . 0)
-     (register-preview-function #'consult-register-format)
+     (register-preview-function . #'consult-register-format)
      (xref-show-xrefs-function . #'consult-xref)
      (xref-show-definitions-function . #'consult-xref))
 
@@ -2035,7 +2032,7 @@ Toolings (TODO: move):
 
     ;; detect project root with `projectile'
     (autoload 'projectile-project-root "projectile")
-    (setopt consult-project-root-function #'projectile-project-root)
+    (setopt consult-project-root-function (lambda (_) (projectile-project-root)))
 
     :defer-config
     ;; TODO: how can I use it like org-switchb
@@ -2137,7 +2134,7 @@ Toolings (TODO: move):
 ;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
 ;; better regex (copied from the README)
 (defun consult--orderless-regexp-compiler (input type &rest _config)
-    (setopt input (orderless-pattern-compiler input))
+    (setq input (orderless-pattern-compiler input))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
      (lambda (str) (orderless--highlight input t str))))
@@ -2460,8 +2457,9 @@ FIXME
     :config
     (setopt org-default-notes-file (concat org-directory "/tasks.org"))
 
-    (setopt org-capture-templates
-            '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
+    ;; FIXME: it's wrong
+    ;; (setopt org-capture-templates
+    ;;         '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
 
     ;; fold
     (evil-define-key 'normal org-mode-map
