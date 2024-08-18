@@ -407,13 +407,48 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     )
 #+END_SRC
 
-** evl-surround
+** evil-surround
 
 #+BEGIN_SRC elisp
 (leaf evil-surround
     :after evil
     :config
+    ;; FIXME: deduplicate
+    ;; (setq-default evil-surround-pairs-alist
+    ;;               (push '(?~ . ("==" . "==")) evil-surround-pairs-alist))
+    ;; this macro was copied from here: https://stackoverflow.com/a/22418983/4921402
+    (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
+      (let ((inner-name (make-symbol (concat "evil-inner-" name)))
+            (outer-name (make-symbol (concat "evil-a-" name))))
+        `(progn
+           (evil-define-text-object ,inner-name (count &optional beg end type)
+             (evil-select-paren ,start-regex ,end-regex beg end type count nil))
+           (evil-define-text-object ,outer-name (count &optional beg end type)
+             (evil-select-paren ,start-regex ,end-regex beg end type count t))
+           (define-key evil-inner-text-objects-map ,key #',inner-name)
+           (define-key evil-outer-text-objects-map ,key #',outer-name))))
+    
+    (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
+    (define-and-bind-quoted-text-object "slash" "/" "/" "/")
+    (define-and-bind-quoted-text-object "asterisk" "*" "*" "*")
+    (define-and-bind-quoted-text-object "dollar" "$" "\\$" "\\$") ;; sometimes your have to escape the regex
+    (define-and-bind-quoted-text-object "equals" "=" "=" "=")
+
     (global-evil-surround-mode))
+#+END_SRC
+
+** evil-embrace
+
+#+BEGIN_SRC elisp
+(leaf evil-embrace
+    :url "https://github.com/cute-jumper/evil-embrace.el"
+    :doc "more to `evil-surround'"
+    :custom
+    (evil-embrace-evil-surround-keys . '(?\| ?\/ ?\* ?\= ?\( ?\[ ?\{ ?\) ?\] ?\} ?\" ?\' ?< ?> ?b ?B ?t ?\C-\[ ?w ?W ?s ?p))
+    ;;                                    ~~~~~~~~~~~~~~~ added. TODO: use push, but deduplicated
+    :config
+    ?\| ?\/ ?\* ?\=
+    (evil-embrace-enable-evil-surround-integration))
 #+END_SRC
 
 ** expand-region
