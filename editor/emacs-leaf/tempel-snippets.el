@@ -117,6 +117,10 @@ instance SemigroupAction Op Acc where
   {-# INLINE sact #-}
   sact (Op !dx) (Acc !x) = Acc (x + dx)
 
+;; instance SegmentAction Op Acc where
+;;   {-# INLINE segActWithLength #-}
+;;   segAct len (Op !dx) (Acc !x) = Acc (x + dx)
+
 -- | Max
 type AccRepr = Int
 
@@ -189,7 +193,7 @@ org-mode
 (attr "#+ATTR_HTML: :width " p "px")
 (width "#+ATTR_HTML: :width " p "px")
 
-(ai "#+BEGIN_AI" n> r> n "#+END_AI")
+(ai "#+BEGIN_AI markdown" n> "[ME]: " r> n "#+END_AI")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")
