@@ -27,6 +27,7 @@
     xdg-ninja
     neovim
     helix
+    nushell
     devbox
     emacs
     emacsPackages.ddskk
@@ -46,6 +47,7 @@
     gnumake
     cmake
     gcc
+    gdb pwndbg checksec
     go
     nodejs
     deno
@@ -78,6 +80,7 @@
     mpv
     gimp
     evince
+    qpdfview
     ghostscript
     pdfarranger
 
@@ -86,6 +89,7 @@
     # https://github.com/red-data-tools/YouPlot
 
     blender
+    cider
 
     kicad-small
     qmk

@@ -182,7 +182,7 @@ _alias w3m w 'w3m -B'
 
 if command -sq nvim
     alias n nvim
-    alias nu 'nvim -u NONE'
+    # alias nu 'nvim -u NONE'
     alias vim nvim
 end
 
