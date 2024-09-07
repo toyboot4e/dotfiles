@@ -908,62 +908,6 @@ Handles the repeat-count of the insertion command."
                                             (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
 #+END_SRC
 
-*** neotree nerd-icons support
-
-Now that it's merged, should be removed before long.
-
-#+BEGIN_SRC elisp
-(with-eval-after-load 'neotree
-    ;; `nerd-icons' support for `neotree'. Should be removed after merge.
-    ;; https://github.com/jaypei/emacs-neotree/pull/359
-    (defun neo--nerd-icons-icon-for-dir-with-chevron (dir &optional chevron padding)
-        (let ((icon (nerd-icons-icon-for-dir dir))
-              (chevron (if chevron (nerd-icons-octicon (format "nf-oct-chevron_%s" chevron) :height 0.8 :v-adjust -0.1) ""))
-              (padding (or padding "\t")))
-            (format "%s%s%s%s%s" padding chevron padding icon padding)))
-
-    (defun neo-buffer--insert-fold-symbol (name &optional node-name)
-        "Write icon by NAME, the icon style affected by neo-theme.
-`open' write opened folder icon.
-`close' write closed folder icon.
-`leaf' write leaf icon.
-Optional NODE-NAME is used for the `icons' theme"
-        (let ((n-insert-image (lambda (n)
-                                  (insert-image (neo-buffer--get-icon n))))
-              (n-insert-symbol (lambda (n)
-                                   (neo-buffer--insert-with-face
-                                    n 'neo-expand-btn-face))))
-            (cond
-             ((and  (equal neo-theme 'classic))
-              (or (and (equal name 'open)  (funcall n-insert-image "open"))
-                  (and (equal name 'close) (funcall n-insert-image "close"))
-                  (and (equal name 'leaf)  (funcall n-insert-image "leaf"))))
-             ((equal neo-theme 'arrow)
-              (or (and (equal name 'open)  (funcall n-insert-symbol "▾"))
-                  (and (equal name 'close) (funcall n-insert-symbol "▸"))))
-             ((equal neo-theme 'nerd)
-              (or (and (equal name 'open)  (funcall n-insert-symbol "▾ "))
-                  (and (equal name 'close) (funcall n-insert-symbol "▸ "))
-                  (and (equal name 'leaf)  (funcall n-insert-symbol "  "))))
-             ((and (display-graphic-p) (equal neo-theme 'icons))
-              (unless (require 'all-the-icons nil 'noerror)
-                  (error "Package `all-the-icons' isn't installed"))
-              (setq-local tab-width 1)
-              (or (and (equal name 'open)  (insert (all-the-icons-icon-for-dir-with-chevron (directory-file-name node-name) "down")))
-                  (and (equal name 'close) (insert (all-the-icons-icon-for-dir-with-chevron (directory-file-name node-name) "right")))
-                  (and (equal name 'leaf)  (insert (format "\t\t\t%s\t" (all-the-icons-icon-for-file node-name))))))
-             ((equal neo-theme 'nerd-icons)
-              (unless (require 'nerd-icons nil 'noerror)
-                  (error "Package `nerd-icons' isn't installed"))
-              (setq-local tab-width 1)
-              (or (and (equal name 'open)  (insert (neo--nerd-icons-icon-for-dir-with-chevron (directory-file-name node-name) "down")))
-                  (and (equal name 'close) (insert (neo--nerd-icons-icon-for-dir-with-chevron (directory-file-name node-name) "right")))
-                  (and (equal name 'leaf)  (insert (format "\t\t\t%s\t" (nerd-icons-icon-for-file node-name))))))
-             (t
-              (or (and (equal name 'open)  (funcall n-insert-symbol "- "))
-                  (and (equal name 'close) (funcall n-insert-symbol "+ "))))))))
-#+END_SRC
-
 * Meta packages
 
 ** Auto package update
@@ -2165,17 +2109,19 @@ Toolings (TODO: move):
 
 #+BEGIN_SRC elisp
 
-;; Use `orderless':
-;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
-;; better regex (copied from the README)
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-    (setq input (orderless-pattern-compiler input))
-    (cons
-     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-     (lambda (str) (orderless--highlight input t str))))
+;; Broken:
 
-;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
-(setopt consult--regexp-compiler #'consult--orderless-regexp-compiler)
+;; ;; Use `orderless':
+;; ;; <https://github.com/minad/consult/wiki/Home/a0e391f8416e98b8d8319d62fb40b64f939b9fd1#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind>
+;; ;; better regex (copied from the README)
+;; (defun consult--orderless-regexp-compiler (input type &rest _config)
+;;     (setq input (orderless-compile input))
+;;     (cons
+;;      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+;;      (lambda (str) (orderless--highlight input t str))))
+;; 
+;; ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
+;; (setopt consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 ;; OPTION 2: Activate only for some commands, e.g., consult-ripgrep!
 ;; (defun consult--with-orderless (&rest args)
@@ -2224,9 +2170,19 @@ Toolings (TODO: move):
     :url "https://github.com/oantolin/embark"
     :bind
     (:minibuffer-local-map
-     (("C-." . embark-act)
+     (("C-c" . embark-act)
       ;; alternative for `describe-bindings'
       ("C-h B" . embark-bindings)))
+    :bind
+    (("C-." . embark-act) ;; not works on terminal
+     ;; alternative for `describe-bindings'
+     ("C-h B" . embark-bindings))
+
+    :config
+    (with-eval-after-load 'vertico
+         (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+         (vertico-multiform-mode)
+         (define-key vertico-map (kbd "\C-s") #'embark-act))
 
     :init
     (setopt prefix-help-command #'embark-prefix-help-command)
@@ -2487,8 +2443,7 @@ FIXME
           (timeline  . "  % s")
           (todo . " %i %-12:c")
           (tags  . " %i %-12:c")
-          (search . " %i %-12:c")))
-     )
+          (search . " %i %-12:c"))))
     :config
     (setopt org-default-notes-file (concat org-directory "/tasks.org"))
 
@@ -2600,7 +2555,7 @@ FIXME
 
         (defun org-babel-execute:shell (body params)
             "Execute a block of Shell commands with Babel.
-This function is called by `org-babel-execute-src-block'."
+            This function is called by `org-babel-execute-src-block'."
             (let* ((session (org-babel-sh-initiate-session
 		                     (cdr (assoc :session params))))
 	               (stdin (let ((stdin (cdr (assoc :stdin params))))
@@ -2709,8 +2664,8 @@ This function is called by `org-babel-execute-src-block'."
         ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
         (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
             "If in evil normal mode and cursor is on a whitespace character, then go into
-append mode first before inserting the link. This is to put the link after the
-space rather than before."
+            append mode first before inserting the link. This is to put the link after the
+            space rather than before."
             (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
                                                (not (bound-and-true-p evil-insert-state-minor-mode))
                                                (looking-at "[[:blank:]]"))))
@@ -3626,8 +3581,10 @@ TODO: merge all
              )))
 
 (evil-define-key 'normal 'toy/global-mode-map
-    " :" #'execute-extended-command
-    )
+    " :" #'execute-extended-command)
+
+(evil-define-key 'visual 'toy/global-mode-map
+    " :" #'execute-extended-command)
 #+END_SRC
 
 * Key mappings (consult)
@@ -3705,18 +3662,6 @@ TODO: merge
     ;; TODO: use isearch forward?
     (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
     #+END_SRC
-
-** Vertico fix
-
-#+BEGIN_SRC elisp
-(with-eval-after-load 'vertico
-    ;; TODO: recenter-top-bottom for vertico buffer
-    (define-key vertico-map (kbd "\C-o") #'other-window)
-    (define-key vertico-map (kbd "\C-u") #'vertico-scroll-down)
-    (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up)
-    ;; TODO: use isearch forward?
-    (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
-#+END_SRC
 
 * Misc
 
