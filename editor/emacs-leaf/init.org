@@ -2079,6 +2079,7 @@ Toolings (TODO: move):
 #+BEGIN_SRC elisp
 (leaf orderless
     :doc "Find with space-separated components in any order"
+    :leaf-defer nil
     :custom
     ((completion-styles . '(orderless partial-completion basic))
      (completion-category-defaults .  nil)
@@ -2444,64 +2445,15 @@ FIXME
           (todo . " %i %-12:c")
           (tags  . " %i %-12:c")
           (search . " %i %-12:c"))))
+
     :config
     (setopt org-default-notes-file (concat org-directory "/tasks.org"))
-
-    ;; FIXME: it's wrong
-    ;; (setopt org-capture-templates
-    ;;         '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
-
-    ;; fold
-    (evil-define-key 'normal org-mode-map
-        "{" #'evil-backward-paragraph
-        "}" #'evil-forward-paragraph
-        "za" #'org-cycle
-        "zR" #'org-fold-show-all
-        ;; close/open
-        "zC" #'org-fold-hide-sublevels
-        "zO" #'org-fold-show-subtree)
-
-    (evil-define-key 'visual org-mode-map
-        "{" #'evil-backward-paragraph
-        "}" #'evil-forward-paragraph)
-
-    (progn ;; Setup diagram programs
-        (leaf ob-mermaid
-            :config
-            (with-eval-after-load 'org-src
-                (add-to-list 'org-src-lang-modes '("mermaid" . mermaid))))
-
-        (org-babel-do-load-languages
-         'org-babel-load-languages '((ditaa . t)
-                                     (mermaid . t)
-                                     (plantuml . t)
-                                     (dot . t)
-                                     (haskell . t)
-                                     (shell . t)
-                                     (sqlite . t)))
-
-        ;; (setopt org-plantuml "plantuml")
-
-        ;; FIXME: not wokring why
-        ;; (org-babel-do-load-languages ‘org-babel-load-languages ‘((ditaa . t) (dot . t) (plantuml . t)))
-        )
 
     (setopt org-agenda-files
             (mapcar (lambda (path) (concat org-directory path))
                     '("/journal.org" "/timeline/")))
 
     ;; Start from Monday
-
-    ;; `https://orgmode.org/manual/Breaking-Down-Tasks.html'
-    (defun org-summary-todo (n-done n-not-done)
-        "Switch entry to DONE when all subentries are done, to TODO otherwise."
-        (let (org-log-done org-todo-log-states)   ; turn off logging
-            (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-
-    (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
-
-    ;; appearance
-
     (progn ;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
         ;; TODO: working?
         (font-lock-add-keywords 'org-mode
@@ -2524,200 +2476,140 @@ FIXME
          '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
 
     :defer-config
-    (org-clock-persistence-insinuate)
+    (org-clock-persistence-insinuate))
+#+END_SRC
 
-    (leaf calfw)
-    (leaf calfw-org
-        :commands cfw:open-org-calendar)
+** org-zenn
 
-    (defun toy/open-calendar ()
-        (interactive)
-        (split-window-right)
-        (other-window 1)
-        (cfw:open-org-calendar))
-
-    (leaf simple-httpd
-        :doc "`httpd-serve-directory' mainly for the org site"
+#+BEGIN_SRC elisp
+(leaf ox-zenn
+    :url "https://github.com/conao3/ox-zenn.el"
+    :custom ((org-zenn-with-last-modified . nil)
+             (org-export-with-toc . nil))
         :config
-        (defun toy/org-serve ()
-            (interactive)
-            (httpd-serve-directory "out")))
-
-    (leaf ox-zenn
-        :url "https://github.com/conao3/ox-zenn.el"
-        :custom ((org-zenn-with-last-modified . nil)
-                 (org-export-with-toc . nil))
-
-        :config
-        (defun org-zenn-export-to-markdown-as (outfile &optional async subtreep visible-only)
-            (interactive "sOutfile: ")
-            (org-export-to-file 'zennmd outfile async subtreep visible-only))
-
+    (defun org-zenn-export-to-markdown-as (outfile &optional async subtreep visible-only)
+        (interactive "sOutfile: ")
+        (org-export-to-file 'zennmd outfile async subtreep visible-only))
         (defun org-babel-execute:shell (body params)
-            "Execute a block of Shell commands with Babel.
-            This function is called by `org-babel-execute-src-block'."
-            (let* ((session (org-babel-sh-initiate-session
-		                     (cdr (assoc :session params))))
-	               (stdin (let ((stdin (cdr (assoc :stdin params))))
-                              (when stdin (org-babel-sh-var-to-string
-                                           (org-babel-ref-resolve stdin)))))
-	               (cmdline (cdr (assoc :cmdline params)))
-                   (full-body (org-babel-expand-body:generic
-		                       body params (org-babel-variable-assignments:shell params))))
-                (org-babel-reassemble-table
-                 (org-babel-sh-evaluate session full-body params stdin cmdline)
-                 (org-babel-pick-name
-                  (cdr (assoc :colname-names params)) (cdr (assoc :colnames params)))
-                 (org-babel-pick-name
-                  (cdr (assoc :rowname-names params)) (cdr (assoc :rownames params))))))
-
+        "Execute a block of Shell commands with Babel.
+        This function is called by `org-babel-execute-src-block'."
+        (let* ((session (org-babel-sh-initiate-session
+                         (cdr (assoc :session params))))
+               (stdin (let ((stdin (cdr (assoc :stdin params))))
+                          (when stdin (org-babel-sh-var-to-string
+                                       (org-babel-ref-resolve stdin)))))
+               (cmdline (cdr (assoc :cmdline params)))
+               (full-body (org-babel-expand-body:generic
+                           body params (org-babel-variable-assignments:shell params))))
+            (org-babel-reassemble-table
+             (org-babel-sh-evaluate session full-body params stdin cmdline)
+             (org-babel-pick-name
+              (cdr (assoc :colname-names params)) (cdr (assoc :colnames params)))
+             (org-babel-pick-name
+              (cdr (assoc :rowname-names params)) (cdr (assoc :rownames params))))))
         (defun org-zenn-export-book-files (&optional org-dir)
-            "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
-            (interactive "sBook directory: ")
-            (setopt org-dir (expand-file-name (or org-dir ".")))
-            (let* ((book (file-name-nondirectory org-dir))
-                   (zenn (file-name-directory (directory-file-name (file-name-directory org-dir))))
-                   (md-dir (concat zenn "books/" book "/")))
-                (if (not (and (file-directory-p org-dir) (file-directory-p md-dir)))
-                        (message "Not an org book directroy?")
-                    (dolist (src-file-name (seq-filter (lambda (s) (string-suffix-p ".org" s)) (directory-files org-dir)))
-                        (let* ((src-file (concat org-dir "/" src-file-name))
-                               (dst-file-name (concat (file-name-base src-file-name) ".md"))
-                               (dst-file (concat md-dir dst-file-name)))
-                            (with-temp-buffer
-                                (insert-file-contents src-file)
-                                (org-zenn-export-to-markdown-as dst-file nil nil nil)))))))
-
+        "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
+        (interactive "sBook directory: ")
+        (setopt org-dir (expand-file-name (or org-dir ".")))
+        (let* ((book (file-name-nondirectory org-dir))
+               (zenn (file-name-directory (directory-file-name (file-name-directory org-dir))))
+               (md-dir (concat zenn "books/" book "/")))
+            (if (not (and (file-directory-p org-dir) (file-directory-p md-dir)))
+                    (message "Not an org book directroy?")
+                (dolist (src-file-name (seq-filter (lambda (s) (string-suffix-p ".org" s)) (directory-files org-dir)))
+                    (let* ((src-file (concat org-dir "/" src-file-name))
+                           (dst-file-name (concat (file-name-base src-file-name) ".md"))
+                           (dst-file (concat md-dir dst-file-name)))
+                        (with-temp-buffer
+                            (insert-file-contents src-file)
+                            (org-zenn-export-to-markdown-as dst-file nil nil nil)))))))
         (defun org-zenn-export-buffer-to-book (&optional org-dir)
-            "Runs subtree export to each level 1 headings. Respects `#+BOOK_DIR'."
-            (interactive)
-            (org-babel-tangle)
-
+        "Runs subtree export to each level 1 headings. Respects `#+BOOK_DIR'."
+        (interactive)
+        (org-babel-tangle)
             ;; export all
-            (let* ((default-dir default-directory)
-                   (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR")))))))
-                ;; cd into the target directory
-                (when pub-dir (cd pub-dir))
-                ;; export all
-                (unwind-protect
-                        (org-map-entries
-                         (lambda ()
-                             (let* ((is-draft (org-entry-get nil "DRAFT"))
-                                    (exports (org-entry-get nil "EXPORT_FILE_NAME")))
-                                 (when (and (not is-draft) exports)
-                                     (org-zenn-export-to-markdown nil t))))
-                         "LEVEL=1")
-                    ;; be sure to come back to the default directory
-                    (when pub-dir (cd default-dir)))))
+        (let* ((default-dir default-directory)
+               (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR")))))))
+            ;; cd into the target directory
+            (when pub-dir (cd pub-dir))
+            ;; export all
+            (unwind-protect
+                    (org-map-entries
+                     (lambda ()
+                         (let* ((is-draft (org-entry-get nil "DRAFT"))
+                                (exports (org-entry-get nil "EXPORT_FILE_NAME")))
+                             (when (and (not is-draft) exports)
+                                 (org-zenn-export-to-markdown nil t))))
+                     "LEVEL=1")
+                ;; be sure to come back to the default directory
+                (when pub-dir (cd default-dir))))))
+#+END_SRC
 
-        )
+** org-preview-html
 
-    (leaf org-appear
-        :doc "Uninline format on cursor"
-        :url "https://github.com/awth13/org-appear"
-        :hook (org-mode-hook . org-appear-mode)
-        :custom
-        (org-appear-autolinks . t)
-        (org-hide-emphasis-markers . t))
+#+BEGIN_SRC elisp
+;; html view
+(leaf org-preview-html
+    :commands org-preview-html-mode org-preview-html/preview)
 
-    (leaf org-superstar
-        :commands org-superstar-mode
-        :hook (org-mode-hook . org-superstar-mode)
-        :custom
-        (org-superstar-special-todo-items . nil))
+(leaf simple-httpd
+    :doc "`httpd-serve-directory' mainly for the org site"
+    :config
+    (defun toy/org-serve ()
+        (interactive)
+        (httpd-serve-directory "out")))
+#+END_SRC
 
-    ;; html view
-    (leaf org-preview-html
-        :commands org-preview-html-mode org-preview-html/preview)
+** view
 
-    ;; C-c C-j: create entry
-    (leaf org-journal
-        :custom ((org-journal-dir . "~/org/journal/")
-                 (org-journal-date-format . "%Y-%m-%d")))
+#+BEGIN_SRC elisp
+(leaf org-appear
+    :doc "Uninline format on cursor"
+    :url "https://github.com/awth13/org-appear"
+    :hook (org-mode-hook . org-appear-mode)
+    :custom
+    (org-appear-autolinks . t)
+    (org-appear-inside-latex . t)
+    (org-hide-emphasis-markers . t))
 
-    ;; `org-roam' mappings:
-    (evil-define-key 'normal org-mode-map
-        " ol" #'org-roam-buffer-toggle
-        " of" #'org-roam-node-find
-        " og" #'org-roam-graph
-        " oi" #'org-roam-node-insert
-        " oc" #'org-roam-capture
-        " oj" #'org-roam-dailies-capture-today
-        " os" #'org-roam-db-sync
-        " ota" #'org-roam-tag-add
-        " otm" #'org-roam-tag-remove
-        " oz" #'org-zenn-export-buffer-to-book)
+(leaf org-superstar
+    :commands org-superstar-mode
+    :hook (org-mode-hook . org-superstar-mode)
+    :custom
+    (org-superstar-special-todo-items . nil))
+#+END_SRC
 
-    (leaf org-roam
-        :custom
-        ;; any effect?
-        ((org-roam-v2-ack . t)
-         (org-roam-directory . "~/org-roam")
-         ;; (org-refile-targets
-         ;;   .   '(("~/org/gtd/gtd.org" :maxlevel . 3)
-         ;;         ("~/org/gtd/someday.org" :level . 1)
-         ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
-         )
-        :config
-        (org-roam-db-autosync-mode)
+** org-jounrnal
 
-        ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
-        (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
-            "If in evil normal mode and cursor is on a whitespace character, then go into
-            append mode first before inserting the link. This is to put the link after the
-            space rather than before."
-            (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
-                                               (not (bound-and-true-p evil-insert-state-minor-mode))
-                                               (looking-at "[[:blank:]]"))))
-                (if (not is-in-evil-normal-mode)
-                        ad-do-it
-                    (evil-append 0)
-                    ad-do-it
-                    (evil-normal-state))))
-        )
-
-    (leaf org-roam-ui
-        :after org-roam
-        :custom
-        ((org-roam-ui-sync-theme . t)
-         (org-roam-ui-follow . t)
-         (org-roam-ui-update-on-save . t)
-         (org-roam-ui-open-on-start . t)))
-
-    (leaf consult-org-roam
-        :after org-roam
-
-        :custom
-        ;; Use `ripgrep' for searching with `consult-org-roam-search'
-        (consult-org-roam-grep-func . #'consult-ripgrep)
-        ;; Configure a custom narrow key for `consult-buffer'
-        (consult-org-roam-buffer-narrow-key . ?r)
-        ;; Display org-roam buffers right after non-org-roam buffers
-        ;; in consult-buffer (and not down at the bottom)
-        (consult-org-roam-buffer-after-buffers . t)
-
-        :config
-        (require 'consult-org-roam)
-        ;; Activate the minor mode
-        (consult-org-roam-mode 1)
-
-        ;; Eventually suppress previewing for certain functions
-        (consult-customize
-         consult-org-roam-forward-links
-         :preview-key (kbd "M-."))
-
-        ;; :bind
-        ;; ;; Define some convenient keybindings as an addition
-        ;; ("C-c n e" . consult-org-roam-file-find)
-        ;; ("C-c n b" . consult-org-roam-backlinks)
-        ;; ("C-c n l" . consult-org-roam-forward-links)
-        ;; ("C-c n r" . consult-org-roam-search)
-        )
-
+#+BEGIN_SRC elisp
+;; C-c C-j: create entry
+(leaf org-journal
+    :custom ((org-journal-dir . "~/org/journal/")
+             (org-journal-date-format . "%Y-%m-%d"))
+    :config
+    ;; FIXME: it's wrong
+    ;; (setopt org-capture-templates
+    ;;         '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
     )
 #+END_SRC
 
+** Key bindings
+
 #+BEGIN_SRC elisp
+;; fold
+(evil-define-key 'normal org-mode-map
+    "{" #'evil-backward-paragraph
+    "}" #'evil-forward-paragraph
+    "za" #'org-cycle
+    "zR" #'org-fold-show-all
+    ;; close/open
+    "zC" #'org-fold-hide-sublevels
+    "zO" #'org-fold-show-subtree)
+
+(evil-define-key 'visual org-mode-map
+    "{" #'evil-backward-paragraph
+    "}" #'evil-forward-paragraph)
+
 (evil-define-key 'normal org-mode-map
     "z1" (_fn (outline-hide-sublevels 1))
     "z2" (_fn (outline-hide-sublevels 2))
@@ -2729,6 +2621,135 @@ FIXME
     "z8" (_fn (outline-hide-sublevels 8))
     "z9" (_fn (outline-hide-sublevels 9))
     "z0" #'evil-open-folds)
+#+END_SRC
+
+** Diagrams
+
+#+BEGIN_SRC elisp
+(leaf ob-mermaid
+    :config
+    (with-eval-after-load 'org-src
+        (add-to-list 'org-src-lang-modes '("mermaid" . mermaid))))
+
+(with-eval-after-load 'org-babel
+    (org-babel-do-load-languages
+     'org-babel-load-languages '((ditaa . t)
+                                 (mermaid . t)
+                                 (plantuml . t)
+                                 (dot . t)
+                                 (haskell . t)
+                                 (shell . t)
+                                 (sqlite . t))))
+#+END_SRC
+
+** math-preview
+
+#+BEGIN_SRC elisp
+;; requires `math-preview' executable.
+;; (leaf math-preview)
+#+END_SRC
+
+** org-roam
+
+#+BEGIN_SRC elisp
+(leaf org-roam
+    :custom
+    ;; any effect?
+    ((org-roam-v2-ack . t)
+     (org-roam-directory . "~/org-roam")
+     ;; (org-refile-targets
+     ;;   .   '(("~/org/gtd/gtd.org" :maxlevel . 3)
+     ;;         ("~/org/gtd/someday.org" :level . 1)
+     ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
+     )
+    :config
+    (org-roam-db-autosync-mode)
+        ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
+    (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
+        "If in evil normal mode and cursor is on a whitespace character, then go into
+        append mode first before inserting the link. This is to put the link after the
+        space rather than before."
+        (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
+                                           (not (bound-and-true-p evil-insert-state-minor-mode))
+                                           (looking-at "[[:blank:]]"))))
+            (if (not is-in-evil-normal-mode)
+                    ad-do-it
+                (evil-append 0)
+                ad-do-it
+                (evil-normal-state)))))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf org-roam-ui
+    :after org-roam
+    :custom
+    ((org-roam-ui-sync-theme . t)
+     (org-roam-ui-follow . t)
+     (org-roam-ui-update-on-save . t)
+     (org-roam-ui-open-on-start . t)))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf consult-org-roam
+    :after org-roam
+        :custom
+    ;; Use `ripgrep' for searching with `consult-org-roam-search'
+    (consult-org-roam-grep-func . #'consult-ripgrep)
+    ;; Configure a custom narrow key for `consult-buffer'
+    (consult-org-roam-buffer-narrow-key . ?r)
+    ;; Display org-roam buffers right after non-org-roam buffers
+    ;; in consult-buffer (and not down at the bottom)
+    (consult-org-roam-buffer-after-buffers . t)
+        :config
+    (require 'consult-org-roam)
+    ;; Activate the minor mode
+    (consult-org-roam-mode 1)
+        ;; Eventually suppress previewing for certain functions
+    (consult-customize
+     consult-org-roam-forward-links
+     :preview-key (kbd "M-."))
+        ;; :bind
+    ;; ;; Define some convenient keybindings as an addition
+    ;; ("C-c n e" . consult-org-roam-file-find)
+    ;; ("C-c n b" . consult-org-roam-backlinks)
+    ;; ("C-c n l" . consult-org-roam-forward-links)
+    ;; ("C-c n r" . consult-org-roam-search)
+    )
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(evil-define-key 'normal org-mode-map
+    " ol" #'org-roam-buffer-toggle
+    " of" #'org-roam-node-find
+    " og" #'org-roam-graph
+    " oi" #'org-roam-node-insert
+    " oc" #'org-roam-capture
+    " oj" #'org-roam-dailies-capture-today
+    " os" #'org-roam-db-sync
+    " ota" #'org-roam-tag-add
+    " otm" #'org-roam-tag-remove
+    " oz" #'org-zenn-export-buffer-to-book)
+#+END_SRC
+
+** Misc
+
+#+BEGIN_SRC elisp
+(defun toy/open-calendar ()
+    (interactive)
+    (split-window-right)
+    (other-window 1)
+    (cfw:open-org-calendar))
+
+(leaf calfw)
+(leaf calfw-org
+    :commands cfw:open-org-calendar)
+
+;; `https://orgmode.org/manual/Breaking-Down-Tasks.html'
+(defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-todo-log-states)   ; turn off logging
+        (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+    (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
 #+END_SRC
 
 * Web
