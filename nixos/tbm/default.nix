@@ -1,5 +1,7 @@
 # `home-manager` configuraiton
-{pkgs, ...}: {
+{pkgs, ...}:
+let sources = pkgs.callPackage ./_sources/generated.nix { };
+in {
   imports = [
     ./desktop.nix
     ./input-mozc.nix
@@ -20,7 +22,7 @@
       package = pkgs.emacs-unstable;
       alwaysTangle = true;
       alwaysEnsure = true;
-      extraEmacsPackages = epkgs: [];
+      extraEmacsPackages = import ./epkgs.nix { inherit pkgs sources; };
     };
   };
 
@@ -80,6 +82,7 @@
     zls
     alejandra
 
+    nvfetcher
     (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
     # rust-analyzer-nightly
 
