@@ -1,23 +1,3 @@
-#+TITLE: My Emacs Configuration
-#+AUTHOR: toyboot4e
-#+PROPERTY: header-args :tangle yes
-#+LINK: evil https://github.com/emacs-evil/evil
-#+LINK: leaf https://github.com/conao3/leaf.el
-
-* Introduction
-
-This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
-
-** Other files
-
-- [[./early-init.el]]
-- [[./tempel-snippets.el]]
-
-* Basics
-
-** It's me
-
-#+BEGIN_SRC elisp
 ;; -*- lexical-binding: t -*-
 
 (setopt user-full-name    "toyboot4e"
@@ -25,11 +5,7 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 (when (version< emacs-version "27.1") (error "Update your Emacs!"))
 (setopt vc-follow-symlinks t)
-#+END_SRC
 
-** Startup
-
-#+BEGIN_SRC elisp
 (progn ;; disable magic file name on startup for a little bit faster start
     (defconst my-saved-file-name-handler-alist file-name-handler-alist)
     (setopt file-name-handler-alist nil))
@@ -41,40 +17,22 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
     ;; re-enable magic file name
     (setopt file-name-handler-alist my-saved-file-name-handler-alist))
 (add-hook 'emacs-startup-hook #'toy/after-startup)
-#+END_SRC
 
-** Reloading
-
-#+BEGIN_SRC elisp
 (defun toy/reload ()
     "tangle and load `init.org'"
     (interactive)
     (require 'ob-tangle)
     (org-babel-tangle-file (concat user-emacs-directory "init.org"))
     (load-file (concat user-emacs-directory "init.el")))
-#+END_SRC
 
-* Enviroments
-
-** Compliation
-
-#+BEGIN_SRC elisp
 ;; $ brew install emacs-plus --with-no-titlebar
 (setopt frame-resize-pixelwise t)
-#+END_SRC
 
-** Macro utilities
-
-#+BEGIN_SRC elisp
 (defmacro _fn (&rest body)
     "Shorthand for interactive lambda."
     (declare (doc-string 1))
     `(lambda () (interactive) ,@body))
-#+END_SRC
 
-** No backup files
-
-#+BEGIN_SRC elisp
 ;; TODO: save backup files, but in other directory:
 (setopt make-backup-files nil)
 (setopt backup-directory-alist
@@ -85,23 +43,11 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 ;; don't create #autosave# files
 (setopt auto-save-default nil)
-#+END_SRC
 
-** y/n
-
-#+BEGIN_SRC elisp
 (fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
 
-** Initial scratch message
-
-#+BEGIN_SRC elisp
 (setopt initial-scratch-message "")
-#+END_SRC
 
-** UTF-8 encoding
-
-#+BEGIN_SRC elisp
 (set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
 (setopt locale-coding-system 'utf-8)
@@ -116,17 +62,7 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (modify-coding-system-alist 'process "*" 'utf-8)
-#+END_SRC
 
-** TODO Byte compile
-
-* Boot strapping
-
-** straight
-
-TODO: Switch to elpaca
-
-#+BEGIN_SRC elisp
 ;; (setopt straight-vc-git-default-protocol 'ssh)
 ;; 
 ;; (progn ;; `straight.el'
@@ -142,11 +78,7 @@ TODO: Switch to elpaca
 ;;                 (goto-char (point-max))
 ;;                 (eval-print-last-sexp)))
 ;;         (load bootstrap-file nil 'nomessage)))
-#+END_SRC
 
-** leaf
-
-#+BEGIN_SRC elisp
 (eval-and-compile
     (customize-set-variable
      'package-archives '(("org" . "https://orgmode.org/elpa/")
@@ -164,14 +96,11 @@ TODO: Switch to elpaca
         ;; FIXME: the custom value should be after `no-jittering'
         :custom ((leaf-defaults . '(:ensure t))))
 
+    ;; Fixme: permissoion-denied on nixos-rebuild?
     (leaf leaf-keywords
         :config
         (leaf-keywords-init)))
-#+END_SRC
 
-** =PATH= and =exec-path=
-
-#+BEGIN_SRC elisp
 ;; (leaf exec-path-from-shell
 ;;     :url "https://github.com/purcell/exec-path-from-shell"
 ;;     :custom
@@ -183,9 +112,7 @@ TODO: Switch to elpaca
 ;;                                          "TERM")))
 ;;     :config
 ;;     (exec-path-from-shell-initialize))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 ;; Set up `PATH` and `exec-path`
 (dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
                    "~/.cargo/bin"
@@ -198,15 +125,10 @@ TODO: Switch to elpaca
     (when (and (file-exists-p dir) (not (member dir exec-path)))
         (setenv "PATH" (concat dir ":" (getenv "PATH")))
         (setopt exec-path (append (list dir) exec-path))))
-#+END_SRC
 
-* Pre configuration
-
-#+BEGIN_SRC elisp
 (leaf no-littering
     :url "https://github.com/emacscollective/no-littering"
     :init
-    ;; FIXME: support byte compilation
     ;; default.el:139:44: Warning: reference to free variable `no-littering-var-directory'
     ;; default.el:138:19: Warning: reference to free variable `recentf-exclude'
     (setopt no-littering-etc-directory
@@ -220,15 +142,7 @@ TODO: Switch to elpaca
     (add-to-list 'recentf-exclude
                  (recentf-expand-file-name no-littering-etc-directory))
     (setopt custom-file (no-littering-expand-etc-file-name "custom.el")))
-#+END_SRC
 
-* What?
-
-** Emacs settings
-
-*** Show more
-
-#+BEGIN_SRC elisp
 ;; show line numbers
 (global-display-line-numbers-mode)
 
@@ -249,18 +163,10 @@ TODO: Switch to elpaca
 
 ;; show `line:column` in the modeline
 (column-number-mode)
-#+END_SRC
 
-*** GUI settings
-
-#+BEGIN_SRC elisp
 (set-cursor-color "#8fee96")
 (set-fringe-mode 10)
-#+END_SRC
 
-*** GUI fonts
-
-#+BEGIN_SRC elisp
 (when (display-graphic-p)
     ;; (set-face-attribute 'default nil :family "roboto-mono" :height 110)
     ;; (set-face-attribute 'default nil :family "roboto-mono")
@@ -276,11 +182,7 @@ TODO: Switch to elpaca
     ;; FIXME: proper way to align org tables?
     (setopt face-font-rescale-alist
             '(("Noto Sans Mono CJK JP" . 1.25))))
-#+END_SRC
 
-*** On terminal
-
-#+BEGIN_SRC elisp
 (unless (display-graphic-p)
     ;; Two exclusive options:
     ;; 1. use left click to move cursor:
@@ -293,44 +195,20 @@ TODO: Switch to elpaca
     ;; TODO: do not map it to a specific command.
     (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
     (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-#+END_SRC
 
-*** Scroll like vim
-
-#+BEGIN_SRC elisp
 (setopt scroll-preserve-screen-position t
         scroll-conservatively 100
         scroll-margin 3)
-#+END_SRC
 
-** Builtin packages
-
-*** Save command history
-
-#+BEGIN_SRC elisp
 (setopt history-length 1000
         history-delete-duplicates t)
 (savehist-mode)
-#+END_SRC
 
-*** Sync buffers with the storage
-
-#+BEGIN_SRC elisp
 (setopt auto-revert-interval 1)
 (global-auto-revert-mode)
-#+END_SRC
 
-*** Save cursor positions per file
-
-#+BEGIN_SRC elisp
 (save-place-mode 1)
-#+END_SRC
 
-*** HACK: re-center cursor position with =save-place-mode=:
-
-https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
-
-#+BEGIN_SRC elisp
 (defun toy/fix-save-place ()
     "Force windows to recenter current line (with saved position)."
     (run-with-timer 0 nil
@@ -340,27 +218,13 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
                                 (with-selected-window win (recenter)))))
                     (current-buffer)))
 (add-hook 'find-file-hook #'toy/fix-save-place)
-#+END_SRC
 
-*** Remember recently opended files
-
-#+BEGIN_SRC elisp
 (setopt recentf-max-saved-items 1000)
 (recentf-mode 1)
-#+END_SRC
 
-*** Display duplicate file names as =file<parent-directory>=
-
-#+BEGIN_SRC elisp
 (setopt uniquify-buffer-name-style 'post-forward-angle-brackets)
 (require 'uniquify)
-#+END_SRC
 
-* Evil
-
-** Evil
-
-#+BEGIN_SRC elisp
 (leaf evil
     :leaf-defer nil
     :commands evil-define-key
@@ -379,40 +243,24 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 
     :config
     (evil-mode 1))
-#+END_SRC
 
-** empv
-
-#+BEGIN_SRC elisp
 ;; (leaf empv
 ;;     :ensure nil
 ;;     :after evil
 ;;     :straight (empv :type git :host github :repo "isamert/empv.el"))
-#+END_SRC
 
-** undo-tree
-
-#+BEGIN_SRC elisp
 (leaf undo-tree
     :custom (undo-tree-auto-save-history . nil)
     :init
     (evil-set-undo-system 'undo-tree)
     (global-undo-tree-mode))
-#+END_SRC
 
-** evil-anzu
-
-#+BEGIN_SRC elisp
 (leaf evil-anzu
     :after evil
     :url "https://github.com/emacsorphanage/evil-anzu"
     ;; :commands "anzu-query-replace-regexp"
     )
-#+END_SRC
 
-** evil-surround
-
-#+BEGIN_SRC elisp
 (leaf evil-surround
     :after evil
     :config
@@ -438,11 +286,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     (define-and-bind-quoted-text-object "equals" "=" "=" "=")
 
     (global-evil-surround-mode))
-#+END_SRC
 
-** evil-embrace
-
-#+BEGIN_SRC elisp
 (leaf evil-embrace
     :url "https://github.com/cute-jumper/evil-embrace.el"
     :doc "more to `evil-surround'"
@@ -452,20 +296,12 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     :config
     ?\| ?\/ ?\* ?\=
     (evil-embrace-enable-evil-surround-integration))
-#+END_SRC
 
-** expand-region
-
-#+BEGIN_SRC elisp
 (leaf expand-region
     :after evil
     :config
     (evil-define-key 'visual 'global "v" #'er/expand-region "V" #'er/contract-region))
-#+END_SRC
 
-** evil-collection
-
-#+BEGIN_SRC elisp
 (leaf evil-collection
     :after evil
     :leaf-defer nil
@@ -528,24 +364,14 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
                         (evil-scroll-line-to-top
                          (line-number-at-pos))))
         (evil-collection-magit-setup)))
-#+END_SRC
 
-** evil-exchange
-
-#+BEGIN_SRC elisp
 (leaf evil-exchange
     :doc "Use `gx' + text object for swapping"
     :url "https://github.com/Dewdrops/evil-exchange"
     :after evil
     :config
     (evil-exchange-install))
-#+END_SRC
 
-** evil-args
-
-Typical combo is =gxia=.
-
-#+BEGIN_SRC elisp
 (leaf evil-args
     :doc "Add `a'rgument text object"
     :config
@@ -562,19 +388,9 @@ Typical combo is =gxia=.
     ;; bind evil-jump-out-args
     ;; (define-key evil-normal-state-map "K" 'evil-jump-out-args)
     )
-#+END_SRC
 
-** TODO evil-textobj-tree-sitter
-
-https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file#custom-textobjects
-
-#+BEGIN_SRC elisp
 ;; (leaf evil-textobj-tree-sitter)
-#+END_SRC
 
-** evil-lion
-
-#+BEGIN_SRC elisp
 (leaf evil-lion
     :doc "Add `gl' and `gL' algin operators"
     :url "https://github.com/edkolev/evil-lion"
@@ -583,36 +399,20 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
     (evil-define-key 'normal 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
     (evil-define-key 'visual 'toy/global-mode-map "gl" #'evil-lion-left "gL" #'evil-lion-right)
     (evil-lion-mode))
-#+END_SRC
 
-** evil-matchit
-
-#+BEGIN_SRC elisp
 (leaf evil-matchit
     :doc "Smarter `%` motion"
     :config
     (global-evil-matchit-mode 1))
-#+END_SRC
 
-** evil-nerd-commenter
-
-#+BEGIN_SRC elisp
 (leaf evil-nerd-commenter
     :doc "Toggle comment"
     :commands (evilnc-comment-or-uncomment-lines))
-#+END_SRC
 
-** evil-string-inflection
-
-#+BEGIN_SRC elisp
 (leaf evil-string-inflection
     :doc "Add `g~` operator to cycle through string cases"
     :url "https://github.com/ninrod/evil-string-inflection")
-#+END_SRC
 
-** vimish-fold
-
-#+BEGIN_SRC elisp
 (leaf vimish-fold
     :after evil
     :config
@@ -622,42 +422,24 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
                                                 (prog-mode conf-mode text-mode)))
         :config
         (global-evil-vimish-fold-mode)))
-#+END_SRC
 
-** Ex Commands
-
-*** Buffers
-
-#+BEGIN_SRC elisp
 (evil-ex-define-cmd "Bd" #'kill-this-buffer)
 (evil-ex-define-cmd "BD" #'kill-this-buffer)
 (evil-ex-define-cmd "hs" #'evil-window-split)
-#+END_SRC
 
-*** Configuration loading
-
-#+BEGIN_SRC elisp
 (evil-ex-define-cmd "ed"
                     (lambda nil
                         (interactive)
                         (evil-edit
                          (concat user-emacs-directory "init.org"))))
 (evil-ex-define-cmd "s" #'toy/reload)
-#+END_SRC
 
-*** Bookmarks
-
-#+BEGIN_SRC elisp
 (evil-ex-define-cmd "o"
                     (lambda nil
                         (interactive)
                         (evil-edit
                          (concat org-directory "/journal.org"))))
-#+END_SRC
 
-*** Quits
-
-#+BEGIN_SRC elisp
 (defun toy/evil-quit ()
     (interactive)
     ;; FIXME: consider `neotree` (which closes automatically)
@@ -681,13 +463,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 (evil-ex-define-cmd "q[uit]" 'toy/evil-quit)
 (evil-ex-define-cmd "wq" 'toy/evil-save-and-quit)
 (evil-ex-define-cmd "qa[ll]" 'toy/evil-quit-all)
-#+END_SRC
 
-* Custom functions
-
-** Smart recenter
-
-#+BEGIN_SRC elisp
 (defun toy/smart-recenter ()
     "Recenter or scroll to just before EoF"
     ;; TODO: taken into account visual line
@@ -700,22 +476,12 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
               (scroll (max 0 (- ln (/ h 2)))))
             (scroll-down (- current-scroll (min smart-max-scroll scroll)))
             )))
-#+END_SRC
 
-** Sidebar
-
-*** Sidebar settings
-
-#+BEGIN_SRC elisp
 (setq-default toy/sidebar-width 25)
 (setq-default toy/bottom-bar-height 7)
 (defvar toy/sidebar-imenu-buffer-name "@imenu")
 (defvar toy/bottom-vterm-buffer-name "⊥ vterm")
-#+END_SRC
 
-*** =imenu=
-
-#+BEGIN_SRC elisp
 (defun toy/imenu-get-nearest ()
     "Returns `nil' or `(name . marker)' pair of the nearest item on `imenu'"
     (interactive)
@@ -756,9 +522,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
                       imstack (cdr imstack))))
 
         result))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 ;; FIXME: error
 (defun toy/lsp-imenu-update-focus ()
     "Move the `*lsp-ui-imenu*' buffer's point to the current item."
@@ -785,9 +549,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 
                                 (hl-line-mode 1)
                                 (hl-line-highlight)))))))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 ;; (defun toy/lsp-imenu-on-swtich-buffer ()
 ;;     (when (get-buffer toy/sidebar-imenu-buffer-name)
 ;;         (with-selected-window (get-buffer-window)
@@ -797,11 +559,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 ;; (add-hook 'post-command-hook #'toy/lsp-imenu-update-focus)
 ;; (add-hook 'window-selection-change-functions #'toy/lsp-imenu-update-focus)
 ;; (add-hook 'window-configuration-change-hook #'toy/lsp-imenu-update-focus)
-#+END_SRC
 
-** Bottom bar
-
-#+BEGIN_SRC elisp
 ;; TODO: relace with `eat'
 (defun toy/bottom-vterm ()
     (interactive)
@@ -818,11 +576,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
                 (select-window win)
                 (let ((dh (- toy/bottom-bar-height (window-body-height))))
                     (enlarge-window dh))))))
-#+END_SRC
 
-** Info
-
-#+BEGIN_SRC elisp
 (defun toy/info-url ()
     "Returns current info URL"
     (interactive)
@@ -835,18 +589,12 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
            (page-name (string-replace " " "-" (substring name (+ space-offset 1)))))
         ;; `https://www.gnu.org/software/emacs/manual/html_node/elisp/Case-Conversion.html'
         (message (concat "https://www.gnu.org/software/emacs/manual/html_node/" manual-name "/" page-name ".html"))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/info-open-browser ()
     "Opens the current info with the default browser"
     (interactive)
     (browse-url (toy/info-url)))
-#+END_SRC
 
-** Message
-
-#+BEGIN_SRC elisp
 (defun toy/last-message()
     "Retrieves the last echoed message from the `Messages' buffer"
     (save-excursion
@@ -857,13 +605,7 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
             (let ((end (point)))
                 (forward-line 0)
                 (buffer-substring-no-properties (point) end)))))
-#+END_SRC
 
-** Hacks
-
-*** Faster multiline insertion
-
-#+BEGIN_SRC elisp
 ;; Overwrite `evil-cleanup-insert-state' with `combine-change-calls' added. It's for MUCH faster
 ;; multi-line insertion in large files even with `tree-sitter'.
 (with-eval-after-load 'evil
@@ -909,55 +651,31 @@ Handles the repeat-count of the insertion command."
                                             (funcall col))
                                         (dotimes (_ (or evil-insert-count 1))
                                             (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
-#+END_SRC
 
-* Meta packages
-
-** Auto package update
-
-#+BEGIN_SRC elisp
 (leaf auto-package-update
     :custom ((auto-package-update-delete-old-versions . t)
              (auto-package-update-interval . 7))
     :config
     (auto-package-update-maybe))
-#+END_SRC
 
-** Clipboard
-
-#+BEGIN_SRC elisp
 ;; TODO: linuix o
 (leaf xclip
     :config (xclip-mode))
-#+END_SRC
 
-** Macrostep
-
-#+BEGIN_SRC elisp
 (leaf macrostep
     :doc "interactive macro expander"
     :config
     (define-key emacs-lisp-mode-map
                 (kbd "C-c e")
                 'macrostep-expand))
-#+END_SRC
 
-* View
-
-** Blamer
-
-#+BEGIN_SRC elisp
 ;; (leaf blamer
 ;;     :straight (blamer :type git :host github :repo "Artawower/blamer.el")
 ;;     :custom ((blamer-idle-time . 0.3)
 ;;              (blamer-min-offset . 70))
 ;;     :custom-face (blamer-face \`
 ;;                               ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
-#+END_SRC
 
-** Centaur-tabs
-
-#+BEGIN_SRC elisp
 (leaf centaur-tabs
     :url "https://github.com/ema2159/centaur-tabs"
     :after projectile
@@ -1001,11 +719,7 @@ Handles the repeat-count of the insertion command."
 
     (centaur-tabs-mode t)
     :defer-config (centaur-tabs-headline-match))
-#+END_SRC
 
-** Diff-hl
-
-#+BEGIN_SRC elisp
 (leaf diff-hl
     :custom-face
     ;; (diff-hl-insert . '((t (:foreground "#87edb9" :background "#87edb9"))))
@@ -1020,21 +734,13 @@ Handles the repeat-count of the insertion command."
     ((magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
      (magit-post-refresh-hook . diff-hl-magit-post-refresh)
      (diff-hl-mode-hook . toy/on-diff-hl)))
-#+END_SRC
 
-** dirvish
-
-#+BEGIN_SRC elisp
 (leaf dirvish
     :doc "A modern file manager based on dired mode"
     :req "emacs-27.1"
     :url "https://github.com/alexluigit/dirvish"
     :emacs>= 27.1)
-#+END_SRC
 
-** Doom Modeline + Minions
-
-#+BEGIN_SRC elisp
 (leaf doom-modeline
     :url "https://github.com/seagle0128/doom-modeline"
     :after nerd-icons
@@ -1058,17 +764,9 @@ Handles the repeat-count of the insertion command."
              (doom-modeline-minor-modes . t))
     :config
     (minions-mode 1))
-#+END_SRC
 
-** Eat terminal
-
-#+BEGIN_SRC elisp
 (leaf eat)
-#+END_SRC
 
-** hl-todo
-
-#+BEGIN_SRC elisp
 (leaf hl-todo
     :doc "highlight TODO, FIXME, etc."
     :custom ((hl-todo-highlight-punctuation . ":")
@@ -1084,11 +782,7 @@ Handles the repeat-count of the insertion command."
                                      ("DEPRECATED" font-lock-doc-face bold))))
     :config
     (global-hl-todo-mode 1))
-#+END_SRC
 
-** indent-bars
-
-#+BEGIN_SRC elisp
 ;; (leaf indent-bars
 ;;     :ensure nil
 ;;     :straight (indent-bar :type git :host github :repo "jdtsmith/indent-bars")
@@ -1110,11 +804,7 @@ Handles the repeat-count of the insertion command."
 ;;         (add-hook 'haskell-mode-hook #'toy/setup-indent-bars-2))
 ;;     (with-eval-after-load 'tree-sitter
 ;;         (add-hook 'tree-sitter-after-on-hook #'indent-bars-mode)))
-#+END_SRC
 
-** neotree
-
-#+BEGIN_SRC elisp
 (leaf neotree
     :url "https://github.com/jaypei/emacs-neotree"
     :after evil
@@ -1154,10 +844,7 @@ Handles the repeat-count of the insertion command."
     (advice-add 'neotree-select-up-node :after
                 (lambda (&rest _)
                     (evil-first-non-blank))))
-#+END_SRC
-** nerd-icons
 
-#+BEGIN_SRC elisp
 (leaf nerd-icons
     :leaf-defer nil
     :config
@@ -1175,32 +862,20 @@ Handles the repeat-count of the insertion command."
         (magit-file-icons-enable-diff-file-section-icons . t)
         (magit-file-icons-enable-untracked-icons . t)
         (magit-file-icons-enable-diffstat-icons . t)))
-#+END_SRC
 
-** olivetti
-
-#+BEGIN_SRC elisp
 (leaf olivetti
     :doc "Zen mode *per buffer* (not per frame and that is great!)"
     :url "https://github.com/rnkn/olivetti"
     :commands (olivetti-mode)
     :custom (olivetti-body-width . 120))
-#+END_SRC
 
-** rainbow-delimiters
-
-#+BEGIN_SRC elisp
 (leaf rainbow-delimiters
     :config
     (define-globalized-minor-mode toy/global-rainbow-delimiters-mode rainbow-delimiters-mode
         (lambda nil
             (rainbow-delimiters-mode 1)))
     (toy/global-rainbow-delimiters-mode 1))
-#+END_SRC
 
-** rainbow-mode
-
-#+BEGIN_SRC elisp
 (leaf rainbow-mode
     :doc "show color codes like this: #c0b18b"
     :config
@@ -1208,50 +883,24 @@ Handles the repeat-count of the insertion command."
         (lambda nil
             (rainbow-mode 1)))
     (toy/global-rainbow-mode 1))
-#+END_SRC
 
-** zoom-window
-
-#+BEGIN_SRC elisp
 (leaf zoom-window
     :doc "Zoom in to a pane"
     :url "https://github.com/emacsorphanage/zoom-window"
     ;; mistake?
     :commands (darkroom-mode))
-#+END_SRC
 
-* Development tools
-
-** Aggressive Indent
-
-#+BEGIN_SRC elisp
 (leaf aggressive-indent
     :hook (emacs-lisp-mode-hook scheme-mode-hook))
-#+END_SRC
 
-** CMake
-
-#+BEGIN_SRC elisp
 (leaf cmake-mode)
-#+END_SRC
 
-** DAP mode
-
-#+BEGIN_SRC elisp
 (leaf dap-mode)
-#+END_SRC
 
-** Editor config
-
-#+BEGIN_SRC elisp
 (leaf editorconfig
     :config
     (editorconfig-mode 1))
-#+END_SRC
 
-** Emmet
-
-#+BEGIN_SRC elisp
 (leaf emmet-mode
     :hook
     ((html-mode-hook . emmet-mode)
@@ -1259,28 +908,13 @@ Handles the repeat-count of the insertion command."
      (css-mode-hook . emmet-mode)
      (typescript-tsx-mode-hook . emmet-mode)
      (vue-mode-hook . emmet-mode)))
-#+END_SRC
 
-** Envrc
-
-#+BEGIN_SRC elisp
 (leaf envrc
   :config
   (envrc-global-mode))
 
-#+END_SRC
-
-** Flycheck
-
-#+BEGIN_SRC elisp
 (leaf flycheck)
-#+END_SRC
 
-** Magit + Forge + Diffstatic
-
-*** Magit
-
-#+BEGIN_SRC elisp
 (leaf magit
     :url "https://github.com/magit/magit"
     :commands (magit)
@@ -1305,26 +939,14 @@ Handles the repeat-count of the insertion command."
     (evil-define-key 'normal 'magit-mode-map "zz" #'recenter-top-bottom "z-" #'evil-scroll-line-to-bottom "zb" #'evil-scroll-line-to-bottom
         (kbd "z RET")
         #'evil-scroll-line-to-top "zt" #'evil-scroll-line-to-top))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 ;; (leaf magit-todos
 ;;     :commands (magit-todos-list)
 ;;     :after magit)
-#+END_SRC
 
-*** Forge
-
-#+BEGIN_SRC elisp
 (leaf forge
     :doc "Use GitHub on Emacs")
-#+END_SRC
 
-*** Difftastic
-
-FIXME: Not working under Evil
-
-#+BEGIN_SRC elisp
 (leaf difftastic
     :config
     (with-eval-after-load
@@ -1339,11 +961,7 @@ FIXME: Not working under Evil
                               "D" #'difftastic-magit-show)
                   (keymap-set magit-blame-read-only-mode-map
                               "S" #'difftastic-magit-show))))
-#+END_SRC
 
-** LSP mode
-
-#+BEGIN_SRC elisp
 (leaf lsp-mode
     :after evil
     :commands (lsp-mode lsp-deferred)
@@ -1436,11 +1054,7 @@ FIXME: Not working under Evil
     (define-key evil-normal-state-map " l" lsp-command-map)
     (evil-define-key 'normal lsp-mode-map
         "K" #'lsp-describe-thing-at-point))
-#+END_SRC
 
-** LSP UI
-
-#+BEGIN_SRC elisp
 (leaf lsp-ui
     :commands lsp-ui-mode
     :hook (lsp-mode-hook . lsp-ui-mode)
@@ -1453,11 +1067,7 @@ FIXME: Not working under Evil
              (lsp-ui-sideline-show-diagnostics . t)
              (lsp-ui-sideline-show-hover)
              (lsp-ui-sideline-show-code-actions)))
-#+END_SRC
 
-** LSP UI imenu
-
-#+BEGIN_SRC elisp
 (leaf lsp-ui-imenu
     :ensure nil
     :custom ((lsp-imenu-sort-methods quote
@@ -1477,11 +1087,7 @@ FIXME: Not working under Evil
                       #'lsp-ui-imenu--visit) (advice-add 'lsp-ui-imenu--visit :after
                       (lambda (&rest _)
                           (toy/force-center))))
-#+END_SRC
 
-** Prettier
-
-#+BEGIN_SRC elisp
 (leaf prettier
     :doc "Aggressive source format on save.
 Maybe use `dir-locals.el' or similars rather than to hooks:
@@ -1489,20 +1095,14 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :custom (prettier-inline-errors-flag . t)
     :hook (typescript-mode-hook . prettier-mode)
     :hook (css-mode-hook . prettier-mode))
-#+END_SRC
 
-** Tree Sitter
-
-#+BEGIN_SRC elisp
 (leaf tree-sitter
     :doc "Incremental parsing system"
     :url "https://github.com/emacs-tree-sitter/elisp-tree-sitter"
     :config
     (global-tree-sitter-mode)
     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (leaf tree-sitter-langs
     :after tree-sitter
     :config
@@ -1513,21 +1113,11 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     ;; (with-eval-after-load 'rust-mode
     ;;     )
     )
-#+END_SRC
 
-** Vue
-
-#+BEGIN_SRC elisp
 (leaf vue-mode
     :config
     (add-hook 'vue-mode-hook #'lsp-deferred))
-#+END_SRC
 
-* Markup languages
-
-** AsciiDoc
-
-#+BEGIN_SRC elisp
 (leaf adoc-mode
     :mode ("\\.adoc\\'" . adoc-mode)
     :config
@@ -1540,11 +1130,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
               (lambda nil
                   (electric-indent-local-mode -1)))
     :hook toy/init-adoc-mode)
-#+END_SRC
 
-** Dhall
-
-#+BEGIN_SRC elisp
 (leaf dhall-mode
     :mode "\\.dhall\\'"
     :hook (dhall-mode-hook . lsp-deferred)
@@ -1552,11 +1138,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :custom ((dhall-use-header-line)
              (dhall-format-arguments
               `("--ascii"))))
-              #+END_SRC
 
-** Markdown
-
-#+BEGIN_SRC elisp
 (leaf markdown-mode
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
@@ -1591,28 +1173,15 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
         (_fn
          (outline-hide-sublevels 9))
         "z0" #'evil-open-folds))
-#+END_SRC
 
-** RON
-
-#+BEGIN_SRC elisp
 (leaf ron-mode
     :mode (("\\.ron\\'" . ron-mode))
     :hook (ron-mode-hook lambda nil
                          (setopt comment-start "// "
                                  comment-end "")))
-#+END_SRC
 
-** YAML
-
-#+BEGIN_SRC elisp
 (leaf yaml-mode)
-#+END_SRC
 
-* Programming languages
-** Common Lisp
-
-#+BEGIN_SRC elisp
 ;; (leaf folding-mode
 ;;     :ensure nil
 ;;     :straight (folding-mode :type git :host github :repo "jaalto/project-emacs--folding-mode"))
@@ -1625,34 +1194,18 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     ;; :custom (inferior-lisp-program "ros -Q run")
     ;; :config (slime-setup '(slime-fancy slime-company))
     )
-#+END_SRC
 
-** C#
-
-#+BEGIN_SRC elisp
 (leaf csharp-mode)
 (leaf omnisharp
     ;; https://github.com/OmniSharp/omnisharp-emacs#:~:text=omnisharp-emacs%20is%20a%20port,that%20works%20in%20the%20background.
     )
-#+END_SRC
 
-** Emacs Lisp
-
-#+BEGIN_SRC elisp
 (setq-default lisp-body-indent 4
               indent-tabs-mode nil
               tab-width 4)
-#+END_SRC
 
-** Fish
-
-#+BEGIN_SRC elisp
 (leaf fish-mode)
-#+END_SRC
 
-** Go
-
-#+BEGIN_SRC elisp
 (leaf go-mode
     :config
     (add-hook 'go-mode-hook
@@ -1662,11 +1215,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
                    (lsp-mode)
                    (lsp-ui-mode)
                    (flycheck-mode))))
-#+END_SRC
 
-** Haskell
-
-#+BEGIN_SRC elisp
 (leaf haskell-mode
     :url "https://github.com/haskell/haskell-mode"
     :hook ((haskell-mode-hook . lsp-deferred)
@@ -1760,11 +1309,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                :forceInspect nil)))
 
     )
-#+END_SRC
 
-** Idris
-
-#+BEGIN_SRC elisp
 (leaf idris-mode
     :after lsp-mode
     :mode "\\.l?idr\\'"
@@ -1780,48 +1325,26 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
       :new-connection (lsp-stdio-connection "idris2-lsp")
       :major-modes '(idris-mode)
       :server-id 'idris2-lsp)))
-#+END_SRC
 
-** JavaScript
-
-** Koka
-
-#+BEGIN_SRC elisp
 ;; (leaf koka-mode
 ;;     :ensure nil
 ;;     :load-path `,(concat user-emacs-directory "straight/repos/koka/support/emacs/")
 ;;     :straight (koka-mode :type git :host github :repo "koka-lang/koka")
 ;;     :require t)
-#+END_SRC
 
-** Lua
-
-#+BEGIN_SRC elisp
 (leaf lua-mode)
-#+END_SRC
 
-** Nix
-
-#+BEGIN_SRC elisp
 (leaf nix-mode
     ;; :mode "\\.nix\\'"
     :hook (nix-mode-hook . lsp-deferred)
     :custom (lsp-nix-nil-formatter . ["alejandra"]))
-#+END_SRC
 
-** OCaml
-
-#+BEGIN_SRC elisp
 (add-to-list 'auto-mode-alist '("\\.ml\\'" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.ocaml\\'" . tuareg-mode))
 (autoload 'merlin-mode "merlin" "Merlin mode" t)
 (add-hook 'tuareg-mode-hook #'merlin-mode)
 (add-hook 'caml-mode-hook #'merlin-mode)
-#+END_SRC
 
-Toolings (TODO: move):
-
-#+BEGIN_SRC elisp
 (leaf ocamlformat
     :init
     (defun reserve-ocaml-format-on-save ()
@@ -1839,20 +1362,14 @@ Toolings (TODO: move):
 (leaf dune)
 (leaf utop
     :hook (tuareg-mode-hook . utop-minor-mode))
-#+END_SRC
 
-** Prolog
-
-#+BEGIN_SRC elisp
 (leaf prolog-mode
     :ensure nil
     :tag "builtin"
     ;; It's Prolog, not Perl!
     :mode "\\.l?pl\\'"
     :hook toy/on-prolog)
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/on-prolog ()
     (lsp-mode)
     (lsp-ui-mode)
@@ -1872,50 +1389,30 @@ Toolings (TODO: move):
                    :priority 1
                    :multi-root t
                    :server-id 'prolog-ls))))
-#+END_SRC
 
-** GLSL
-
-#+BEGIN_SRC elisp
 (leaf glsl-mode
     :mode (("\\.fs" . glsl-mode)
            ("\\.vs" . glsl-mode)
            ("\\.glsl" . glsl-mode)
            ("\\.frag" . glsl-mode)
            ("\\.vert" . glsl-mode)))
-#+END_SRC
 
-** GNU Plot
-
-#+BEGIN_SRC elisp
 (leaf gnuplot-mode
     (leaf gnuplot-mode
         :mode (("\\.gp\\'" . gnuplot-mode)))
     :mode (("\\.gp\\'" . gnuplot-mode)))
-#+END_SRC
 
-** SQL
-
-#+BEGIN_SRC elisp
 (leaf sql-indent
     :after sql)
 
 (leaf sqlite-mode-extras
     :url "https://github.com/xenodium/sqlite-mode-extras"
     :hook ((sqlite-mode-hook . sqlite-extras-minor-mode)))
-#+END_SRC
 
-** Vim
-
-#+BEGIN_SRC elisp
 (leaf vimrc-mode
     :mode ("\\.vim" . vimrc-mode)
     :mode ("\\.nvim" . vimrc-mode))
-#+END_SRC
 
-** Rust
-
-#+BEGIN_SRC elisp
 (leaf rust-mode
     :hook (rust-mode-hook . lsp-deferred)
     :hook (rust-mode-hook . toy/on-rust-mode)
@@ -1940,11 +1437,7 @@ Toolings (TODO: move):
     ;; :config
     ;; (add-hook 'after-save-hook #'toy/on-save-rust)
     )
-#+END_SRC
 
-** Type Script
-
-#+BEGIN_SRC elisp
 (leaf typescript-mode
     :mode "\\.ts\\'"
     :init
@@ -1959,11 +1452,7 @@ Toolings (TODO: move):
     ;; :config
     ;; (add-hook 'before-save-hook #'lsp-format-buffer)
     )
-#+END_SRC
 
-** WGSL
-
-#+BEGIN_SRC elisp
 ;; (leaf wgsl-mode
 ;;     :doc "cargo install --git https://github.com/wgsl-analyzer/wgsl-analyzer wgsl_analyzer"
 ;;     :ensure nil
@@ -1980,12 +1469,7 @@ Toolings (TODO: move):
 ;;                           :major-modes
 ;;                           '(wgsl-mode)
 ;;                           :server-id 'wgsl))))
-#+END_SRC
-* Minadwares
 
-** consult
-
-#+BEGIN_SRC elisp
 (leaf consult
     ;; Required if we don't use default UI (like when using `vertico`)
     ;; :hook (completion-list-mode-hook . consult-preview-at-point-mode)
@@ -2036,38 +1520,18 @@ Toolings (TODO: move):
                        :open     #'tab-bar-select-tab-by-name
                        :items    #'(lambda () (mapcar #'(lambda (tab) (cdr (assq 'name tab))) (tab-bar-tabs))))
                  'append))
-#+END_SRC
 
-** consult-ghq
-
-#+BEGIN_SRC elisp
 (leaf consult-ghq)
-#+END_SRC
 
-** consult-dir
-
-#+BEGIN_SRC elisp
 (leaf consult-dir)
-#+END_SRC
 
-** consult-flycheck
-
-#+BEGIN_SRC elisp
 (leaf consult-flycheck)
-#+END_SRC
 
-** consult-lsp
-
-#+BEGIN_SRC elisp
 (leaf consult-lsp
     :after (consult lsp)
     :config
     (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
-#+END_SRC
 
-** vertico
-
-#+BEGIN_SRC elisp
 (leaf vertico
     :doc "Show minibuffer items in rows"
     :hook (after-init-hook . vertico-mode)
@@ -2075,11 +1539,7 @@ Toolings (TODO: move):
     ((vertico-cycle . t)
      (vertico-count . 20)
      (vertico-scroll-margin . 4)))
-#+END_SRC
 
-** orderless
-
-#+BEGIN_SRC elisp
 (leaf orderless
     :doc "Find with space-separated components in any order"
     :leaf-defer nil
@@ -2090,9 +1550,7 @@ Toolings (TODO: move):
      (completion-category-overrides . '((file (styles basic partial-completion))))
      ;; completion-category-overrides '((file (styles . (initials))))
      ))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (leaf emacs
     :init
     ;; add prompt indicator to `completing-read-multiple'.
@@ -2109,9 +1567,6 @@ Toolings (TODO: move):
     (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
     (setopt enable-recursive-minibuffers t))
-#+END_SRC
-
-#+BEGIN_SRC elisp
 
 ;; Broken:
 
@@ -2134,11 +1589,7 @@ Toolings (TODO: move):
 ;;                 (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
 ;;         (apply args)))
 ;; (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-#+END_SRC
 
-** marginalia
-
-#+BEGIN_SRC elisp
 (leaf marginalia
     :doc "Richer annotations in minibuffer"
     :hook (after-init-hook . marginalia-mode)
@@ -2164,11 +1615,7 @@ Toolings (TODO: move):
 
     ;; FIXME: annotate `tab-bar-*-tab-by-name'
     (add-to-list 'marginalia-prompt-categories '("tab by name" . tab)))
-    #+END_SRC
 
-** embark
-
-#+BEGIN_SRC elisp
 (leaf embark
     :doc "Context menu in minibufffers"
     :url "https://github.com/oantolin/embark"
@@ -2197,21 +1644,11 @@ Toolings (TODO: move):
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                    nil
                    (window-parameters (mode-line-format . none)))))
-#+END_SRC
 
-** embark-consult
-
-#+BEGIN_SRC elisp
 (leaf embark-consult
     :hook
     (embark-collect-mode-hook . consult-preview-at-point-mode))
-#+END_SRC
 
-** corfu
-
-FIXME
-
-#+BEGIN_SRC elisp
 (leaf corfu
     :doc "Be sure to configure `lsp-mode' with `corfu'"
     :url "https://github.com/minad/corfu"
@@ -2247,11 +1684,7 @@ FIXME
     ;;         (corfu-mode 1)))
     ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
     )
-#+END_SRC
 
-** kind-icon
-
-#+BEGIN_SRC elisp
 ;; (leaf kind-icon
 ;;     :url "https://github.com/jdtsmith/kind-icon"
 ;;     ;; :custom (kind-icon-default-face . 'corfu-default)
@@ -2263,20 +1696,12 @@ FIXME
 ;;    	              (setopt completion-in-region-function
 ;;    		                  (kind-icon-enhance-completion
 ;;    		                   completion-in-region-function)))))
-#+END_SRC
 
-** nerd-icons-corfu
-
-#+BEGIN_SRC elisp
 (leaf nerd-icons-corfu
     :after corfu
     :config
     (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-#+END_SRC
 
-** cape
-
-#+BEGIN_SRC elisp
 (leaf cape
     :url "https://github.com/minad/cape"
 
@@ -2316,13 +1741,7 @@ FIXME
     (add-to-list 'completion-at-point-functions #'cape-symbol)
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
-    #+END_SRC
 
-** popon etc.
-
-FIXME
-
-#+BEGIN_SRC elisp
 ;; (leaf popon
 ;;     :url "https://codeberg.org/akib/emacs-popon"
 ;;     :unless (display-graphic-p)
@@ -2345,11 +1764,7 @@ FIXME
 ;;     :after corfu
 ;;     :custom ((coruf-popupinfo-delay . 0))
 ;;     :hook (corfu-mode-hook . corfu-popupinfo-mode))
-#+END_SRC
 
-** tempel
-
-#+BEGIN_SRC elisp
 (leaf tempel
     :doc "Tempo templates/snippets with in-buffer field editing"
     :url "https://github.com/minad/tempel"
@@ -2380,13 +1795,7 @@ FIXME
     ;; (evil-define-key 'normal 'tempel-map
     ;;     "C-<RET>" #'tempel-done)
     )
-    #+END_SRC
 
-* org-mode
-
-** Initialization
-
-#+BEGIN_SRC elisp
 (defun toy/init-org ()
     (interactive)
     ;; Let's use logical lines. Line wrapping does not work well with Japanese text,
@@ -2395,11 +1804,7 @@ FIXME
     (setopt fill-column 100)
     ;; (turn-on-auto-fill)
     )
-#+END_SRC
 
-** org
-
-#+BEGIN_SRC elisp
 (leaf org
     :mode ("\\.org\\'" . org-mode)
     :hook
@@ -2480,11 +1885,7 @@ FIXME
 
     :defer-config
     (org-clock-persistence-insinuate))
-#+END_SRC
 
-** org-zenn
-
-#+BEGIN_SRC elisp
 (leaf ox-zenn
     :url "https://github.com/conao3/ox-zenn.el"
     :custom ((org-zenn-with-last-modified . nil)
@@ -2546,11 +1947,7 @@ FIXME
                      "LEVEL=1")
                 ;; be sure to come back to the default directory
                 (when pub-dir (cd default-dir))))))
-#+END_SRC
 
-** org-preview-html
-
-#+BEGIN_SRC elisp
 ;; html view
 (leaf org-preview-html
     :commands org-preview-html-mode org-preview-html/preview)
@@ -2561,11 +1958,7 @@ FIXME
     (defun toy/org-serve ()
         (interactive)
         (httpd-serve-directory "out")))
-#+END_SRC
 
-** Inline style & edit
-
-#+BEGIN_SRC elisp
 (leaf org-appear
     :doc "Uninline format on cursor"
     :url "https://github.com/awth13/org-appear"
@@ -2574,28 +1967,18 @@ FIXME
     (org-appear-autolinks . t)
     (org-appear-inside-latex . t)
     (org-hide-emphasis-markers . t))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (leaf org-fragtog
   :doc "combo with `org-latex-preview'"
   :hook ((org-mode-hook . org-fragtog-mode)
          (org-mode-hook . org-latex-preview)))
-#+END_SRC
 
-** Beautify
-
-#+BEGIN_SRC elisp
 (leaf org-superstar
     :commands org-superstar-mode
     :hook (org-mode-hook . org-superstar-mode)
     :custom
     (org-superstar-special-todo-items . nil))
-#+END_SRC
 
-** org-jounrnal
-
-#+BEGIN_SRC elisp
 ;; C-c C-j: create entry
 (leaf org-journal
     :custom ((org-journal-dir . "~/org/journal/")
@@ -2605,11 +1988,7 @@ FIXME
     ;; (setopt org-capture-templates
     ;;         '(("j" "Journal" entry (file+datetree "journal.org") "* ")))
     )
-#+END_SRC
 
-** Key bindings
-
-#+BEGIN_SRC elisp
 ;; fold
 (evil-define-key 'normal org-mode-map
     "{" #'evil-backward-paragraph
@@ -2635,11 +2014,7 @@ FIXME
     "z8" (_fn (outline-hide-sublevels 8))
     "z9" (_fn (outline-hide-sublevels 9))
     "z0" #'evil-open-folds)
-#+END_SRC
 
-** Diagrams
-
-#+BEGIN_SRC elisp
 (leaf ob-mermaid
     :config
     (with-eval-after-load 'org-src
@@ -2654,18 +2029,10 @@ FIXME
                                  (haskell . t)
                                  (shell . t)
                                  (sqlite . t))))
-#+END_SRC
 
-** math-preview
-
-#+BEGIN_SRC elisp
 ;; requires `math-preview' executable.
 ;; (leaf math-preview)
-#+END_SRC
 
-** org-roam
-
-#+BEGIN_SRC elisp
 (leaf org-roam
     :custom
     ;; any effect?
@@ -2691,9 +2058,7 @@ FIXME
                 (evil-append 0)
                 ad-do-it
                 (evil-normal-state)))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (leaf org-roam-ui
     :after org-roam
     :custom
@@ -2701,9 +2066,7 @@ FIXME
      (org-roam-ui-follow . t)
      (org-roam-ui-update-on-save . t)
      (org-roam-ui-open-on-start . t)))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (leaf consult-org-roam
     :after org-roam
         :custom
@@ -2729,9 +2092,7 @@ FIXME
     ;; ("C-c n l" . consult-org-roam-forward-links)
     ;; ("C-c n r" . consult-org-roam-search)
     )
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (evil-define-key 'normal org-mode-map
     " ol" #'org-roam-buffer-toggle
     " of" #'org-roam-node-find
@@ -2743,11 +2104,7 @@ FIXME
     " ota" #'org-roam-tag-add
     " otm" #'org-roam-tag-remove
     " oz" #'org-zenn-export-buffer-to-book)
-#+END_SRC
 
-** Misc
-
-#+BEGIN_SRC elisp
 (defun toy/open-calendar ()
     (interactive)
     (split-window-right)
@@ -2764,13 +2121,7 @@ FIXME
     (let (org-log-done org-todo-log-states)   ; turn off logging
         (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
     (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
-#+END_SRC
 
-* Web
-
-** elfeed
-
-#+BEGIN_SRC elisp
 (leaf elfeed
     :url "https://github.com/skeeto/elfeed"
     ;; `y`: yank URL, `b`: browse in GUI browser
@@ -2779,24 +2130,12 @@ FIXME
     (setopt elfeed-feeds
             '(("https://matklad.github.io/feed.xml")
               ("https://cp-algorithms.com/feed_rss_created.xml"))))
-#+END_SRC
 
-*** org-sliced-images
-
-#+BEGIN_SRC elisp
 (leaf org-sliced-images
   :hook (org-mode-hook . org-sliced-images-mode))
-#+END_SRC
 
-** md4rd
-
-#+BEGIN_SRC elisp
 (leaf md4rd)
-#+END_SRC
 
-** eww
-
-#+BEGIN_SRC elisp
 ;; (leaf eww
 ;;     :commands eww eww-follow-link
 ;;     :init
@@ -2817,17 +2156,9 @@ FIXME
 ;;     ;;        ("C-c w i" . eww-wiki)
 ;;     ;;        ("C-c w l" . eww-follow-link))
 ;;     )
-#+END_SRC
 
-* Hydra
-
-#+BEGIN_SRC elisp
 (leaf hydra)
-#+END_SRC
 
-** Window move
-
-#+BEGIN_SRC elisp
 ;; builtin!
 (require 'winner)
 (winner-mode 1)
@@ -2854,9 +2185,7 @@ FIXME
         (tab-bar-move-tab-to (+ 1 next-ix))))
 
 (defvar toy/expand-unit 5)
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (with-eval-after-load 'hydra
     (defhydra toy/hydra-window (:color red :hint nil)
         "
@@ -2932,11 +2261,7 @@ WASD: swap      x: kill, X: both    u: undo window change
         ("b" 'evil-buffer-new)
     
         ("ESC" nil)))
-#+END_SRC
 
-** Tab
-
-#+BEGIN_SRC elisp
 (with-eval-after-load 'hydra
     (defhydra toy/hydra-tab (:color red :hint nil)
         "
@@ -2995,13 +2320,7 @@ m[1-9]  move
         ("m8" (_fn (tab-bar-move-tab-to 8)))
         ("m9" (_fn (tab-bar-move-tab-to 9)))
         ("ESC" nil)))
-#+END_SRC
 
-* Key Mappings
-
-** Global mode
-
-#+BEGIN_SRC elisp
 (defvar toy/global-mode-map (make-sparse-keymap)
     "High precedence keymap.")
 
@@ -3015,31 +2334,15 @@ m[1-9]  move
     (evil-make-intercept-map
      (evil-get-auxiliary-keymap toy/global-mode-map state t t)
      state))
-#+END_SRC
 
-** Evil fix
-
-*** Evil everywhere
-
-https://github.com/noctuid/evil-guide#use-evil-everywhere
-
-#+BEGIN_SRC elisp
 (setopt evil-emacs-state-modes nil
         evil-insert-state-modes nil
         evil-motion-state-modes nil)
-#+END_SRC
 
-*** Help mode
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal help-mode-map
     "q" #'kill-this-buffer
     "Q" #'evil-delete-buffer)
-#+END_SRC
 
-*** Word policy
-
-#+BEGIN_SRC elisp
 ;; Do not treat `_' as a word boundary (thought it still treats `-` as a word boundary):
 (modify-syntax-entry ?_ "w")
 
@@ -3051,31 +2354,19 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 ;; (defalias 'forward-evil-word 'forward-evil-symbol)
 
 ;; c.f. https://evil.readthedocs.io/en/latest/faq.html
-#+END_SRC
 
-*** Prevent cursor from going to the next line of EoF
-
-#+BEGIN_SRC elisp
 (defun toy/fix-point ()
     (unless (window-minibuffer-p)
         (when (= (point) (+ (point-max) 0))
             (forward-line -1))))
 (add-hook 'post-command-hook (_fn (toy/fix-point)))
-#+END_SRC
 
-*** Let ={=, =}= skip multiple bulelts like Vim
-
-#+BEGIN_SRC elisp
 (with-eval-after-load 'evil
     (defadvice forward-evil-paragraph (around default-values activate)
         (let ((paragraph-start (default-value 'paragraph-start))
               (paragraph-separate (default-value 'paragraph-separate)))
             ad-do-it)))
-#+END_SRC
 
-*** Translate `ESC` or `C-c` to `C-g`
-
-#+BEGIN_SRC elisp
 (defun toy/do-tr-esc ()
     (or (evil-insert-state-p) (evil-normal-state-p)
         (evil-replace-state-p) (evil-visual-state-p)))
@@ -3083,13 +2374,7 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 (defun toy/smart-esc-tr (_)
     (if (toy/do-tr-esc) (kbd "ESC") (kbd "C-g")))
 (define-key key-translation-map (kbd "ESC") #'toy/smart-esc-tr)
-#+END_SRC
 
-*** Vertical f/F
-
-Cannot be repated though.
-
-#+BEGIN_SRC elisp
 (defun toy/vf--impl (target-char delta-move)
     (let* ((start-point (point))
            (start-col (current-column))
@@ -3111,11 +2396,7 @@ Cannot be repated though.
     "Searches backward a character in the same column. Returns the point on jump or nil on failure."
     (interactive)
     (toy/vf--impl (or target-char (evil-read-key)) -1))
-    #+END_SRC
 
-*** Blackhole register
-
-#+BEGIN_SRC elisp
 ;; seems like we can't use keyboard macros for these mappings (?)
 
 ;; `x` -> `"_x`
@@ -3133,21 +2414,13 @@ Cannot be repated though.
 (define-key evil-normal-state-map "s" 'toy/null-s)
 
 ;; more generic helper: https://github.com/syl20bnr/spacemacs/issues/6977#issuecomment-24^4014379
-#+END_SRC
 
-*** Center cursor on search
-
-#+BEGIN_SRC elisp
 (advice-add 'evil-ex-search-next :after (lambda (&rest _) (recenter)))
 (advice-add 'evil-ex-search-previous :after (lambda (&rest _) (recenter)))
 ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
 (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
 (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
-#+END_SRC
 
-*** Center cursor on jump
-
-#+BEGIN_SRC elisp
 ;; ` and '
 (advice-add 'evil-goto-mark :after (lambda (&rest _) (recenter)))
 (advice-add 'evil-goto-mark-line :after (lambda (&rest _) (recenter)))
@@ -3156,21 +2429,11 @@ Cannot be repated though.
 (advice-add 'evil-jump-forward :after (lambda (&rest _) (recenter)))
 ;; `<number>G` FIXME: other than `G`
 (advice-add 'evil-goto-line :after (lambda (&rest count) (recenter)))
-#+END_SRC
 
-** Emacs-like
-
-*** Auxiliary functions
-
-#+BEGIN_SRC elisp
 (defun toy/backward-kill-line (arg)
     (interactive "p")
     (kill-line (- 1 arg)))
-#+END_SRC
 
-*** Ex mode
-
-#+BEGIN_SRC elisp
 ;; TODO: why can't use evil-define-key?
 (define-key evil-ex-completion-map "\C-f" 'forward-char)
 (define-key evil-ex-completion-map "\C-b" 'backward-char)
@@ -3181,11 +2444,7 @@ Cannot be repated though.
 (define-key evil-ex-completion-map "\C-h" 'evil-delete-backward-char)
 (define-key evil-ex-completion-map "\C-k" 'evil-delete-line)
 (define-key evil-ex-completion-map "\C-u" 'toy/backward-kill-line)
-#+END_SRC
 
-*** Insert mode
-
-#+BEGIN_SRC elisp
 (evil-define-key 'insert 'global
     "\C-a" #'evil-first-non-blank
     "\C-e" #'end-of-line
@@ -3195,11 +2454,7 @@ Cannot be repated though.
     "\C-h" #'evil-delete-backward-char
     "\C-k" 'evil-delete-line
     "\C-u" #'toy/backward-kill-line)
-#+END_SRC
 
-*** =undo-tree=
-
-#+BEGIN_SRC elisp
 ;; (evil-define-key 'normal 'global
 ;;     "\C-_" (_fn (message "undo-tree-undo removed"))
 ;;     "\M-_" (_fn (message "undo-tree-redo removed")))
@@ -3207,11 +2462,7 @@ Cannot be repated though.
 ;; (evil-define-key 'insert 'global
 ;;     "\C-_" (_fn (message "undo-tree-undo removed"))
 ;;     "\M-_" (_fn (message "undo-tree-redo removed")))
-#+END_SRC
 
-** g
-
-#+BEGIN_SRC elisp
 ;; https://gist.github.com/dotemacs/9a0433341e75e01461c9
 (defun toy/parse-url (url)
     "convert a git remote location as a HTTP URL"
@@ -3236,13 +2487,7 @@ Cannot be repated though.
     ;; open link
     "gB" #'browse-url
     "gR" #'toy/magit-open-repo)
-#+END_SRC
 
-** Leaders
-
-*** Auxiliary functions
-
-#+BEGIN_SRC elisp
 ;; https://www.emacswiki.org/emacs/NeoTree
 (defun toy/neo-proj ()
     "Open NeoTree using the git root."
@@ -3256,18 +2501,12 @@ Cannot be repated though.
                             (neotree-dir project-dir)
                             (neotree-find file-name)))
             (message "Could not find git project root."))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/search-forward ()
     (interactive)
     (call-interactively #'evil-search-forward)
     (recenter))
-#+END_SRC
 
-*** Main
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     " ;" #'shell-command
     " *" #'toy/search-forward
@@ -3289,11 +2528,7 @@ Cannot be repated though.
     " t" #'toy/hydra-tab/body
     ;; " o" #'toy/hydra-org/body
     )
-#+END_SRC
 
-*** Find
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     ;; `projectile-*`
     " fc" #'projectile-invalidate-cache
@@ -3306,25 +2541,13 @@ Cannot be repated though.
 
     " fg" #'centaur-tabs-switch-group
     )
-#+END_SRC
 
-*** Hack
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     " e" (_fn (evil-vimish-fold-mode) (evil-vimish-fold-mode) (evil-close-folds)))
-#+END_SRC
 
-*** Japanese
-
-#+BEGIN_SRC elisp
 (define-key evil-read-key-map (kbd "C-j") (kbd "、"))
 (define-key evil-read-key-map (kbd "C-l") (kbd "。"))
-#+END_SRC
 
-*** Magit
-
-#+BEGIN_SRC elisp
 ;; open magit in the full frame
 (defun toy/magit-frame ()
     (interactive)
@@ -3342,13 +2565,7 @@ Cannot be repated though.
     "  g" #'magit
     "  G" #'toy/magit-frame
     "  T" #'toy/magit-tab)
-#+END_SRC
 
-*** org
-
-TODO: merge all
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     " ol" #' org-store-link
     ;; TODO: copy upstream link URL instead
@@ -3365,11 +2582,7 @@ TODO: merge all
 
     ;; toggle
     " otl" #'org-toggle-link-display)
-#+END_SRC
 
-*** Reset
-
-#+BEGIN_SRC elisp
 (defun toy/kill-all ()
     "Kill most buffers"
     (interactive)
@@ -3393,11 +2606,7 @@ TODO: merge all
 (evil-define-key 'normal 'toy/global-mode-map
     "   x" #'toy/reset
     )
-#+END_SRC
 
-*** Sidebars
-
-#+BEGIN_SRC elisp
 (defun toy/sidebar-imenu-focus ()
     (interactive)
     (when (string= (buffer-name) toy/sidebar-imenu-buffer-name)
@@ -3418,14 +2627,9 @@ TODO: merge all
     ;; ⊥ Bottom pane (`vterm')
     " bv" #'toy/bottom-vterm
     )
-#+END_SRC
 
-#+BEGIN_SRC elisp
-#+END_SRC
 
-*** Translate
 
-#+BEGIN_SRC elisp
 (defun toy/tr-buf ()
     (interactive)
     (google-translate-buffer)
@@ -3439,11 +2643,7 @@ TODO: merge all
     " rb" #'toy/tr-buf
     " rk" #'google-translate-at-point
     )
-#+END_SRC
 
-** Outline
-
-#+BEGIN_SRC elisp
 (with-eval-after-load 'evil
     (evil-define-key 'normal outline-minor-mode-map
         "z1" (_fn (outline-hide-sublevels 3))
@@ -3454,19 +2654,11 @@ TODO: merge all
         "z6" (_fn (outline-hide-sublevels 8))
         "z9" (_fn (outline-hide-sublevels 11))
         "z0" #'evil-open-folds))
-#+END_SRC
 
-** Save
-
-#+BEGIN_SRC elisp
 (evil-define-key 'insert 'global
     "\C-s" (_fn (evil-force-normal-state)
                 (save-buffer)))
-#+END_SRC
 
-** SKK
-
-#+BEGIN_SRC elisp
 ;; https://ddskk.readthedocs.io/
 
 ;; In Nix, I install `emacsPackages.ddskk' and `skk-dicts'.
@@ -3480,42 +2672,13 @@ TODO: merge all
 ;; (global-set-key "\C-xj" 'skk-auto-fill-mode)
 ;; (global-set-key "\C-xt" 'skk-tutorial)
 
-;; q    skk-toggle-kana         「かなモード」と「カナモード」間をトグル切り替えする
-;; l    skk-latin-mode          「かなモード」又は「カナモード」から「アスキーモード」へ
-;; L    skk-jisx0208-latin-mode 「かなモード」又は「カナモード」から「全英モード」へ
-;; C-j  skk-kakutei             「アスキーモード」又は「全英モード」から「かなモード」へ
-
-;; Q
-;; 再変換
-
-;; 変換箇所について
-
-;; かな送りについて
-
-;; 辞書登録について
-
-;; 変換中: スペースで次へ、前へ行くには？？
-;; 変換リスト: スペースで次へ、 x で前へ
-
-;; かなモードにおいて
-;; / から始めることでアルファベットを変換対象にできる (Greak/greek など)
-;; \ から始めることで
-
 ;; (setopt default-input-method "japanese-skk")
 
 ;; skk-kakutei key binding
-#+END_SRC
 
-** Toggle comments
-
-#+BEGIN_SRC elisp
 (evil-define-key '(normal visual) 'global
     " /" 'evilnc-comment-or-uncomment-lines)
-#+END_SRC
 
-** Unimpaired
-
-#+BEGIN_SRC elisp
 (defun toy/swap-line-up ()
     (let ((col (current-column)))
         (progn
@@ -3536,9 +2699,7 @@ TODO: merge all
 
 (defun toy/insert-line-down (count)
     (dotimes (_ count) (save-excursion (evil-insert-newline-below))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/is-star (name)
     (or (string-prefix-p "*" name)
         (string-prefix-p "@" name)
@@ -3551,9 +2712,7 @@ TODO: merge all
             (funcall nav-fn)
         (progn (funcall nav-fn)
                (while (toy/is-star (buffer-name)) (funcall nav-fn)))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/run-with-non-dedicated (nav-fn)
     "Run function turning of dedicated window"
     ;; **This is for the sidebar support!**
@@ -3563,9 +2722,7 @@ TODO: merge all
                (funcall nav-fn)
                (set-window-dedicated-p win t))
               (t (funcall nav-fn)))))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     ;; cycle through buffers
     "[b" (_fn (toy/run-with-non-dedicated #'centaur-tabs-backward))
@@ -3603,11 +2760,7 @@ TODO: merge all
     ;; cycle through windows
     "[w" #'evil-window-prev
     "]w" #'evil-window-next)
-#+END_SRC
 
-** M-x
-
-#+BEGIN_SRC elisp
 ;; FIXME: just use let?
 (defmacro _cd (&rest body)
     "Call consult function with `default-directory' as root directory."
@@ -3622,15 +2775,7 @@ TODO: merge all
 
 (evil-define-key 'visual 'toy/global-mode-map
     " :" #'execute-extended-command)
-#+END_SRC
 
-* Key mappings (consult)
-
-TODO: merge
-
-** Find
-
-#+BEGIN_SRC elisp
 (defun toy/proj-find ()
     "Find a file from project files."
     (interactive)
@@ -3675,11 +2820,7 @@ TODO: merge
     " fM" #'consult-global-mark
     " fr" #'consult-register
     )
-#+END_SRC
 
-** Grep
-
-#+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
     " gb" #'consult-line
     ;; in all buffer
@@ -3698,13 +2839,7 @@ TODO: merge
     (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up)
     ;; TODO: use isearch forward?
     (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
-    #+END_SRC
 
-* Misc
-
-** helpful
-
-#+BEGIN_SRC elisp
 (leaf helpful
     :bind ([remap describe-command]
            . helpful-command) ([remap describe-key]
@@ -3729,11 +2864,7 @@ TODO: merge
                                      ("DEPRECATED" font-lock-doc-face bold))))
     :config
     (global-hl-todo-mode 1))
-#+END_SRC
 
-** git-link
-
-#+BEGIN_SRC elisp
 (leaf git-link
     :commands (git-link git-link-commit)
     :commands (gl-line gl-today)
@@ -3751,25 +2882,13 @@ TODO: merge
               (git-link-open-in-browser t))
             (ignore git-link-use-commit git-link-open-in-browser)
             (call-interactively #'git-link))))
-            #+END_SRC
 
-** git-modes
-
-#+BEGIN_SRC elisp
 (leaf git-modes)
-#+END_SRC
 
-** Google Translate
-
-#+BEGIN_SRC elisp
 (leaf google-translate
     :doc "Emacs interface to Google Translate."
     :url "https://github.com/atykhonov/google-translate")
-#+END_SRC
 
-** PDF tools
-
-#+BEGIN_SRC elisp
 ;; FIXME: not workings
 ;; TODO: hook mode
 (leaf pdf-tools
@@ -3784,44 +2903,24 @@ TODO: merge
         )
     :config
     :hook  (doc-view-mode-hook . toy/on-pdf-view))
-    #+END_SRC
 
-** Persistant scratch
-
-#+BEGIN_SRC elisp
 (leaf persistent-scratch
     :config
     (persistent-scratch-setup-default))
-#+END_SRC
 
-** popup
-
-#+BEGIN_SRC elisp
 (leaf popup)
-#+END_SRC
 
-** Projectile
-
-#+BEGIN_SRC elisp
 (leaf projectile
     :leaf-defer nil
     :custom (projectile-enable-caching . nil)
     :config
     (projectile-mode 1))
-#+END_SRC
 
-** scratch-comment
-
-#+BEGIN_SRC elisp
 (leaf scratch-comment
     :bind ((lisp-interaction-mode-map
             :package elisp-mode
             ("C-j" . scratch-comment-eval-sexp))))
-#+END_SRC
 
-** which-key
-
-#+BEGIN_SRC elisp
 (leaf which-key
     :custom ((which-key-idle-delay . 0.01)
              (which-key-idle-secondary-delay . 0.01))
@@ -3830,29 +2929,15 @@ TODO: merge
                 (kbd "M")
                 'which-key-show-major-mode)
     (which-key-mode))
-#+END_SRC
 
-** zig
-
-#+BEGIN_SRC elisp
 (leaf zig-mode
     :mode ("\\.zig\\'" . zig-mode)
     :custom ((lsp-zig-zls-executable . "/Users/tbm/zls/zls")
              (zig-format-on-save . t)
              (zig-format-show-buffer)))
-#+END_SRC
 
-* LLM
-
-** llm
-
-#+BEGIN_SRC elisp
 (leaf llm)
-#+END_SRC
 
-** ellama
-
-#+BEGIN_SRC elisp
 (leaf llm
     :custom
     ((ellama-language . "Japanese")
@@ -3882,21 +2967,13 @@ TODO: merge
               ("llama3.1" . (make-llm-ollama
                              :chat-model "llama3.1:8b"
                              :embedding-model "llama3.1:8b")))))
-#+END_SRC
 
-** =org-ai=
-
-#+BEGIN_SRC elisp
 (leaf org-ai
     :hook (org-mode-hook . org-ai-mode)
     :custom (org-ai-default-chat-model . "gpt-4o")
     :init
     (org-ai-global-mode))
-#+END_SRC
 
-* At the end
-
-#+BEGIN_SRC elisp
 (defun toy/setup-theme ()
     (interactive)
     (leaf doom-themes
@@ -3912,9 +2989,7 @@ TODO: merge
     (load-theme 'doom-opera t)
     ;; (load-theme 'smyx t)
     )
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/setup-light-theme ()
     (interactive)
     (leaf doom-themes
@@ -3925,9 +3000,7 @@ TODO: merge
         :config
         ;; First load doom theme and then overwrite most colors
         (load-theme 'doom-opera-light t)))
-#+END_SRC
 
-#+BEGIN_SRC elisp
 (defun toy/on-start ()
 (delete-other-windows)
 (toy/setup-theme)
@@ -3935,37 +3008,5 @@ TODO: merge
 )
 
 (add-hook 'window-setup-hook #'toy/on-start)
-#+END_SRC
 
-#+BEGIN_SRC elisp
 ;;; init.el ends here
-#+END_SRC
-
-* TODOs
-
-Better editig experience
-- Create corfu key binding
-- Better tempel key mappings
-- How to check specfic mappings for mode
-
-Neotree key bindings like org-mode
-- C-c C-n
-- C-c C-p
-
-Delayed async-like loading
-- for dotfiles
-- for org-mode
-- for haskell
-- for rust
-
-Terminal
-- Fix Japanese font on tmux (fontconfig for tmux?)
-
-embark
-- put grep result into a buffer
-- remove which-key
-
-Flakes
-- Flakes for nix-direnv
-- Flakes for Emacs?
-
