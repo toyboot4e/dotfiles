@@ -127,21 +127,21 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
-;; (setopt straight-vc-git-default-protocol 'ssh)
-;; 
-;; (progn ;; `straight.el'
-;;     (defvar bootstrap-version)
-;;     (let ((bootstrap-file
-;;            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;           (bootstrap-version 5))
-;;         (unless (file-exists-p bootstrap-file)
-;;             (with-current-buffer
-;;                     (url-retrieve-synchronously
-;;                      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;                      'silent 'inhibit-cookies)
-;;                 (goto-char (point-max))
-;;                 (eval-print-last-sexp)))
-;;         (load bootstrap-file nil 'nomessage)))
+(setopt straight-vc-git-default-protocol 'ssh)
+
+(progn ;; `straight.el'
+    (defvar bootstrap-version)
+    (let ((bootstrap-file
+           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+          (bootstrap-version 5))
+        (unless (file-exists-p bootstrap-file)
+            (with-current-buffer
+                    (url-retrieve-synchronously
+                     "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+                     'silent 'inhibit-cookies)
+                (goto-char (point-max))
+                (eval-print-last-sexp)))
+        (load bootstrap-file nil 'nomessage)))
 #+END_SRC
 
 ** leaf
@@ -384,10 +384,10 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 ** empv
 
 #+BEGIN_SRC elisp
-;; (leaf empv
-;;     :ensure nil
-;;     :after evil
-;;     :straight (empv :type git :host github :repo "isamert/empv.el"))
+(leaf empv
+    :ensure nil
+    :after evil
+    :straight (empv :type git :host github :repo "isamert/empv.el"))
 #+END_SRC
 
 ** undo-tree
@@ -947,12 +947,13 @@ Handles the repeat-count of the insertion command."
 ** Blamer
 
 #+BEGIN_SRC elisp
-;; (leaf blamer
-;;     :straight (blamer :type git :host github :repo "Artawower/blamer.el")
-;;     :custom ((blamer-idle-time . 0.3)
-;;              (blamer-min-offset . 70))
-;;     :custom-face (blamer-face \`
-;;                               ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
+(leaf blamer
+    :ensure nil
+    ;; :straight (blamer :type git :host github :repo "Artawower/blamer.el")
+    :custom ((blamer-idle-time . 0.3)
+             (blamer-min-offset . 70))
+    :custom-face (blamer-face \`
+                              ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
 #+END_SRC
 
 ** Centaur-tabs
@@ -3905,13 +3906,12 @@ TODO: merge
         ;;  (doom-themes-enable-italic . t))
         )
 
-    ;; FIXME: smyx not working with emacs overay?
-    ;; (leaf smyx-theme
-    ;;     :ensure nil
-    ;;     :straight (smyx-theme :type git :host github :repo "tacit7/smyx"))
+    (leaf smyx-theme
+        :ensure nil
+        ;; :straight (smyx-theme :type git :host github :repo "tacit7/smyx")
+        )
     (load-theme 'doom-opera t)
-    ;; (load-theme 'smyx t)
-    )
+    (load-theme 'smyx t))
 #+END_SRC
 
 #+BEGIN_SRC elisp
