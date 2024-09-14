@@ -1,0 +1,89 @@
+#+LINK: nix https://github.com/NixOS/nix
+#+LINK: hm https://github.com/nix-community/home-manager
+#+LINK: brew https://brew.sh/
+
+#+LINK: kitty https://sw.kovidgoyal.net/kitty/
+#+LINK: tmux https://github.com/tmux/tmux
+#+LINK: nerd https://github.com/ryanoasis/nerd-fonts
+#+LINK: evil https://github.com/emacs-evil/evil
+#+LINK: fish https://fishshell.com/
+
+#+LINK: qb https://qutebrowser.org/
+#+LINK: w3m http://w3m.sourceforge.net/
+
+#+LINK: skhd https://github.com/koekeishiya/skhd
+#+LINK: yabai https://github.com/koekeishiya/yabai
+#+LINK: karabiner https://karabiner-elements.pqrs.org/
+#+LINK: simple-bar https://github.com/Jean-Tinland/simple-bar
+#+LINK: uber https://github.com/felixhageloh/uebersicht
+#+LINK: spacebar https://github.com/somdoron/spacebar
+
+#+LINK: i3 https://github.com/i3/i3
+#+LINK: flameshot https://github.com/flameshot-org/flameshot
+
+#+LINK: ghq https://github.com/x-motemen/ghq
+#+LINK: gh https://github.com/cli/cli
+#+LINK: rg https://github.com/BurntSushi/ripgrep
+#+LINK: hgrep https://github.com/rhysd/hgrep
+#+LINK: fd https://github.com/sharkdp/fd
+#+LINK: as-tree https://github.com/jez/as-tree
+#+LINK: bat https://github.com/sharkdp/bat
+#+LINK: eza https://github.com/eza-community/eza
+#+LINK: delta https://github.com/delta-io/delta
+
+#+LINK: xdg-ninja https://github.com/b3nj5m1n/xdg-ninja
+
+* dotfiles
+
+I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for colors.
+
+[[./readme/nixos.png]]
+
+** List
+
+| Terminal | [[kitty][kitty]] with [[tmux][tmux]]                       |
+| Font     | SourceCodePro ([[nerd][nerd]])                  |
+| Editors  | NeoVim and [[evil][evil]] Emacs                 |
+| Shells   | bash and [[fish][fish]]                         |
+| Browsers | [[qb][qb]], firefox and [[w3m][w3m]]                   |
+| macOS    | [[yabai][yabai]], [[skhd][skhd]], [[simple-bar][simple-bar]] and [[karabiner][karabiner]] |
+| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]]     |
+
+[[ghq][ghq]], [[gh][gh]], [[rg][rg]], [[hgrep][hgrep]], [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[delta][delta]], GNU sed, GNU xargs and `rename`
+
+** Installations (WIP)
+
+*** macOS
+
+Old note:
+
+I fail to install some packages with [[nix][nix]] (somehow), so I'm using [[brew][brew]] for them:
+
+#+BEGIN_SRC sh
+$ brew install kitty
+$ brew install --cask qutebrowser
+$ brew install emacs-plus --with-no-titlebar
+$ brew install ccls node make cmake llvm
+#+END_SRC
+
+macOS-only:
+
+#+BEGIN_SRC sh
+$ brew install yabai skhd
+$ brew install --cask karabiner-elements
+#+END_SRC
+
+[[simple-bar][simple-bar]] and [[uber][uber]]
+
+*** NixOS
+
+TODO: Distribute configuration files via =flake.nix=.
+
+*** Windows
+
+I'm still unfamilar with that OS!
+
+** Misc
+
+- [[xdg-ninja][xdg-ninja]]
+

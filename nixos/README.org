@@ -14,3 +14,6 @@ $ nix flake update
 $ sudo nixos-rebuild switch --flake .#tbm
 #+END_SRC
 
+- TODO: Update README
+- TODO: use input/output style of configuration files?
+
