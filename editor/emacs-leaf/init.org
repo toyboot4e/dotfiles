@@ -629,8 +629,8 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 *** Buffers
 
 #+BEGIN_SRC elisp
-(evil-ex-define-cmd "Bd" #'kill-this-buffer)
-(evil-ex-define-cmd "BD" #'kill-this-buffer)
+(evil-ex-define-cmd "Bd" #'kill-current-buffer)
+(evil-ex-define-cmd "BD" #'kill-current-buffer)
 (evil-ex-define-cmd "hs" #'evil-window-split)
 #+END_SRC
 
@@ -2919,7 +2919,7 @@ WASD: swap      x: kill, X: both    u: undo window change
         ("q" #'toy/evil-quit) ;; NOTE: defined in `keymap.el`
     
         ;; delete
-        ("x" #'kill-this-buffer)
+        ("x" #'kill-current-buffer)
         ("X" #'evil-delete)
     
         ("C-s" #'save-buffer)
@@ -3033,7 +3033,7 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 
 #+BEGIN_SRC elisp
 (evil-define-key 'normal help-mode-map
-    "q" #'kill-this-buffer
+    "q" #'kill-current-buffer
     "Q" #'evil-delete-buffer)
 #+END_SRC
 
@@ -3272,7 +3272,7 @@ Cannot be repated though.
     " ;" #'shell-command
     " *" #'toy/search-forward
 
-    " k" #'kill-this-buffer    ;; kill buffer
+    " k" #'kill-current-buffer    ;; kill buffer
     " K" #'evil-delete-buffer  ;; kill buffer and :qclose the window
 
     " q" #'toy/evil-quit       ;; close window, tab or frame
@@ -3711,7 +3711,7 @@ TODO: merge
            . helpful-key)
     :after evil
     :init
-    (evil-define-key 'normal helpful-mode-map "q" #'kill-this-buffer)
+    (evil-define-key 'normal helpful-mode-map "q" #'kill-current-buffer)
     (evil-define-key 'normal 'global "K" #'helpful-at-point))
 
 (leaf hl-todo
