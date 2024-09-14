@@ -27,7 +27,6 @@ in {
   };
 
   home.packages = with pkgs; [
-    # ----------------------------------------------------------------------------------------------------
     kitty
     convmv
     qutebrowser
@@ -37,7 +36,7 @@ in {
     arandr
     bluetuith
     blueberry
-    cinnamon.nemo
+    nemo
     nautilus
     xfce.thunar
     xdg-ninja
@@ -83,6 +82,8 @@ in {
     alejandra
 
     nvfetcher
+    nix-search-cli
+    nix-doc
     (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
     # rust-analyzer-nightly
 
@@ -114,11 +115,11 @@ in {
     kicad-small
     qmk
 
+    # openai-whisper-cpp
     # (openai-whisper.override { cudaSupport = true; })
-    openai-whisper-cpp
     # whisper-ctranslate2
 
-    espeak-classic
+    # espeak-classic
     # arcanPackages.espeak
     # python311Packages.pyttsx3
 
@@ -155,6 +156,7 @@ in {
     plantuml
     nkf
     gnuplot
+    math-preview
 
     cmatrix
     figlet
@@ -172,11 +174,12 @@ in {
 
     # DAW
     # reaper
-    bitwig-studio
+    # bitwig-studio
+    # yabridge
+    # yabridgectl
+
     wineWowPackages.staging
     winetricks
-    yabridge
-    yabridgectl
 
     # Web
   ];

@@ -29,9 +29,6 @@ font pango:monospace 12
 # no border
 default_border pixel 0
 
-# some border
-# default_border pixel 12
-
 # show border
 for_window [class="Evince"] default_border pixel 20
 for_window [class="Naitulus"] default_border pixel 20
