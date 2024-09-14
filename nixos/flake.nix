@@ -7,6 +7,12 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     fenix.url = "github:nix-community/fenix/monthly";
+    # https://github.com/nix-community/emacs-overlay
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
     # https://github.com/slotThe/emacs-lsp-booster-flake
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
   };
@@ -15,6 +21,7 @@
     nixpkgs,
     home-manager,
     fenix,
+    emacs-overlay,
     emacs-lsp-booster,
     ...
   }: {
@@ -24,6 +31,7 @@
       modules = [
         {
           nixpkgs.overlays = [
+            emacs-overlay.overlay
             emacs-lsp-booster.overlays.default
             fenix.overlays.default
           ];

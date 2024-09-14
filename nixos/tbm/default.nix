@@ -10,6 +10,20 @@
   nixpkgs.config.allowUnfree = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+      config = ../../editor/emacs-leaf/init.org;
+      # TODO: byte compilation
+      # defaultInitFile = true;
+      defaultInitFile = false;
+      package = pkgs.emacs-unstable;
+      alwaysTangle = true;
+      alwaysEnsure = true;
+      extraEmacsPackages = epkgs: [];
+    };
+  };
+
   home.packages = with pkgs; [
     # ----------------------------------------------------------------------------------------------------
     kitty
@@ -27,12 +41,10 @@
     xdg-ninja
     neovim
     helix
+
     nushell
     devbox
-    emacs
-    emacsPackages.ddskk
     skk-dicts
-    emacs-lsp-booster # defined in `flake.nix`
     # geekbench
     fastfetch
     meson
@@ -40,6 +52,11 @@
     exiftool
     zip
     moreutils
+
+    # emacs
+    # emacsPackages.ddskk
+    # TODO: not working?
+    emacs-lsp-booster
 
     # CPU temperature
     lm_sensors
