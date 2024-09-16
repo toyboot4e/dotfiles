@@ -37,13 +37,13 @@
   programs.nix-ld.enable = true;
 
   # Audio
-  nixpkgs.config.pulseaudio = true;
-  hardware.pulseaudio = {
-    enable = true;
-    support32Bit = true;
-    extraConfig = "load-module module-combine-sink";
-    package = pkgs.pulseaudioFull;
-  };
+  # nixpkgs.config.pulseaudio = true;
+  # hardware.pulseaudio = {
+  #   enable = true;
+  #   support32Bit = true;
+  #   extraConfig = "load-module module-combine-sink";
+  #   package = pkgs.pulseaudioFull;
+  # };
 
   # QMK
   hardware.keyboard.qmk.enable = true;
@@ -75,8 +75,7 @@
 
   hardware.bluetooth = {
     enable = true;
-    # TODO: what is this? (it's from the guide)
-    hsphfpd.enable = true; # HSP & HFP daemon
+    # hsphfpd.enable = true; # HSP & HFP daemon
     settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";
@@ -96,9 +95,10 @@
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
 
-  # TODO: works as expected on unstable?
   # https://nixos.wiki/wiki/Nvidia#Fix_graphical_corruption_on_suspend.2Fresume
-  hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.open = true;
+  # hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   # Virtualization (virt-manager): <https://nixos.wiki/wiki/Virt-manager>
   virtualisation.libvirtd = {
@@ -121,7 +121,6 @@
   # Docker: <https://nixos.wiki/wiki/Docker>
   virtualisation.docker = {
     enable = true;
-    enableNvidia = true;
     rootless = {
       enable = true;
       # $DOCKER_HOST

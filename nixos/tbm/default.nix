@@ -41,14 +41,14 @@ in {
     xfce.thunar
     xdg-ninja
     neovim
-    helix
+    # helix
 
     nushell
-    devbox
-    skk-dicts
+    # devbox
+    # skk-dicts
     # geekbench
     fastfetch
-    meson
+    # meson
     ninja
     exiftool
     zip
@@ -76,14 +76,11 @@ in {
     # goenv
     # idris2.. using `idris2-pack` instead
     # https://github.com/stefan-hoeck/idris2-pack
-    chez
-    zig
-    zls
-    alejandra
+    # chez
+    # zig
+    # zls
+    # swiPrologWithGui
 
-    nvfetcher
-    nix-search-cli
-    nix-doc
     (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
     # rust-analyzer-nightly
 
@@ -101,7 +98,7 @@ in {
     mpv
     gimp
     evince
-    qpdfview
+    # qpdfview
     ghostscript
     pdfarranger
 
@@ -110,10 +107,10 @@ in {
     # https://github.com/red-data-tools/YouPlot
 
     blender
-    cider
+    # cider
 
-    kicad-small
-    qmk
+    # kicad-small
+    # qmk
 
     # openai-whisper-cpp
     # (openai-whisper.override { cudaSupport = true; })
@@ -139,10 +136,10 @@ in {
     minify
 
     # OCaml
-    ocaml
-    opam
-    dune_3
-    ocamlPackages.merlin
+    # ocaml
+    # opam
+    # dune_3
+    # ocamlPackages.merlin
 
     pup
     jq

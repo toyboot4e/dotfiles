@@ -27,6 +27,7 @@
     XDG_CONFIG_HOME = "\${HOME}/.config";
     XDG_BIN_HOME = "\${HOME}/.local/bin";
     XDG_DATA_HOME = "\${HOME}/.local/share";
+    XDG_MUSIC_DIR = "/d/music/bandcamp";
 
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";

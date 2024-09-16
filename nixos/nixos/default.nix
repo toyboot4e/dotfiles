@@ -40,15 +40,15 @@ in {
     kitty
     bash
     fish
-    zsh
+    # zsh
     tmux
-    zellij
+    # zellij
     git
     gh
     ghq
     w3m
     fzf
-    wezterm
+    # wezterm
     feh
     tree
     as-tree
@@ -81,12 +81,18 @@ in {
     cmus
 
     # Dock
-    plank
+    # plank
 
     # Nix
+    # nld # Yet another: https://github.com/nix-community/nixd
     nil # Nix LSP: https://github.com/oxalica/nil
+    nixfmt-rfc-style
+    # alejandra
+    nvfetcher
     rippkgs
-    pciutils
+    # nix-search-cli
+    # nix-doc
+    # pciutils
 
     # wine: <https://nixos.wiki/wiki/Wine>
     # wineWowPackages.staging winetricks
