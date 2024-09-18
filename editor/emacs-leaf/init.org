@@ -949,7 +949,7 @@ Handles the repeat-count of the insertion command."
 #+BEGIN_SRC elisp
 (leaf blamer
     :ensure nil
-    ;; :straight (blamer :type git :host github :repo "Artawower/blamer.el")
+    :straight (blamer :type git :host github :repo "Artawower/blamer.el")
     :custom ((blamer-idle-time . 0.3)
              (blamer-min-offset . 70))
     :custom-face (blamer-face \`
@@ -1807,7 +1807,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 (leaf nix-mode
     ;; :mode "\\.nix\\'"
     :hook (nix-mode-hook . lsp-deferred)
-    :custom (lsp-nix-nil-formatter . ["alejandra"]))
+    :custom (lsp-nix-nil-formatter . ["nixfmt"]))
 #+END_SRC
 
 ** OCaml
@@ -2746,6 +2746,33 @@ FIXME
     " oz" #'org-zenn-export-buffer-to-book)
 #+END_SRC
 
+** org-tree-slide
+
+#+BEGIN_SRC elisp
+(leaf org-tree-slide
+    :after evil
+    :custom (org-tree-slide-slide-in-effect . nil)
+    :init
+    (defun toy/init-slide ()
+        (interactive)
+        (display-line-numbers-mode -1)
+        (moom-mode 1)
+        (moom-toggle-frame-maximized))
+    (defun toy/end-slide ()
+        (interactive)
+        (display-line-numbers-mode 1)
+        (moom-mode -1)
+        (moom-toggle-frame-maximized))
+    :hook ((org-tree-slide-play-hook . toy/init-slide)
+           (org-tree-slide-stop-hook . toy/end-slide))
+    :config
+    (evil-define-key 'normal org-tree-slide-mode-map
+        "L" #'org-tree-slide-move-next-tree
+        "H" #'org-tree-slide-move-previous-tree))
+
+(leaf moom)
+#+END_SRC
+
 ** Misc
 
 #+BEGIN_SRC elisp
@@ -2818,6 +2845,16 @@ FIXME
 ;;     ;;        ("C-c w i" . eww-wiki)
 ;;     ;;        ("C-c w l" . eww-follow-link))
 ;;     )
+#+END_SRC
+
+* Applications
+
+** radio
+
+#+BEGIN_SRC elisp
+(leaf vim-jp-radio
+    :ensure nil
+    :vc (:url "https://github.com/vim-jp-radio/vim-jp-radio.el"))
 #+END_SRC
 
 * Hydra
