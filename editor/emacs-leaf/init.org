@@ -3094,11 +3094,13 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 *** Prevent cursor from going to the next line of EoF
 
 #+BEGIN_SRC elisp
-(defun toy/fix-point ()
-    (unless (window-minibuffer-p)
+(defun toy/disable-cursor-at-eof ()
+    ;; line number works in all the situations: in an empty buffer, in the Evil commnd line
+    (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
         (when (= (point) (+ (point-max) 0))
             (forward-line -1))))
-(add-hook 'post-command-hook (_fn (toy/fix-point)))
+;; FIXME: 'post-command-hook is too generic.
+(add-hook 'post-command-hook (_fn (toy/disable-cursor-at-eof)))
 #+END_SRC
 
 *** Let ={=, =}= skip multiple bulelts like Vim
