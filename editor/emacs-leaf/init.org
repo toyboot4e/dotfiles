@@ -231,7 +231,7 @@ TODO: Switch to elpaca
 #+BEGIN_SRC elisp
 ;; show line numbers
 (global-display-line-numbers-mode)
-
+ 
 ;; highlight current line
 ;; (global-hl-line-mode t)
 
@@ -430,7 +430,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
              (evil-select-paren ,start-regex ,end-regex beg end type count t))
            (define-key evil-inner-text-objects-map ,key #',inner-name)
            (define-key evil-outer-text-objects-map ,key #',outer-name))))
-    
+
     (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
     (define-and-bind-quoted-text-object "slash" "/" "/" "/")
     (define-and-bind-quoted-text-object "asterisk" "*" "*" "*")
@@ -1758,9 +1758,7 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
                ;; :logFile "C:/work/haskell/sample/hdx4emacs.log"
                :logFile "/tmp/my-dap-haskell"
                :logLevel "WARNING"
-               :forceInspect nil)))
-
-    )
+               :forceInspect nil))))
 #+END_SRC
 
 ** Idris
@@ -2611,21 +2609,28 @@ FIXME
 ** Key bindings
 
 #+BEGIN_SRC elisp
-;; fold
+;; paragraph move
 (evil-define-key 'normal org-mode-map
     "{" #'evil-backward-paragraph
-    "}" #'evil-forward-paragraph
-    "za" #'org-cycle
-    "zR" #'org-fold-show-all
-    ;; close/open
-    "zC" #'org-fold-hide-sublevels
-    "zO" #'org-fold-show-subtree)
+    "}" #'evil-forward-paragraph)
 
 (evil-define-key 'visual org-mode-map
     "{" #'evil-backward-paragraph
     "}" #'evil-forward-paragraph)
 
+;; shift-left/right in insert mode
+(evil-define-key 'insert org-mode-map
+    (kbd "S-<left>") #'org-shiftleft
+    (kbd "S-<right>") #'org-shiftright)
+
+;; fold
 (evil-define-key 'normal org-mode-map
+    "za" #'org-cycle
+    "zR" #'org-fold-show-all
+    ;; close/open
+    "zC" #'org-fold-hide-sublevels
+    "zO" #'org-fold-show-subtree
+    ;; fold at level
     "z1" (_fn (outline-hide-sublevels 1))
     "z2" (_fn (outline-hide-sublevels 2))
     "z3" (_fn (outline-hide-sublevels 3))
@@ -2907,12 +2912,12 @@ WASD: swap      x: kill, X: both    u: undo window change
         ("u" winner-undo)
         ;; doesn't work
         ;; ("C-r" winner-redo)
-    
+
         ;; switch to hydra for `tab-bar-mode` (Emacs 27)
         ;; ("t" (lambda () (interactive)
         ;;          (hydra--body-exit)
         ;;          (toy/hydra-tab/body)))
-    
+
         ;; select centaur-tabs tabs
         ("1" (_fn (tab-bar-switch-to-tab 1)))
         ("2" (_fn (tab-bar-switch-to-tab 2)))
@@ -2924,51 +2929,51 @@ WASD: swap      x: kill, X: both    u: undo window change
         ("8" (_fn (tab-bar-switch-to-tab 8)))
         ("9" (_fn (tab-bar-switch-to-tab 9)))
         ;; TODO: move tab
-    
+
         ;; focus
         ("h" #'evil-window-left)
         ("j" #'evil-window-down)
         ("k" #'evil-window-up)
         ("l" #'evil-window-right)
-    
+
         ("]"  #'evil-forward-section-begin)
         ("["  #'evil-backward-section-begin)
-    
+
         ;; enlarge/shrink
         ("H" (_fn (enlarge-window-horizontally (- toy/expand-unit))))
         ("L" (_fn (enlarge-window-horizontally toy/expand-unit)))
         ("K" (_fn (enlarge-window (- toy/expand-unit))))
         ("J" (_fn (enlarge-window toy/expand-unit)))
-    
+
         ;; split
         ("w" #'toy/sp-N)
         ("a" #'toy/sp-W)
         ("s" #'evil-window-split)
         ("d" #'evil-window-vsplit)
-    
+
         ;; swap to neighbor
         ("W" (_fn (windswap-up)))
         ("A" (_fn (windswap-left)))
         ("S" (_fn (windswap-down)))
         ("D" (_fn (windswap-right)))
-    
+
         ;; close
         ("c" #'toy/evil-quit) ;; NOTE: defined in `keymap.el`
         ("q" #'toy/evil-quit) ;; NOTE: defined in `keymap.el`
-    
+
         ;; delete
         ("x" #'kill-current-buffer)
         ("X" #'evil-delete)
-    
+
         ("C-s" #'save-buffer)
-    
+
         ("r" #'evil-window-rotate-downwards)
         ("R" #'evil-window-rotate-upwards)
         ("=" #'balance-windows)
-    
+
         ("z" #'toy/zen)
         ("b" 'evil-buffer-new)
-    
+
         ("ESC" nil)))
 #+END_SRC
 
@@ -2983,11 +2988,11 @@ HL      swap        n   new
 [1-9]   focus       x   close
 m[1-9]  move
 "
-    
+
         ("u" winner-undo)
         ;; doesn't work
         ;; ("C-r" winner-redo)
-    
+
         ;; tab-bar-mode (Emacs 27)
         ;; `awesome-tab`: https://github.com/manateelazycat/awesome-tab
         ("h"  #'tab-bar-switch-to-prev-tab)
@@ -2995,22 +3000,22 @@ m[1-9]  move
         ("H"  #'toy/tab-move-left)
         ("L"  #'toy/tab-move-right)
         ;; TODO: swap tab
-    
+
         ;; FIXME:
         ;; ("w" #'toy/hydra-window/body)
         ("w" (_fn (hydra-disable)
                   (toy/hydra-window/body)))
-    
+
         ("rr" #'tab-bar-rename-tab)
         ;; rename to project name
         ("rp" #'toy/set-tab-name-default) ;; NOTE: defined in `ide.el`
-    
+
         ("n" #'tab-bar-new-tab)
         ;; new tab and set name
         ("N" (_fn (tab-bar-new-tab)
                   (call-interactively 'tab-bar-rename-tab)))
         ("x" #'tab-bar-close-tab)
-    
+
         ;; select tab
         ("1" (_fn (tab-bar-select-tab 1)))
         ("2" (_fn (tab-bar-select-tab 2)))
@@ -3021,7 +3026,7 @@ m[1-9]  move
         ("7" (_fn (tab-bar-select-tab 7)))
         ("8" (_fn (tab-bar-select-tab 8)))
         ("9" (lambda () (interactive) (tab-bar-select-tab 9)))
-    
+
         ;; move tab
         ("m1" (_fn (tab-bar-move-tab-to 1)))
         ("m2" (_fn (tab-bar-move-tab-to 2)))
@@ -3077,6 +3082,8 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 
 *** Word policy
 
+https://evil.readthedocs.io/en/latest/faq.html
+
 #+BEGIN_SRC elisp
 ;; Do not treat `_' as a word boundary (thought it still treats `-` as a word boundary):
 (modify-syntax-entry ?_ "w")
@@ -3087,8 +3094,6 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
 
 ;; Or, make motions based on _symbols_, instead of _words_:
 ;; (defalias 'forward-evil-word 'forward-evil-symbol)
-
-;; c.f. https://evil.readthedocs.io/en/latest/faq.html
 #+END_SRC
 
 *** Prevent cursor from going to the next line of EoF
@@ -3113,7 +3118,7 @@ https://github.com/noctuid/evil-guide#use-evil-everywhere
             ad-do-it)))
 #+END_SRC
 
-*** Translate `ESC` or `C-c` to `C-g`
+*** Translate =ESC= or =C-c= to =C-g=
 
 #+BEGIN_SRC elisp
 (defun toy/do-tr-esc ()
@@ -3176,6 +3181,8 @@ Cannot be repated though.
 #+END_SRC
 
 *** Better default bindings
+
+As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 
 #+BEGIN_SRC elisp
 ;; `X' -> `"_D'
