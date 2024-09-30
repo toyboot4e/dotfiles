@@ -1266,8 +1266,8 @@ Handles the repeat-count of the insertion command."
 
 #+BEGIN_SRC elisp
 (leaf envrc
-  :config
-  (envrc-global-mode))
+    :config
+    (envrc-global-mode))
 
 #+END_SRC
 
@@ -1553,7 +1553,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :custom ((dhall-use-header-line)
              (dhall-format-arguments
               `("--ascii"))))
-              #+END_SRC
+#+END_SRC
 
 ** Markdown
 
@@ -2163,7 +2163,7 @@ Toolings (TODO: move):
 
     ;; FIXME: annotate `tab-bar-*-tab-by-name'
     (add-to-list 'marginalia-prompt-categories '("tab by name" . tab)))
-    #+END_SRC
+#+END_SRC
 
 ** embark
 
@@ -2315,7 +2315,7 @@ FIXME
     (add-to-list 'completion-at-point-functions #'cape-symbol)
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
-    #+END_SRC
+#+END_SRC
 
 ** popon etc.
 
@@ -2379,7 +2379,7 @@ FIXME
     ;; (evil-define-key 'normal 'tempel-map
     ;;     "C-<RET>" #'tempel-done)
     )
-    #+END_SRC
+#+END_SRC
 
 * org-mode
 
@@ -2818,7 +2818,7 @@ FIXME
 
 #+BEGIN_SRC elisp
 (leaf org-sliced-images
-  :hook (org-mode-hook . org-sliced-images-mode))
+    :hook (org-mode-hook . org-sliced-images-mode))
 #+END_SRC
 
 ** md4rd
@@ -3096,13 +3096,13 @@ https://evil.readthedocs.io/en/latest/faq.html
 ;; (defalias 'forward-evil-word 'forward-evil-symbol)
 #+END_SRC
 
-*** Prevent cursor from going to the next line of EoF
+*** HACK: Prevent cursor from going to the next line of EoF
 
 #+BEGIN_SRC elisp
 (defun toy/disable-cursor-at-eof ()
     ;; line number works in all the situations: in an empty buffer, in the Evil commnd line
     (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
-        (when (= (point) (+ (point-max) 0))
+        (when (= (point) (point-max))
             (forward-line -1))))
 ;; FIXME: 'post-command-hook is too generic.
 (add-hook 'post-command-hook (_fn (toy/disable-cursor-at-eof)))
@@ -3199,8 +3199,8 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 *** Center cursor on search
 
 #+BEGIN_SRC elisp
-(advice-add 'evil-ex-search-next :after (lambda (&rest _) (recenter)))
-(advice-add 'evil-ex-search-previous :after (lambda (&rest _) (recenter)))
+(advice-add 'evil-ex-search-next :after (lambda (&rest _) (toy/smart-center)))
+(advice-add 'evil-ex-search-previous :after (lambda (&rest _) (toy/smart-center)))
 ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
 (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
 (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
@@ -3989,10 +3989,10 @@ TODO: merge
 
 #+BEGIN_SRC elisp
 (defun toy/on-start ()
-(delete-other-windows)
-(toy/setup-theme)
-;; (toy/setup-light-theme)
-)
+  (delete-other-windows)
+  (toy/setup-theme)
+  ;; (toy/setup-light-theme)
+  )
 
 (add-hook 'window-setup-hook #'toy/on-start)
 #+END_SRC
