@@ -1477,7 +1477,7 @@ FIXME: Not working under Evil
                       (kbd "RET")
                       #'lsp-ui-imenu--visit) (advice-add 'lsp-ui-imenu--visit :after
                       (lambda (&rest _)
-                          (toy/force-center))))
+                          (toy/smart-recenter))))
 #+END_SRC
 
 ** Prettier
@@ -3703,8 +3703,8 @@ TODO: merge
     (consult-ripgrep (projectile-project-root) " . "))
 
 (evil-define-key 'normal 'toy/global-mode-map
-    " v" (lambda () (interactive) (when (toy/vf) (toy/force-center)))
-    " V" (lambda () (interactive) (when (toy/vF) (toy/force-center)))
+    " v" (lambda () (interactive) (when (toy/vf) (toy/smart-recenter)))
+    " V" (lambda () (interactive) (when (toy/vF) (toy/smart-recenter)))
 
     " ff" (_cd (call-interactively #'find-file))
     " fF" #'toy/proj-find
