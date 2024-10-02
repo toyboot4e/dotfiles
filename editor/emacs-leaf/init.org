@@ -1658,7 +1658,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
           (lambda ()
               (interactive)
               (setopt lsp-diagnostics-provider :none)
-              (setopt flycheck-gfortran-language-starndard "f2018")
+              (setopt flycheck-gfortran-language-standard "f2018")
               (lsp-mode)
               (flycheck-mode)))
 #+END_SRC
