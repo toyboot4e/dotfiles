@@ -149,10 +149,10 @@ TODO: Switch to elpaca
 #+BEGIN_SRC elisp
 (eval-and-compile
     (customize-set-variable
-     'package-archives '(("org" . "https://orgmode.org/elpa/")
+     'package-archives '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("org" . "https://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
     (package-initialize)
     (unless (package-installed-p 'leaf)
@@ -231,7 +231,7 @@ TODO: Switch to elpaca
 #+BEGIN_SRC elisp
 ;; show line numbers
 (global-display-line-numbers-mode)
- 
+
 ;; highlight current line
 ;; (global-hl-line-mode t)
 
@@ -364,18 +364,19 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 (leaf evil
     :leaf-defer nil
     :commands evil-define-key
-    :custom (;; free `z` for background
-             (evil-toggle-key . "")
-             ;; for `evil-collection'
-             (evil-want-keybinding . nil)
-             (evil-want-minibuffer . nil)
-             ;; (evil-want-C-u-delete . t)
-             (evil-want-C-u-scroll . t)
-             (evil-want-C-d-scroll . t)
-             (evil-want-Y-yank-to-eol . t)
-             ;; else
-             (evil-move-cursor-back . t)
-             (evil-search-module quote evil-search))
+    :custom
+    (;; free `z` for background
+     (evil-toggle-key . "")
+     ;; for `evil-collection'
+     (evil-want-keybinding . nil)
+     (evil-want-minibuffer . nil)
+     ;; (evil-want-C-u-delete . t)
+     (evil-want-C-u-scroll . t)
+     (evil-want-C-d-scroll . t)
+     (evil-want-Y-yank-to-eol . t)
+     ;; else
+     (evil-move-cursor-back . t)
+     (evil-search-module quote evil-search))
 
     :config
     (evil-mode 1))
@@ -421,15 +422,15 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     ;;               (push '(?~ . ("==" . "==")) evil-surround-pairs-alist))
     ;; this macro was copied from here: https://stackoverflow.com/a/22418983/4921402
     (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
-      (let ((inner-name (make-symbol (concat "evil-inner-" name)))
-            (outer-name (make-symbol (concat "evil-a-" name))))
-        `(progn
-           (evil-define-text-object ,inner-name (count &optional beg end type)
-             (evil-select-paren ,start-regex ,end-regex beg end type count nil))
-           (evil-define-text-object ,outer-name (count &optional beg end type)
-             (evil-select-paren ,start-regex ,end-regex beg end type count t))
-           (define-key evil-inner-text-objects-map ,key #',inner-name)
-           (define-key evil-outer-text-objects-map ,key #',outer-name))))
+        (let ((inner-name (make-symbol (concat "evil-inner-" name)))
+              (outer-name (make-symbol (concat "evil-a-" name))))
+            `(progn
+                 (evil-define-text-object ,inner-name (count &optional beg end type)
+                     (evil-select-paren ,start-regex ,end-regex beg end type count nil))
+                 (evil-define-text-object ,outer-name (count &optional beg end type)
+                     (evil-select-paren ,start-regex ,end-regex beg end type count t))
+                 (define-key evil-inner-text-objects-map ,key #',inner-name)
+                 (define-key evil-outer-text-objects-map ,key #',outer-name))))
 
     (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
     (define-and-bind-quoted-text-object "slash" "/" "/" "/")
@@ -610,6 +611,29 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
     :url "https://github.com/ninrod/evil-string-inflection")
 #+END_SRC
 
+** [[https://github.com/gabesoft/evil-mc][evil-mc]]
+
+- TODO: suppress indent on newline?
+
+#+BEGIN_SRC elisp
+;; (leaf evil-mc
+;;     :after evil
+;;     ;; :hook (evil-normal-state-entry-hook . (_fn (evil-mc-undo-all-cursors)))
+;;     :config
+;;     (evil-define-key 'visual evil-mc-key-map
+;;         "A" #'evil-mc-make-cursor-in-visual-selection-end
+;;         "I" #'evil-mc-make-cursor-in-visual-selection-beg)
+;;     (global-evil-mc-mode 1))
+#+END_SRC
+
+** [[https://github.com/hlissner/evil-multiedit][evil-multiedit]]
+
+#+BEGIN_SRC elisp
+;; (leaf evil-multiedit
+;;     :config
+;;     (evil-multiedit-default-keybinds))
+#+END_SRC
+
 ** vimish-fold
 
 #+BEGIN_SRC elisp
@@ -636,13 +660,15 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 
 *** Configuration loading
 
+Abbreviations (=:ed= and =:so=)
+
 #+BEGIN_SRC elisp
 (evil-ex-define-cmd "ed"
                     (lambda nil
                         (interactive)
                         (evil-edit
                          (concat user-emacs-directory "init.org"))))
-(evil-ex-define-cmd "s" #'toy/reload)
+(evil-ex-define-cmd "so" #'toy/reload)
 #+END_SRC
 
 *** Bookmarks
@@ -686,6 +712,8 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 * Custom functions
 
 ** Smart recenter
+
+TODO: forbid repeat command
 
 #+BEGIN_SRC elisp
 (defun toy/smart-recenter ()
@@ -863,52 +891,56 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 
 *** Faster multiline insertion
 
+FIXME: Do not insert when the line does not contain the target column
+FIXME: Handle newline insertion
+
 #+BEGIN_SRC elisp
 ;; Overwrite `evil-cleanup-insert-state' with `combine-change-calls' added. It's for MUCH faster
 ;; multi-line insertion in large files even with `tree-sitter'.
-(with-eval-after-load 'evil
-    (defun evil-cleanup-insert-state ()
-        "Called when Insert or Replace state is about to be exited.
-Handles the repeat-count of the insertion command."
-        (when evil-insert-count
-            (dotimes (_ (1- evil-insert-count))
-                (when evil-insert-lines
-                    (evil-insert-newline-below)
-                    (when evil-auto-indent
-                        (indent-according-to-mode)))
-                (evil-execute-repeat-info (cdr evil-insert-repeat-info))))
-        (when evil-insert-vcount
-            (let ((buffer-invisibility-spec
-                   (if (listp buffer-invisibility-spec)
-                           ;; make all lines hidden by hideshow temporarily visible
-                           (cl-remove-if (lambda (x) (eq (or (car-safe x) x) 'hs))
-                                         buffer-invisibility-spec)
-                       buffer-invisibility-spec)))
-                (cl-destructuring-bind (line col vcount) evil-insert-vcount
-                    (let* ((beg 0) (end 0))
-                        (save-excursion
-                            (goto-char (point-min))
-                            (forward-line line)
-                            (setq beg (point)))
-                        (save-excursion
-                            (goto-char (point-min))
-                            (forward-line (1+ (+ vcount line)))
-                            (setq end (point)))
-                        (combine-change-calls beg end
-                            (save-excursion
-                                (dotimes (v (1- vcount))
-                                    (goto-char (point-min))
-                                    (forward-line (+ line v))
-                                    (when (or (not evil-insert-skip-empty-lines)
-                                              (not (integerp col))
-                                              (save-excursion
-                                                  (evil-move-end-of-line)
-                                                  (>= (current-column) col)))
-                                        (if (integerp col)
-                                                (move-to-column col t)
-                                            (funcall col))
-                                        (dotimes (_ (or evil-insert-count 1))
-                                            (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
+
+;; (with-eval-after-load 'evil
+;;     (defun evil-cleanup-insert-state ()
+;;         "Called when Insert or Replace state is about to be exited.
+;; Handles the repeat-count of the insertion command."
+;;         (when evil-insert-count
+;;             (dotimes (_ (1- evil-insert-count))
+;;                 (when evil-insert-lines
+;;                     (evil-insert-newline-below)
+;;                     (when evil-auto-indent
+;;                         (indent-according-to-mode)))
+;;                 (evil-execute-repeat-info (cdr evil-insert-repeat-info))))
+;;         (when evil-insert-vcount
+;;             (let ((buffer-invisibility-spec
+;;                    (if (listp buffer-invisibility-spec)
+;;                            ;; make all lines hidden by hideshow temporarily visible
+;;                            (cl-remove-if (lambda (x) (eq (or (car-safe x) x) 'hs))
+;;                                          buffer-invisibility-spec)
+;;                        buffer-invisibility-spec)))
+;;                 (cl-destructuring-bind (line col vcount) evil-insert-vcount
+;;                     (let* ((beg 0) (end 0))
+;;                         (save-excursion
+;;                             (goto-char (point-min))
+;;                             (forward-line line)
+;;                             (setq beg (point)))
+;;                         (save-excursion
+;;                             (goto-char (point-min))
+;;                             (forward-line (1+ (+ vcount line)))
+;;                             (setq end (point)))
+;;                         (combine-change-calls beg end
+;;                             (save-excursion
+;;                                 (dotimes (v (1- vcount))
+;;                                     (goto-char (point-min))
+;;                                     (forward-line (+ line v))
+;;                                     (when (or (not evil-insert-skip-empty-lines)
+;;                                               (not (integerp col))
+;;                                               (save-excursion
+;;                                                   (evil-move-end-of-line)
+;;                                                   (>= (current-column) col)))
+;;                                         (if (integerp col)
+;;                                                 (move-to-column col t)
+;;                                             (funcall col))
+;;                                         (dotimes (_ (or evil-insert-count 1))
+;;                                             (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
 #+END_SRC
 
 * Meta packages
@@ -944,6 +976,14 @@ Handles the repeat-count of the insertion command."
 
 * View
 
+* Activities
+
+Save and restore tab states. TODO: make use of it.
+
+#+BEGIN_SRC elisp
+(leaf activities)
+#+END_SRC
+
 ** Blamer
 
 #+BEGIN_SRC elisp
@@ -960,9 +1000,11 @@ Handles the repeat-count of the insertion command."
 
 #+BEGIN_SRC elisp
 (leaf centaur-tabs
+    ;; :straight (centaur-tabs :type git :host github :repo "toyboot4e/centaur-tabs" :branch "minibuffer-group")
+    ;; :straight (centaur-tabs :type git :host github :repo "toyboot4e/centaur-tabs" :branch "master")
     :url "https://github.com/ema2159/centaur-tabs"
     :after projectile
-    :custom ((centaur-tabs--buffer-show-groups)
+    :custom (;; (centaur-tabs--buffer-show-groups)
              (centaur-tabs-cycle-scope quote tabs)
              (centaur-tabs-set-bar quote under)
              (x-underline-at-descent-line . t)
@@ -973,10 +1015,26 @@ Handles the repeat-count of the insertion command."
              (centaur-tabs-show-navigation-buttons)
              (centaur-tabs-set-icons . t))
     :custom (centaur-tabs-buffer-groups-function function toy/centaur-tabs-group)
-    :init
-    ;; (when (display-graphic-p)
-    ;;     (customize-set-variable centaur-tabs-set-icons 'nerd-icons))
+    ;; :custom (centaur-tabs-buffer-groups-function function centaur-tabs-projectile-buffer-groups)
+
     :config
+
+    (defun centaur-tabs-hide-tab (x)
+        "Do no to show buffer X in tabs."
+        (let ((name (format "%s" x)))
+            (or
+             ;; Current window is not dedicated window.
+             (window-dedicated-p (selected-window))
+
+             ;; Buffer name not match below blacklist.
+             (cl-dolist (prefix centaur-tabs-excluded-prefixes)
+                 (when (string-prefix-p prefix name)
+                     (cl-return t)))
+
+             ;; Is not magit buffer.
+             (and (string-prefix-p "magit" name)
+                  (not (file-name-extension name))))))
+
     (defun toy/centaur-tabs-group nil
         "Add `Sidebar' and `Bottom bar' groups / use `projectile' buffer gruups"
         (cond
@@ -997,6 +1055,7 @@ Handles the repeat-count of the insertion command."
                                   (buffer-name)
                                   0 5))))
           '("magit"))
+         ;; ((string-equal " *" (substring (buffer-name) 0 2)) '("mini"))
          (t
           (centaur-tabs-projectile-buffer-groups))))
 
@@ -1014,6 +1073,7 @@ Handles the repeat-count of the insertion command."
     (diff-hl-delete . '((t (:foreground "#d75f5f" :background "#d75f5f"))))
     :init
     (global-diff-hl-mode)
+    :config
     (defun toy/on-diff-hl ()
         (unless (display-graphic-p) (diff-hl-margin-mode))
         (diff-hl-flydiff-mode))
@@ -1317,8 +1377,8 @@ Handles the repeat-count of the insertion command."
 *** Forge
 
 #+BEGIN_SRC elisp
-(leaf forge
-    :doc "Use GitHub on Emacs")
+;; (leaf forge
+;;     :doc "Use GitHub on Emacs")
 #+END_SRC
 
 *** Difftastic
@@ -1637,12 +1697,17 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     )
 #+END_SRC
 
-** Emacs Lisp
+** ELisp (Emacs Lisp)
 
 #+BEGIN_SRC elisp
 (setq-default lisp-body-indent 4
               indent-tabs-mode nil
               tab-width 4)
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf cort)
+(leaf ppp)
 #+END_SRC
 
 ** Fish
@@ -1685,6 +1750,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :hook ((haskell-mode-hook . lsp-deferred)
            ;; (haskell-mode-hook . toggle-truncate-lines)
            (haskell-literate-mode-hook . lsp-deferred))
+
     :config
     ;; TOO SLOW
     (setopt lsp-lens-enable nil)
@@ -1860,7 +1926,20 @@ Toolings (TODO: move):
     :tag "builtin"
     ;; It's Prolog, not Perl!
     :mode "\\.l?pl\\'"
-    :hook toy/on-prolog)
+    :hook toy/on-prolog
+    :defer-config
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection
+      (lsp-stdio-connection (list "swipl"
+                                  "-g" "use_module(library(lsp_server))."
+                                  "-g" "lsp_server:main"
+                                  "-t" "halt"
+                                  "--" "stdio"))
+      :major-modes '(prolog-mode)
+      :priority 1
+      :multi-root t
+      :server-id 'prolog-ls)))
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -2195,9 +2274,9 @@ Toolings (TODO: move):
 
     :config
     (with-eval-after-load 'vertico
-         (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
-         (vertico-multiform-mode)
-         (define-key vertico-map (kbd "\C-s") #'embark-act))
+        (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+        (vertico-multiform-mode)
+        (define-key vertico-map (kbd "\C-s") #'embark-act))
 
     :init
     (setopt prefix-help-command #'embark-prefix-help-command)
@@ -2500,11 +2579,11 @@ FIXME
     :url "https://github.com/conao3/ox-zenn.el"
     :custom ((org-zenn-with-last-modified . nil)
              (org-export-with-toc . nil))
-        :config
+    :config
     (defun org-zenn-export-to-markdown-as (outfile &optional async subtreep visible-only)
         (interactive "sOutfile: ")
         (org-export-to-file 'zennmd outfile async subtreep visible-only))
-        (defun org-babel-execute:shell (body params)
+    (defun org-babel-execute:shell (body params)
         "Execute a block of Shell commands with Babel.
         This function is called by `org-babel-execute-src-block'."
         (let* ((session (org-babel-sh-initiate-session
@@ -2521,7 +2600,7 @@ FIXME
               (cdr (assoc :colname-names params)) (cdr (assoc :colnames params)))
              (org-babel-pick-name
               (cdr (assoc :rowname-names params)) (cdr (assoc :rownames params))))))
-        (defun org-zenn-export-book-files (&optional org-dir)
+    (defun org-zenn-export-book-files (&optional org-dir)
         "`$org-dir' -> `$md-dir': `$zenn/books-org/$book' -> `$zenn/books/$book'"
         (interactive "sBook directory: ")
         (setopt org-dir (expand-file-name (or org-dir ".")))
@@ -2537,11 +2616,11 @@ FIXME
                         (with-temp-buffer
                             (insert-file-contents src-file)
                             (org-zenn-export-to-markdown-as dst-file nil nil nil)))))))
-        (defun org-zenn-export-buffer-to-book (&optional org-dir)
+    (defun org-zenn-export-buffer-to-book (&optional org-dir)
         "Runs subtree export to each level 1 headings. Respects `#+BOOK_DIR'."
         (interactive)
         (org-babel-tangle)
-            ;; export all
+        ;; export all
         (let* ((default-dir default-directory)
                (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR")))))))
             ;; cd into the target directory
@@ -2557,6 +2636,13 @@ FIXME
                      "LEVEL=1")
                 ;; be sure to come back to the default directory
                 (when pub-dir (cd default-dir))))))
+#+END_SRC
+
+** org-nix-shell
+
+#+BEGIN_SRC elisp
+(leaf org-nix-shell
+     :hook (org-mode-hook . org-nix-shell-mode))
 #+END_SRC
 
 ** org-preview-html
@@ -2589,9 +2675,9 @@ FIXME
 
 #+BEGIN_SRC elisp
 (leaf org-fragtog
-  :doc "combo with `org-latex-preview'"
-  :hook ((org-mode-hook . org-fragtog-mode)
-         (org-mode-hook . org-latex-preview)))
+    :doc "combo with `org-latex-preview'"
+    :hook ((org-mode-hook . org-fragtog-mode)
+           (org-mode-hook . org-latex-preview)))
 #+END_SRC
 
 ** Beautify
@@ -2664,6 +2750,7 @@ FIXME
         (add-to-list 'org-src-lang-modes '("mermaid" . mermaid))))
 
 (with-eval-after-load 'org-babel
+    (setopt haskell-process-type 'cabal-script)
     (org-babel-do-load-languages
      'org-babel-load-languages '((ditaa . t)
                                  (mermaid . t)
@@ -2671,6 +2758,7 @@ FIXME
                                  (dot . t)
                                  (haskell . t)
                                  (shell . t)
+                                 (bash . t)
                                  (sqlite . t))))
 #+END_SRC
 
@@ -2696,7 +2784,7 @@ FIXME
      )
     :config
     (org-roam-db-autosync-mode)
-        ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
+    ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
     (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
         "If in evil normal mode and cursor is on a whitespace character, then go into
         append mode first before inserting the link. This is to put the link after the
@@ -2724,7 +2812,7 @@ FIXME
 #+BEGIN_SRC elisp
 (leaf consult-org-roam
     :after org-roam
-        :custom
+    :custom
     ;; Use `ripgrep' for searching with `consult-org-roam-search'
     (consult-org-roam-grep-func . #'consult-ripgrep)
     ;; Configure a custom narrow key for `consult-buffer'
@@ -2732,15 +2820,15 @@ FIXME
     ;; Display org-roam buffers right after non-org-roam buffers
     ;; in consult-buffer (and not down at the bottom)
     (consult-org-roam-buffer-after-buffers . t)
-        :config
+    :config
     (require 'consult-org-roam)
     ;; Activate the minor mode
     (consult-org-roam-mode 1)
-        ;; Eventually suppress previewing for certain functions
+    ;; Eventually suppress previewing for certain functions
     (consult-customize
      consult-org-roam-forward-links
      :preview-key (kbd "M-."))
-        ;; :bind
+    ;; :bind
     ;; ;; Define some convenient keybindings as an addition
     ;; ("C-c n e" . consult-org-roam-file-find)
     ;; ("C-c n b" . consult-org-roam-backlinks)
@@ -2761,6 +2849,12 @@ FIXME
     " ota" #'org-roam-tag-add
     " otm" #'org-roam-tag-remove
     " oz" #'org-zenn-export-buffer-to-book)
+#+END_SRC
+
+** org-re-reveal
+
+#+BEGIN_SRC elisp
+(leaf org-re-reveal)
 #+END_SRC
 
 ** org-tree-slide
@@ -2808,7 +2902,7 @@ FIXME
     "Switch entry to DONE when all subentries are done, to TODO otherwise."
     (let (org-log-done org-todo-log-states)   ; turn off logging
         (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-    (add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
+(add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
 #+END_SRC
 
 * Web
@@ -3211,8 +3305,9 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 *** Center cursor on search
 
 #+BEGIN_SRC elisp
-(advice-add 'evil-ex-search-next :after (lambda (&rest _) (toy/smart-center)))
-(advice-add 'evil-ex-search-previous :after (lambda (&rest _) (toy/smart-center)))
+;; FIXME: zz after search
+;; (advice-add 'evil-ex-search-next :after (lambda (&rest _) (toy/smart-recenter)))
+;; (advice-add 'evil-ex-search-previous :after (lambda (&rest _) (toy/smart-recenter)))
 ;; and more.. (`]]` -> `]]z<RET>`, `[[` -> `[[z<RET>`
 (advice-add 'evil-forward-section-begin :after #'evil-scroll-line-to-top)
 (advice-add 'evil-backward-section-begin :after #'evil-scroll-line-to-top)
@@ -3960,12 +4055,14 @@ TODO: merge
 ** =org-ai=
 
 #+BEGIN_SRC elisp
-(leaf org-ai
-    :hook (org-mode-hook . org-ai-mode)
-    :custom (org-ai-default-chat-model . "gpt-4o")
-    :init
-    (org-ai-global-mode))
+;; (leaf org-ai
+;;     :hook (org-mode-hook . org-ai-mode)
+;;     :custom (org-ai-default-chat-model . "gpt-4o")
+;;     :init
+;;     (org-ai-global-mode))
 #+END_SRC
+
+* Yasunori
 
 * At the end
 
@@ -4015,7 +4112,11 @@ TODO: merge
 
 * TODOs
 
-Better editig experience
+Remove defadvice
+
+Multi cursor
+
+Better editing experience
 - Create corfu key binding
 - Better tempel key mappings
 - How to check specfic mappings for mode

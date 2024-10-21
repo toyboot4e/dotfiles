@@ -7,10 +7,10 @@
 fundamental-mode ;; Available everywhere
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(today (format-time-string "%Y-%m-%d"))
-(m469762049 "469762049")
-(m998244353 "998244353")
-(m1000000007 "1000000007")
+;;(today (format-time-string "%Y-%m-%d"))
+;;(m469762049 "469762049")
+;;(m998244353 "998244353")
+;;(m1000000007 "1000000007")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 haskell-mode
@@ -77,11 +77,10 @@ cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
 
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
-;; (stateMap "evalState (U.mapM (\\x -> state $ \\acc -> (x, x + acc)) (U.fromList [1, 2, 3])) (0 :: Int)")
 (stateMap "(`evalState` x0) $ U.mapM (state . step) xs
   where
-    -- step :: x -> acc -> (x', acc')
-    step x acc = (acc, x)")
+    -- step :: x -> state -> (x', state')
+    step x state = (state, x)")
 
 ;; let !xs' = (`evalState` IM.empty) $ U.forM xs $ \\x -> state $ \\im -> do
 ;;       let !cnt = fromMaybe 0 $ IM.lookup x im
@@ -208,7 +207,7 @@ org-mode
 (latex "#+BEGIN_EXPORT latex" n> r> n "#+END_EXPORT")
 (comment "#+BEGIN_COMMENT" n> r> n "#+END_COMMENT")
 (verse "#+BEGIN_VERSE" n> r> n "#+end_verse")
-(src "#+BEGIN_SRC " (p "hs") n> "#+END_SRC")
+(src "#+BEGIN_SRC " (p "haskell") n> >r n "#+END_SRC")
 (details "#+BEGIN_DETAILS " q n> "#+END_DETAILS")
 (export "#+BEGIN_EXPORT " (p "html") n> "#+END_EXPORT")
 (gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
@@ -222,10 +221,11 @@ org-mode
 [[https://atcoder.jp/contests/abc"  (s no) "][ABC " (s no) "]] に参加しました。
 
 #+CAPTION: Diff 予想
-| 問題 | A 問題 | B 問題 | C 問題 | D 問題 | E 問題 | F 問題 |
-|------+--------+-------+--------+--------+-------+-------|
-| 予想 |    100 |   300 |    700 | 1,100  | 2,000 | 1,700 |
-| 実際 |     18 |    40 |    568 | 886    | 1506  | 2152  |
+| 問題       | A 問題 | B 問題 | C 問題 | D 問題 | E 問題 | F 問題 |
+|------------+--------+--------+--------+--------+--------+--------|
+| 提出       |        |        |        |        |        |        |
+| 予想 diff |        |        |        |        |        |        |
+| 実際 diff |        |        |        |        |        |        |
 
 ** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
 
