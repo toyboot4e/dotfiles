@@ -1055,7 +1055,7 @@ Save and restore tab states. TODO: make use of it.
                                   (buffer-name)
                                   0 5))))
           '("magit"))
-         ;; ((string-equal " *" (substring (buffer-name) 0 2)) '("mini"))
+         ((string-equal " *" (substring (buffer-name) 0 2)) '("mini"))
          (t
           (centaur-tabs-projectile-buffer-groups))))
 
