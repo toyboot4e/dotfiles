@@ -889,7 +889,7 @@ TODO: forbid repeat command
 
 ** Hacks
 
-*** Faster multiline insertion
+*** HACK: Faster multiline insertion
 
 FIXME: Do not insert when the line does not contain the target column
 FIXME: Handle newline insertion
@@ -941,6 +941,11 @@ FIXME: Handle newline insertion
 ;;                                             (funcall col))
 ;;                                         (dotimes (_ (or evil-insert-count 1))
 ;;                                             (evil-execute-repeat-info (cdr evil-insert-repeat-info)))))))))))))
+#+END_SRC
+
+*** HACK: =C-o= with continuous history
+
+#+BEGIN_SRCelisp
 #+END_SRC
 
 * Meta packages
@@ -3476,7 +3481,7 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
     )
 #+END_SRC
 
-*** Hack
+*** Hack: = e= for re-folding
 
 #+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
@@ -4077,8 +4082,7 @@ TODO: merge
 
     (leaf smyx-theme
         :ensure nil
-        ;; :straight (smyx-theme :type git :host github :repo "tacit7/smyx")
-        )
+        :straight (smyx-theme :type git :host github :repo "tacit7/smyx"))
     (load-theme 'doom-opera t)
     (load-theme 'smyx t))
 #+END_SRC
