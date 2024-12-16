@@ -432,6 +432,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
                  (define-key evil-inner-text-objects-map ,key #',inner-name)
                  (define-key evil-outer-text-objects-map ,key #',outer-name))))
 
+    (define-and-bind-quoted-text-object "atsymbol" "@" "@" "@")
     (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
     (define-and-bind-quoted-text-object "slash" "/" "/" "/")
     (define-and-bind-quoted-text-object "asterisk" "*" "*" "*")
@@ -448,8 +449,8 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     :url "https://github.com/cute-jumper/evil-embrace.el"
     :doc "more to `evil-surround'"
     :custom
-    (evil-embrace-evil-surround-keys . '(?\| ?\/ ?\* ?\= ?\( ?\[ ?\{ ?\) ?\] ?\} ?\" ?\' ?< ?> ?b ?B ?t ?\C-\[ ?w ?W ?s ?p))
-    ;;                                    ~~~~~~~~~~~~~~~ added. TODO: use push, but deduplicated
+    (evil-embrace-evil-surround-keys . '(?\@ ?\| ?\/ ?\* ?\= ?\( ?\[ ?\{ ?\) ?\] ?\} ?\" ?\' ?< ?> ?b ?B ?t ?\C-\[ ?w ?W ?s ?p))
+    ;;                                   ~~~~~~~~~~~~~~~~~~~ added. TODO: use push, but deduplicated
     :config
     ?\| ?\/ ?\* ?\=
     (evil-embrace-enable-evil-surround-integration))
