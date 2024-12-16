@@ -12,13 +12,13 @@
   #   ignoreCompilationError = false;
   # })
 
-  (epkgs.melpaBuild {
-    # pname = "smyx";
-    pname = "smyx-theme";
-    version = "0.0.1";
-    src = sources.emacs-smyx.src;
-    # packageRequires = with epkgs; [];
-    # files = ["smyx-theme.el"];
-    ignoreCompilationError = false;
-  })
+  # (epkgs.melpaBuild {
+  #   # pname = "smyx";
+  #   pname = "smyx-theme";
+  #   version = "0.0.1";
+  #   src = sources.emacs-smyx.src;
+  #   # packageRequires = with epkgs; [];
+  #   # files = ["smyx-theme.el"];
+  #   ignoreCompilationError = false;
+  # })
 ]

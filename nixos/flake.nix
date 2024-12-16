@@ -4,6 +4,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-fork.url = "github:toyboot4e/nixpkgs/mozc";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     fenix.url = "github:nix-community/fenix/monthly";
@@ -17,33 +18,42 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    home-manager,
-    fenix,
-    emacs-overlay,
-    emacs-lsp-booster,
-    ...
-  }: {
-    packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
-    nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        {
-          nixpkgs.overlays = [
-            emacs-overlay.overlay
-            emacs-lsp-booster.overlays.default
-            fenix.overlays.default
-          ];
-        }
-        ./nixos
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.tbm = import ./tbm;
-        }
-      ];
+  outputs =
+    inputs@{
+      nixpkgs,
+      nixpkgs-fork,
+      home-manager,
+      fenix,
+      emacs-overlay,
+      emacs-lsp-booster,
+      ...
+    }:
+    let
+      fork-overlay = final: prev: {
+        fork = nixpkgs-fork.legacyPackages.${prev.system};
+      };
+    in
+    {
+      packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
+      nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          {
+            nixpkgs.overlays = [
+              emacs-overlay.overlay
+              emacs-lsp-booster.overlays.default
+              fenix.overlays.default
+              fork-overlay
+            ];
+          }
+          ./nixos
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.tbm = import ./tbm;
+          }
+        ];
+      };
     };
-  };
 }

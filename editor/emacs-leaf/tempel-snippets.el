@@ -78,9 +78,9 @@ cross4 = U.fromList [(1, 1), (1, -1), (-1, 1), (-1, -1)]")
 ;; examples
 (mapAccumL "mapAccumL (\\!acc !x -> (acc + x, x)) (0 :: Int) [1, 2, 3]")
 (stateMap "(`evalState` x0) $ U.mapM (state . step) xs
-  where
-    -- step :: x -> state -> (x', state')
-    step x state = (state, x)")
+      where
+        -- step :: x -> state -> (x', state')
+        step !x !state = (state, x)")
 
 ;; let !xs' = (`evalState` IM.empty) $ U.forM xs $ \\x -> state $ \\im -> do
 ;;       let !cnt = fromMaybe 0 $ IM.lookup x im
@@ -112,13 +112,13 @@ instance Monoid Op where
   {-# INLINE mempty #-}
   mempty = Op 0
 
-instance SemigroupAction Op Acc where
-  {-# INLINE sact #-}
-  sact (Op !dx) (Acc !x) = Acc (x + dx)
+-- instance SemigroupAction Op Acc where
+--   {-# INLINE sact #-}
+--   sact (Op !dx) (Acc !x) = Acc (x + dx)
 
-;; instance SegmentAction Op Acc where
-;;   {-# INLINE segActWithLength #-}
-;;   segAct len (Op !dx) (Acc !x) = Acc (x + dx)
+instance SegmentAction Op Acc where
+  {-# INLINE segActWithLength #-}
+  segActWithLength len (Op !dx) (Acc !x) = Acc (x + dx)
 
 -- | Max
 type AccRepr = Int

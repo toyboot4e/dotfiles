@@ -20,8 +20,8 @@ in {
       # defaultInitFile = true;
       defaultInitFile = false;
       package = pkgs.emacs-unstable;
-      alwaysTangle = true;
-      alwaysEnsure = true;
+      # package = pkgs.emacs-git;
+      alwaysEnsure = true; # use nixpkgs
       extraEmacsPackages = import ./epkgs.nix { inherit pkgs sources; };
     };
   };
@@ -66,13 +66,16 @@ in {
     cmake
     gcc
     gdb pwndbg checksec
+
+    # gleam erlang rebar3
+    # roswell
+
     go
     nodejs
     deno
     yarn
     volta
     python3
-    roswell
     # goenv
     # idris2.. using `idris2-pack` instead
     # https://github.com/stefan-hoeck/idris2-pack
@@ -106,7 +109,7 @@ in {
     python311Packages.termgraph
     # https://github.com/red-data-tools/YouPlot
 
-    blender
+    # blender
     # cider
 
     # kicad-small
@@ -121,17 +124,16 @@ in {
     # python311Packages.pyttsx3
 
     ghc
-    stack
-    cabal-install
-    haskell-language-server
-    zlib
-    haskellPackages.implicit-hie
-    ormolu
-    ruby
+    stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
+
+    # purescript
+    # ruby
+
     drawio
-    mdbook
+    # mdbook
     pandoc
     texlive.combined.scheme-full
+    zoom-us
     # calibre
     minify
 
@@ -153,7 +155,7 @@ in {
     plantuml
     nkf
     gnuplot
-    math-preview
+    # math-preview
 
     cmatrix
     figlet

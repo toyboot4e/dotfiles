@@ -35,7 +35,7 @@ for_window [class="Naitulus"] default_border pixel 20
 for_window [class="Calibre"] default_border pixel 20
 
 for_window [title="Flameshot"] default_border pixel 20
-# for_window [class="Flameshot"] floating enable
+for_window [class="Flameshot"] floating enable
 
 # classes
 for_window [class="^floating$"] floating enable

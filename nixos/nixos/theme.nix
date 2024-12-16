@@ -25,7 +25,7 @@
       # SauceCodePro is distributed as SourceCodePro
       (nerdfonts.override {fonts = ["IntelOneMono" "SourceCodePro"];})
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       font-awesome
       vistafonts roboto-mono
       intel-one-mono
@@ -37,8 +37,8 @@
       enable = true;
       defaultFonts = {
         # TODO: use SourceCodePro?
-        serif = ["noto-fonts-cjk"];
-        sansSerif = ["noto-fonts-cjk"];
+        serif = ["noto-fonts-cjk-sans"];
+        sansSerif = ["noto-fonts-cjk-sans"];
         # "IntoneMono Nerd Font"
         monospace = ["intel-one-mono" "noto-sans-font-cjk"];
       };

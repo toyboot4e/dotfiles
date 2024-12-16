@@ -79,7 +79,7 @@
   // ---------
   "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
-  "workbench.editor.showTabs": false,
+  "workbench.editor.showTabs": "single",
   "explorer.openEditors.visible": 0,
 
   // NAVIGATION
@@ -87,9 +87,7 @@
 
   "workbench.sideBar.location": "right",
   "editor.minimap.enabled": false,
-  "workbench.iconTheme": "vscode-great-icons", // pretty nice
-  // ?
-  "workbench.activityBar.visible": true,
+  "workbench.iconTheme": "vscode-great-icons",
   "workbench.statusBar.visible": true,
 
   // THEME
