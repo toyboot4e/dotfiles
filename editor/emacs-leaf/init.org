@@ -2360,19 +2360,20 @@ Toolings (TODO: move):
     :url "https://github.com/oantolin/embark"
     :bind
     (:minibuffer-local-map
-     (("C-c" . embark-act)
+     (("C-s" . embark-act)
       ;; alternative for `describe-bindings'
       ("C-h B" . embark-bindings)))
     :bind
-    (("C-." . embark-act) ;; not works on terminal
+    (("C-s" . embark-act) ;; not works on terminal
      ;; alternative for `describe-bindings'
      ("C-h B" . embark-bindings))
 
     :config
     (with-eval-after-load 'vertico
-        (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
-        (vertico-multiform-mode)
-        (define-key vertico-map (kbd "\C-s") #'embark-act))
+        ;; what was it? it's too old now
+        ;; (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+        ;; (vertico-multiform-mode)
+        (define-key vertico-map (kbd "C-s") #'embark-act))
 
     :init
     (setopt prefix-help-command #'embark-prefix-help-command)
@@ -3261,6 +3262,17 @@ m[1-9]  move
 
 * Key Mappings
 
+** kkp
+
+Not works on =tmux=.
+
+#+BEGIN_SRC elisp
+(leaf kkp
+    :unless (display-graphic-p)
+    :config
+    (global-kkp-mode +1))
+#+END_SRC
+
 ** Global mode
 
 #+BEGIN_SRC elisp
@@ -3982,7 +3994,7 @@ TODO: merge
     (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up)
     ;; TODO: use isearch forward?
     (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
-    #+END_SRC
+#+END_SRC
 
 * Misc
 
@@ -3997,6 +4009,10 @@ TODO: merge
     :init
     (evil-define-key 'normal helpful-mode-map "q" #'kill-current-buffer)
     (evil-define-key 'normal 'global "K" #'helpful-at-point))
+
+(leaf help-fns+
+    :ensure nil
+    :doc "better keymap help")
 
 (leaf hl-todo
     :doc "highlight TODO, FIXME, etc."
