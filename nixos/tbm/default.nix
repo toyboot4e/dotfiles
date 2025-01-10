@@ -44,6 +44,9 @@ in {
     # helix
 
     nushell
+    zellij
+    # ghostty
+
     # devbox
     # skk-dicts
     # geekbench
@@ -124,7 +127,8 @@ in {
     # python311Packages.pyttsx3
 
     ghc
-    stack cabal-install haskell-language-server zlib haskellPackages.implicit-hie ormolu
+    stack cabal-install haskell-language-server zlib ormolu
+    haskellPackages.implicit-hie
 
     # purescript
     # ruby

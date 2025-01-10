@@ -1469,6 +1469,7 @@ FIXME: Not working under Evil
     :commands (lsp-mode lsp-deferred)
     :doc "`lsp-semantic-token-enable' is set to `nil' preferring `tree-sitter'"
     :custom ((lsp-completion-provider . :none) ;; use `cape'
+             (lsp-lens-enable . t) ;; especially on HLS, eval plugin is only provided as code lens
              (lsp-completion-show-kind)
              (lsp-enable-snippet . nil)
              (lsp-keymap-prefix)
@@ -1811,9 +1812,9 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
            ;; (haskell-mode-hook . toggle-truncate-lines)
            (haskell-literate-mode-hook . lsp-deferred))
 
+    :custom
+    (lsp-haskell-plugin-eval-config-exception . t)
     :config
-    ;; TOO SLOW
-    (setopt lsp-lens-enable nil)
     (defun ormolu-format-buffer ()
         "Formats current buffer with `ormolu'.
 Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
@@ -2757,6 +2758,8 @@ FIXME
 
 ** Inline style & edit
 
+*** org-appear
+
 #+BEGIN_SRC elisp
 (leaf org-appear
     :doc "Uninline format on cursor"
@@ -2768,6 +2771,8 @@ FIXME
     (org-hide-emphasis-markers . t))
 #+END_SRC
 
+*** org-fragtog
+
 #+BEGIN_SRC elisp
 (leaf org-fragtog
     :doc "combo with `org-latex-preview'"
@@ -2775,7 +2780,7 @@ FIXME
            (org-mode-hook . org-latex-preview)))
 #+END_SRC
 
-** Beautify
+** org-superstar
 
 #+BEGIN_SRC elisp
 (leaf org-superstar
@@ -2799,7 +2804,7 @@ FIXME
     )
 #+END_SRC
 
-** Key bindings
+** Org key bindings
 
 #+BEGIN_SRC elisp
 ;; paragraph move
@@ -2860,14 +2865,14 @@ FIXME
                                  )))
 #+END_SRC
 
-** math-preview
+ COMMENT math-preview
 
 #+BEGIN_SRC elisp
 ;; requires `math-preview' executable.
 ;; (leaf math-preview)
 #+END_SRC
 
-** org-roam
+ COMMENT org-roam
 
 #+BEGIN_SRC elisp
 (leaf org-roam
@@ -2982,6 +2987,23 @@ FIXME
 (leaf moom)
 #+END_SRC
 
+ COMMENT =org-ai=
+
+#+BEGIN_SRC elisp
+(leaf org-ai
+    :hook (org-mode-hook . org-ai-mode)
+    :custom (org-ai-default-chat-model . "gpt-4o")
+    :init
+    (org-ai-global-mode))
+#+END_SRC
+
+ COMMENT org-sliced-images
+
+#+BEGIN_SRC elisp
+(leaf org-sliced-images
+    :hook (org-mode-hook . org-sliced-images-mode))
+#+END_SRC
+
 ** Misc
 
 #+BEGIN_SRC elisp
@@ -3016,13 +3038,6 @@ FIXME
     (setopt elfeed-feeds
             '(("https://matklad.github.io/feed.xml")
               ("https://cp-algorithms.com/feed_rss_created.xml"))))
-#+END_SRC
-
-*** org-sliced-images
-
-#+BEGIN_SRC elisp
-(leaf org-sliced-images
-    :hook (org-mode-hook . org-sliced-images-mode))
 #+END_SRC
 
 ** md4rd
@@ -3610,7 +3625,7 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
     "  T" #'toy/magit-tab)
 #+END_SRC
 
-*** org
+*** org mappings
 
 TODO: merge all
 
@@ -3922,7 +3937,10 @@ TODO: merge
 
     " fl" #'consult-line
     " fo" #'consult-outline
-    " fO" (lambda () (interactive) (cd org-directory) (call-interactively #'find-file))
+    " fO" (lambda ()
+              (interactive)
+              (let ((default-directory (concat org-directory "/")))
+                  (call-interactively #'find-file)))
 
     " fi" #'consult-imenu
     " fd" #'consult-lsp-diagnostics
@@ -4148,16 +4166,6 @@ TODO: merge
               ("llama3.1" . (make-llm-ollama
                              :chat-model "llama3.1:8b"
                              :embedding-model "llama3.1:8b")))))
-#+END_SRC
-
-** =org-ai=
-
-#+BEGIN_SRC elisp
-(leaf org-ai
-    :hook (org-mode-hook . org-ai-mode)
-    :custom (org-ai-default-chat-model . "gpt-4o")
-    :init
-    (org-ai-global-mode))
 #+END_SRC
 
 * Yasunori
