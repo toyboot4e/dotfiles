@@ -236,12 +236,13 @@ TODO: Switch to elpaca
 ;; (global-hl-line-mode t)
 
 ;; show trailing whitespaces
-(setq-default show-trailing-whitespace t)
+(setopt show-trailing-whitespace t)
 
 ;; show tabs
-(require 'whitespace)
-(whitespace-mode 1)
 (setopt whitespace-style '(tabs  tab-mark))
+
+(require 'whitespace)
+(global-whitespace-mode 1)
 
 ;; show matching parentheses
 (setq-default show-paren-delay 0)
