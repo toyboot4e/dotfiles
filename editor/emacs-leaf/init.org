@@ -748,7 +748,7 @@ TODO: forbid repeat command
 *** Sidebar settings
 
 #+BEGIN_SRC elisp
-(setq-default toy/sidebar-width 25)
+(setq-default toy/sidebar-width 22)
 (setq-default toy/bottom-bar-height 7)
 (defvar toy/sidebar-imenu-buffer-name "@imenu")
 (defvar toy/bottom-vterm-buffer-name "⊥ vterm")
@@ -1247,6 +1247,11 @@ Save and restore tab states. TODO: make use of it.
              (neo-window-width . toy/sidebar-width)
              (neo-window-fixed-size)
              (neo-show-hidden-files . t))
+    :hook (neo-after-create-hook . my-neotree-setup)
+    :init
+    (defun my-neotree-setup (&optional _rest)
+        (display-line-numbers-mode -1)
+        (whitespace-mode -1))
     :config
     (setopt neo-buffer-name "@tree")
     (evil-define-key 'normal neotree-mode-map
