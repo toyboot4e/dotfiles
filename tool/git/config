@@ -141,3 +141,5 @@
 [ghq]
     root=/d/ghq
 
+[merge]
+	conflictStyle = diff3
