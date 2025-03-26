@@ -22,8 +22,8 @@
 
     # Font packages TODO: Add more fonts
     packages = with pkgs; [
-      # SauceCodePro is distributed as SourceCodePro
-      (nerdfonts.override {fonts = ["IntelOneMono" "SourceCodePro"];})
+      nerd-fonts.intone-mono
+      nerd-fonts.sauce-code-pro
       noto-fonts
       noto-fonts-cjk-sans
       font-awesome

@@ -26,8 +26,22 @@ in {
     };
   };
 
+  # FIXME:
+  # https://github.com/nix-community/home-manager/issues/2064
+  systemd.user.targets.tray = {
+    Unit = {
+      Description = "Home Manager System Tray";
+      Requires = [ "graphical-session-pre.target" ];
+    };
+  };
+
   home.packages = with pkgs; [
+    appimage-run
+    ncdu
+
     kitty
+    ghostty
+
     convmv
     qutebrowser
     # firefox rofi
@@ -45,7 +59,12 @@ in {
 
     nushell
     zellij
-    # ghostty
+
+    act
+    cargo-make # `makers`
+    just
+    hyperfine
+    go-task
 
     # devbox
     # skk-dicts
@@ -61,6 +80,8 @@ in {
     # emacsPackages.ddskk
     # TODO: not working?
     emacs-lsp-booster
+    enchant
+    emacsPackages.jinx # https://github.com/minad/jinx
 
     # CPU temperature
     lm_sensors
@@ -87,6 +108,10 @@ in {
     # zls
     # swiPrologWithGui
 
+    # nix
+    nix-search-tv
+    television
+
     (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
     # rust-analyzer-nightly
 
@@ -112,7 +137,7 @@ in {
     python311Packages.termgraph
     # https://github.com/red-data-tools/YouPlot
 
-    # blender
+    blender
     # cider
 
     # kicad-small
@@ -134,6 +159,8 @@ in {
     # ruby
 
     drawio
+    krita
+
     # mdbook
     pandoc
     texlive.combined.scheme-full

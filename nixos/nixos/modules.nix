@@ -45,6 +45,9 @@
   #   package = pkgs.pulseaudioFull;
   # };
 
+  # https://opentabletdriver.net/Wiki/Install/Linux#nixos
+  hardware.opentabletdriver.enable = true;
+
   # QMK
   hardware.keyboard.qmk.enable = true;
 
@@ -135,6 +138,9 @@
   #
   # $ # To enable Mozc input, run:
   # $ fcitx5-configtool
+  # $ # Find `mozc_tool`:
+  # $ nix eval nixpkgs#fcitx5-mozc.outPath
+  # $ # Old way:
   # $ # Input mode: romaji
   # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
 
