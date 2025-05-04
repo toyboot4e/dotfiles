@@ -41,12 +41,6 @@ end
 # Setup
 
 # ----------------------------------------
-# Constants
-
-set NAROU_ROOT ~/Resources/narou
-set NAROO_ROOT ~/Resources/narou
-
-# ----------------------------------------
 # PATHS
 
 # run `~/dotfiles/shell/fish/user_path.fish` once to set universal paths
@@ -204,6 +198,10 @@ end
 
 if command -sq cabal
     alias c cabal
+end
+
+if command -sq just
+    alias j just
 end
 
 if command -sq colordiff

@@ -143,3 +143,7 @@
 
 [merge]
 	conflictStyle = diff3
+
+[url "git@gist.github.com:"]
+     pushinsteadOf = https://gist.github.com/toyboot4e/
+

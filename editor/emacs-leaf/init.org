@@ -150,7 +150,7 @@ TODO: Switch to elpaca
 (eval-and-compile
     (customize-set-variable
      'package-archives '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("org" . "https://orgmode.org/elpa/")
+                         ;; ("org" . "https://orgmode.org/elpa/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
@@ -430,6 +430,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 (leaf evil-surround
     :after evil
     :config
+    ;; (leaf evil-textobj-entire)
     ;; FIXME: deduplicate
     ;; (setq-default evil-surround-pairs-alist
     ;;               (push '(?~ . ("==" . "==")) evil-surround-pairs-alist))
@@ -525,23 +526,25 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
             #'evil-scroll-line-to-top
             (kbd "SPC RET")
             #'magit-diff-visit-worktree-file-other-window)
-        (evil-define-key 'normal git-rebase-mode-map "C-j" git-rebase-move-line-down "C-u" git-rebase-move-line-up)
+        (evil-define-key 'normal git-rebase-mode-map
+            "C-j" #'git-rebase-move-line-down
+            "C-u" #'git-rebase-move-line-up)
         (advice-add 'magit-section-forward :after
                     (lambda (&rest _)
                         (evil-scroll-line-to-top
                          (line-number-at-pos))))
-        (advice-add 'magit-section-backward :after
-                    (lambda (&rest _)
-                        (evil-scroll-line-to-top
-                         (line-number-at-pos))))
+        ;; (advice-add 'magit-section-backward :after
+        ;;             (lambda (&rest _)
+        ;;                 (evil-scroll-line-to-top
+        ;;                  (line-number-at-pos))))
         (advice-add 'magit-section-forward-sibling :after
                     (lambda (&rest _)
                         (evil-scroll-line-to-top
                          (line-number-at-pos))))
-        (advice-add 'magit-section-backward-sibling :after
-                    (lambda (&rest _)
-                        (evil-scroll-line-to-top
-                         (line-number-at-pos))))
+        ;; (advice-add 'magit-section-backward-sibling :after
+        ;;             (lambda (&rest _)
+        ;;                 (evil-scroll-line-to-top
+        ;;                  (line-number-at-pos))))
         (evil-collection-magit-setup)))
 #+END_SRC
 
@@ -1035,14 +1038,31 @@ TODO
                 'macrostep-expand))
 #+END_SRC
 
-* View
+* View / navigation
 
-* Activities
+** Activities
 
 Save and restore tab states. TODO: make use of it.
 
 #+BEGIN_SRC elisp
 (leaf activities)
+#+END_SRC
+
+** ace-window
+
+Easy motion style jump of windows.
+
+#+BEGIN_SRC elisp
+(leaf ace-window
+    :custom (aw-keys . '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+#+END_SRC
+
+** avy
+
+Easy motion style jump.
+
+#+BEGIN_SRC elisp
+(leaf avy)
 #+END_SRC
 
 ** Blamer
@@ -1250,7 +1270,7 @@ Save and restore tab states. TODO: make use of it.
              (neo-show-hidden-files . t))
     :hook (neo-after-create-hook . my-neotree-setup)
     :init
-    (defun my-neotree-setup (&optional _rest)
+    (defun my-neotree-setup (&rest _)
         (display-line-numbers-mode -1)
         (whitespace-mode -1))
     :config
@@ -1282,6 +1302,7 @@ Save and restore tab states. TODO: make use of it.
                 (lambda (&rest _)
                     (evil-first-non-blank))))
 #+END_SRC
+
 ** nerd-icons
 
 #+BEGIN_SRC elisp
@@ -1294,14 +1315,16 @@ Save and restore tab states. TODO: make use of it.
         (nerd-icons-completion-mode))
     (leaf nerd-icons-dired
         :hook (dired-mode-hook . nerd-icons-dired-mode))
-    (leaf magit-file-icons
-        :after magit
-        ;; :init
-        :hook (magit-status-mode-hook . magit-file-icons-mode)
-        :custom
-        (magit-file-icons-enable-diff-file-section-icons . t)
-        (magit-file-icons-enable-untracked-icons . t)
-        (magit-file-icons-enable-diffstat-icons . t)))
+    ;; (leaf magit-file-icons
+    ;;     :after magit
+    ;;     ;; TODO: remove straight after upstream change
+    ;;     ;; :straight (magit-file-icons :type git :host github :repo "gekoke/magit-file-icons")
+    ;;     :hook (magit-status-mode-hook . magit-file-icons-mode)
+    ;;     :custom
+    ;;     (magit-file-icons-enable-diff-file-section-icons . t)
+    ;;     (magit-file-icons-enable-untracked-icons . t)
+    ;;     (magit-file-icons-enable-diffstat-icons . t))
+    )
 #+END_SRC
 
 ** olivetti
@@ -1356,6 +1379,20 @@ Save and restore tab states. TODO: make use of it.
     :hook (emacs-lisp-mode-hook scheme-mode-hook))
 #+END_SRC
 
+#+BEGIN_SRC elisp
+(leaf aidermacs
+  ;; :bind (("C-c a" . aidermacs-transient-menu))
+  :config
+  ;; ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
+  ;; (setenv "ANTHROPIC_API_KEY" "sk-...")
+  ;; ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
+  ;; (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
+  :custom
+  ; See the Configuration section below
+  ((aidermacs-use-architect-mode . t)
+   (aidermacs-default-model . "sonnet")))
+#+END_SRC
+
 ** CMake
 
 #+BEGIN_SRC elisp
@@ -1394,13 +1431,22 @@ Save and restore tab states. TODO: make use of it.
 (leaf envrc
     :config
     (envrc-global-mode))
-
 #+END_SRC
 
 ** Flycheck
 
 #+BEGIN_SRC elisp
 (leaf flycheck)
+#+END_SRC
+
+** Justfile
+
+#+BEGIN_SRC elisp
+(leaf just-mode
+    ;; :defer-config
+    ;; (setq-local 
+    )
+(leaf justl)
 #+END_SRC
 
 ** Magit + Forge + Diffstatic
@@ -1695,6 +1741,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :custom
     ((markdown-command . "multimarkdown")
      (markdown-hide-markup . t)
+     ;; TODO: Do it for org-ai only
      (markdown-fontify-code-blocks-natively . t))
     :config
     (evil-define-key 'normal markdown-mode-map "z1"
@@ -1735,6 +1782,16 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 
 #+BEGIN_SRC elisp
 (leaf yaml-mode)
+#+END_SRC
+
+* Spell checker
+
+** Jinx
+
+#+BEGIN_SRC elisp
+;; (leaf jinx
+;;     :config
+;;     (global-jinx-mode))
 #+END_SRC
 
 * Programming languages
@@ -1819,8 +1876,6 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
            ;; (haskell-mode-hook . toggle-truncate-lines)
            (haskell-literate-mode-hook . lsp-deferred))
 
-    :custom
-    (lsp-haskell-plugin-eval-config-exception . t)
     :config
     (defun ormolu-format-buffer ()
         "Formats current buffer with `ormolu'.
@@ -1838,7 +1893,11 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
     (leaf consult-hoogle)
 
     (leaf lsp-haskell
+        ;; TODO: eval plugin integration
         :after lsp-mode
+        :custom
+        ((lsp-haskell-plugin-eval-config-exception . t)
+         (lsp-haskell-plugin-eval-config-diff . nil))
         :url "https://github.com/emacs-lsp/lsp-haskell")
 
     (evil-define-key 'normal 'haskell-mode-map
@@ -2151,7 +2210,9 @@ Toolings (TODO: move):
     ;; Using prettier instaead, but both should be unified
     ;; :config
     ;; (add-hook 'before-save-hook #'lsp-format-buffer)
-    )
+    :defer-config
+    ;; FIXME: not set
+    (setq-local lsp-format-buffer-on-save t))
 #+END_SRC
 
 ** WGSL
@@ -3000,7 +3061,7 @@ FIXME
 #+BEGIN_SRC elisp
 (leaf org-ai
     :hook (org-mode-hook . org-ai-mode)
-    :custom (org-ai-default-chat-model . "gpt-4o")
+    :custom (org-ai-default-chat-model . "gpt-4o-mini")
     :init
     (org-ai-global-mode))
 #+END_SRC
@@ -3274,10 +3335,10 @@ m[1-9]  move
 Not works on =tmux=.
 
 #+BEGIN_SRC elisp
-(leaf kkp
-    :unless (display-graphic-p)
-    :config
-    (global-kkp-mode +1))
+;; (leaf kkp
+;;     :unless (display-graphic-p)
+;;     :config
+;;     (global-kkp-mode +1))
 #+END_SRC
 
 ** Global mode
@@ -3507,6 +3568,17 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 ;; (evil-define-key 'insert 'global
 ;;     "\C-_" (_fn (message "undo-tree-undo removed"))
 ;;     "\M-_" (_fn (message "undo-tree-redo removed")))
+#+END_SRC
+
+** a
+
+#+BEGIN_SRC elisp
+(evil-define-key 'normal 'toy/global-mode-map
+  " a" #'avy-goto-char
+  ;; " aa" #'avy-goto-char
+  ;; " ad" #'avy-goto-word1
+  ;; " aw" #'ace-window
+  )
 #+END_SRC
 
 ** g

@@ -72,7 +72,7 @@ in {
     dmenu
     rofi
     flameshot
-    xdragon
+    dragon-drop
     # (imagemagick.override { libwebpSupport = true ; })
     imagemagick
 

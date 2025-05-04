@@ -37,10 +37,12 @@ in {
 
   home.packages = with pkgs; [
     appimage-run
-    ncdu
+    ncdu # check disk usage?
 
     kitty
     ghostty
+
+    aider-chat
 
     convmv
     qutebrowser
@@ -55,6 +57,7 @@ in {
     xfce.thunar
     xdg-ninja
     neovim
+    typora
     # helix
 
     nushell
@@ -89,7 +92,8 @@ in {
     gnumake
     cmake
     gcc
-    gdb pwndbg checksec
+    gdb checksec
+    # pwndbg 
 
     # gleam erlang rebar3
     # roswell
@@ -200,6 +204,7 @@ in {
     unityhub
     steamtinkerlaunch
     obs-studio
+    simplescreenrecorder
     zeal
 
     # DAW

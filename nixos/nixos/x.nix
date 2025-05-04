@@ -20,15 +20,15 @@
 
     desktopManager = {};
 
-    # https://nixos.wiki/wiki/Nvidia
-    videoDrivers = ["nvidia"];
-
-    # less screen tearing
-    screenSection = ''
-      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "AllowIndirectGLXProtocol" "off"
-      Option         "TripleBuffer" "on"
-    '';
+    # FIXME: enable Nvidia only when the device is found
+    # # https://nixos.wiki/wiki/Nvidia
+    # videoDrivers = ["nvidia"];
+    # # less screen tearing
+    # screenSection = ''
+    #   Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+    #   Option         "AllowIndirectGLXProtocol" "off"
+    #   Option         "TripleBuffer" "on"
+    # '';
 
     # WM
     windowManager.i3 = {
@@ -50,6 +50,8 @@
     # xkbModel = "ja106";
     # xkbOptions = "ctrl:nocaps";
     xkb = {
+      # setxkbmap -query
+      # setxkbmap jp
       layout = "jp";
       model = "ja106";
       options = "ctrl:nocaps";

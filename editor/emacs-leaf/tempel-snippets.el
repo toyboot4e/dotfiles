@@ -23,7 +23,7 @@ haskell-mode
 (script "#!/usr/bin/env stack" n "{- stack script --resolver lts-21.6 -}")
 
 ;; header
-(langauge "{-# LANGUAGE " (p "BangPatterns") " #-}")
+(langauge "{-# LANGUAGE " (p "ViewPatterns") " #-}")
 (import "import " (p "Data.List"))
 ;; (import-qualified "import qualified" (p "Data.IntSet") " as " (p "IS"))
 (module "module " (p "Main") " (" (p "main") ") where")
@@ -44,7 +44,13 @@ haskell-mode
 
 (bnd "!bnd = ((0, 0), (h - 1, w - 1))")
 
-(foldM "(\\f -> U.foldM'_ f s0 xs) $ \\acc x -> do")
+;; (foldM "(\\f -> U.foldM'_ f s0 xs) $ \\acc x -> do")
+(foldM "U.foldM'" n> r>
+       "  (\\acc x -> do" n> r>
+       "    pure acc" n> r>
+       "  )" n> r>
+       "  (0 :: Int)" n> r>
+       "  qs")
 
 (undef
  "undef :: Int
@@ -169,19 +175,25 @@ type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @
 (rh "type RH' = RH HashInt MyModulo ;")
 
 (quickcheck
-"propQC :: QC.Property
-propQC =
-  -- 1 <= N <= maxN
-  QC.forAll (QC.choose (1, maxN)) $ \\n -> do
-    -- [x | 1 <= x <= 5,000]
-    QC.forAll (QC.vectorOf n (QC.choose (1, 5000))) \\xs -> do
-      let !xs' = U.fromList xs
-      solveAC n xs' QC.=== solveWA n xs'
+"propQC :: QC.Gen QC.Property
+propQC = do
+  n <- QC.choose (1, maxN)
+  xs <- U.fromList <$> QC.vectorOf n (QC.choose (1, 5000)
+  solveAC n xs QC.=== solveWA n xs
   where
     maxN = 1000
 
 runQC :: IO ()
 runQC = QC.quickCheck (QC.withMaxSuccess 100 propQC)")
+
+(try-catch-unsafe-perform-io
+"  let !_ = unsafePerformIO $ do
+        result <- try (evaluate (mainImpl n q xs qs)) :: IO (Either SomeException (VU.Vector Int))
+        case result of
+          Left ex -> do
+            putStrLn $ "Caught an exception: " ++ show ex
+            exitSuccess
+          Right _ -> pure ()")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 org-mode
@@ -193,6 +205,7 @@ org-mode
 (width "#+ATTR_HTML: :width " p "px")
 
 (ai "#+BEGIN_AI markdown" n> "[ME]: " r> n "#+END_AI")
+(yaruo "#+BEGIN_YARUO" n> r> n "#+END_YARUO")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")

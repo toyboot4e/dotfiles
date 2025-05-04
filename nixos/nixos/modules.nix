@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  # networking.hostName = "nixos";
+  networking.hostName = "tbm";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
@@ -98,10 +98,11 @@
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
 
-  # https://nixos.wiki/wiki/Nvidia#Fix_graphical_corruption_on_suspend.2Fresume
-  hardware.nvidia.open = true;
-  # hardware.nvidia.powerManagement.enable = true;
-  hardware.nvidia-container-toolkit.enable = true;
+  # FIXME: enable Nvidia only when the device is found
+  # # https://nixos.wiki/wiki/Nvidia#Fix_graphical_corruption_on_suspend.2Fresume
+  # hardware.nvidia.open = true;
+  # # hardware.nvidia.powerManagement.enable = true;
+  # hardware.nvidia-container-toolkit.enable = true;
 
   # Virtualization (virt-manager): <https://nixos.wiki/wiki/Virt-manager>
   virtualisation.libvirtd = {
