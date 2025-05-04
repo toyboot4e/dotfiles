@@ -24,7 +24,8 @@ set $mod Mod4
 floating_modifier $mod
 
 # theme
-font pango:monospace 12
+# font pango:monospace 12 # 3840x2160
+font pango:monospace 16
 
 # no border
 default_border pixel 0
@@ -80,8 +81,14 @@ for_window [class="executor"] floating enable
 # So I'm calling `xdotools` from `sxhkd` instead.
 
 # for_window [class="dropdown-terminal"] floating enable, resize set 1920 1080, move position center
-for_window [class="dropdown-terminal"] floating enable, resize set 2880 1620, move position center
-for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
+
+# 3840x2160
+# for_window [class="dropdown-terminal"] floating enable, resize set 2880 1620, move position center
+# for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
+
+# 5120x2880
+for_window [class="dropdown-terminal"] floating enable, resize set 3840 2160, move position center
+for_window [title="dropdown-emacs"] floating enable, resize set 3840 2160, move position center
 
 # --------------------------------------------------------------------------------
 # i3bar
@@ -101,7 +108,8 @@ set $ws10 "10: "
 
 bar {
     status_command SCRIPT_DIR=$HOME/dotfiles/linux/i3blocks-contrib i3blocks
-    font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 12
+    # font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 12
+    font pango:Exo2, FontAwesome5Free, FontAwesome5Brands, SymbolsNerdFont 16
 
     position          top
     mode              dock

@@ -3,7 +3,11 @@
 
 /* Compact tabs */
 .tab {
-  height: 24px;
-  font-size: 16px;
-}
+  /* 3840x2160 */
+  /* height: 24px; */
+  /* font-size: 16px; */
 
+  /* 5120x2880 */
+  height: 28px;
+  font-size: 20px;
+}
