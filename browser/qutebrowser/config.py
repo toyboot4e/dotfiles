@@ -2,14 +2,23 @@
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
 def scaled(x):
-    return 2 * x
+    # 4K
+    # return 2 * x
+    # 5K
+    return int(round(2.5 * x))
 
 def text_scaled(x):
     return 1.0 * x
 
-DEFAULT_ZOOM=scaled(75)
-c.fonts.default_size = "18pt"
-FONT_SIZE=18
+# 4K
+# DEFAULT_ZOOM=scaled(75)
+# c.fonts.default_size = "18pt"
+# FONT_SIZE=18
+
+# 5K
+DEFAULT_ZOOM=scaled(85)
+c.fonts.default_size = "24pt"
+FONT_SIZE=24
 
 config.load_autoconfig(False)
 
