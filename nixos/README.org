@@ -9,11 +9,12 @@
 
 ** Commands
 
+Maybe I should write `apps` for this:
+
 #+BEGIN_SRC sh
 $ nix flake update
 $ sudo nixos-rebuild switch --flake .#tbm
 #+END_SRC
 
-- TODO: Update README
-- TODO: use input/output style of configuration files?
+TODO: Distribute configuration files via =flake.nix=.
 

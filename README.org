@@ -42,46 +42,18 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 ** List
 
 | Terminal | [[kitty][kitty]] with [[tmux][tmux]]                       |
-| Font     | SourceCodePro ([[nerd][nerd]])                  |
+| Font     | Intel One Mono ([[nerd][nerd]])                 |
 | Editors  | NeoVim and [[evil][evil]] Emacs                 |
 | Shells   | bash and [[fish][fish]]                         |
-| Browsers | [[qb][qb]], firefox and [[w3m][w3m]]                   |
+| Browsers | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
 | macOS    | [[yabai][yabai]], [[skhd][skhd]], [[simple-bar][simple-bar]] and [[karabiner][karabiner]] |
-| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]]     |
+| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]], [[https://github.com/ranger/ranger][ranger]]            |
 
-[[ghq][ghq]], [[gh][gh]], [[rg][rg]], [[hgrep][hgrep]], [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[delta][delta]], GNU sed, GNU xargs and `rename`
+[[ghq][ghq]], [[gh][gh]], [[rg][rg]], [[hgrep][hgrep]], [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[delta][delta]], GNU sed, GNU xargs and GNU =rename=
 
-** Installations (WIP)
+** Installations
 
-*** macOS
-
-Old note:
-
-I fail to install some packages with [[nix][nix]] (somehow), so I'm using [[brew][brew]] for them:
-
-#+BEGIN_SRC sh
-$ brew install kitty
-$ brew install --cask qutebrowser
-$ brew install emacs-plus --with-no-titlebar
-$ brew install ccls node make cmake llvm
-#+END_SRC
-
-macOS-only:
-
-#+BEGIN_SRC sh
-$ brew install yabai skhd
-$ brew install --cask karabiner-elements
-#+END_SRC
-
-[[simple-bar][simple-bar]] and [[uber][uber]]
-
-*** NixOS
-
-TODO: Distribute configuration files via =flake.nix=.
-
-*** Windows
-
-I'm still unfamilar with that OS!
+TODO. Today I'm making symlinks one by one (dear..).
 
 ** Misc
 

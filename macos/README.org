@@ -1,0 +1,23 @@
+* macOS
+
+Mostly outdated. I'm still using Intel mac.
+
+
+I fail to install some packages with [[nix][nix]] (somehow), so I'm using [[brew][brew]] for them:
+
+#+BEGIN_SRC sh
+$ brew install kitty
+$ brew install --cask qutebrowser
+$ brew install emacs-plus --with-no-titlebar
+$ brew install ccls node make cmake llvm
+#+END_SRC
+
+macOS-only tools:
+
+#+BEGIN_SRC sh
+$ brew install yabai skhd
+$ brew install --cask karabiner-elements
+#+END_SRC
+
+[[simple-bar][simple-bar]] and [[uber][uber]]
+
