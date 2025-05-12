@@ -1,0 +1,13 @@
+# Just a task runner
+# <https://github.com/casey/just>
+
+# shows this help message
+help:
+    @just -l
+
+# updates the whole system
+update:
+    sudo nix-channel update
+    nix flake update
+    sudo nixos-rebuild switch --flake #.tbm
+

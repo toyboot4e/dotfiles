@@ -9,12 +9,7 @@
 
 ** Commands
 
-Maybe I should write `apps` for this:
-
-#+BEGIN_SRC sh
-$ nix flake update
-$ sudo nixos-rebuild switch --flake .#tbm
-#+END_SRC
+Run =just= to see avilable commands.
 
 TODO: Distribute configuration files via =flake.nix=.
 
