@@ -189,8 +189,10 @@ config.bind('}', ':tab-move +')
 config.bind('<Meta+p>', ':tab-pin')
 
 # Vim-like
-config.bind('<Ctrl+e>', ':scroll down')
-config.bind('<Ctrl+y>', ':scroll up')
+config.bind('<Ctrl+e>', ':scroll-page 0 0.1')
+config.bind('<Ctrl+y>', ':scroll-page 0 -0.1')
+config.bind('j', ':scroll-page 0 0.1')
+config.bind('k', ':scroll-page 0 -0.1')
 
 # Vimium-like
 config.unbind('d')  # use x, X
