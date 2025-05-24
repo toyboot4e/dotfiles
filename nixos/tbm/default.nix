@@ -36,6 +36,8 @@ in {
   };
 
   home.packages = with pkgs; [
+    actionlint
+
     appimage-run
     ncdu # check disk usage?
 

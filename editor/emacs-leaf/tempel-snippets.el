@@ -226,19 +226,12 @@ org-mode
 (gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
 (elisp "#+BEGIN_SRC emacs-lisp" n> r> n "#+END_SRC" :post (org-edit-src-code))
 ;; (inlsrc "src_" p "{" q "}")
-(title "#+TITLE: " p n "#+AUTHOR: Daniel Mendler" n "#+LANGUAGE: en")
+(title "#+TITLE: " p n "#+DATE: ")
 
 ;; for diary
 (abc "* ABC " (p "300" no) "
 
 [[https://atcoder.jp/contests/abc"  (s no) "][ABC " (s no) "]] に参加しました。
-
-#+CAPTION: Diff 予想
-| 問題       | A 問題 | B 問題 | C 問題 | D 問題 | E 問題 | F 問題 |
-|------------+--------+--------+--------+--------+--------+--------|
-| 提出       |        |        |        |        |        |        |
-| 予想 diff |        |        |        |        |        |        |
-| 実際 diff |        |        |        |        |        |        |
 
 ** [[https://atcoder.jp/contests/abc" (s no) "/tasks/abc" (s no) "_a][A 問題]]
 
@@ -276,6 +269,8 @@ org-mode
 ")
 
 (ahc "[[https://atcoder.jp/contests/ahc"  (p "001" no) "][AHC " (s no) "]] に参加しました。")
+
+(ans "Answer in short.")
 
 ;; Local Variables:
 ;; mode: lisp-data

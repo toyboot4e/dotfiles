@@ -1461,7 +1461,8 @@ Easy motion style jump.
     :custom
     ((magit-log-section-commit-count . 15)
      (magit-refresh-status-buffer . nil)
-     (dired-vc-rename-file . t))
+     (dired-vc-rename-file . t)
+     (magit-diff-refine-hunk . all))
     :config
     (defun magit-rev-format (format &optional rev args)
         "lighter magit revision format"
@@ -1781,7 +1782,13 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 ** YAML
 
 #+BEGIN_SRC elisp
-(leaf yaml-mode)
+(leaf yaml-mode
+    :hook ((yaml-mode-hook . flycheck-mode)
+           (yaml-mode-hook . flycheck-inline-mode))
+    :config
+    (flycheck-yamllint-setup))
+
+(leaf flycheck-yamllint)
 #+END_SRC
 
 * Spell checker
@@ -2207,9 +2214,8 @@ Toolings (TODO: move):
     :custom (typescript-indent-level . 2)
     :hook (typescript-mode-hook . lsp-deferred)
     :config
-    ;; Using prettier instaead, but both should be unified
-    ;; :config
-    ;; (add-hook 'before-save-hook #'lsp-format-buffer)
+    (setq lsp-eslint-auto-fix-on-save t)
+    ;; (add-to-list 'lsp-language-id-configuration '("eslint\\.config\\..js" . "eslint"))
     :defer-config
     ;; FIXME: not set
     (setq-local lsp-format-buffer-on-save t))
@@ -3061,7 +3067,9 @@ FIXME
 #+BEGIN_SRC elisp
 (leaf org-ai
     :hook (org-mode-hook . org-ai-mode)
-    :custom (org-ai-default-chat-model . "gpt-4o-mini")
+    ;; :custom (org-ai-default-chat-model . "gpt-4o-mini")
+    ;; :custom (org-ai-default-chat-model . "gpt-4o")
+    :custom (org-ai-default-chat-model . "gpt-4.1")
     :init
     (org-ai-global-mode))
 #+END_SRC
