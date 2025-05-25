@@ -1462,7 +1462,7 @@ Easy motion style jump.
     ((magit-log-section-commit-count . 15)
      (magit-refresh-status-buffer . nil)
      (dired-vc-rename-file . t)
-     (magit-diff-refine-hunk . all))
+     (magit-diff-refine-hunk . 'all))
     :config
     (defun magit-rev-format (format &optional rev args)
         "lighter magit revision format"
