@@ -1376,21 +1376,26 @@ Easy motion style jump.
 
 #+BEGIN_SRC elisp
 (leaf aggressive-indent
-    :hook (emacs-lisp-mode-hook scheme-mode-hook))
+    :hook (emacs-lisp-mode-hook . scheme-mode-hook))
 #+END_SRC
 
 #+BEGIN_SRC elisp
+(leaf vterm
+  :config
+  (defun evil-collection-vterm-escape-stay ()
+    "Go back to normal state but don't move
+    cursor backwards. Moving cursor backwards is the default vim behavior but it is
+    not appropriate in some cases like terminals."
+    (setq-local evil-move-cursor-back nil))
+  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
+
 (leaf aidermacs
   ;; :bind (("C-c a" . aidermacs-transient-menu))
-  :config
-  ;; ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
-  ;; (setenv "ANTHROPIC_API_KEY" "sk-...")
-  ;; ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
-  ;; (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
+  :hook (aidermacs-minor-mode-hook . turn-off-evil-mode)
   :custom
-  ; See the Configuration section below
   ((aidermacs-use-architect-mode . t)
-   (aidermacs-default-model . "sonnet")))
+   (aidermacs-default-model . "gpt-4.1-mini")
+   (aidermacs-backend . 'vterm)))
 #+END_SRC
 
 ** CMake
@@ -1832,7 +1837,8 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 ** ELisp (Emacs Lisp)
 
 #+BEGIN_SRC elisp
-(setq-default lisp-body-indent 4
+;; I can do with 2 tab now
+(setq-default lisp-body-indent 2
               indent-tabs-mode nil
               tab-width 4)
 #+END_SRC
@@ -3405,12 +3411,16 @@ https://evil.readthedocs.io/en/latest/faq.html
 
 *** HACK: Prevent cursor from going to the next line of EoF
 
+Note that this hack is ill-designed often causes other issues. Fix it.
+
 #+BEGIN_SRC elisp
 (defun toy/disable-cursor-at-eof ()
-    ;; line number works in all the situations: in an empty buffer, in the Evil commnd line
+    ;; FIXME: line number works in all the situations: in an empty buffer, in the Evil commnd line
     (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
         (when (= (point) (point-max))
-            (forward-line -1))))
+            ;; FIXME: ignoring aider
+            (unless (string-match-p (regexp-quote "aider") (buffer-name))
+                (forward-line -1)))))
 ;; FIXME: 'post-command-hook is too generic.
 (add-hook 'post-command-hook (_fn (toy/disable-cursor-at-eof)))
 #+END_SRC
@@ -4025,6 +4035,7 @@ TODO: merge
     " v" (lambda () (interactive) (when (toy/vf) (toy/smart-recenter)))
     " V" (lambda () (interactive) (when (toy/vF) (toy/smart-recenter)))
 
+    " a" #'aidermacs-transient-menu
     " ff" (_cd (call-interactively #'find-file))
     " fF" #'toy/proj-find
     " fb" #'consult-buffer
@@ -4194,7 +4205,7 @@ TODO: merge
     :leaf-defer nil
     :custom (projectile-enable-caching . nil)
     :config
-    (projectile-mode 1))
+    (projectile-mode +1))
 #+END_SRC
 
 ** scratch-comment
@@ -4231,13 +4242,7 @@ TODO: merge
 
 * LLM
 
-** llm
-
-#+BEGIN_SRC elisp
-(leaf llm)
-#+END_SRC
-
-** ellama
+** llm / ellama
 
 #+BEGIN_SRC elisp
 (leaf llm

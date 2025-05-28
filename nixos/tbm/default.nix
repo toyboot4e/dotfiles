@@ -87,6 +87,8 @@ in {
     emacs-lsp-booster
     enchant
     emacsPackages.jinx # https://github.com/minad/jinx
+    libtool
+    libvterm
 
     # CPU temperature
     lm_sensors

@@ -7,7 +7,7 @@ help:
 
 # updates the whole system
 update:
-    sudo nix-channel update
+    sudo nix-channel --update
     nix flake update
-    sudo nixos-rebuild switch --flake #.tbm
+    sudo nixos-rebuild --flake .#tbm switch
 
