@@ -1,0 +1,2 @@
+#+TITLE Neovim configuration
+#+PROPERTY: header-args:lua :tangle ./init.lua

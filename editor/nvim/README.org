@@ -1,4 +1,4 @@
-* NeoVim
+* Neovim
 
-Just read =.vimrc=, as I removed all the obsolute settings.
+See [[./init.org]].
 
