@@ -13,10 +13,10 @@
       let
         pkgs = import nixpkgs { inherit system; };
         tangleCommand = pkgs.writeShellApplication {
-          name = "tangle";
+          name = "run-tangle";
           runtimeInputs = with pkgs; [emacs];
           text = ''
-            emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'
+            ./tangle;
           '';
         };
       in

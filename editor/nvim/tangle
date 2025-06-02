@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")"
+emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'

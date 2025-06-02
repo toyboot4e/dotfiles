@@ -1410,6 +1410,26 @@ Easy motion style jump.
 (leaf dap-mode)
 #+END_SRC
 
+** Docker
+
+https://www.rahuljuliato.com/posts/emacs-docker-podman
+
+#+BEGIN_SRC elisp
+(leaf docker
+  :custom
+  (lemacs-docker-executable . 'docker)
+  :config
+  (pcase lemacs-docker-executable
+     ('docker
+      (setf docker-command "docker"
+            docker-compose-command "docker-compose"
+            docker-container-tramp-method "docker"))
+     ('podman
+	   (setf docker-command "podman"
+             docker-compose-command "podman-compose"
+             docker-container-tramp-method "podman"))))
+#+END_SRC
+
 ** Editor config
 
 #+BEGIN_SRC elisp
@@ -3159,9 +3179,9 @@ FIXME
 ** radio
 
 #+BEGIN_SRC elisp
-(leaf vim-jp-radio
-    :ensure nil
-    :vc (:url "https://github.com/vim-jp-radio/vim-jp-radio.el"))
+;; (leaf vim-jp-radio
+;;     :ensure nil
+;;     :vc (:url "https://github.com/vim-jp-radio/vim-jp-radio.el"))
 #+END_SRC
 
 * Hydra
@@ -3942,6 +3962,8 @@ TODO: merge all
         (progn (funcall nav-fn)
                (while (toy/is-star (buffer-name)) (funcall nav-fn)))))
 #+END_SRC
+
+FIXME: why skipped?
 
 #+BEGIN_SRC elisp
 (defun toy/run-with-non-dedicated (nav-fn)
