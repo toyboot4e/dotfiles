@@ -112,7 +112,7 @@ in {
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = ["audio" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
+    extraGroups = ["audio" "dialout" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
