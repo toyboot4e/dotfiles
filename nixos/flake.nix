@@ -16,6 +16,8 @@
     };
     # https://github.com/slotThe/emacs-lsp-booster-flake
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
+    # https://github.com/openstenoproject/plover-flake
+    plover-flake.url = "github:openstenoproject/plover-flake";
   };
 
   outputs =
@@ -26,11 +28,19 @@
       fenix,
       emacs-overlay,
       emacs-lsp-booster,
+      plover-flake,
       ...
     }:
     let
       fork-overlay = final: prev: {
         fork = nixpkgs-fork.legacyPackages.${prev.system};
+      };
+      plover-overlay = final: prev: {
+        plover = plover-flake.packages.${prev.system}.plover.withPlugins (ps: with ps; [
+          plover-auto-reconnect-machine
+          plover-lapwing-aio
+          plover-console-ui
+        ]);
       };
     in
     {
@@ -44,6 +54,7 @@
               emacs-lsp-booster.overlays.default
               fenix.overlays.default
               fork-overlay
+              plover-overlay
             ];
           }
           ./nixos

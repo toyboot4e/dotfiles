@@ -163,6 +163,11 @@ in {
     stack cabal-install haskell-language-server zlib ormolu
     haskellPackages.implicit-hie
 
+    # FIXME: plover.dev is broken for years
+    # https://github.com/NixOS/nixpkgs/issues/141797
+    # NOTE: This `plover` is overlay specified in `flake.nix`
+    plover
+
     # purescript
     # ruby
 
