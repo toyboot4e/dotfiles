@@ -2977,30 +2977,32 @@ FIXME
 
 #+BEGIN_SRC elisp
 (leaf org-roam
-    :custom
-    ;; any effect?
-    ((org-roam-v2-ack . t)
-     (org-roam-directory . "~/org-roam")
-     ;; (org-refile-targets
-     ;;   .   '(("~/org/gtd/gtd.org" :maxlevel . 3)
-     ;;         ("~/org/gtd/someday.org" :level . 1)
-     ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
-     )
-    :config
-    (org-roam-db-autosync-mode)
-    ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
-    (defadvice org-roam-insert (around append-if-in-evil-normal-mode activate compile)
-        "If in evil normal mode and cursor is on a whitespace character, then go into
-        append mode first before inserting the link. This is to put the link after the
-        space rather than before."
-        (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
-                                           (not (bound-and-true-p evil-insert-state-minor-mode))
-                                           (looking-at "[[:blank:]]"))))
-            (if (not is-in-evil-normal-mode)
-                    ad-do-it
-                (evil-append 0)
-                ad-do-it
-                (evil-normal-state)))))
+  :custom
+  ;; any effect?
+  ((org-roam-v2-ack . t)
+   (org-roam-directory . "~/org-roam")
+   ;; (org-refile-targets
+   ;;   .   '(("~/org/gtd/gtd.org" :maxlevel . 3)
+   ;;         ("~/org/gtd/someday.org" :level . 1)
+   ;;         ("~/org/gtd/tickler.org" :maxlevel . 2)))
+   )
+  :config
+  (org-roam-db-autosync-mode)
+  ;; `https://github.com/syl20bnr/spacemacs/issues/14137#issuecomment-735437329'
+  (defun my-org-roam-insert-advice (orig-fun &rest args)
+    "If in evil normal mode and cursor is on a whitespace character, then go into
+    append mode first before inserting the link. This is to put the link after the
+    space rather than before."
+    (let ((is-in-evil-normal-mode (and (bound-and-true-p evil-mode)
+                                       (not (bound-and-true-p evil-insert-state-minor-mode))
+                                       (looking-at "[[:blank:]]"))))
+      (if (not is-in-evil-normal-mode)
+          (apply orig-fun args)
+        (evil-append 0)
+        (apply orig-fun args)
+        (evil-normal-state))))
+
+  (advice-add 'org-roam-insert :around #'my-org-roam-insert-advice))
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -3449,10 +3451,12 @@ Note that this hack is ill-designed often causes other issues. Fix it.
 
 #+BEGIN_SRC elisp
 (with-eval-after-load 'evil
-    (defadvice forward-evil-paragraph (around default-values activate)
-        (let ((paragraph-start (default-value 'paragraph-start))
-              (paragraph-separate (default-value 'paragraph-separate)))
-            ad-do-it)))
+  (defun my/forward-evil-paragraph-advice (orig-fun &rest args)
+    (let ((paragraph-start (default-value 'paragraph-start))
+          (paragraph-separate (default-value 'paragraph-separate)))
+      (apply orig-fun args)))
+  (advice-add 'forward-evil-paragraph :around #'my/forward-evil-paragraph-advice))
+
 #+END_SRC
 
 *** Translate =ESC= or =C-c= to =C-g=
