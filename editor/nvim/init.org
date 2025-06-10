@@ -292,7 +292,7 @@ require("lazy").setup({
 
 *** [[https://github.com/mattn/vim-tanakh][mattn/vim-tanakh]]
 
-Essential plugin to live with Vim.
+Essential..
 
 #+BEGIN_SRC lua
 {
@@ -318,7 +318,7 @@ Essential plugin to live with Vim.
   ft = { 'org' },
   config = function()
     require('orgmode').setup({
-      -- org_startup_folded = 'showeverything',
+      org_startup_folded = 'showeverything',
       -- org_startup_indented = true,
       org_agenda_files = '~/org/**/*',
       org_default_notes_file = '~/org/refile.org',
@@ -329,7 +329,7 @@ Essential plugin to live with Vim.
 
 ** UI
 
-*** [[https://github.com/nvim-telescope/telescope.nvim][=nvim-telescope/telescope.nvim=]]
+*** [[https://github.com/nvim-telescope/telescope.nvim][nvim-telescope/telescope.nvim]]
 
 #+BEGIN_SRC lua
 {
@@ -368,6 +368,34 @@ Essential plugin to live with Vim.
   end
 },
 #+END_SRC
+
+*** [[https://github.com/joaomsa/telescope-orgmode.nvim][joaomsa/telescope-orgmode.nvim]]
+
+#+BEGIN_SRC lua
+{
+  "nvim-orgmode/telescope-orgmode.nvim",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+    "nvim-orgmode/orgmode",
+  },
+  config = function()
+    require("telescope").load_extension("orgmode")
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'org',
+      group = vim.api.nvim_create_augroup('orgmode_telescope_nvim', { clear = true }),
+      callback = function()
+        vim.keymap.set('n', '<leader>or', require('telescope').extensions.orgmode.refile_heading)
+      end,
+    })
+
+    vim.keymap.set('n', '<leader>Oo', function()
+      require('telescope').extensions.orgmode.search_headings()
+    end, { desc = 'Telescope orgmode outline' })
+  end,
+},
+#+END_SRC
+
 
 ** Themes
 
