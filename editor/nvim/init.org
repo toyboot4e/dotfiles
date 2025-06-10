@@ -431,5 +431,3 @@ Finalize the =require("lazy").setup({})= block:
 })
 #+END_SRC
 
-** LazyVim
-
