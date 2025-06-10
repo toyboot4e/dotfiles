@@ -2,12 +2,14 @@
 #+PROPERTY: header-args:lua :tangle ./init.lua
 #+STARTUP: nofold
 
-This is my WIP Neovim configuration. It's not ready at all.
+WIP
 
 * Bootstrapping
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
+
+[[https://github.com/folke/lazy.nvim][folke/lazy.nvim]]
 
 #+BEGIN_SRC lua
 -- Bootstrap lazy.nvim
@@ -180,9 +182,16 @@ vim.opt.termguicolors = true
 
 ** Shell
 
-TODO: bash and fish
+bash and fish
 
 #+BEGIN_SRC lua
+vim.cmd([[
+let $SHELL = 'bash'
+
+if executable('fish')
+  set shell=fish
+endif
+]])
 #+END_SRC
 
 ** UI
