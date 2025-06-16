@@ -8,8 +8,3 @@
 # src.branch = "master"
 # fetch.github = "tacit7/smyx"
 
-[emacs-smyx]
-src.git = "https://github.com/toyboot4e/smyx"
-src.branch = "master"
-fetch.github = "toyboot4e/smyx"
-

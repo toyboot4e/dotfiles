@@ -23,13 +23,12 @@
     # Font packages TODO: Add more fonts
     packages = with pkgs; [
       nerd-fonts.intone-mono
-      nerd-fonts.sauce-code-pro
+      # nerd-fonts.sauce-code-pro
       noto-fonts
       noto-fonts-cjk-sans
-      font-awesome
-      vistafonts roboto-mono
-      intel-one-mono
-      # as of today, these are broken:
+      # font-awesome
+      # vistafonts roboto-mono
+      # intel-one-mono
       # monoid pango
     ];
 

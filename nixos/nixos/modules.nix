@@ -3,14 +3,6 @@
   pkgs,
   ...
 }: {
-  networking.hostName = "tbm";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable the OpenSSH daemon.
   programs.ssh.startAgent = true;
   services.openssh = {
@@ -30,8 +22,6 @@
   #   # FIXME: I used to use this:
   #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # };
-
-  nixpkgs.config.allowUnfree = true;
 
   # Enable `nix-ld`:
   programs.nix-ld.enable = true;

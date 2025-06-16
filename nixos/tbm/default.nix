@@ -1,15 +1,18 @@
 # `home-manager` configuraiton
-{pkgs, ...}:
+{pkgs, inputs, ...}:
 let sources = pkgs.callPackage ./_sources/generated.nix { };
 in {
   imports = [
+    inputs.plover-flake.homeManagerModules.plover
     ./desktop.nix
     ./input-mozc.nix
     ./services.nix
     ./virtual.nix
   ];
 
+  # FIXME: This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.
   nixpkgs.config.allowUnfree = true;
+
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   programs.emacs = {
@@ -26,6 +29,24 @@ in {
     };
   };
 
+  programs.plover = {
+    enable  = true;
+    package = inputs.plover-flake.packages.${pkgs.system}.plover.withPlugins (ps: with ps; [
+      ps.plover-auto-reconnect-machine
+      ps.plover-lapwing-aio
+      ps.plover-console-ui
+      # TODO: custom packages
+      # (import ./nix/harri-numbers)
+    ]);
+    settings = {
+      "Machine Configuration" = {
+        machine_type = "Gemini PR";
+        auto_start = true;
+      };
+      # "Output Configuration".undo_levels = 100;
+    };
+  };
+
   # FIXME:
   # https://github.com/nix-community/home-manager/issues/2064
   systemd.user.targets.tray = {
@@ -39,7 +60,8 @@ in {
     actionlint
 
     appimage-run
-    ncdu # check disk usage?
+    ncdu # check disk usage
+    gtop
 
     kitty
     ghostty
@@ -163,10 +185,14 @@ in {
     stack cabal-install haskell-language-server zlib ormolu
     haskellPackages.implicit-hie
 
+    uv
+    # FIXME: use pylsp installed with uv locally
+    python312Packages.python-lsp-server
+
     # FIXME: plover.dev is broken for years
     # https://github.com/NixOS/nixpkgs/issues/141797
     # NOTE: This `plover` is overlay specified in `flake.nix`
-    plover
+    # plover
 
     # purescript
     # ruby

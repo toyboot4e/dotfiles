@@ -5,9 +5,8 @@
   pkgs,
   lib,
   ...
-}: let
-  # unstable = import <unstable> { config = { allowUnfree = true; }; };
-in {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
@@ -16,6 +15,16 @@ in {
     ./theme.nix
     ./x.nix
   ];
+
+  networking.hostName = "tbm";
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -108,7 +117,8 @@ in {
     ifuse
   ];
 
-  # TODO: Is it needed?
+  programs.fish.enable = true;
+
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;

@@ -35,13 +35,6 @@
       fork-overlay = final: prev: {
         fork = nixpkgs-fork.legacyPackages.${prev.system};
       };
-      plover-overlay = final: prev: {
-        plover = plover-flake.packages.${prev.system}.plover.withPlugins (ps: with ps; [
-          plover-auto-reconnect-machine
-          plover-lapwing-aio
-          plover-console-ui
-        ]);
-      };
     in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
@@ -54,7 +47,6 @@
               emacs-lsp-booster.overlays.default
               fenix.overlays.default
               fork-overlay
-              plover-overlay
             ];
           }
           ./nixos
@@ -62,6 +54,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+
             home-manager.users.tbm = import ./tbm;
           }
         ];
