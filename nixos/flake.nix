@@ -4,7 +4,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-fork.url = "github:toyboot4e/nixpkgs/mozc";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     fenix.url = "github:nix-community/fenix/monthly";
@@ -18,24 +17,21 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
     # https://github.com/openstenoproject/plover-flake
     plover-flake.url = "github:openstenoproject/plover-flake";
+    # FIXME: This should be exported from `ploevr-flake`.
+    plover-flake-nixpkgs.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
   };
 
   outputs =
     inputs@{
       nixpkgs,
-      nixpkgs-fork,
       home-manager,
       fenix,
       emacs-overlay,
       emacs-lsp-booster,
       plover-flake,
+      plover-flake-nixpkgs,
       ...
     }:
-    let
-      fork-overlay = final: prev: {
-        fork = nixpkgs-fork.legacyPackages.${prev.system};
-      };
-    in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
@@ -46,7 +42,6 @@
               emacs-overlay.overlay
               emacs-lsp-booster.overlays.default
               fenix.overlays.default
-              fork-overlay
             ];
           }
           ./nixos

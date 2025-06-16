@@ -4,6 +4,7 @@ let sources = pkgs.callPackage ./_sources/generated.nix { };
 in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
+    (import ./plover sources)
     ./desktop.nix
     ./input-mozc.nix
     ./services.nix
@@ -26,18 +27,6 @@ in {
       # package = pkgs.emacs-git;
       alwaysEnsure = true; # use nixpkgs
       extraEmacsPackages = import ./epkgs.nix { inherit pkgs sources; };
-    };
-  };
-
-  programs.plover = {
-    enable  = true;
-    package = (import ./plover pkgs inputs sources).package;
-    settings = {
-      "Machine Configuration" = {
-        machine_type = "Gemini PR";
-        auto_start = true;
-      };
-      # "Output Configuration".undo_levels = 100;
     };
   };
 
