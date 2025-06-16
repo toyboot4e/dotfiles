@@ -1,1 +1,23 @@
-{}
+{
+    "plover-harri-numbers": {
+        "cargoLocks": null,
+        "date": "2025-06-09",
+        "extract": null,
+        "name": "plover-harri-numbers",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "StenoHarri",
+            "repo": "Harri_numbers",
+            "rev": "5a890fc2877dba3fd2a0e690ceed7492dcc93388",
+            "sha256": "sha256-N82WGmgdWtrFsFT9KB/lsPlym/L1ztLYdynBpj7h4F8=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "5a890fc2877dba3fd2a0e690ceed7492dcc93388"
+    }
+}

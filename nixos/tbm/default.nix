@@ -31,13 +31,7 @@ in {
 
   programs.plover = {
     enable  = true;
-    package = inputs.plover-flake.packages.${pkgs.system}.plover.withPlugins (ps: with ps; [
-      ps.plover-auto-reconnect-machine
-      ps.plover-lapwing-aio
-      ps.plover-console-ui
-      # TODO: custom packages
-      # (import ./nix/harri-numbers)
-    ]);
+    package = (import ./plover pkgs inputs sources).package;
     settings = {
       "Machine Configuration" = {
         machine_type = "Gemini PR";

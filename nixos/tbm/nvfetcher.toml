@@ -8,3 +8,8 @@
 # src.branch = "master"
 # fetch.github = "tacit7/smyx"
 
+[plover-harri-numbers]
+src.git = "https://github.com/StenoHarri/Harri_numbers"
+src.branch = "main"
+fetch.github = "StenoHarri/Harri_numbers"
+

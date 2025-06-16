@@ -1,0 +1,30 @@
+#+TITLE: NixOS configuraton note
+
+* Audio
+
+Pipewire and pulseaudio is conflicting.
+
+* IME
+
+=mozc-tools= is not in path. =.desktop= file should be distributed.
+
+* Warnings
+
+trace: evaluation warning: You have set virtualisation.docker.enableNvidia. This option is deprecated, please set hardware.nvidia-container-toolkit.enable instead.
+
+
+error: builder for '/nix/store/z0x42ikdhcdkaq239m8l9yi8j98p5w5c-qpdfview-0.5.0.drv' failed with exit code 2;
+       last 10 log lines:
+       > Running phase: glibPreInstallPhase
+       > Running phase: glibPreInstallPhase
+       > Running phase: installPhase
+       > install flags: -j20 SHELL=/nix/store/izpf49b74i15pcr9708s3xdwyqs4jxwl-bash-5.2p32/bin/bash gsettingsschemadir=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/gsettings-schemas/qpdfview-0.5.0/glib-2.0/schemas/ gsettingsschemadir=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/gsettings-schemas/qpdfview-0.5.0/glib-2.0/schemas/ install
+       > ( test -e Makefile.pdf-plugin || /nix/store/4xk5njji85yszys9hg8v2mml7wp4y8k1-qtbase-5.15.14-dev/bin/qmake -o Makefile.pdf-plugin /build/qpdfview-0.5/pdf-plugin.pro 'CONFIG+=nostrip CONFIG+=release PREFIX=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0 NIX_OUTPUT_OUT=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0 NIX_OUTPUT_DEV=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0 NIX_OUTPUT_BIN=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0 NIX_OUTPUT_DOC=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/doc/qt-5.15.14 NIX_OUTPUT_QML=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/lib/qt-5.15.14/qml NIX_OUTPUT_PLUGIN=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/lib/qt-5.15.14/plugins TARGET_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/bin PLUGIN_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/lib/qpdfview DATA_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/qpdfview MANUAL_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/man/man1 ICON_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/icons/hicolor/scalable/apps LAUNCHER_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/applications APPDATA_INSTALL_PATH=/nix/store/d3np52xjjl80nkfcy3hbxwpk07pgdff7-qpdfview-0.5.0/share/appdata QMAKE_LRELEASE=/nix/store/6mfr0bdl3sflhmmniav0l59w4949m4p7-qttools-5.15.14-dev/bin/lrelease' ) && make -f Makefile.pdf-plugin install
+       > make[1]: Entering directory '/build/qpdfview-0.5'
+       > mkdir: cannot create directory '/usr': Permission denied
+       > make[1]: *** [Makefile.pdf-plugin:537: install_target] Error 1
+       > make[1]: Leaving directory '/build/qpdfview-0.5'
+       > make: *** [Makefile:64: sub-pdf-plugin-pro-install_subtargets-ordered] Error 2
+       For full logs, run 'nix log /nix/store/z0x42ikdhcdkaq239m8l9yi8j98p5w5c-qpdfview-0.5.0.drv'.
+error (ignored): error: cannot unlink '/tmp/nix-build-emacs-unstable-30.0.91.drv-0/build/source': Directory not empty
+
