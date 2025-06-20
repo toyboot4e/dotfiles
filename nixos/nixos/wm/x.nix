@@ -2,12 +2,13 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # X11 + i3
   # https://nixos.wiki/wiki/I3
   # links /libexec from derivations to /run/current-system/sw
   # TODO: needed?
-  environment.pathsToLink = ["/libexec"];
+  environment.pathsToLink = [ "/libexec" ];
 
   services.displayManager.defaultSession = "none+i3";
   services.xserver = {
@@ -18,7 +19,7 @@
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
     exportConfiguration = true;
 
-    desktopManager = {};
+    desktopManager = { };
 
     # FIXME: enable Nvidia only when the device is found
     # # https://nixos.wiki/wiki/Nvidia
@@ -40,7 +41,7 @@
         # rofi
         i3status
         i3lock
-        i3blocks #if you are planning on using i3blocks over i3status
+        i3blocks # if you are planning on using i3blocks over i3status
       ];
     };
 

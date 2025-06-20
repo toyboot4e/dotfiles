@@ -13,7 +13,9 @@
     ./env.nix
     ./modules.nix
     ./theme.nix
-    ./x.nix
+    # TODO: load the relevant wm
+    ./wm/x.nix
+    # ./wm/wayland.nix
   ];
 
   networking.hostName = "tbm";
@@ -122,7 +124,7 @@
   users.users.tbm = {
     shell = pkgs.fish;
     isNormalUser = true;
-    extraGroups = ["audio" "dialout" "docker" "libvirtd" "networkManager" "wheel" "storage" "disk"];
+    extraGroups = ["audio" "dialout" "docker" "input" "libvirtd" "networkManager" "wheel" "storage" "disk"];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system

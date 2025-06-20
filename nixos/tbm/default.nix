@@ -9,6 +9,9 @@ in {
     ./input-mozc.nix
     ./services.nix
     ./virtual.nix
+    # TODO: switch WM depending on argument
+    ./wm/x.nix
+    # ./wm/wayland.nix
   ];
 
   # FIXME: This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.
@@ -52,7 +55,8 @@ in {
     aider-chat
 
     convmv
-    qutebrowser
+    # FIXME: broken for now
+    # qutebrowser
     # firefox rofi
     google-chrome
 
@@ -109,7 +113,8 @@ in {
 
     go
     nodejs
-    deno
+    # FIXME:
+    # deno
     yarn
     volta
     python3
@@ -147,7 +152,7 @@ in {
     pdfarranger
 
     # https://github.com/mkaz/termgraph
-    python311Packages.termgraph
+    # python311Packages.termgraph
     # https://github.com/red-data-tools/YouPlot
 
     blender
@@ -219,7 +224,6 @@ in {
     # GUI
     discord
     vkmark
-    unityhub
     steamtinkerlaunch
     obs-studio
     simplescreenrecorder
@@ -231,8 +235,8 @@ in {
     # yabridge
     # yabridgectl
 
-    wineWowPackages.staging
-    winetricks
+    # wineWowPackages.staging
+    # winetricks
 
     # Web
   ];

@@ -16,9 +16,11 @@
     # https://github.com/slotThe/emacs-lsp-booster-flake
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
     # https://github.com/openstenoproject/plover-flake
-    plover-flake.url = "github:openstenoproject/plover-flake";
-    # FIXME: This should be exported from `ploevr-flake`.
-    plover-flake-nixpkgs.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
+    # plover-flake.url = "github:openstenoproject/plover-flake";
+    plover-flake.url = "github:toyboot4e/plover-flake?ref=ini-json";
+    # plover-flake.url = "github:toyboot4e/plover-flake?ref=merge";
+    # If we want to build non-built in Python plugins, we must match the versions of Python, so:
+    # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -29,7 +31,6 @@
       emacs-overlay,
       emacs-lsp-booster,
       plover-flake,
-      plover-flake-nixpkgs,
       ...
     }:
     {

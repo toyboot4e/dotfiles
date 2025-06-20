@@ -11,3 +11,7 @@ update:
     nix flake update
     sudo nixos-rebuild --flake .#tbm switch
 
+# updates specific flake input
+update-input name:
+    nix flake lock --update-input {{name}}
+
