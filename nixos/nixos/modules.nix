@@ -135,9 +135,6 @@
   # $ # Input mode: romaji
   # $ /run/current-system/sw/lib/mozc/mozc_tool --mode_config_dialog
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 

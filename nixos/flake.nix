@@ -33,10 +33,16 @@
       plover-flake,
       ...
     }:
+    let
+      useX = false;
+    in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = {
+          inherit useX;
+        };
         modules = [
           {
             nixpkgs.overlays = [
@@ -51,7 +57,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs;
+              inherit inputs useX;
             };
 
             home-manager.users.tbm = import ./tbm;

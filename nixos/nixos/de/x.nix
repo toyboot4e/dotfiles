@@ -1,9 +1,11 @@
 {
+  useX,
+  lib,
   config,
   pkgs,
   ...
 }:
-{
+lib.mkIf useX {
   # X11 + i3
   # https://nixos.wiki/wiki/I3
   # links /libexec from derivations to /run/current-system/sw

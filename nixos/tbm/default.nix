@@ -1,17 +1,16 @@
 # `home-manager` configuraiton
-{pkgs, inputs, ...}:
+{pkgs, inputs, useX, ...}:
 let sources = pkgs.callPackage ./_sources/generated.nix { };
 in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
     (import ./plover sources)
     ./desktop.nix
+    ./de/x.nix
+    ./de/wayland.nix
     ./input-mozc.nix
     ./services.nix
     ./virtual.nix
-    # TODO: switch WM depending on argument
-    ./wm/x.nix
-    # ./wm/wayland.nix
   ];
 
   # FIXME: This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.

@@ -1,9 +1,16 @@
 {
+  lib,
+  useX,
   config,
   pkgs,
   ...
 }:
-{
+lib.mkIf (!useX) {
+  # Hyperland
+  # https://wiki.hypr.land/Nix/Hyprland-on-NixOS/
+  # programs.hyprland.enable = true;
+
+  # Sway
   # https://wiki.nixos.org/wiki/Sway
   environment.systemPackages = with pkgs; [
     grim # screenshot functionality
