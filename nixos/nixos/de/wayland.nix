@@ -24,9 +24,24 @@ lib.mkIf (!useX) {
 
   services.displayManager.defaultSession = "sway";
 
+  services.greetd = {
+    enable = true;
+    settings = {
+      # wow, this shortcuts login
+      default_session = {
+        command = "sway";
+        user = "tbm";
+      };
+    };
+  };
+
   programs.sway = {
     enable = true;
     xwayland.enable = true;
     wrapperFeatures.gtk = true;
   };
+
+  services.udev.extraRules = ''
+    KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
+  '';
 }

@@ -4,6 +4,48 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+# key
+set $mod Mod4
+floating_modifier $mod
+
+# --------------------------------------------------------------------------------
+# Meta
+# --------------------------------------------------------------------------------
+
+# reload the configuration file (both `i3` and `sxhkd`)
+bindsym $mod+Shift+c reload
+
+# --------------------------------------------------------------------------------
+# Menu
+# --------------------------------------------------------------------------------
+
+# set $menu wmenu-run
+set $menu "rofi -modi drun,run -show drun -font 'hack 20'"
+
+# --------------------------------------------------------------------------------
+# Global configuration
+# --------------------------------------------------------------------------------
+
+# theme
+font pango:monospace 12
+
+# no border
+default_border pixel 0
+
+# show border in some app
+for_window [class="Evince"] default_border pixel 20
+for_window [class="Naitulus"] default_border pixel 20
+for_window [class="Calibre"] default_border pixel 20
+
+for_window [title="Flameshot"] default_border pixel 20
+for_window [class="Flameshot"] floating enable
+
+# --------------------------------------------------------------------------------
+# TODO
+# --------------------------------------------------------------------------------
+
+
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -15,8 +57,6 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term foot
-# Your preferred application launcher
-set $menu wmenu-run
 
 ### Output configuration
 #
@@ -63,6 +103,7 @@ input type:keyboard {
 
 # swaymsg -t get_output
 output DP-1 res 5120x2880
+# output DP-1 scale 2.5
 
 # FIXME: how can I run it automatically?
 # swaymsg output DP-1 res 5120x2880
@@ -91,11 +132,9 @@ output DP-1 res 5120x2880
     # mouse button for dragging.
     floating_modifier $mod normal
 
-    # Reload the configuration file
-    bindsym $mod+Shift+c reload
-
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
 #
 # Moving around:
 #
@@ -120,6 +159,7 @@ output DP-1 res 5120x2880
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
+
 #
 # Workspaces:
 #
@@ -147,6 +187,7 @@ output DP-1 res 5120x2880
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
 #
 # Layout stuff:
 #
@@ -172,6 +213,7 @@ output DP-1 res 5120x2880
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
 #
 # Scratchpad:
 #
@@ -208,6 +250,7 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
 #
 # Utilities:
 #
