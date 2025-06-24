@@ -77,7 +77,7 @@ lib.mkIf useX {
         primary = true;
         monitorConfig = ''
           Option "RightOf" "HDMI-0"
-          Option "PreferredMode" "3840x2160"
+          Option "PreferredMode" "5120x2880"
         '';
       }
     ];
