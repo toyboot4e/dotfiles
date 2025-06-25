@@ -3,10 +3,10 @@
 # src.branch = "master"
 # fetch.github = "radian-software/straight.el"
 
-# [emacs-smyx]
-# src.git = "https://github.com/tacit7/smyx"
-# src.branch = "master"
-# fetch.github = "tacit7/smyx"
+[emacs-smyx]
+src.git = "https://github.com/tacit7/smyx"
+src.branch = "master"
+fetch.github = "tacit7/smyx"
 
 [plover-harri-numbers]
 src.git = "https://github.com/StenoHarri/Harri_numbers"

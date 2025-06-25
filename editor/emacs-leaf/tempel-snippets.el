@@ -206,6 +206,7 @@ org-mode
 
 (ai "#+BEGIN_AI markdown" n> "[ME]: " r> n "#+END_AI")
 (yaruo "#+BEGIN_YARUO" n> r> n "#+END_YARUO")
+(steno "#+BEGIN_STENO" n> r> n "#+END_STENO")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")
@@ -220,13 +221,17 @@ org-mode
 (latex "#+BEGIN_EXPORT latex" n> r> n "#+END_EXPORT")
 (comment "#+BEGIN_COMMENT" n> r> n "#+END_COMMENT")
 (verse "#+BEGIN_VERSE" n> r> n "#+end_verse")
-(src "#+BEGIN_SRC " (p "haskell") n> >r n "#+END_SRC")
+(src "#+BEGIN_SRC " (p "") n> >r n "#+END_SRC")
 (details "#+BEGIN_DETAILS " q n> "#+END_DETAILS")
 (export "#+BEGIN_EXPORT " (p "html") n> "#+END_EXPORT")
 (gnuplot "#+BEGIN_SRC gnuplot :var data=" (p "table") " :file " (p "plot.png") n> r> n "#+END_SRC" :post (org-edit-src-code))
+
 (elisp "#+BEGIN_SRC emacs-lisp" n> r> n "#+END_SRC" :post (org-edit-src-code))
 ;; (inlsrc "src_" p "{" q "}")
-(title "#+TITLE: " p n "#+DATE: ")
+
+(title "#+TITLE: " (p ""))
+(date "#+DATE: " (p ""))
+(startup "#+STARTUP: " (p "indent"))
 
 ;; for diary
 (abc "* ABC " (p "300" no) "

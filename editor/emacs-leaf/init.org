@@ -1277,6 +1277,7 @@ Easy motion style jump.
     (setopt neo-buffer-name "@tree")
     (evil-define-key 'normal neotree-mode-map
         "gh" #'neotree-select-up-node
+        "gr" #'neotree-refresh
         "oo" #'neotree-enter
         (kbd "RET") #'neotree-enter
         "ov" #'neotree-enter-vertical-split
@@ -1376,7 +1377,7 @@ Easy motion style jump.
 
 #+BEGIN_SRC elisp
 (leaf aggressive-indent
-    :hook (emacs-lisp-mode-hook . scheme-mode-hook))
+    :hook (emacs-lisp-mode-hook))
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -1515,8 +1516,8 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
 *** Forge
 
 #+BEGIN_SRC elisp
-;; (leaf forge
-;;     :doc "Use GitHub on Emacs")
+(leaf forge
+    :doc "Use GitHub on Emacs")
 #+END_SRC
 
 *** Difftastic
@@ -2107,6 +2108,21 @@ Toolings (TODO: move):
   (flycheck-inline-mode t))
 #+END_SRC
 
+** Python
+
+#+BEGIN_SRC elisp
+(leaf python-mode
+   :hook
+   ((python-mode-hook . lsp-deferred)
+    ;; (python-mode-hook . python-ts-mode)
+    ))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+;; (leaf pet
+;;  :hook (python-base-mode-hook . pet-mode))
+#+END_SRC
+
 ** Prolog
 
 #+BEGIN_SRC elisp
@@ -2322,6 +2338,27 @@ Toolings (TODO: move):
                        :open     #'tab-bar-select-tab-by-name
                        :items    #'(lambda () (mapcar #'(lambda (tab) (cdr (assq 'name tab))) (tab-bar-tabs))))
                  'append))
+#+END_SRC
+
+** consult-gh
+
+FIXME: Not working right now.
+
+https://github.com/armindarvish/consult-gh
+
+#+BEGIN_SRC elisp
+(leaf consult-gh
+  :after consult)
+
+(leaf consult-gh-embark
+  :after consult-gh
+  :config
+  (consult-gh-embark-mode +1))0
+
+(leaf consult-gh-forge
+  :after consult-gh
+  :config
+  (consult-gh-forge-mode +1))
 #+END_SRC
 
 ** consult-ghq

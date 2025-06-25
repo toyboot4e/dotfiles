@@ -30,7 +30,7 @@ font pango:monospace 16
 # no border
 default_border pixel 0
 
-# show border
+# show border in some app
 for_window [class="Evince"] default_border pixel 20
 for_window [class="Naitulus"] default_border pixel 20
 for_window [class="Calibre"] default_border pixel 20
@@ -45,10 +45,10 @@ for_window [class="^floating$"] floating enable
 # Applications
 # --------------------------------------------------------------------------------
 
-for_window [class="firefox" title="Save"] floating enable, resize set 1920 1080, move position center
-for_window [class="firefox" title="save"] floating enable, resize set 1920 1080, move position center
-for_window [class="firefox" title="Open"] floating enable, resize set 1920 1080, move position center
-for_window [class="firefox" title="open"] floating enable, resize set 1920 1080, move position center
+# for_window [class="firefox" title="Save"] floating enable, resize set 1920 1080, move position center
+# for_window [class="firefox" title="save"] floating enable, resize set 1920 1080, move position center
+# for_window [class="firefox" title="Open"] floating enable, resize set 1920 1080, move position center
+# for_window [class="firefox" title="open"] floating enable, resize set 1920 1080, move position center
 
 # dragon (`xdragon` on nixpkgs)
 for_window [class="Dragon"] sticky enable

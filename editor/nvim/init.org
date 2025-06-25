@@ -217,6 +217,8 @@ end, {})
 
 ** Abbreviations
 
+The =Abbreviate= function is from: https://stackoverflow.com/a/3879737
+
 #+BEGIN_SRC lua
 vim.cmd([[
 function! Abbreviate(from, to)

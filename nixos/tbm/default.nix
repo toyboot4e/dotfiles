@@ -134,6 +134,8 @@ in {
 
     # koka
 
+    sway-scratch
+
     # docker
     readline
     rlwrap
@@ -145,6 +147,7 @@ in {
     vscode
     mpv
     gimp
+    inkscape
     evince
     # qpdfview
     ghostscript

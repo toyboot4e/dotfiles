@@ -1,4 +1,25 @@
 {
+    "emacs-smyx": {
+        "cargoLocks": null,
+        "date": "2024-09-14",
+        "extract": null,
+        "name": "emacs-smyx",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "tacit7",
+            "repo": "smyx",
+            "rev": "ce6dc4b1c25ff8c1d6c9b9015e0199355c46be4d",
+            "sha256": "sha256-1UZRtQ74p4xAuB6JXFHMxrNBO9BG6JPRYLvEeCOz5rc=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "ce6dc4b1c25ff8c1d6c9b9015e0199355c46be4d"
+    },
     "plover-harri-numbers": {
         "cargoLocks": null,
         "date": "2025-06-09",
