@@ -18,6 +18,13 @@
     };
   };
 
+  environment.shells = [pkgs.fish];
+  programs.fish.enable = true;
+
+  users.users.mac = {
+    shell = pkgs.fish;
+  };
+
   system = {
     defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
