@@ -4,6 +4,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     fenix.url = "github:nix-community/fenix/monthly";
@@ -26,6 +28,7 @@
   outputs =
     inputs@{
       nixpkgs,
+      nix-darwin,
       home-manager,
       fenix,
       emacs-overlay,
@@ -61,6 +64,32 @@
             };
 
             home-manager.users.tbm = import ./tbm;
+          }
+        ];
+      };
+
+      packages.aarch64-darwin.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
+      darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          {
+            users.users.mac.home = "/Users/mac";
+            nixpkgs.overlays = [
+              emacs-overlay.overlay
+              emacs-lsp-booster.overlays.default
+              fenix.overlays.default
+            ];
+          }
+          ./macos
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+
+            home-manager.users.mac = import ./mac;
           }
         ];
       };
