@@ -1,17 +1,3 @@
-#+TITLE Neovim Configuration
-#+PROPERTY: header-args:lua :tangle ./init.lua
-#+STARTUP: nofold
-
-WIP
-
-* Bootstrapping
-:PROPERTIES:
-:VISIBILITY: folded
-:END:
-
-[[https://github.com/folke/lazy.nvim][folke/lazy.nvim]]
-
-#+BEGIN_SRC lua
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -29,23 +15,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-#+END_SRC
 
-* Options
-
-** Basic key bindings
-:PROPERTIES:
-:header-args:lua :tangle ./init.lua
-:END:
-
-#+BEGIN_SRC lua
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-#+END_SRC
 
-FIXME: Migrate to Lua, old man!
-
-#+BEGIN_SRC lua
 vim.cmd([[
 " FIXME: C-x C-c is not working actually:
 nnoremap <silent> <C-x><C-c> :qa<CR>
@@ -107,11 +80,7 @@ endfunction
 nnoremap <silent> [w :call SmartWinPrev()<CR>
 nnoremap <silent> ]w :call SmartWinNext()<CR>
 ]])
-#+END_SRC
 
-*** Window commands
-
-#+BEGIN_SRC lua
 vim.cmd([[
 " Split in direction (<C-w>[wasd])
 nnoremap <silent> <C-w>w :leftabove split<CR>
@@ -167,24 +136,12 @@ nnoremap <silent> <C-w><C-p> :wincmd p<CR>
 nnoremap <silent> <C-w>f :belowright vsplit<CR> :e <cfile><CR>
 nnoremap <silent> <C-w>F :wincmd F<CR>
 ]])
-#+END_SRC
 
-** True color
-
-Is it really needed for Neovim?
-
-#+BEGIN_SRC lua
 -- True color support
 vim.opt.termguicolors = true
 -- let &t_8f = '\<Esc>[38;2;%lu;%lu;%lum'
 -- let &t_8b = '\<Esc>[48;2;%lu;%lu;%lum'
-#+END_SRC
 
-** Shell
-
-bash and fish
-
-#+BEGIN_SRC lua
 vim.cmd([[
 let $SHELL = 'bash'
 
@@ -192,19 +149,9 @@ if executable('fish')
   set shell=fish
 endif
 ]])
-#+END_SRC
 
-** UI
-
-#+BEGIN_SRC lua
 vim.opt.number = true
-#+END_SRC
 
-** Commands
-
-*** =SourceConfig=
-
-#+BEGIN_SRC lua
 vim.api.nvim_create_user_command("SourceConfig", function()
   -- Run the `tangle` command
   local config = vim.fn.stdpath("config")
@@ -217,13 +164,7 @@ vim.api.nvim_create_user_command("SourceConfig", function()
   -- vim.cmd("luafile " .. vim.fn.stdpath("config") .. "/init.lua")
   -- Reloading not supported!!
 end, {})
-#+END_SRC
 
-** Abbreviations
-
-The =Abbreviate= function is from: https://stackoverflow.com/a/3879737
-
-#+BEGIN_SRC lua
 vim.cmd([[
 function! Abbreviate(from, to)
   exec 'cnoreabbrev <expr> '.a:from
@@ -237,11 +178,7 @@ call Abbreviate('ed', 'edit ~/.config/nvim/init.org')
 call Abbreviate('h', 'tab help')
 call Abbreviate('hs', 'split')
 ]])
-#+END_SRC
 
-** Japanese
-
-#+BEGIN_SRC lua
 vim.cmd([[
 let g:surround_{char2nr("「")} = "「 \r 」"
 let g:surround_{char2nr("」")} = "「\r」"
@@ -293,23 +230,9 @@ nnoremap ]S t、
 nnoremap [D T。
 nnoremap ]D t。
 ]])
-#+END_SRC
 
-* Plugins
-
-** Meta
-
-#+BEGIN_SRC lua
 require("lazy").setup({
-#+END_SRC
 
-** Fundamentals
-
-*** [[https://github.com/mattn/vim-tanakh][mattn/vim-tanakh]]
-
-Essential..
-
-#+BEGIN_SRC lua
 {
   "mattn/vim-tanakh",
   lazy = true,
@@ -322,11 +245,7 @@ Essential..
     })
   end,
 },
-#+END_SRC
 
-*** [[https://github.com/nvim-orgmode/orgmode][nvim-orgmode/orgmode]]
-
-#+BEGIN_SRC lua
 {
   'nvim-orgmode/orgmode',
   event = 'VeryLazy',
@@ -340,13 +259,7 @@ Essential..
     })
   end,
 },
-#+END_SRC
 
-** UI
-
-*** [[https://github.com/nvim-telescope/telescope.nvim][nvim-telescope/telescope.nvim]]
-
-#+BEGIN_SRC lua
 {
   'nvim-telescope/telescope.nvim',
   tag = '0.1.8',
@@ -382,11 +295,7 @@ Essential..
     })
   end
 },
-#+END_SRC
 
-*** [[https://github.com/joaomsa/telescope-orgmode.nvim][joaomsa/telescope-orgmode.nvim]]
-
-#+BEGIN_SRC lua
 {
   "nvim-orgmode/telescope-orgmode.nvim",
   dependencies = {
@@ -409,11 +318,7 @@ Essential..
     end, { desc = 'Telescope orgmode outline' })
   end,
 },
-#+END_SRC
 
-*** [[https://github.com/lambdalisue/vim-fern][lambdalisue/vim-fern]]
-
-#+BEGIN_SRC lua
 {
   "lambdalisue/vim-fern",
   config = function()
@@ -421,19 +326,11 @@ Essential..
     vim.keymap.set('n', '<leader>nt',  '<cmd>Fern . -reveal=% -drawer -right -toggle<cr>')
   end
 },
-#+END_SRC
 
-*** [[https://github.com/lambdalisue/vim-nerdfont][lambdalisue/vim-nerdfont]]
-
-#+BEGIN_SRC lua
 {
   "lambdalisue/vim-nerdfont",
 },
-#+END_SRC
 
-*** [[https://github.com/lambdalisue/vim-nerdfont][lambdalisue/vim-nerdfont]]
-
-#+BEGIN_SRC lua
 {
   "lambdalisue/vim-fern-renderer-nerdfont",
   dependencies = { 'lambdalisue/vim-fern', 'lambdalisue/vim-nerdfont' },
@@ -441,13 +338,7 @@ Essential..
     vim.g["fern#renderer"] = "nerdfont"
   end
 },
-#+END_SRC
 
-** Themes
-
-*** Smyck
-
-#+BEGIN_SRC lua
 {
   -- 'hukl/Smyck-Color-Scheme',
   'dim13/smyck.vim',
@@ -456,15 +347,5 @@ Essential..
     vim.cmd("colorscheme smyck")
   end,
 },
-#+END_SRC
 
-* End
-
-** Meta
-
-Finalize the =require("lazy").setup({})= block:
-
-#+BEGIN_SRC lua
 })
-#+END_SRC
-

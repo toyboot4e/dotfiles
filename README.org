@@ -43,7 +43,7 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 | Terminal | [[kitty][kitty]] with [[tmux][tmux]]                       |
 | Font     | Intel One Mono ([[nerd][nerd]])                 |
-| Editors  | NeoVim and [[evil][evil]] Emacs                 |
+| Editors  | Neovim and [[evil][evil]] Emacs                 |
 | Shells   | bash and [[fish][fish]]                         |
 | Browsers | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
 | macOS    | [[yabai][yabai]], [[skhd][skhd]], [[simple-bar][simple-bar]] and [[karabiner][karabiner]] |
