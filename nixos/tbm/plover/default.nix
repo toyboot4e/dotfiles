@@ -1,19 +1,19 @@
-# TODO: Use extraSpecialArgs for `sources`?
-sources:
 # This is a NixOS module included in `imports` list, where the sum of NixOs module become our final
 # output..
 {
   pkgs,
   inputs,
+  sources,
   ...
 }:
 let
   plover-flake = inputs.plover-flake;
   # FIXME: Python version mismatch
-  harri-numbers = import ./harri-numbers.nix {
-    inherit plover-flake pkgs sources;
-    plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
-  };
+  # TODO: import dictionary via home-manager module
+  # harri-numbers = import ./harri-numbers.nix {
+  #   inherit plover-flake pkgs sources;
+  #   plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
+  # };
 in
 {
   programs.plover = {
@@ -23,8 +23,8 @@ in
       ps.plover-lapwing-aio
       ps.plover-console-ui
       ps.plover-python-dictionary
-      # FIXME: not working right now
-      harri-numbers
+
+      # harri-numbers
     ]);
     # plover.cfg contents
     settings = {

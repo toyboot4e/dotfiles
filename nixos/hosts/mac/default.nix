@@ -1,5 +1,10 @@
-{ pkgs, inputs, ...}:
+{ pkgs, inputs, sources, ...}:
 {
+  imports = [
+    inputs.plover-flake.homeManagerModules.plover
+    (import ./plover sources)
+  ];
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {

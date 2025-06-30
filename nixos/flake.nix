@@ -39,13 +39,15 @@
     }:
     let
       useX = false;
+      pkgs = import nixpkgs { inherit system; };
+      sources = pkgs.callPackage ../_sources/generated.nix { };
     in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
-          inherit useX;
+          inherit useX sources;
         };
         modules = [
           {
@@ -61,7 +63,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs useX;
+              inherit inputs sources useX;
             };
 
             home-manager.users.tbm = import ./tbm;
@@ -72,6 +74,9 @@
       packages.aarch64-darwin.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
       darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = {
+          inherit useX sources;
+        };
         modules = [
           {
             users.users.mac.home = "/Users/mac";
@@ -87,7 +92,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs;
+              inherit inputs sources;
             };
 
             home-manager.users.mac = import ./hosts/mac;
