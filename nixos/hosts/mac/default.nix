@@ -1,9 +1,13 @@
-{ pkgs, inputs, sources, ...}:
-{
+{ pkgs, inputs, ...}:
+let
+  sources = pkgs.callPackage ../../_sources/generated.nix;
+in {
   imports = [
-    inputs.plover-flake.homeManagerModules.plover
-    (import ./plover sources)
+    # inputs.plover-flake.homeManagerModules.plover
+    # (import ../../home-manager/plover sources)
   ];
+
+  # programs.plover.enable = true;
 
   programs.emacs = {
     enable = true;
@@ -24,6 +28,7 @@
     firefox
     google-chrome
 
+    delta
     ghq
     just
     neovim

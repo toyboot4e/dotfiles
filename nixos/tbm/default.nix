@@ -1,9 +1,11 @@
 # `home-manager` configuraiton
 {pkgs, inputs, useX, sources, ...}:
-{
+let
+  sources = pkgs.callPackage ../_sources/generated.nix;
+in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
-    (import ./plover sources)
+    (import ../home-manager/plover sources)
     ./desktop.nix
     ./de/x.nix
     ./de/wayland.nix
@@ -177,11 +179,6 @@
     uv
     # FIXME: use pylsp installed with uv locally
     python312Packages.python-lsp-server
-
-    # FIXME: plover.dev is broken for years
-    # https://github.com/NixOS/nixpkgs/issues/141797
-    # NOTE: This `plover` is overlay specified in `flake.nix`
-    # plover
 
     # purescript
     # ruby

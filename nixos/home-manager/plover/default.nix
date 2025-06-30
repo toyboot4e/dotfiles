@@ -1,19 +1,11 @@
-# This is a NixOS module included in `imports` list, where the sum of NixOs module become our final
-# output..
+sources:
 {
   pkgs,
   inputs,
-  sources,
   ...
 }:
 let
   plover-flake = inputs.plover-flake;
-  # FIXME: Python version mismatch
-  # TODO: import dictionary via home-manager module
-  # harri-numbers = import ./harri-numbers.nix {
-  #   inherit plover-flake pkgs sources;
-  #   plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
-  # };
 in
 {
   programs.plover = {
@@ -26,7 +18,8 @@ in
 
       # harri-numbers
     ]);
-    # plover.cfg contents
+
+    # plover.cfg
     settings = {
       "Machine Configuration" = {
         machine_type = "Gemini PR";
