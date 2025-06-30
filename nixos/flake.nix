@@ -39,7 +39,6 @@
     }:
     let
       useX = false;
-      sources = pkgs.callPackage ./_sources/generated.nix { };
     in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
@@ -62,7 +61,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs sources useX;
+              inherit inputs useX;
             };
 
             home-manager.users.tbm = import ./tbm;
@@ -82,16 +81,16 @@
               fenix.overlays.default
             ];
           }
-          ./macos
+          ./nix-darwin
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs sources;
+              inherit inputs;
             };
 
-            home-manager.users.mac = import ./mac;
+            home-manager.users.mac = import ./hosts/mac;
           }
         ];
       };

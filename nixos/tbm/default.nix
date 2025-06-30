@@ -1,6 +1,7 @@
 # `home-manager` configuraiton
-{pkgs, inputs, useX, ...}:
-let sources = pkgs.callPackage ./_sources/generated.nix { };
+{pkgs, inputs, useX, sources, ...}:
+let 
+  sources = pkgs.callPackage ../_sources/generated.nix { };
 in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
