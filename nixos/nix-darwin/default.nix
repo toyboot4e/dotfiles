@@ -9,6 +9,7 @@ in {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
+      sandbox = true;
     };
 
     optimise.automatic = true;
