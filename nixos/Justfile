@@ -11,6 +11,12 @@ update:
     nix flake update
     sudo nixos-rebuild --flake .#tbm switch
 
+# updates the macOS's whole system
+mac:
+    # sudo nix-channel --update
+    # nix flake update
+    sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
+
 # updates specific flake input
 update-input name:
     nix flake lock --update-input {{name}}

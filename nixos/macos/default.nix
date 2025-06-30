@@ -18,12 +18,32 @@
     };
   };
 
-  environment.shells = [pkgs.fish];
-  programs.fish.enable = true;
+  environment.shells = [pkgs.bash pkgs.fish];
 
-  users.users.mac = {
-    shell = pkgs.fish;
+  # set fish shell
+  # https://github.com/nix-darwin/nix-darwin/issues/1237
+  programs.fish.enable = true;
+  users.knownUsers = [ "mac" ];
+  users.users.mac.shell = pkgs.fish;
+  users.users.mac.uid = 501;
+
+  # https://github.com/nix-darwin/nix-darwin/issues/1041
+  services.karabiner-elements = {
+    enable = true;
+    package = pkgs.karabiner-elements.overrideAttrs (old: {
+      version = "14.13.0";
+
+      src = pkgs.fetchurl {
+        inherit (old.src) url;
+        hash = "sha256-gmJwoht/Tfm5qMecmq1N6PSAIfWOqsvuHU8VDJY8bLw=";
+      };
+
+      dontFixup = true;
+    });
   };
+
+  services.yabai.enable = true;
+  services.skhd.enable = true;
 
   system = {
     defaults = {

@@ -19,8 +19,10 @@
     firefox
     google-chrome
 
+    ghq
     just
     neovim
+    tmux
 
     emacs-lsp-booster
     enchant
@@ -28,10 +30,12 @@
     libtool
     # libvterm # FIXME: linux only
 
+    as-tree
     eza
     fd
     ranger
     ripgrep
+    xdg-ninja
  ];
 
   home.stateVersion = "25.05";
