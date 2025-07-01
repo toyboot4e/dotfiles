@@ -443,6 +443,58 @@ Essential..
 },
 #+END_SRC
 
+** Applications
+
+*** [[https://github.com/Josiah-tan/plover-vim][Josiah-tan/plover-vim]]
+
+#+BEGIN_SRC lua
+{
+  "Josiah-tan/plover-vim",
+  config = function()
+    --
+  end
+},
+#+END_SRC
+
+*** [[https://github.com/Josiah-tan/plover-vim-tutor][Josiah-tan/plover-vim-tutor]]
+
+#+BEGIN_SRC lua
+{
+  "Josiah-tan/plover-vim-tutor",
+  dependencies = { 'Josiah-tan/plover-vim' },
+  config = function()
+    vim.keymap.set('n', '<leader>ap', '<cmd>help plover-vim-tutor<CR>') -- open tape window
+  end
+},
+#+END_SRC
+
+*** [[https://github.com/derekthecool/plover-tapey-tape.nvim][derekthecool/plover-tapey-tape.nvim]]
+
+#+BEGIN_SRC lua
+{
+  "derekthecool/plover-tapey-tape.nvim",
+  dependencies = { 'derekthecool/plover-tapey-tape.nvim', 'derekthecool/plover-tapey-tape.nvim' },
+  config = function()
+    vim.keymap.set('n', '<leader>at', require('plover-tapey-tape').toggle) -- open tape window
+    vim.keymap.set('n', '<leader>as', require('plover-tapey-tape').stop) -- stop plugin
+    require('plover-tapey-tape').setup({
+      -- filepath = 'auto',
+      -- open_method = 'vsplit',
+      -- vertical_split_height = 9,
+      -- horizontal_split_width = 54,
+      -- steno_capture = '|(.-)|',
+      -- suggestion_notifications = {
+      --     enabled = true,
+      -- },
+      -- status_line_setup = {
+      --     enabled = true,
+      --     additional_filter = '(|.-|)',
+      -- },
+    })
+  end
+},
+#+END_SRC
+
 ** Themes
 
 *** Smyck
@@ -468,3 +520,74 @@ Finalize the =require("lazy").setup({})= block:
 })
 #+END_SRC
 
+
+** plover-vim-tutor
+
+- consider `\LGTSDZ\` "unique ender" cluster:
+    -  we choose `\LTSZ\` or for these "command objects" (plover-stenotype-vim: `@L`)
+- consider `-FPB` "command" cluster:
+    - `v` → `+F+` (Fisualise)
+    - `c` → `+B+` (Blot)
+    - `y` → `+P+` (coPy)
+- consider `#EU` "middles" cluster:
+    - `i` → `=E=` (inner: closer to the middle of the keyboard)
+    - `a` → `=U=` (outer: away from the middle of the keyboard)
+- consider `STKPWHRAO*` "symbols" cluster:
+    - `w` → `-W-` (Emily modifiers)
+    - `e` → `-SK-` (Abby left hand fingerspelling)
+    - `}` → `-KWRAO*-` (Emily modifiers)
+
+- Example of `caw` (`WUBLTSZ`):
+
+| -#- | -T- | -P- | -H- | -*- | -*- | -F- | -P- | /L/ | /T/ | -D- |
+| -S- | -K- | /W/ | -R- | -*- | -*- | -R- | /B/ | -G- | /S/ | /Z/ |
+|     |     |     |     |     |     |     |     |     |     |     |
+|     |     | -A- | -O- |     |     | -E- | /U/ |     |     |     |
+
+- Example of `yie` (`SKEPLTSZ`):
+
+| -#- | -T- | -P- | -H- | -*- | -*- | -F- | /P/ | /L/ | /T/ | -D- |
+| /S/ | /K/ | -W- | -R- | -*- | -*- | -R- | -B- | -G- | /S/ | /Z/ |
+|     |     |     |     |     |     |     |     |     |     |     |
+|     |     | -A- | -O- |     |     | /E/ | -U- |     |     |     |
+
+- Example of `va}` (`KWRAO*UFLTSZ`):
+
+| -#- | -T- | -P- | -H- | /*/ | /*/ | /F/ | -P- | /L/ | /T/ | -D- |
+| -S- | /K/ | /W/ | /R/ | /*/ | /*/ | -R- | -B- | -G- | /S/ | /Z/ |
+|     |     |     |     |     |     |     |     |     |     |     |
+|     |     | /A/ | /O/ |     |     | -E- | /U/ |     |     |     |
+
+==============================================================================
+FAQ                                                          *plover-vim-FAQ*
+
+- What is the difference between Josiah and Emily modifiers?
+    - Josiah modifiers uses left hand Abby vowels (for e, i and u) to free up
+      the EU cluster, thus switching to this system is easy
+- why are plover vim commands backwards? (i.e. opposite of steno order)
+    - It is easier to fingerspell on the left side than the right side
+    - There are fewer "commands" than "objects", so "fingerspelling" objects on
+      the left side takes priority
+- Will plover-vim take a long time to learn?
+    - Once you have mastered Emily modifiers you are basically halfway there,
+      so not really.
+    - You just need to memorise a few commands and which category they belong
+      in, after that you are basically set
+- Is plover-vim faster than fingerspelling?
+    - Yes, in the long run
+- Is plover-vim faster than Qwerty?
+    - You be the judge of that: |plover-vim-speedruns|
+- Is plover-stenotype-vim better than normal plover-vim?
+    - It doesn't use Philly shift so it's faster to use I suppose.
+    - Also slightly more ergonomic
+ 
+==============================================================================
+useful-links                                                *plover-vim-useful-links*
+
+(for anything in blue, hover with cursor and press shift-K)
+link to the tutorial here: |plover-vim-tutorial|
+link to the cheatsheet here: |plover-vim-cheatsheet|
+link to speedruns here: |plover-vim-speedruns|
+
+==============================================================================
+ vim:tw=78:ts=2:et:ft=help:norl:

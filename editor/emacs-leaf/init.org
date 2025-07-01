@@ -1692,6 +1692,18 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
     :hook (css-mode-hook . prettier-mode))
 #+END_SRC
 
+** Tree Sit
+
+#+BEGIN_SRC elisp
+(leaf treesit-auto
+  :custom
+  (treesit-auto-install . t)
+  ;; FIXME: not working
+  ;; :config
+  ;; (global-treesit-auto-mode)
+  )
+#+END_SRC
+
 ** Tree Sitter
 
 #+BEGIN_SRC elisp
