@@ -60,6 +60,9 @@ in {
     # firefox rofi
     google-chrome
 
+    # online-judge-tools
+    my-pkgs.online-judge-verify-helper
+
     arandr
     bluetuith
     blueberry
@@ -105,8 +108,9 @@ in {
     gnumake
     cmake
     gcc
-    gdb checksec
-    # pwndbg 
+    gdb
+    checksec
+    # pwndbg
 
     # gleam erlang rebar3
     # roswell
@@ -130,7 +134,13 @@ in {
     nix-search-tv
     television
 
-    (fenix.complete.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
+    (fenix.complete.withComponents [
+      "cargo"
+      "clippy"
+      "rust-src"
+      "rustc"
+      "rustfmt"
+    ])
     # rust-analyzer-nightly
 
     # koka
@@ -173,7 +183,11 @@ in {
     # python311Packages.pyttsx3
 
     ghc
-    stack cabal-install haskell-language-server zlib ormolu
+    stack
+    cabal-install
+    haskell-language-server
+    zlib
+    ormolu
     haskellPackages.implicit-hie
 
     uv
