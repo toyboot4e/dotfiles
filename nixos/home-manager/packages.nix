@@ -68,12 +68,10 @@ pkgs: with pkgs; [
   # qutebrowser
 
   # text editors
-  typora
   vscode
 
   # movies
   mpv
-  obs-studio
 
   # SNS
   discord
@@ -132,10 +130,6 @@ pkgs: with pkgs; [
   python3Packages.python-lsp-server
   uv
 
-  # pwn
-  checksec
-  # pwndbg
-
   # monitoring
   ncdu
   gtop
@@ -152,5 +146,4 @@ pkgs: with pkgs; [
   mermaid-cli
   pandoc
   plantuml
-  xdot
 ]

@@ -34,6 +34,14 @@ in {
     appimage-run
     aider-chat
 
+    # Not on macOS
+    obs-studio
+    xdot
+
+    # pwn
+    checksec
+    # pwndbg
+
     # online-judge-tools
     my-pkgs.online-judge-verify-helper
 

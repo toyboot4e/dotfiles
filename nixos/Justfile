@@ -5,19 +5,20 @@
 help:
     @just -l
 
-# updates the whole system
-nixos:
-    # sudo nix-channel --update
-    # nix flake update
-    sudo nixos-rebuild --flake .#tbm switch
-
-# updates the macOS's whole system
-macos:
-    # sudo nix-channel --update
-    # nix flake update
-    sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
+# updates channels and flakes
+update:
+    sudo nix-channel --update
+    nix flake update
 
 # updates specific flake input
 update-input name:
     nix flake lock --update-input {{name}}
+
+# updates the whole NixOS system
+nixos:
+    sudo nixos-rebuild --flake .#tbm switch
+
+# updates the whole macOS system
+macos:
+    sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
 

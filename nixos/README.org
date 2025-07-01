@@ -13,3 +13,10 @@ Run =just= to see avilable commands.
 
 TODO: Distribute configuration files via =flake.nix=.
 
+** macOS
+
+Manually installed:
+
+- OBS Studio
+- Karabiner-Elements
+
