@@ -1,11 +1,13 @@
 # `home-manager` configuraiton
-{pkgs, inputs, useX, sources, ...}:
+{pkgs, inputs, my-pkgs, ...}:
 let
   sources = pkgs.callPackage ../_sources/generated.nix;
+  common-packages = import ../home-manager/packages.nix pkgs;
 in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
     (import ../home-manager/plover sources)
+    # (import ../home-manager/emacs pkgs)
     ./desktop.nix
     ./de/x.nix
     ./de/wayland.nix
@@ -19,20 +21,6 @@ in {
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacsWithPackagesFromUsePackage {
-      config = ../../editor/emacs-leaf/init.org;
-      # TODO: byte compilation
-      # defaultInitFile = true;
-      defaultInitFile = false;
-      package = pkgs.emacs-unstable;
-      # package = pkgs.emacs-git;
-      alwaysEnsure = true; # use nixpkgs
-      extraEmacsPackages = import ./epkgs.nix { inherit pkgs sources; };
-    };
-  };
-
   # FIXME:
   # https://github.com/nix-community/home-manager/issues/2064
   systemd.user.targets.tray = {
@@ -42,23 +30,9 @@ in {
     };
   };
 
-  home.packages = with pkgs; [
-    actionlint
-
+  home.packages = with pkgs; common-packages ++ [
     appimage-run
-    ncdu # check disk usage
-    gtop
-
-    kitty
-    ghostty
-
     aider-chat
-
-    convmv
-    # FIXME: broken for now
-    # qutebrowser
-    # firefox rofi
-    google-chrome
 
     # online-judge-tools
     my-pkgs.online-judge-verify-helper
@@ -69,59 +43,22 @@ in {
     nemo
     nautilus
     xfce.thunar
-    xdg-ninja
-    neovim
-    typora
-    # helix
-
-    nushell
-    zellij
-
-    act
-    cargo-make # `makers`
-    just
-    hyperfine
-    go-task
 
     # devbox
     # skk-dicts
     # geekbench
-    fastfetch
     # meson
     ninja
     exiftool
     zip
     moreutils
 
-    # emacs
-    # emacsPackages.ddskk
-    # TODO: not working?
-    emacs-lsp-booster
-    enchant
-    emacsPackages.jinx # https://github.com/minad/jinx
-    libtool
+    # Emacs
     libvterm
 
     # CPU temperature
     lm_sensors
 
-    gnumake
-    cmake
-    gcc
-    gdb
-    checksec
-    # pwndbg
-
-    # gleam erlang rebar3
-    # roswell
-
-    go
-    nodejs
-    # FIXME:
-    # deno
-    yarn
-    volta
-    python3
     # goenv
     # idris2.. using `idris2-pack` instead
     # https://github.com/stefan-hoeck/idris2-pack
@@ -129,21 +66,6 @@ in {
     # zig
     # zls
     # swiPrologWithGui
-
-    # nix
-    nix-search-tv
-    television
-
-    (fenix.complete.withComponents [
-      "cargo"
-      "clippy"
-      "rust-src"
-      "rustc"
-      "rustfmt"
-    ])
-    # rust-analyzer-nightly
-
-    # koka
 
     sway-scratch
 
@@ -155,10 +77,6 @@ in {
     sqlite-utils
     slack
     zulip
-    vscode
-    mpv
-    gimp
-    inkscape
     evince
     # qpdfview
     ghostscript
@@ -182,64 +100,21 @@ in {
     # arcanPackages.espeak
     # python311Packages.pyttsx3
 
-    ghc
-    stack
-    cabal-install
-    haskell-language-server
-    zlib
-    ormolu
-    haskellPackages.implicit-hie
-
-    uv
-    # FIXME: use pylsp installed with uv locally
-    python312Packages.python-lsp-server
-
     # purescript
     # ruby
 
-    drawio
-    krita
-
     # mdbook
-    pandoc
     texlive.combined.scheme-full
-    zoom-us
     # calibre
     minify
-
-    # OCaml
-    # ocaml
-    # opam
-    # dune_3
-    # ocamlPackages.merlin
-
-    pup
-    jq
-    watchexec
-    rename
-    jdk
-    ditaa
-    graphviz
-    xdot
-    mermaid-cli
-    plantuml
-    nkf
-    gnuplot
-    # math-preview
-
-    cmatrix
-    figlet
 
     # TODO: replace `sxhkd` package with `sxhkd` service
     # sxhkd
 
     # GUI
-    discord
     vkmark
     steamtinkerlaunch
-    obs-studio
     simplescreenrecorder
-    zeal
 
     # DAW
     # reaper

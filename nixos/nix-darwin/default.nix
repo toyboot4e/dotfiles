@@ -1,5 +1,5 @@
 { pkgs, ... }:
-let 
+let
   sources = pkgs.callPackage ../_sources/generated.nix { };
 in {
   # networking.hostName = "mac";

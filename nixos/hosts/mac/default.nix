@@ -24,28 +24,6 @@ in {
   };
 
   home.packages = with pkgs; [
-    kitty
-    firefox
-    google-chrome
-
-    delta
-    ghq
-    just
-    neovim
-    tmux
-
-    emacs-lsp-booster
-    enchant
-    emacsPackages.jinx # https://github.com/minad/jinx
-    libtool
-    # libvterm # FIXME: linux only
-
-    as-tree
-    eza
-    fd
-    ranger
-    ripgrep
-    xdg-ninja
  ];
 
   home.stateVersion = "25.05";

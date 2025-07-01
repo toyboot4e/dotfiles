@@ -6,13 +6,13 @@ help:
     @just -l
 
 # updates the whole system
-update:
-    sudo nix-channel --update
-    nix flake update
+nixos:
+    # sudo nix-channel --update
+    # nix flake update
     sudo nixos-rebuild --flake .#tbm switch
 
 # updates the macOS's whole system
-mac:
+macos:
     # sudo nix-channel --update
     # nix flake update
     sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
