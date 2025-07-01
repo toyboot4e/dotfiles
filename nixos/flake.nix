@@ -81,7 +81,7 @@
               inherit inputs useX my-pkgs;
             };
 
-            home-manager.users.tbm = import ./tbm;
+            home-manager.users.tbm = import ./hosts/tbm;
           }
         ];
       };

@@ -1,13 +1,14 @@
 # `home-manager` configuraiton
 {pkgs, inputs, my-pkgs, ...}:
 let
-  sources = pkgs.callPackage ../_sources/generated.nix;
-  common-packages = import ../home-manager/packages.nix pkgs;
+  sources = pkgs.callPackage ../../_sources/generated.nix;
+  common-packages = import ../../home-manager/packages.nix pkgs;
 in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
-    (import ../home-manager/plover sources)
-    # (import ../home-manager/emacs pkgs)
+    (import ../../home-manager/programs/plover sources)
+    # FIXME: cannot build emacs
+    # (import ../../home-manager/programs/emacs sources)
     ./desktop.nix
     ./de/x.nix
     ./de/wayland.nix

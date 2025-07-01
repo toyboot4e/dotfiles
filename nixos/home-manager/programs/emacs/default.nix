@@ -1,9 +1,10 @@
-{ pkgs }:
+sources:
+{ pkgs, ... }:
 {
   programs.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
-      config = ../../../editor/emacs-leaf/init.org;
+      config = ../../../../editor/emacs-leaf/init.org;
       # TODO: byte compilation
       # defaultInitFile = true;
       defaultInitFile = false;
