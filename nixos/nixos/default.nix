@@ -98,8 +98,6 @@
     nil # Nix LSP: https://github.com/oxalica/nil
     nixfmt-rfc-style
     # alejandra
-    nvfetcher
-    rippkgs
     # nix-search-cli
     # nix-doc
     # pciutils

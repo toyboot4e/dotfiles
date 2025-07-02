@@ -20,6 +20,90 @@
         },
         "version": "ce6dc4b1c25ff8c1d6c9b9015e0199355c46be4d"
     },
+    "fish-bd": {
+        "cargoLocks": null,
+        "date": "2022-03-04",
+        "extract": null,
+        "name": "fish-bd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "0rax",
+            "repo": "fish-bd",
+            "rev": "ab686e028bfe95fa561a4f4e57840e36902d4d7d",
+            "sha256": "sha256-GeWjoakXa0t2TsMC/wpLEmsSVGhHFhBVK3v9eyQdzv0=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "ab686e028bfe95fa561a4f4e57840e36902d4d7d"
+    },
+    "fish-nix-completions": {
+        "cargoLocks": null,
+        "date": "2022-08-18",
+        "extract": null,
+        "name": "fish-nix-completions",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "kidonng",
+            "repo": "nix-completions.fish",
+            "rev": "cd8a43bed96e0acc02228bc77502be8ba5fa0548",
+            "sha256": "sha256-spnLmde41qQt8uJZFwiH0igFuVqZ6SvkwdA9Kbe2yz8=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "cd8a43bed96e0acc02228bc77502be8ba5fa0548"
+    },
+    "fish-nix-env": {
+        "cargoLocks": null,
+        "date": "2021-11-29",
+        "extract": null,
+        "name": "fish-nix-env",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "lilyball",
+            "repo": "nix-env.fish",
+            "rev": "7b65bd228429e852c8fdfa07601159130a818cfa",
+            "sha256": "sha256-RG/0rfhgq6aEKNZ0XwIqOaZ6K5S4+/Y5EEMnIdtfPhk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "7b65bd228429e852c8fdfa07601159130a818cfa"
+    },
+    "fish-z": {
+        "cargoLocks": null,
+        "date": "2025-02-13",
+        "extract": null,
+        "name": "fish-z",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "jethrokuan",
+            "repo": "z",
+            "rev": "067e867debee59aee231e789fc4631f80fa5788e",
+            "sha256": "sha256-emmjTsqt8bdI5qpx1bAzhVACkg0MNB/uffaRjjeuFxU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "067e867debee59aee231e789fc4631f80fa5788e"
+    },
     "plover-harri-numbers": {
         "cargoLocks": null,
         "date": "2025-06-09",

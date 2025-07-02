@@ -13,3 +13,23 @@ src.git = "https://github.com/StenoHarri/Harri_numbers"
 src.branch = "main"
 fetch.github = "StenoHarri/Harri_numbers"
 
+[fish-bd]
+src.git = "https://github.com/0rax/fish-bd"
+src.branch = "master"
+fetch.github = "0rax/fish-bd"
+
+[fish-nix-completions]
+src.git = "https://github.com/kidonng/nix-completions.fish"
+src.branch = "master"
+fetch.github = "kidonng/nix-completions.fish"
+
+[fish-nix-env]
+src.git = "https://github.com/lilyball/nix-env.fish"
+src.branch = "master"
+fetch.github = "lilyball/nix-env.fish"
+
+[fish-z]
+src.git = "https://github.com/jethrokuan/z"
+src.branch = "master"
+fetch.github = "jethrokuan/z"
+

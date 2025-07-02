@@ -32,24 +32,9 @@ in {
 
   # set fish shell
   # https://github.com/nix-darwin/nix-darwin/issues/1237
-  programs.fish = {
-    enable = true;
-    # TODO: need nvfetcher and fetchFromGitHub
-    # plugins = [
-    #   {
-    #     name = sources.fish-ghq.pname;
-    #     src = sources.fish-ghq.src;
-    #   }
-    #   {
-    #     name = sources.fish-nix-completions.pname;
-    #     src = sources.fish-nix-completions.src;
-    #   }
-    #   {
-    #     name = sources.fish-nix-env.pname;
-    #     src = sources.fish-nix-env.src;
-    #   }
-    # ];
-  };
+  # TODO: can we use home-manager?
+  programs.fish.enable = true;
+
   users.knownUsers = [ "mac" ];
   users.users.mac.shell = pkgs.fish;
   users.users.mac.uid = 501;

@@ -5,7 +5,9 @@ let
 in {
   imports = [
     # inputs.plover-flake.homeManagerModules.plover
-    # (import ../../home-manager/plover sources)
+    # (import ../../home-manager/programs/plover sources)
+    # TODO: switch
+    # (import ../../home-manager/programs/fish  { inherit sources pkgs; })
   ];
 
   # programs.plover.enable = true;
@@ -25,6 +27,7 @@ in {
   };
 
   home.packages = with pkgs; common-packages ++ [
+    # macOS packages
   ];
 
   home.stateVersion = "25.05";

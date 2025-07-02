@@ -13,6 +13,54 @@
     };
     date = "2024-09-14";
   };
+  fish-bd = {
+    pname = "fish-bd";
+    version = "ab686e028bfe95fa561a4f4e57840e36902d4d7d";
+    src = fetchFromGitHub {
+      owner = "0rax";
+      repo = "fish-bd";
+      rev = "ab686e028bfe95fa561a4f4e57840e36902d4d7d";
+      fetchSubmodules = false;
+      sha256 = "sha256-GeWjoakXa0t2TsMC/wpLEmsSVGhHFhBVK3v9eyQdzv0=";
+    };
+    date = "2022-03-04";
+  };
+  fish-nix-completions = {
+    pname = "fish-nix-completions";
+    version = "cd8a43bed96e0acc02228bc77502be8ba5fa0548";
+    src = fetchFromGitHub {
+      owner = "kidonng";
+      repo = "nix-completions.fish";
+      rev = "cd8a43bed96e0acc02228bc77502be8ba5fa0548";
+      fetchSubmodules = false;
+      sha256 = "sha256-spnLmde41qQt8uJZFwiH0igFuVqZ6SvkwdA9Kbe2yz8=";
+    };
+    date = "2022-08-18";
+  };
+  fish-nix-env = {
+    pname = "fish-nix-env";
+    version = "7b65bd228429e852c8fdfa07601159130a818cfa";
+    src = fetchFromGitHub {
+      owner = "lilyball";
+      repo = "nix-env.fish";
+      rev = "7b65bd228429e852c8fdfa07601159130a818cfa";
+      fetchSubmodules = false;
+      sha256 = "sha256-RG/0rfhgq6aEKNZ0XwIqOaZ6K5S4+/Y5EEMnIdtfPhk=";
+    };
+    date = "2021-11-29";
+  };
+  fish-z = {
+    pname = "fish-z";
+    version = "067e867debee59aee231e789fc4631f80fa5788e";
+    src = fetchFromGitHub {
+      owner = "jethrokuan";
+      repo = "z";
+      rev = "067e867debee59aee231e789fc4631f80fa5788e";
+      fetchSubmodules = false;
+      sha256 = "sha256-emmjTsqt8bdI5qpx1bAzhVACkg0MNB/uffaRjjeuFxU=";
+    };
+    date = "2025-02-13";
+  };
   plover-harri-numbers = {
     pname = "plover-harri-numbers";
     version = "5a890fc2877dba3fd2a0e690ceed7492dcc93388";

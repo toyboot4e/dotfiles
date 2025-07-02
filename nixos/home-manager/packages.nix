@@ -53,6 +53,8 @@ pkgs: with pkgs; [
 
   # nix
   nix-search-tv
+  nvfetcher
+  rippkgs
   television
 
   # ascii art

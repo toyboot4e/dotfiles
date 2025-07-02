@@ -22,8 +22,8 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
     # https://github.com/openstenoproject/plover-flake
     plover-flake.url = "github:openstenoproject/plover-flake";
-    # plover-flake.url = "github:toyboot4e/plover-flake?ref=ini-json";
-    # plover-flake.url = "github:toyboot4e/plover-flake?ref=stenobee";
+    # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
+
     # WIP: works? https://github.com/openstenoproject/plover-flake/issues/232
     # plover-flake.inputs.nixpkgs.follows = “nixpkgs”;
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=psutil";
@@ -52,10 +52,8 @@
     }:
     let
       useX = true;
-      my-pkgs = import my-nixpkgs {
-          system = "x86_64-linux";
-      };
       # useX = false;
+      # pkgs = import nixpkgs { inherit system; };
     in
     {
       packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
@@ -78,7 +76,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = {
-              inherit inputs useX my-pkgs;
+              inherit inputs useX;
             };
 
             home-manager.users.tbm = import ./hosts/tbm;
