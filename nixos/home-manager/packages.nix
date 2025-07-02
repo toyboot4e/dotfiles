@@ -19,6 +19,7 @@ pkgs: with pkgs; [
 
   # git
   delta
+  gh
   ghq
 
   # build tools
@@ -75,6 +76,7 @@ pkgs: with pkgs; [
 
   # SNS
   discord
+  slack
   zoom-us
 
   # drawing

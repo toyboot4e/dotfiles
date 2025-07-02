@@ -84,8 +84,6 @@ in {
     sqlite-interactive
     sqlite-web
     sqlite-utils
-    slack
-    zulip
     evince
     # qpdfview
     ghostscript
