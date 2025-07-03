@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # auto mount: <https://nix-community.github.io/home-manager/options.html#opt-services.udiskie.enable>
   services.udiskie = {
     enable = true;

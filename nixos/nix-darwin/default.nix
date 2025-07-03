@@ -1,14 +1,18 @@
 { pkgs, ... }:
 let
   sources = pkgs.callPackage ../_sources/generated.nix { };
-in {
+in
+{
   # networking.hostName = "mac";
   nixpkgs.config.allowUnfree = true;
   system.primaryUser = "mac";
 
   nix = {
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       sandbox = true;
     };
 
@@ -16,12 +20,15 @@ in {
 
     gc = {
       automatic = true;
-      interval = [{ Weekday = 7; }];
+      interval = [ { Weekday = 7; } ];
       options = "--delete-older-than 7d";
     };
   };
 
-  environment.shells = [pkgs.bash pkgs.fish];
+  environment.shells = [
+    pkgs.bash
+    pkgs.fish
+  ];
 
   # TODO: really need this?
   environment.systemPackages = with pkgs; [

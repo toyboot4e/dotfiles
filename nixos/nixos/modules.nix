@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # Enable the OpenSSH daemon.
   programs.ssh.startAgent = true;
   services.openssh = {

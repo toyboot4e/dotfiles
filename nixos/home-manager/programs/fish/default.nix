@@ -1,13 +1,15 @@
 { sources, pkgs }:
-let pkgNames = [
+let
+  pkgNames = [
     # most fish plugins are not on nixkgs, so:
-    "fish-bd"               # bd command
-    "fish-ghq"              # ctrl + g
+    "fish-bd" # bd command
+    "fish-ghq" # ctrl + g
     "fish-nix-completions"
     "fish-nix-env"
-    "fish-z"                # z command
+    "fish-z" # z command
   ];
-in {
+in
+{
   programs.fish = {
     enable = true;
     # FIXME: broken
@@ -19,5 +21,5 @@ in {
     #    pkgNames;
   };
 
-  xdg.configFile."fish/config.fish".source = ../../../../shell/fish/config.fish
+  xdg.configFile."fish/config.fish".source = ../../../../shell/fish/config.fish;
 }

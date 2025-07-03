@@ -138,8 +138,8 @@
 [github]
     user = toyboot4e
 
-[ghq]
-    root=/d/ghq
+# [ghq]
+#     root=/d/ghq
 
 [merge]
 	conflictStyle = diff3

@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
   console = {
@@ -11,7 +12,7 @@
     # useXkbConfig = true; # use xkbOptions in tty.
     keyMap = "jp106";
     earlySetup = true;
-    packages = with pkgs; [terminus_font];
+    packages = with pkgs; [ terminus_font ];
     font = "ter-u14n";
   };
 
@@ -36,10 +37,13 @@
       enable = true;
       defaultFonts = {
         # TODO: use SourceCodePro?
-        serif = ["noto-fonts-cjk-sans"];
-        sansSerif = ["noto-fonts-cjk-sans"];
+        serif = [ "noto-fonts-cjk-sans" ];
+        sansSerif = [ "noto-fonts-cjk-sans" ];
         # "IntoneMono Nerd Font"
-        monospace = ["intel-one-mono" "noto-sans-font-cjk"];
+        monospace = [
+          "intel-one-mono"
+          "noto-sans-font-cjk"
+        ];
       };
 
       # FIXME: seems to be not wokring

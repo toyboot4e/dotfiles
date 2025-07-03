@@ -1,5 +1,6 @@
 # emacs packages
-{ pkgs, sources }: epkgs: [
+{ pkgs, sources }:
+epkgs: [
   # meplaBuild:
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/emacs/build-support/melpa.nix
 

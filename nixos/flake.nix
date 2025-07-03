@@ -53,63 +53,94 @@
     let
       useX = true;
       # useX = false;
-      # pkgs = import nixpkgs { inherit system; };
     in
-    {
-      packages.x86_64-linux.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
-      nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit useX;
+    (
+      let
+        system = "x86-64_linux";
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        formatter.${system} = pkgs.nixfmt-tree;
+        packages.${system}.default = inputs.fenix.packages.${system}.default.toolchain;
+        nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit system useX;
+          };
+          modules = [
+            {
+              nixpkgs.overlays = [
+                emacs-overlay.overlay
+                emacs-lsp-booster.overlays.default
+                fenix.overlays.default
+              ];
+            }
+            ./nixos
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs system useX;
+              };
+
+              home-manager.users.tbm = import ./hosts/tbm;
+            }
+          ];
         };
-        modules = [
-          {
-            nixpkgs.overlays = [
-              emacs-overlay.overlay
-              emacs-lsp-booster.overlays.default
-              fenix.overlays.default
-            ];
-          }
-          ./nixos
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs useX;
-            };
-
-            home-manager.users.tbm = import ./hosts/tbm;
-          }
-        ];
-      };
-
-      packages.aarch64-darwin.default = inputs.fenix.packages.x86_64-linux.default.toolchain;
-      darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
+      }
+    )
+    // (
+      let
         system = "aarch64-darwin";
-        specialArgs = {
-        };
-        modules = [
-          {
-            users.users.mac.home = "/Users/mac";
-            nixpkgs.overlays = [
-              emacs-overlay.overlay
-              emacs-lsp-booster.overlays.default
-              fenix.overlays.default
-            ];
-          }
-          ./nix-darwin
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
+        pkgs = import nixpkgs { inherit system; };
+        emacs-fix-overlay =
+          # bug: https://github.com/NixOS/nixpkgs/issues/395169
+          (
+            final: prev: {
+              emacs = prev.emacs.override {
+                withNativeCompilation = false;
+              };
+              emacs-unstable = prev.emacs-unstable.override {
+                withNativeCompilation = false;
+              };
+              emacs-git = prev.emacs-git.override {
+                withNativeCompilation = false;
+              };
+            }
+          );
+      in
+      {
+        formatter.${system} = pkgs.nixfmt-tree;
+        packages.${system}.default = inputs.fenix.packages.${system}.default.toolchain;
+        darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
+          inherit system;
+          specialArgs = {
+            inherit system;
+          };
+          modules = [
+            {
+              users.users.mac.home = "/Users/mac";
+              nixpkgs.overlays = [
+                emacs-overlay.overlay
+                emacs-lsp-booster.overlays.default
+                fenix.overlays.default
+                emacs-fix-overlay # TODO: remove when resolved
+              ];
+            }
+            ./nix-darwin
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs system;
+              };
 
-            home-manager.users.mac = import ./hosts/mac;
-          }
-        ];
-      };
-    };
+              home-manager.users.mac = import ./hosts/mac;
+            }
+          ];
+        };
+      }
+    );
 }

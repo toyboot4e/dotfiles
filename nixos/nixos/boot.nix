@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -44,6 +45,10 @@
     device = "/dev/disk/by-uuid/85f41130-4c61-4cb9-b116-b13701009b43";
     fsType = "ext4";
     # TODO: user permission?
-    options = ["users" "nofail" "exec"];
+    options = [
+      "users"
+      "nofail"
+      "exec"
+    ];
   };
 }

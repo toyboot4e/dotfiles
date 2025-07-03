@@ -1,8 +1,9 @@
-{ pkgs, inputs, ...}:
+{ pkgs, inputs, ... }:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix;
   common-packages = import ../../home-manager/packages.nix pkgs;
-in {
+in
+{
   imports = [
     # inputs.plover-flake.homeManagerModules.plover
     # (import ../../home-manager/programs/plover sources)
@@ -26,9 +27,12 @@ in {
     };
   };
 
-  home.packages = with pkgs; common-packages ++ [
-    # macOS packages
-  ];
+  home.packages =
+    with pkgs;
+    common-packages
+    ++ [
+      # macOS packages
+    ];
 
   home.stateVersion = "25.05";
 }

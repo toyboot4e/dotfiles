@@ -2,11 +2,15 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   nix = {
     settings = {
       auto-optimise-store = true;
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
 
     gc = {
@@ -40,6 +44,6 @@
 
     # any change?
     # https://github.com/NixOS/nixpkgs/issues/367836
-    QT_QPA_PLATFORM="xcb";
+    QT_QPA_PLATFORM = "xcb";
   };
 }
