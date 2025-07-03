@@ -12,9 +12,8 @@ pkgs: with pkgs; [
   neovim
 
   # Emacs
-  emacs-lsp-booster
   enchant
-  emacsPackages.jinx # https://github.com/minad/jinx
+  # emacsPackages.jinx # https://github.com/minad/jinx
   libtool
 
   # git

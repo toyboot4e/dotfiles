@@ -9,7 +9,7 @@ sources:
       # defaultInitFile = true;
       defaultInitFile = false;
       package = pkgs.emacs-unstable;
-      # # package = pkgs.emacs-git;
+      # package = pkgs.emacs-git;
       alwaysEnsure = true; # use nixpkgs
       extraEmacsPackages = import ./epkgs.nix { inherit pkgs sources; };
     };

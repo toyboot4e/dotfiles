@@ -41,6 +41,8 @@ in
     with pkgs;
     common-packages
     ++ [
+      emacs-lsp-booster
+
       appimage-run
       aider-chat
 
