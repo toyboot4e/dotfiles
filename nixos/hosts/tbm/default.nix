@@ -1,5 +1,5 @@
 # `home-manager` configuraiton
-{pkgs, inputs, my-pkgs, ...}:
+{pkgs, inputs, ...}:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix;
   common-packages = import ../../home-manager/packages.nix pkgs;
@@ -7,8 +7,7 @@ in {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
     (import ../../home-manager/programs/plover sources)
-    # FIXME: cannot build emacs
-    # (import ../../home-manager/programs/emacs sources)
+    (import ../../home-manager/programs/emacs sources)
     ./desktop.nix
     ./de/x.nix
     ./de/wayland.nix
@@ -44,7 +43,7 @@ in {
     # pwndbg
 
     # online-judge-tools
-    my-pkgs.online-judge-verify-helper
+    # my-pkgs.online-judge-verify-helper
 
     arandr
     bluetuith
