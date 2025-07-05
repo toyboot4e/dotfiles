@@ -47,17 +47,12 @@
     yad
     xdotool
 
-    kitty
     bash
     fish
     # zsh
     tmux
     # zellij
-    git
-    gh
-    ghq
     w3m
-    fzf
     # wezterm
     feh
     tree

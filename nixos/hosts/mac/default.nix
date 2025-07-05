@@ -2,9 +2,6 @@
 let
   sources = pkgs.callPackage ../../_sources/generated.nix;
   common-packages = import ../../home-manager/packages.nix pkgs;
-  emacs-packages = pkgs.emacs.override {
-    withNativeCompilation = false;
-  };
 in
 {
   imports = [
@@ -22,8 +19,10 @@ in
     common-packages
     ++ [
       # macOS packages
-      emacs-packages
+
+      # None of them is working correctly
       # emacs-lsp-booster
+      # (emacs.override { withNativeCompilation = false; })
     ];
 
   home.stateVersion = "25.05";

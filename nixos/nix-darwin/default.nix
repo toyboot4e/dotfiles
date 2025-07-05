@@ -30,11 +30,6 @@ in
     pkgs.fish
   ];
 
-  # TODO: really need this?
-  environment.systemPackages = with pkgs; [
-    yabai
-    skhd
-  ];
   environment.variables.EDITOR = "nvim";
 
   # set fish shell
@@ -42,9 +37,36 @@ in
   # TODO: can we use home-manager?
   programs.fish.enable = true;
 
+  # # Homebrew itself has to be installed manually
+  # homebrew = {
+  #   enable = true;
+  #   onActivation = {
+  #     autoUpdate = true;
+  #     # WARNING: It deletes homebrew packages not installed via Nix
+  #     cleanup = "uninstall";
+  #   };
+  #   taps = [
+  #     # "d12frosted/emacs-plus"
+  #     "koekeishiya/formulae"
+  #   ];
+  #   brews = [
+  #     # "emacs-plus"
+  #     "koekeishiya/formulae/yabai"
+  #     "koekeishiya/formulae/skhd"
+  #   ];
+  #   casks = [
+  #   ];
+  # };
+
   users.knownUsers = [ "mac" ];
   users.users.mac.shell = pkgs.fish;
   users.users.mac.uid = 501;
+
+  # TODO: really need this?
+  environment.systemPackages = with pkgs; [
+    # skhd
+    # yabai
+  ];
 
   # https://github.com/nix-darwin/nix-darwin/issues/1041
   # services.karabiner-elements = {
@@ -61,19 +83,18 @@ in
   #   });
   # };
 
-  services.yabai = {
-    enable = true;
-    package = pkgs.yabai;
-    enableScriptingAddition = true;
-    extraConfig = ''
-      # sudo yabai --load-sa
-      # yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-      sudo yabai
-      yabai -m signal --add event=dock_did_restart action="sudo yabai"
-    '';
-  };
-
-  services.skhd.enable = true;
+  # services.skhd.enable = true;
+  # services.yabai = {
+  #   enable = true;
+  #   package = pkgs.yabai;
+  #   enableScriptingAddition = true;
+  #   extraConfig = ''
+  #     # sudo yabai --load-sa
+  #     # yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+  #     sudo yabai
+  #     yabai -m signal --add event=dock_did_restart action="sudo yabai"
+  #   '';
+  # };
 
   system = {
     defaults = {

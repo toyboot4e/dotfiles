@@ -31,6 +31,9 @@ pkgs: with pkgs; [
   # CLI tools
   # --------------------------------------------------------------------------------
 
+  # fuzzy finders
+  fzf
+
   # utilities
   as-tree
   eza

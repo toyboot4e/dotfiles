@@ -9,17 +9,34 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     # my fork for local tests
     my-nixpkgs.url = "github:toyboot4e/nixpkgs?ref=online-judge-verify-helper";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
     fenix.url = "github:nix-community/fenix/monthly";
+
     # https://github.com/nix-community/emacs-overlay
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
     };
+
+    # It also fails to install though:
+    # https://github.com/nix-giant/nix-darwin-emacs
+    darwin-emacs = {
+      url = "github:nix-giant/nix-darwin-emacs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    darwin-emacs-packages = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # https://github.com/slotThe/emacs-lsp-booster-flake
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
+
     # https://github.com/openstenoproject/plover-flake
     plover-flake.url = "github:openstenoproject/plover-flake";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
@@ -47,6 +64,8 @@
       fenix,
       emacs-overlay,
       emacs-lsp-booster,
+      darwin-emacs,
+      darwin-emacs-packages,
       plover-flake,
       ...
     }:
@@ -126,6 +145,10 @@
                 # emacs-overlay.overlay
                 # emacs-lsp-booster.overlays.default
                 # emacs-fix-overlay # TODO: remove when resolved
+
+                # FIXME: This Emacs is not working either
+                # darwin-emacs.overlays.emacs
+                # darwin-emacs-packages.overlays.package
 
                 fenix.overlays.default
               ];

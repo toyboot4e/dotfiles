@@ -5,6 +5,10 @@
 help:
     @just -l
 
+# formats the nix files
+format:
+    nix fmt .
+
 # updates channels and flakes
 update:
     sudo nix-channel --update

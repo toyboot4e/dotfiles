@@ -11,12 +11,27 @@
 
 Run =just= to see avilable commands.
 
-TODO: Distribute configuration files via =flake.nix=.
+** Configuration files
+
+Currently I'm making symlinks manually. I'm not using home-manager for this purpose.
 
 ** macOS
 
-Manually installed:
+*** Manual install
 
 - OBS Studio
 - Karabiner-Elements
+
+*** Manual Emacs install
+
+Old, but works:
+
+https://github.com/d12frosted/homebrew-emacs-plus/issues/562
+
+We should rather use `--with-native-comp` option.
+
+*** TODO
+
+- yabai
+- skhd
 
