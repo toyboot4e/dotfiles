@@ -1,11 +1,5 @@
 # `home-manager` configuraiton
 { pkgs, inputs, ... }:
-{
-  pkgs,
-  inputs,
-  my-pkgs,
-  ...
-}:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix;
   common-packages = import ../../home-manager/packages.nix pkgs;

@@ -16,7 +16,7 @@ pkgs: with pkgs; [
   # emacsPackages.jinx # https://github.com/minad/jinx
   libtool
 
-  # git
+  git
   delta
   gh
   ghq

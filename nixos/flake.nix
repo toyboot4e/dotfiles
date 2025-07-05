@@ -95,6 +95,7 @@
               ];
             }
             ./nixos
+
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -153,6 +154,7 @@
                 fenix.overlays.default
               ];
             }
+
             ./nix-darwin
             home-manager.darwinModules.home-manager
             {
