@@ -58,3 +58,8 @@ end
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
 
+# Homebrew
+if test -f /opt/homebrew/bin/brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+end
+
