@@ -32,10 +32,9 @@ in
         auto_start = true;
       };
 
-      # waiting for merge
-      # "Plugins" = {
-      #   enabled_extensions = ["plover_lapwing_aio" "plover_auto_reconnect_machine" "plover_console_ui"];
-      # };
+      "Plugins" = {
+        enabled_extensions = ["plover_lapwing_aio" "plover_auto_reconnect_machine" "plover_console_ui"];
+      };
 
       "System" = {
         name = "Lapwing";

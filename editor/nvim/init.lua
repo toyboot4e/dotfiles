@@ -356,25 +356,12 @@ require("lazy").setup({
 
 {
   "derekthecool/plover-tapey-tape.nvim",
+  lazy = true,
   dependencies = { 'derekthecool/plover-tapey-tape.nvim', 'derekthecool/plover-tapey-tape.nvim' },
   config = function()
     vim.keymap.set('n', '<leader>at', require('plover-tapey-tape').toggle) -- open tape window
     vim.keymap.set('n', '<leader>as', require('plover-tapey-tape').stop) -- stop plugin
-    require('plover-tapey-tape').setup({
-      -- filepath = 'auto',
-      -- open_method = 'vsplit',
-      -- vertical_split_height = 9,
-      -- horizontal_split_width = 54,
-      -- steno_capture = '|(.-)|',
-      -- suggestion_notifications = {
-      --     enabled = true,
-      -- },
-      -- status_line_setup = {
-      --     enabled = true,
-      --     additional_filter = '(|.-|)',
-      -- },
-    })
-  end
+  end,
 },
 
 {

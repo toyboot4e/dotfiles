@@ -4368,7 +4368,7 @@ TODO: merge
     ;;     :ensure nil
     ;;     :straight (smyx-theme :type git :host github :repo "tacit7/smyx"))
     (leaf smyx-theme
-        ;; :vc (:url "https://github.com/tacit7/smyx")
+        :vc (:url "https://github.com/tacit7/smyx")
         :ensure nil)
     (load-theme 'doom-opera t)
     ;; I wonder whye `require` is required
