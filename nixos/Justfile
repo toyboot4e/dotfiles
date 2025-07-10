@@ -16,7 +16,7 @@ update:
 
 # updates specific flake input
 update-input name:
-    nix flake lock --update-input {{name}}
+    nix flake update {{name}}
 
 fetch:
     nix run github:berberman/nvfetcher

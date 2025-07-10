@@ -38,8 +38,8 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
 
     # https://github.com/openstenoproject/plover-flake
-    plover-flake.url = "github:openstenoproject/plover-flake";
-    # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
+    # plover-flake.url = "github:openstenoproject/plover-flake";
+    plover-flake.url = "github:toyboot4e/plover-flake?ref=my-test";
 
     # WIP: works? https://github.com/openstenoproject/plover-flake/issues/232
     # plover-flake.inputs.nixpkgs.follows = “nixpkgs”;
