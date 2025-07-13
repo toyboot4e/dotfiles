@@ -104,7 +104,7 @@ in
         AppleShowAllExtensions = true;
       };
       dock = {
-        autohide = false;
+        autohide = true;
         show-recents = false;
         orientation = "bottom";
       };

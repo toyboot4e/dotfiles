@@ -17,18 +17,14 @@ Currently I'm making symlinks manually. I'm not using home-manager for this purp
 
 ** macOS
 
+*** Emacs
+
+HELP. Not working
+
 *** Manual install
 
 - OBS Studio
 - Karabiner-Elements
-
-*** Manual Emacs install
-
-Old, but works:
-
-https://github.com/d12frosted/homebrew-emacs-plus/issues/562
-
-We should rather use `--with-native-comp` option.
 
 *** TODO
 
