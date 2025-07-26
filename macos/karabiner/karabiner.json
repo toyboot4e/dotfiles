@@ -1,0 +1,19 @@
+{
+    "profiles": [
+        {
+            "name": "Default profile",
+            "selected": true,
+            "simple_modifications": [
+                {
+                    "from": { "key_code": "japanese_pc_xfer" },
+                    "to": [{ "key_code": "japanese_kana" }]
+                },
+                {
+                    "from": { "key_code": "japanese_pc_nfer" },
+                    "to": [{ "key_code": "japanese_eisuu" }]
+                }
+            ],
+            "virtual_hid_keyboard": { "keyboard_type_v2": "jis" }
+        }
+    ]
+}
