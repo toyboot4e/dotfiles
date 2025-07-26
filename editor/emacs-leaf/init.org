@@ -127,21 +127,21 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
-(setopt straight-vc-git-default-protocol 'ssh)
+;; (setopt straight-vc-git-default-protocol 'ssh)
 
-(progn ;; `straight.el'
-    (defvar bootstrap-version)
-    (let ((bootstrap-file
-           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-          (bootstrap-version 5))
-        (unless (file-exists-p bootstrap-file)
-            (with-current-buffer
-                    (url-retrieve-synchronously
-                     "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-                     'silent 'inhibit-cookies)
-                (goto-char (point-max))
-                (eval-print-last-sexp)))
-        (load bootstrap-file nil 'nomessage)))
+;; (progn ;; `straight.el'
+;;     (defvar bootstrap-version)
+;;     (let ((bootstrap-file
+;;            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+;;           (bootstrap-version 5))
+;;         (unless (file-exists-p bootstrap-file)
+;;             (with-current-buffer
+;;                     (url-retrieve-synchronously
+;;                      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+;;                      'silent 'inhibit-cookies)
+;;                 (goto-char (point-max))
+;;                 (eval-print-last-sexp)))
+;;         (load bootstrap-file nil 'nomessage)))
 #+END_SRC
 
 ** leaf
@@ -256,7 +256,8 @@ TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
 (set-cursor-color "#8fee96")
-(set-fringe-mode 10)
+(when (display-graphic-p)
+  (set-fringe-mode 10))
 #+END_SRC
 
 *** GUI fonts
@@ -398,10 +399,10 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 ** empv
 
 #+BEGIN_SRC elisp
-(leaf empv
-    :ensure nil
-    :after evil
-    :straight (empv :type git :host github :repo "isamert/empv.el"))
+;; (leaf empv
+;;     :ensure nil
+;;     :after evil
+;;     :straight (empv :type git :host github :repo "isamert/empv.el"))
 #+END_SRC
 
 ** undo-tree
@@ -1068,21 +1069,19 @@ Easy motion style jump.
 ** Blamer
 
 #+BEGIN_SRC elisp
-(leaf blamer
-    :ensure nil
-    :straight (blamer :type git :host github :repo "Artawower/blamer.el")
-    :custom ((blamer-idle-time . 0.3)
-             (blamer-min-offset . 70))
-    :custom-face (blamer-face \`
-                              ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
+;; (leaf blamer
+;;     :ensure nil
+;;     :straight (blamer :type git :host github :repo "Artawower/blamer.el")
+;;     :custom ((blamer-idle-time . 0.3)
+;;              (blamer-min-offset . 70))
+;;     :custom-face (blamer-face \`
+;;                               ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
 #+END_SRC
 
 ** Centaur-tabs
 
 #+BEGIN_SRC elisp
 (leaf centaur-tabs
-    ;; :straight (centaur-tabs :type git :host github :repo "toyboot4e/centaur-tabs" :branch "minibuffer-group")
-    ;; :straight (centaur-tabs :type git :host github :repo "toyboot4e/centaur-tabs" :branch "master")
     :url "https://github.com/ema2159/centaur-tabs"
     :after projectile
     :custom (;; (centaur-tabs--buffer-show-groups)

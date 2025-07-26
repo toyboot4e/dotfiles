@@ -7,5 +7,7 @@ My Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 ** Bootstrapping
 
-Run =org-bable-tangle-file= over [[./init.org]].
+#+BEGIN_SRC sh
+$ emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'                                                                                                                                                         nixos ✱
+#+END_SRC
 
