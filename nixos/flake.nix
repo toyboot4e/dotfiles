@@ -40,19 +40,8 @@
     # https://github.com/openstenoproject/plover-flake
     # plover-flake.url = "github:openstenoproject/plover-flake";
     plover-flake.url = "github:toyboot4e/plover-flake?ref=my-test";
-
-    # WIP: works? https://github.com/openstenoproject/plover-flake/issues/232
-    # plover-flake.inputs.nixpkgs.follows = “nixpkgs”;
-    # plover-flake.url = "github:toyboot4e/plover-flake?ref=psutil";
-    # plover-flake.url = "github:toyboot4e/plover-flake?ref=merge";
-    # If we want to build non-built in Python plugins, we must match the versions of Python, so:
-
-    # NOTE: It does not work for lapwing-aio
-    # - lapwing-aio uses older version of setuptools, which is for plover v4.
-    #   https://github.com/aerickt/plover-lapwing-aio/pull/11
-    #   - relateve Plover issue
-    #     https://github.com/openstenoproject/plover/issues/1714
     # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
   };
 
   outputs =
@@ -114,7 +103,7 @@
       let
         system = "aarch64-darwin";
         pkgs = import nixpkgs { inherit system; };
-        emacs-fix-overlay =
+        my-emacs-overlay =
           # bug: https://github.com/NixOS/nixpkgs/issues/395169
           (
             final: prev: {
@@ -144,12 +133,7 @@
               nixpkgs.overlays = [
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
-                emacs-fix-overlay # TODO: remove when resolved
-
-                # FIXME: This Emacs is not working either
-                # darwin-emacs.overlays.emacs
-                # darwin-emacs-packages.overlays.package
-
+                my-emacs-overlay
                 fenix.overlays.default
               ];
             }

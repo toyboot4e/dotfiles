@@ -53,7 +53,7 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 ** Installations
 
-TODO. Today I'm making symlinks one by one (dear..). Maybe I should migrate to `home-manager` land of configuration files.
+TODO. Today I'm making symlinks one by one (dear..). I should migrate to =home-manager= land of configuration files.
 
 ** Misc
 

@@ -1,28 +1,41 @@
 # `configdata.yaml` contains default key mappings. As of today, it's at:
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
+is_4k = True
+correct_dpi = True
+force_dark_theme = False
+tab_width = 200
+DL_VIDEO_DIR="~/Resources/videos"
+
 def scaled(x):
-    # 4K
-    # return 2 * x
-    # 5K
-    return int(round(2.5 * x))
+    if correct_dpi:
+        # DPI handling is correctly done in app side
+        return x
+    if is_4k:
+        # 4K
+        return 2 * x
+    else:
+        # 5K
+        return int(round(2.5 * x))
 
 def text_scaled(x):
     return 1.0 * x
 
-# 4K
-# DEFAULT_ZOOM=scaled(75)
-# c.fonts.default_size = "18pt"
-# FONT_SIZE=18
-
-# 5K
-DEFAULT_ZOOM=scaled(85)
-c.fonts.default_size = "24pt"
-FONT_SIZE=24
+if is_4k:
+    # DEFAULT_ZOOM=scaled(75)
+    DEFAULT_ZOOM=scaled(75)
+    # c.fonts.default_size = "18pt"
+    # TAB_FONT_SIZE=18
+    c.fonts.default_size = "12pt"
+    TAB_FONT_SIZE=14
+else:
+    DEFAULT_ZOOM=scaled(85)
+    c.fonts.default_size = "24pt"
+    TAB_FONT_SIZE=24
 
 config.load_autoconfig(False)
 
-if True:
+if force_dark_theme:
     # Force dark mode. Required to restart qutebrowser
     config.set('colors.webpage.darkmode.enabled', True)
 
@@ -32,9 +45,6 @@ if True:
 # Use a custom homepage
 # required to use file:/// URI?
 # c.url.default_page = '~/html/homepage.html'
-
-# Constants
-DL_VIDEO_DIR="~/Resources/videos"
 
 # Tips:
 # - `:config-source` to reload `config.py`
@@ -97,15 +107,16 @@ c.url.searchengines = {
 
 # --------------------------------------------------------------------------------
 # Commands
+# --------------------------------------------------------------------------------
 
-# TODO: better pocket for support
-c.aliases['pocket'] = 'open -t https://getpocket.com/edit?url={url}'
+# c.aliases['pocket'] = 'open -t https://getpocket.com/edit?url={url}'
 
 # Download video with 720p (FIXME)
 c.aliases['dl'] = 'spawn youtube-dl {url} -o f"{DL_VIDEO_DIR}/%(title)s.%(ext)s"'
 
 # --------------------------------------------------------------------------------
 # Behaviors
+# --------------------------------------------------------------------------------
 
 # Open new tab next to the current tab
 c.tabs.new_position.unrelated = "next"
@@ -120,11 +131,12 @@ c.input.partial_timeout = 0
 config.set('zoom.default', f"{DEFAULT_ZOOM}%")
 
 # --------------------------------------------------------------------------------
-# VIEW
+# View
+# --------------------------------------------------------------------------------
 
 c.tabs.position = "right"
 
-c.tabs.width = scaled(160)
+c.tabs.width = scaled(tab_width)
 
 c.tabs.padding = {'bottom': 4, 'left': 4, 'right': 4, 'top': 4}
 
@@ -132,7 +144,8 @@ c.scrolling.bar = "always"
 # c.content.user_stylesheets = "user.css"
 
 # --------------------------------------------------------------------------------
-# KEY BINDINGS
+# Key bindings
+# --------------------------------------------------------------------------------
 
 # disable `:tab-only` keybinding
 config.unbind('co', mode = 'normal');
@@ -141,7 +154,7 @@ config.unbind('co', mode = 'normal');
 # config.bind('m', 'set-cmd-text -s :set-mark ', mode='normal')
 # config.bind('M', 'set-cmd-text -s :jump-mark ', mode='normal')
 
-# TODO: mpv
+# TODO: mpv path
 config.bind('m', 'hint links spawn "~/.nix-profile/bin/mpv" {hint-url} --ontop --no-border', mode='normal')
 
 # Quickmaarks
@@ -206,7 +219,8 @@ config.bind('d', ':scroll-page 0 0.5')
 config.bind('u', ':scroll-page 0 -0.5')
 
 # --------------------------------------------------------------------------------
-# COLOR
+# Colors
+# --------------------------------------------------------------------------------
 
 ### LOAD COLOR THEME ###
 # config.set('content.user_stylesheets', 'themes.solarized_dark.css')
@@ -223,7 +237,6 @@ config.bind('u', ':scroll-page 0 -0.5')
 #         }
 # })
 
-### COLOR ###
 c.colors.completion.fg = '#d5c4a1'
 c.colors.completion.odd.bg = '#333333'
 c.colors.completion.even.bg = '#202020'
@@ -256,8 +269,8 @@ c.colors.tabs.selected.odd.bg = '#202020'
 c.colors.tabs.selected.even.fg = '#d5c4a1'
 c.colors.tabs.selected.even.bg = '#202020'
 
-c.fonts.tabs.selected = f"{FONT_SIZE}pt fantasque sans mono"
-c.fonts.tabs.unselected = f"{FONT_SIZE}pt fantasque sans mono"
+c.fonts.tabs.selected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
+c.fonts.tabs.unselected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
 
 bg = '#051515'
 c.colors.tabs.pinned.odd.fg = '#B9770E'

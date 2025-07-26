@@ -57,7 +57,7 @@
     feh
     tree
     difftastic
-    # qutebrowser
+    qutebrowser
     firefox
     chromium
     ffmpeg

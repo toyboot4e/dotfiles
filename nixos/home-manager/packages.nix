@@ -78,7 +78,7 @@ pkgs: with pkgs; [
   # browsers
   firefox
   google-chrome
-  # qutebrowser
+  # qutebrowser # not available on macOS
 
   # text editors
   vscode

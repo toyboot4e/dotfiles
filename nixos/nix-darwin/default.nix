@@ -37,27 +37,28 @@ in
   # TODO: can we use home-manager?
   programs.fish.enable = true;
 
-  # # Homebrew itself has to be installed manually
-  # homebrew = {
-  #   enable = true;
-  #   onActivation = {
-  #     autoUpdate = true;
-  #     # WARNING: It deletes homebrew packages not installed via Nix
-  #     cleanup = "uninstall";
-  #   };
-  #   taps = [
-  #     # "d12frosted/emacs-plus"
-  #     "koekeishiya/formulae"
-  #   ];
-  #   brews = [
-  #     # "emacs-plus"
-  #     "koekeishiya/formulae/yabai"
-  #     "koekeishiya/formulae/skhd"
-  #     # "libvterm"
-  #   ];
-  #   casks = [
-  #   ];
-  # };
+  # NOTE: Homebrew itself has to be installed manually
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      # WARNING: It deletes homebrew packages not installed via Nix
+      cleanup = "uninstall";
+    };
+    taps = [
+      # "d12frosted/emacs-plus"
+      "koekeishiya/formulae"
+    ];
+    brews = [
+      # "emacs-plus"
+      "koekeishiya/formulae/yabai"
+      "koekeishiya/formulae/skhd"
+      "libvterm"
+    ];
+    casks = [
+      "qutebrowser"
+    ];
+  };
 
   users.knownUsers = [ "mac" ];
   users.users.mac.shell = pkgs.fish;

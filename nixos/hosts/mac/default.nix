@@ -18,6 +18,7 @@ in
     ++ [
       # macOS packages
 
+      intel-one-mono
       emacs-lsp-booster
     ];
 

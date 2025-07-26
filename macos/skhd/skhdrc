@@ -6,8 +6,12 @@
 # `skhd` should be run as a Homebrew service.
 # `~/.skhdrc` is automatically reloaded when it's modified
 
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+# sudo yabai --load-sa
+
 # --------------------------------------------------------------------------------
-# notes
+# Notes
+# --------------------------------------------------------------------------------
 
 # `alt` refers to option key
 
@@ -23,13 +27,11 @@
 cmd + shift - r : skhd --reload ; yabai --restart-service
 cmd + shift - f : yabai -m window --toggle zoom-fullscreen
 cmd - space     : yabai -m window --toggle float
-# cmd - return    : open -n -a 'Kitty'
-cmd - return    : open -a 'Kitty'
+# cmd - return    : open -a 'Kitty'
 
 # --------------------------------------------------------------------------------
-# launching applications
-#
-# I'm using Karabiner-Elements to map `CapsLock` to `ctrl+shift+cmd+alt`.
+# Application launcher
+# --------------------------------------------------------------------------------
 
 cmd + shift - o : open -a 'System Preferences'
 
@@ -73,7 +75,8 @@ cmd + shift - j : open -a 'QuickTime Player'
 # cmd + shift - e : open -a 'Books'
 
 # --------------------------------------------------------------------------------
-# focus
+# Focus
+# --------------------------------------------------------------------------------
 
 # window/focus
 cmd - left  : yabai -m window --focus west
@@ -105,7 +108,8 @@ cmd - 9 : yabai -m space --focus 9
 # ctrl + shift - 3  : yabai -m display --focus 3
 
 # --------------------------------------------------------------------------------
-# swap, send
+# Swap
+# --------------------------------------------------------------------------------
 
 # window/swap
 cmd + shift - left  : yabai -m window --swap west
@@ -128,7 +132,8 @@ ctrl + cmd - left  : yabai -m space --move prev
 ctrl + cmd - right : yabai -m space --move next
 
 # --------------------------------------------------------------------------------
-# send
+# Send
+# --------------------------------------------------------------------------------
 
 # space/send_window
 # cmd + shift - x : yabai -m window --space recent; yabai -m space --focus recent
@@ -160,7 +165,8 @@ cmd + shift - 9 : yabai -m window --space  9; yabai -m space --focus 9
 # ctrl + alt - l : yabai -m window --insert east
 
 # --------------------------------------------------------------------------------
-# new, destroy
+# New, destroy
+# --------------------------------------------------------------------------------
 
 # space/destroy, new, migrate
 cmd + ctrl - w : yabai -m space --destroy
@@ -173,7 +179,8 @@ ctrl + shift - n : yabai -m space --create && \
                   yabai -m space --focus "${index}"
 
 # --------------------------------------------------------------------------------
-# window actions
+# Window actions
+# --------------------------------------------------------------------------------
 
 # window/place
 # --grid <rows>:<cols>:<start-x>:<start-y>:<width>:<height>
@@ -211,7 +218,8 @@ alt + shift - a : yabai -m window --resize right:-24:0
 alt + shift - d : yabai -m window --resize right:24:0
 
 # --------------------------------------------------------------------------------
-# toggle
+# Toggle
+# --------------------------------------------------------------------------------
 
 # toggle/topmost
 alt - t : yabai -m window --toggle topmost
