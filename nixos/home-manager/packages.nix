@@ -8,6 +8,11 @@ pkgs: with pkgs; [
   kitty
   tmux
 
+  direnv
+  nix-direnv
+  zoxide
+  tealdeer
+
   # text editors
   neovim
 
@@ -18,6 +23,7 @@ pkgs: with pkgs; [
 
   git
   delta
+  diff-so-fancy
   gh
   ghq
 
@@ -36,11 +42,13 @@ pkgs: with pkgs; [
 
   # utilities
   as-tree
+  bat
   eza
   fd
   ranger
   rename
   ripgrep
+  tokei
 
   # filters
   jq

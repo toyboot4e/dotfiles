@@ -56,20 +56,7 @@
     # wezterm
     feh
     tree
-    as-tree
-    ripgrep
-    fd
-    bat
-    delta
-    diff-so-fancy
     difftastic
-    eza
-    as-tree
-    tokei
-    zoxide
-    tealdeer
-    direnv
-    nix-direnv
     # qutebrowser
     firefox
     chromium

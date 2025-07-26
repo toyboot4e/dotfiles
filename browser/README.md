@@ -6,7 +6,7 @@ qutebrowser is my choice.
 
 - [Vimium-FF](https://addons.mozilla.org/ja/firefox/addon/vimium-ff/)
 - [Tree Style Tab](https://addons.mozilla.org/ja/firefox/addon/tree-style-tab/) ([GitHub](https://github.com/piroor/treestyletab))
-- about:config, `toolkit.legacyUserProfileCustomizations.stylesheets`, `~/.mozilla/firefox/*.default/chrome`
+- about:config, `toolkit.legacyUserProfileCustomizations.stylesheets`, `~/.mozilla/firefox/*.default/chrome` or `~/Library/Application Support/Firefox/Profiles/*.default/chrome'
 
 ## Vimuium settings
 

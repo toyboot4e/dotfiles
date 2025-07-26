@@ -142,10 +142,9 @@
             {
               users.users.mac.home = "/Users/mac";
               nixpkgs.overlays = [
-                # FIXME: Emacs not working
-                # emacs-overlay.overlay
-                # emacs-lsp-booster.overlays.default
-                # emacs-fix-overlay # TODO: remove when resolved
+                emacs-overlay.overlay
+                emacs-lsp-booster.overlays.default
+                emacs-fix-overlay # TODO: remove when resolved
 
                 # FIXME: This Emacs is not working either
                 # darwin-emacs.overlays.emacs

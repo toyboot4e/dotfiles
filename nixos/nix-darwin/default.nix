@@ -53,6 +53,7 @@ in
   #     # "emacs-plus"
   #     "koekeishiya/formulae/yabai"
   #     "koekeishiya/formulae/skhd"
+  #     # "libvterm"
   #   ];
   #   casks = [
   #   ];

@@ -7,12 +7,10 @@ in
   imports = [
     # inputs.plover-flake.homeManagerModules.plover
     # (import ../../home-manager/programs/plover sources)
-    # TODO: switch
-    # (import ../../home-manager/programs/fish { inherit sources pkgs; })
-    # (import ../../home-manager/programs/emacs sources)
-  ];
 
-  # programs.plover.enable = true;
+    # (import ../../home-manager/programs/fish { inherit sources pkgs; })
+    (import ../../home-manager/programs/emacs sources)
+  ];
 
   home.packages =
     with pkgs;
@@ -20,9 +18,7 @@ in
     ++ [
       # macOS packages
 
-      # None of them is working correctly
-      # emacs-lsp-booster
-      # (emacs.override { withNativeCompilation = false; })
+      emacs-lsp-booster
     ];
 
   home.stateVersion = "25.05";
