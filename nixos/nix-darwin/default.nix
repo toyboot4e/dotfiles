@@ -30,11 +30,14 @@ in
     pkgs.fish
   ];
 
+  environment.variables.SHELL = "/bin/bash";
+
   environment.variables.EDITOR = "nvim";
 
   # set fish shell
   # https://github.com/nix-darwin/nix-darwin/issues/1237
   # TODO: can we use home-manager?
+  programs.bash.enable = true;
   programs.fish.enable = true;
 
   # NOTE: Homebrew itself has to be installed manually
@@ -56,8 +59,13 @@ in
       "libvterm"
     ];
     casks = [
+      "coteditor"
       "qutebrowser"
     ];
+    extraConfig = ''
+      brew "yabai", env: { "SHELL" => "/bin/bash" }
+      brew "skhd", env: { "SHELL" => "/bin/bash" }
+    '';
   };
 
   users.knownUsers = [ "mac" ];

@@ -24,6 +24,9 @@
 # Meta
 # --------------------------------------------------------------------------------
 
+# Make sure `SHELL` is set to `/bin/bash`
+# cmd + shift - k : echo $SHELL > /tmp/a
+
 cmd + shift - r : skhd --reload ; yabai --restart-service
 cmd + shift - f : yabai -m window --toggle zoom-fullscreen
 cmd - space     : yabai -m window --toggle float
@@ -33,7 +36,8 @@ cmd - space     : yabai -m window --toggle float
 # Application launcher
 # --------------------------------------------------------------------------------
 
-cmd + shift - o : open -a 'System Preferences'
+# Not works:
+# cmt + shift - h : echo $0 > /tmp/skhd-shell
 
 # first class applications
 cmd + shift - z : open -a 'Finder'
@@ -42,14 +46,14 @@ cmd + shift - c : open -a 'CotEditor'
 
 # agenda
 # cmd + shift - s : open -a 'Visual Studio Code'
-cmd + shift - s : open -a 'Skim'
+# cmd + shift - s : open -a 'Skim'
 cmd + shift - w : open -a 'Kindle'
 cmd + shift - n : open -a 'Numbers'
 
 # SNS
 # cmd + shift - f : open -a 'Discord'
-cmd + shift - g : open -a 'Slack'
-cmd + shift - h : open -a 'Zulip'
+# cmd + shift - g : open -a 'Slack'
+# cmd + shift - h : open -a 'Zulip'
 
 # browsers
 cmd + shift - a : open -a 'Firefox'
@@ -70,8 +74,8 @@ cmd + shift - y : open -a 'Typora'
 # content viewers
 cmd + shift - p : open -a 'Preview'
 cmd + shift - i : open -a 'Music'         # it used to be [i]Tunes
-cmd + shift - k : open -a 'mpv'
-cmd + shift - j : open -a 'QuickTime Player'
+# cmd + shift - k : open -a 'mpv'
+# cmd + shift - j : open -a 'QuickTime Player'
 # cmd + shift - e : open -a 'Books'
 
 # --------------------------------------------------------------------------------

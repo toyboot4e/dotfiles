@@ -5,8 +5,8 @@ let
 in
 {
   imports = [
-    # inputs.plover-flake.homeManagerModules.plover
-    # (import ../../home-manager/programs/plover sources)
+    inputs.plover-flake.homeManagerModules.plover
+    (import ../../home-manager/programs/plover sources)
 
     # (import ../../home-manager/programs/fish { inherit sources pkgs; })
     (import ../../home-manager/programs/emacs sources)

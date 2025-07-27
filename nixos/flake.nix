@@ -38,8 +38,8 @@
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
 
     # https://github.com/openstenoproject/plover-flake
-    # plover-flake.url = "github:openstenoproject/plover-flake";
-    plover-flake.url = "github:toyboot4e/plover-flake?ref=my-test";
+    plover-flake.url = "github:openstenoproject/plover-flake";
+    # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos-test";
     # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
   };
@@ -133,7 +133,7 @@
               nixpkgs.overlays = [
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
-                my-emacs-overlay
+                # my-emacs-overlay
                 fenix.overlays.default
               ];
             }

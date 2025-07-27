@@ -1,7 +1,7 @@
 # `configdata.yaml` contains default key mappings. As of today, it's at:
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
-is_4k = True
+is_4k = False
 correct_dpi = True
 force_dark_theme = False
 tab_width = 200
@@ -29,9 +29,9 @@ if is_4k:
     c.fonts.default_size = "12pt"
     TAB_FONT_SIZE=14
 else:
-    DEFAULT_ZOOM=scaled(85)
-    c.fonts.default_size = "24pt"
-    TAB_FONT_SIZE=24
+    DEFAULT_ZOOM=scaled(100)
+    c.fonts.default_size = "16pt"
+    TAB_FONT_SIZE=18
 
 config.load_autoconfig(False)
 

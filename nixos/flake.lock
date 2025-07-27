@@ -257,11 +257,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1751792365,
-        "narHash": "sha256-J1kI6oAj25IG4EdVlg2hQz8NZTBNYvIS0l4wpr9KcUo=",
+        "lastModified": 1753429684,
+        "narHash": "sha256-9h7+4/53cSfQ/uA3pSvCaBepmZaz/dLlLVJnbQ+SJjk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1fd8bada0b6117e6c7eb54aad5813023eed37ccb",
+        "rev": "7fd36ee82c0275fb545775cc5e4d30542899511d",
         "type": "github"
       },
       "original": {
@@ -274,11 +274,11 @@
     "plover": {
       "flake": false,
       "locked": {
-        "lastModified": 1751343944,
-        "narHash": "sha256-c6N7Oh3UREGiXyL4Ri5UjEN1XvnuxveZf6aR74rzLnM=",
+        "lastModified": 1752472660,
+        "narHash": "sha256-pdw9xnyafRJwhuOCO+UzSnoWHSZgNJsJwAYlHDsUOpQ=",
         "owner": "openstenoproject",
         "repo": "plover",
-        "rev": "65fc2b46425784944d50a38f447c6fa69fe54c83",
+        "rev": "7e52f3654fd2d02b7fd2a324a9edb33a27044bf4",
         "type": "github"
       },
       "original": {
@@ -295,19 +295,19 @@
         "plover-stroke": "plover-stroke",
         "plover2cat": "plover2cat",
         "plover_plugins_registry": "plover_plugins_registry",
+        "pyobjc": "pyobjc",
         "rtf-tokenize": "rtf-tokenize"
       },
       "locked": {
-        "lastModified": 1751980444,
-        "narHash": "sha256-mVizwhIsU/KlgnL+Mp4Lkr1dSdaI2RuUt8R+8Nhs53E=",
-        "owner": "toyboot4e",
+        "lastModified": 1753626616,
+        "narHash": "sha256-dhD2rBEb9etqRB51l+943zLAGXQPqAjjk72qSJ9RkSQ=",
+        "owner": "openstenoproject",
         "repo": "plover-flake",
-        "rev": "b0eb18616c6d3803ee2d7b451ee9a49ef94bc5f3",
+        "rev": "0fa26f2a5350172738a2607c91153388144e1a31",
         "type": "github"
       },
       "original": {
-        "owner": "toyboot4e",
-        "ref": "my-test",
+        "owner": "openstenoproject",
         "repo": "plover-flake",
         "type": "github"
       }
@@ -373,6 +373,23 @@
       "original": {
         "owner": "openstenoproject",
         "repo": "plover_plugins_registry",
+        "type": "github"
+      }
+    },
+    "pyobjc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736669867,
+        "narHash": "sha256-Kj1CH1+RYTFszao9G7P3fnsgBjTcvsq4ZpxdjHzQ520=",
+        "owner": "ronaldoussoren",
+        "repo": "pyobjc",
+        "rev": "e29d3a0c80b5bb852e4311ce10827efab9844c6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ronaldoussoren",
+        "ref": "v11.0",
+        "repo": "pyobjc",
         "type": "github"
       }
     },
