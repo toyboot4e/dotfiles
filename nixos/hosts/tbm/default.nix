@@ -48,6 +48,9 @@ in
       checksec
       # pwndbg
 
+      # Translation
+      poedit
+
       # online-judge-tools
       # my-pkgs.online-judge-verify-helper
 

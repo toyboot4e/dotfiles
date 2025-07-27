@@ -431,7 +431,12 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 (leaf evil-surround
     :after evil
     :config
-    ;; (leaf evil-textobj-entire)
+    ;; TODO:
+    ;; (leaf evil-textobj-entire
+    ;;   :config
+    ;;   (define-key evil-outer-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer)
+    ;;   (define-key evil-inner-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer))
+
     ;; FIXME: deduplicate
     ;; (setq-default evil-surround-pairs-alist
     ;;               (push '(?~ . ("==" . "==")) evil-surround-pairs-alist))
@@ -510,6 +515,7 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
        pdf
        slime
        sly
+       smerge-mode
        w3m))
 
     ;; FIXME: `evil-collection' bug?
