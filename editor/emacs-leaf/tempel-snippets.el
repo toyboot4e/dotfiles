@@ -207,6 +207,7 @@ org-mode
 (ai "#+BEGIN_AI markdown" n> "[ME]: " r> n "#+END_AI")
 (yaruo "#+BEGIN_YARUO" n> r> n "#+END_YARUO")
 (steno "#+BEGIN_STENO" n> r> n "#+END_STENO")
+(tag "#+FILETAGS: :" p ":")
 
 (caption "#+CAPTION: ")
 (drawer ":" p ":" n r ":end:")

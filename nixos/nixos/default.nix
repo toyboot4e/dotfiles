@@ -1,5 +1,3 @@
-# TODOs:
-# - [ ] Monitoring applications
 {
   config,
   pkgs,
