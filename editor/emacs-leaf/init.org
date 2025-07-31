@@ -3193,10 +3193,12 @@ FIXME
     :url "https://github.com/skeeto/elfeed"
     ;; `y`: yank URL, `b`: browse in GUI browser
     ;; `r`: mark as read, `u`: mark as unread
-    :config
-    (setopt elfeed-feeds
-            '(("https://matklad.github.io/feed.xml")
-              ("https://cp-algorithms.com/feed_rss_created.xml"))))
+    :hook (emacs-startup-hook . (lambda () (run-at-time 5 5 'elfeed-update)))
+    :custom
+    (elfeed-feeds .
+          '(("https://matklad.github.io/feed.xml" fun)
+            ("https://github.com/online-judge-tools/verification-helper/releases.atom" maintain))))
+
 #+END_SRC
 
 ** md4rd
@@ -4355,8 +4357,6 @@ TODO: merge
                              :chat-model "llama3.1:8b"
                              :embedding-model "llama3.1:8b")))))
 #+END_SRC
-
-* Yasunori
 
 * At the end
 
