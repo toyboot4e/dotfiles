@@ -1386,14 +1386,14 @@ Easy motion style jump.
 #+END_SRC
 
 #+BEGIN_SRC elisp
-(leaf vterm
-  :config
-  (defun evil-collection-vterm-escape-stay ()
-    "Go back to normal state but don't move
-    cursor backwards. Moving cursor backwards is the default vim behavior but it is
-    not appropriate in some cases like terminals."
-    (setq-local evil-move-cursor-back nil))
-  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
+;; (leaf vterm
+;;   :config
+;;   (defun evil-collection-vterm-escape-stay ()
+;;     "Go back to normal state but don't move
+;;     cursor backwards. Moving cursor backwards is the default vim behavior but it is
+;;     not appropriate in some cases like terminals."
+;;     (setq-local evil-move-cursor-back nil))
+;;   (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
 
 (leaf aidermacs
   ;; :bind (("C-c a" . aidermacs-transient-menu))
@@ -1401,7 +1401,8 @@ Easy motion style jump.
   :custom
   ((aidermacs-use-architect-mode . t)
    (aidermacs-default-model . "gpt-4.1-mini")
-   (aidermacs-backend . 'vterm)))
+   ;; (aidermacs-backend . 'vterm)
+   ))
 #+END_SRC
 
 ** CMake
