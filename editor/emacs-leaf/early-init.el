@@ -14,8 +14,7 @@
 
 (progn ;; Hide some builtin UI
   ;; GUI
-  ;; FIXME: move it to init.org?
-  (when (display-graphic-p)
+  (when initial-window-system
     (scroll-bar-mode -1)
     (tool-bar-mode -1))
 
