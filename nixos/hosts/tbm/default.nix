@@ -22,15 +22,6 @@ in
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # FIXME:
-  # https://github.com/nix-community/home-manager/issues/2064
-  systemd.user.targets.tray = {
-    Unit = {
-      Description = "Home Manager System Tray";
-      Requires = [ "graphical-session-pre.target" ];
-    };
-  };
-
   home.packages =
     with pkgs;
     common-packages
@@ -40,7 +31,6 @@ in
       appimage-run
       aider-chat
 
-      # Not on macOS
       obs-studio
       xdot
 
@@ -111,17 +101,8 @@ in
       # (openai-whisper.override { cudaSupport = true; })
       # whisper-ctranslate2
 
-      # espeak-classic
-      # arcanPackages.espeak
-      # python311Packages.pyttsx3
-
       # purescript
       # ruby
-
-      # mdbook
-      texlive.combined.scheme-full
-      # calibre
-      minify
 
       # TODO: replace `sxhkd` package with `sxhkd` service
       # sxhkd
@@ -130,17 +111,6 @@ in
       vkmark
       steamtinkerlaunch
       simplescreenrecorder
-
-      # DAW
-      # reaper
-      # bitwig-studio
-      # yabridge
-      # yabridgectl
-
-      # wineWowPackages.staging
-      # winetricks
-
-      # Web
     ];
 
   # This value determines the Home Manager release that your

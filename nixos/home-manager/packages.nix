@@ -154,6 +154,11 @@ pkgs: with pkgs; [
   # Behind the scenes
   # --------------------------------------------------------------------------------
 
+  # Tex etc.
+  texlive.combined.scheme-full
+  minify
+  # mdbook
+
   # CI
   actionlint
   act

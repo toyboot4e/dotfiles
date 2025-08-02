@@ -34,7 +34,7 @@ in
 
   environment.variables.EDITOR = "nvim";
 
-  fonts.packages = [ (pkgs.nerdfonts.override { fonts = [ "IntelOneMono" ]; }) ];
+  # fonts.packages = [ (pkgs.nerdfonts.override { fonts = [ "IntelOneMono" ]; }) ];
 
   # set fish shell
   # https://github.com/nix-darwin/nix-darwin/issues/1237

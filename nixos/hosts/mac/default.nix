@@ -16,8 +16,7 @@ in
     with pkgs;
     common-packages
     ++ [
-      # macOS packages
-
+      # macOS packages, etc.
       emacs-lsp-booster
     ];
 
