@@ -18,6 +18,7 @@ in
     ++ [
       # macOS packages, etc.
       emacs-lsp-booster
+      claude-code
     ];
 
   home.stateVersion = "25.05";

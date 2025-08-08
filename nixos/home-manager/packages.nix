@@ -54,6 +54,9 @@ pkgs: with pkgs; [
   jq
   pup
 
+  # formatters
+  nodePackages.prettier
+
   # encoding
   nkf
 
@@ -151,13 +154,20 @@ pkgs: with pkgs; [
   gtop
 
   # --------------------------------------------------------------------------------
-  # Behind the scenes
+  # Typesetting or SSG
   # --------------------------------------------------------------------------------
 
-  # Tex etc.
+  # Tex
   texlive.combined.scheme-full
   minify
   # mdbook
+
+  typst
+  tinymist
+
+  # --------------------------------------------------------------------------------
+  # Behind the scenes
+  # --------------------------------------------------------------------------------
 
   # CI
   actionlint

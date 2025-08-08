@@ -40,7 +40,7 @@ cmd - space     : yabai -m window --toggle float
 # cmt + shift - h : echo $0 > /tmp/skhd-shell
 
 # first class applications
-cmd + shift - z : open -a 'Finder'
+# cmd + shift - z : open -a 'Finder'
 cmd + shift - x : open -a 'Kitty'
 cmd + shift - c : open -a 'CotEditor'
 
