@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+host: { pkgs, ... }:
 let
   sources = pkgs.callPackage ../_sources/generated.nix { };
 in
 {
-  # networking.hostName = "mac";
+  # networking.hostName = host;
   nixpkgs.config.allowUnfree = true;
-  system.primaryUser = "mac";
+  system.primaryUser = host;
 
   nix = {
     settings = {
@@ -70,9 +70,11 @@ in
     '';
   };
 
-  users.knownUsers = [ "mac" ];
-  users.users.mac.shell = pkgs.fish;
-  users.users.mac.uid = 501;
+  users.knownUsers = [ host ];
+  users.users.${host} = {
+    shell = pkgs.fish;
+    uid = 501;
+  };
 
   # TODO: really need this?
   environment.systemPackages = with pkgs; [

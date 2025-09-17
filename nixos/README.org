@@ -17,17 +17,13 @@ Currently I'm making symlinks manually. I'm not using home-manager for this purp
 
 ** macOS
 
-*** Emacs
+*** Homebrew
 
-HELP. Not working
+Most GUI apps are installed via Homebrew (managed by nix-darwin).
 
-*** Manual install
-
+- CotEditor
 - OBS Studio
 - Karabiner-Elements
-
-*** TODO
-
-- yabai
 - skhd
+- yabai
 

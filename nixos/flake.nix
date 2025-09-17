@@ -103,21 +103,6 @@
       let
         system = "aarch64-darwin";
         pkgs = import nixpkgs { inherit system; };
-        my-emacs-overlay =
-          # bug: https://github.com/NixOS/nixpkgs/issues/395169
-          (
-            final: prev: {
-              emacs = prev.emacs.override {
-                withNativeCompilation = false;
-              };
-              emacs-unstable = prev.emacs-unstable.override {
-                withNativeCompilation = false;
-              };
-              emacs-git = prev.emacs-git.override {
-                withNativeCompilation = false;
-              };
-            }
-          );
       in
       {
         formatter.${system} = pkgs.nixfmt-tree;
@@ -133,12 +118,11 @@
               nixpkgs.overlays = [
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
-                # my-emacs-overlay
                 fenix.overlays.default
               ];
             }
 
-            ./nix-darwin
+            (import ./nix-darwin "mac")
             home-manager.darwinModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -148,6 +132,44 @@
               };
 
               home-manager.users.mac = import ./hosts/mac;
+            }
+          ];
+        };
+      }
+    ) // (
+      let
+        system = "aarch64-darwin";
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        formatter.${system} = pkgs.nixfmt-tree;
+        packages.${system}.default = inputs.fenix.packages.${system}.default.toolchain;
+        darwinConfigurations.mp = nix-darwin.lib.darwinSystem {
+          inherit system;
+          specialArgs = {
+            inherit system;
+          };
+          modules = [
+            {
+              users.users.mp.home = "/Users/mp";
+              nixpkgs.overlays = [
+                emacs-overlay.overlay
+                emacs-lsp-booster.overlays.default
+                fenix.overlays.default
+              ];
+            }
+
+            (import ./nix-darwin "mp")
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs system;
+              };
+
+              # TODO: Separate user file
+              home-manager.users.mp = import ./hosts/mac;
             }
           ];
         };
