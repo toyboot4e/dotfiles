@@ -4,11 +4,18 @@ qutebrowser is my choice.
 
 ## Firefox
 
-- [Vimium-FF](https://addons.mozilla.org/ja/firefox/addon/vimium-ff/)
-- [Tree Style Tab](https://addons.mozilla.org/ja/firefox/addon/tree-style-tab/) ([GitHub](https://github.com/piroor/treestyletab))
 - In about:config, set `toolkit.legacyUserProfileCustomizations.stylesheets`: `true`
+  Place `userChrome.css` in the proper path:
   - Linux: `~/.mozilla/firefox/*.default/chrome`
   - Mac: `~/Library/Application Support/Firefox/Profiles/*.default/chrome'`
+- [Vimium-FF](https://addons.mozilla.org/ja/firefox/addon/vimium-ff/)
+- [Tree Style Tab](https://addons.mozilla.org/ja/firefox/addon/tree-style-tab/) ([GitHub](https://github.com/piroor/treestyletab))
+  - [x] Unlock Exprt Options
+  - User Style Sheet (fill with `tree_style_tab.css`)
+  - Tree Behavior
+    See also: https://github.com/piroor/treestyletab/issues/3555
+    - [ ] When a new tree appears, collapse others automatically
+    - [ ] When a tab gets focus, expand its tree and collapse others automatically
 
 ## Vimuium settings
 
