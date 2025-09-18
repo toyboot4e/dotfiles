@@ -5,32 +5,47 @@
 help:
     @just -l
 
+[private]
+alias h := help
+
 # formats the nix files
 format:
     nix fmt .
+
+[private]
+alias fmt := format
 
 # updates channels and flakes
 update:
     sudo nix-channel --update
     nix flake update
 
+[private]
+alias u := update
+
 # updates specific flake input
 update-input name:
     nix flake update {{name}}
 
+[private]
+alias ui := update-input
+
 fetch:
     nix run github:berberman/nvfetcher
+
+[private]
+alias f := fetch
 
 # updates the whole NixOS system
 nixos:
     sudo nixos-rebuild --flake .#tbm switch
 
-# updates the whole macOS system (1)
+# updates the whole macOS system (1: mac mini)
 mac:
     sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
     just yabai
 
-# updates the whole macOS system (2)
+# updates the whole macOS system (2: macbook air)
 mp:
     sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mp switch
     just yabai
@@ -39,6 +54,9 @@ mp:
 yabai:
     yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
     sudo yabai --load-sa
+
+[private]
+alias y := yabai
 
 # remove `plover.cfg` for macOS
 rm:
