@@ -64,6 +64,7 @@ in
     casks = [
       "coteditor"
       "docker"
+      "karabiner-elements"
       "qutebrowser"
     ];
     extraConfig = ''
