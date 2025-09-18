@@ -56,12 +56,14 @@ in
     ];
     brews = [
       # "emacs-plus"
+      "ghcup"
       "koekeishiya/formulae/yabai"
       "koekeishiya/formulae/skhd"
       "libvterm"
     ];
     casks = [
       "coteditor"
+      "docker"
       "qutebrowser"
     ];
     extraConfig = ''

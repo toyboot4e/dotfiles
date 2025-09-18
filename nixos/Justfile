@@ -28,14 +28,19 @@ nixos:
 # updates the whole macOS system (1)
 mac:
     sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
-    # yabai script addition (SIP needs to be disabled)
-    yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-    sudo yabai --load-sa
+    just yabai
 
 # updates the whole macOS system (2)
 mp:
     sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mp switch
-    # yabai script addition (SIP needs to be disabled)
+    just yabai
+
+# sets up yabai with script addition (SIP needs to be disabled)
+yabai:
     yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
     sudo yabai --load-sa
+
+# remove `plover.cfg` for macOS
+rm:
+    rm ~/Library/'Application Support'/plover/plover.cfg
 

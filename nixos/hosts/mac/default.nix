@@ -9,7 +9,6 @@ in
     (import ../../home-manager/programs/plover sources)
 
     # (import ../../home-manager/programs/fish { inherit sources pkgs; })
-    (import ../../home-manager/programs/emacs sources)
   ];
 
   home.packages =
