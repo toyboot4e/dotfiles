@@ -662,15 +662,15 @@ https://github.com/meain/evil-textobj-tree-sitter/tree/master?tab=readme-ov-file
 ** vimish-fold
 
 #+BEGIN_SRC elisp
-(leaf vimish-fold
-  :after evil
-  :config
-  (leaf evil-vimish-fold
-    :custom ((evil-vimish-fold-mode-lighter . " ⮒")
-             (evil-vimish-fold-target-modes quote
-                                            (prog-mode conf-mode text-mode)))
-    :config
-    (global-evil-vimish-fold-mode)))
+;; (leaf vimish-fold
+;;   :after evil
+;;   :config
+;;   (leaf evil-vimish-fold
+;;     :custom ((evil-vimish-fold-mode-lighter . " ⮒")
+;;              (evil-vimish-fold-target-modes quote
+;;                                             (prog-mode conf-mode text-mode)))
+;;     :config
+;;     (global-evil-vimish-fold-mode)))
 #+END_SRC
 
 ** Ex Commands
@@ -3179,8 +3179,8 @@ FIXME
 (leaf org-ai
   :hook (org-mode-hook . org-ai-mode)
   ;; :custom (org-ai-default-chat-model . "gpt-4o-mini")
-  ;; :custom (org-ai-default-chat-model . "gpt-4o")
-  :custom (org-ai-default-chat-model . "gpt-4.1")
+  :custom (org-ai-default-chat-model . "gpt-4o")
+  ;; :custom (org-ai-default-chat-model . "gpt-5")
   :init
   (org-ai-global-mode))
 #+END_SRC
