@@ -22,7 +22,7 @@
           name = "tangle-command";
           runtimeInputs = [ pkgs.emacs ];
           text = ''
-            emacs -Q --batch --eval "(require 'ob-tangle) (org-babel-tangle-file 'init.org')"
+            emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'
           '';
         };
       in
