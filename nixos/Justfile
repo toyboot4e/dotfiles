@@ -36,8 +36,8 @@ fetch:
 [private]
 alias f := fetch
 
-# updates the whole NixOS system
-nixos:
+# updates the whole NixOS system (tbm)
+tbm:
     sudo nixos-rebuild --flake .#tbm switch
 
 # updates the whole macOS system (1: mac mini)

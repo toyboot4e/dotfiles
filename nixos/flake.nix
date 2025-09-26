@@ -135,15 +135,7 @@
             }
           ];
         };
-      }
-    ) // (
-      let
-        system = "aarch64-darwin";
-        pkgs = import nixpkgs { inherit system; };
-      in
-      {
-        formatter.${system} = pkgs.nixfmt-tree;
-        packages.${system}.default = inputs.fenix.packages.${system}.default.toolchain;
+
         darwinConfigurations.mp = nix-darwin.lib.darwinSystem {
           inherit system;
           specialArgs = {
