@@ -35,7 +35,7 @@
 
 * dotfiles
 
-This is Nix-based configuration files.
+This is a set of Nix-based configuration files for NixOS and macOS.
 
 ** Colors
 
