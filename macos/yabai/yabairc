@@ -41,14 +41,9 @@ yabai -m config window_opacity               off
 # yabai -m config normal_window_opacity        0.8
 
 
-
-# use spacebar to show status bar
-# (spaecbar: https://github.com/somdoron/spacebar)
-# yabai -m config top_padding                  26
-
-# use simple-bar
-# yabai -m config top_padding                  28
-yabai -m config top_padding                  0
+# top padding for custom bar application (simplebar or sketchybar)
+yabai -m config top_padding                  28
+# yabai -m config top_padding                  0
 
 echo "yabai configuration loaded.."
 

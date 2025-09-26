@@ -1,4 +1,5 @@
-host: { pkgs, ... }:
+host:
+{ pkgs, ... }:
 let
   sources = pkgs.callPackage ../_sources/generated.nix { };
 in
@@ -34,7 +35,13 @@ in
 
   environment.variables.EDITOR = "nvim";
 
-  # fonts.packages = [ (pkgs.nerdfonts.override { fonts = [ "IntelOneMono" ]; }) ];
+  fonts.packages = [
+    pkgs.intel-one-mono
+
+    # Because Kitty has builtin Nerd Font, we should use vanilla fonts:
+    # https://sw.kovidgoyal.net/kitty/faq/#kitty-is-not-able-to-use-my-favorite-font
+    # pkgs.nerd-fonts.intone-mono
+  ];
 
   # set fish shell
   # https://github.com/nix-darwin/nix-darwin/issues/1237
@@ -52,10 +59,13 @@ in
     };
     taps = [
       # "d12frosted/emacs-plus"
-      "koekeishiya/formulae"
+      "FelixKratz/formulae" # sketchy bar
+      "koekeishiya/formulae" # yabai
     ];
     brews = [
       # "emacs-plus"
+      "FelixKratz/formulae/sketchybar"
+      "fontconfig"
       "ghcup"
       "koekeishiya/formulae/yabai"
       "koekeishiya/formulae/skhd"
@@ -64,6 +74,7 @@ in
     casks = [
       "coteditor"
       "docker"
+      "font-hack-nerd-font" # the default font of sketchy bar
       "karabiner-elements"
       "qutebrowser"
     ];
