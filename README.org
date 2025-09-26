@@ -35,7 +35,7 @@
 
 * dotfiles
 
-This is a Nix-based configuration files.
+This is Nix-based configuration files.
 
 ** Colors
 
@@ -44,6 +44,8 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 [[./readme/nixos.png]]
 
 ** List
+
+These are the tools frequently used:
 
 | Terminal | [[kitty][kitty]] with [[tmux][tmux]]                       |
 | Font     | Intel One Mono ([[nerd][nerd]])                 |
