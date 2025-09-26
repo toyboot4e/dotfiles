@@ -44,9 +44,16 @@ end
 # `home-manager` session variables
 # <https://rycee.gitlab.io/home-manager/index.html#_why_are_the_session_variables_not_set>
 
+# nix profile
 if test -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" > /dev/null
 end
+
+# nix flakes. This should be in /etc/fish/conf.d/nix.fish though
+if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
+end
+# End Nix
 
 # volta
 set -gx VOLTA_HOME "$HOME/.volta"
