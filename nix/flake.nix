@@ -5,8 +5,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixpkgs-stable";
+
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # my fork for local tests
     my-nixpkgs.url = "github:toyboot4e/nixpkgs?ref=online-judge-verify-helper";
 
@@ -20,18 +22,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
-    };
-
-    # It also fails to install though:
-    # https://github.com/nix-giant/nix-darwin-emacs
-    darwin-emacs = {
-      url = "github:nix-giant/nix-darwin-emacs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    darwin-emacs-packages = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # https://github.com/slotThe/emacs-lsp-booster-flake
@@ -53,8 +43,6 @@
       fenix,
       emacs-overlay,
       emacs-lsp-booster,
-      darwin-emacs,
-      darwin-emacs-packages,
       plover-flake,
       ...
     }:
@@ -107,6 +95,7 @@
       {
         formatter.${system} = pkgs.nixfmt-tree;
         packages.${system}.default = inputs.fenix.packages.${system}.default.toolchain;
+
         darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
           inherit system;
           specialArgs = {
@@ -160,7 +149,6 @@
                 inherit inputs system;
               };
 
-              # TODO: Separate user file
               home-manager.users.mp = import ./hosts/mac;
             }
           ];

@@ -49,12 +49,6 @@ if test -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" > /dev/null
 end
 
-# nix flakes. This should be in /etc/fish/conf.d/nix.fish though
-if test -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
-    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish'
-end
-# End Nix
-
 # volta
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
