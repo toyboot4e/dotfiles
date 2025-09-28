@@ -7,7 +7,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # https://felixkratz.github.io/SketchyBar/config/bar
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=28 blur_radius=30 color=0x40000000
+sketchybar --bar position=top height=34 blur_radius=30 color=0x40000000
 
 # Items
 # https://felixkratz.github.io/SketchyBar/config/items
