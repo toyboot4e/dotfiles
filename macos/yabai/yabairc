@@ -42,8 +42,8 @@ yabai -m config window_opacity               off
 
 
 # top padding for custom bar application (simplebar or sketchybar)
-# yabai -m config top_padding                  28
-yabai -m config top_padding                  0
+# yabai -m config top_padding                  0
+yabai -m config top_padding                  34
 
 echo "yabai configuration loaded.."
 

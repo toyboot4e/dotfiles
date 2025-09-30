@@ -66,5 +66,10 @@ sketchybar --add item clock right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
 
+# Show sketchybar in every display
+for display in $(sketchybar --query displays); do
+  sketchybar --bar on --display $display
+done
+
 # Force all scripts to run the first time (never do this in a script)
 sketchybar --update
