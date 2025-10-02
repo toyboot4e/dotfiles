@@ -265,10 +265,8 @@ TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
 (when (display-graphic-p)
-  (set-face-attribute 'default nil :family "intelone-mono" :height 135)
-  ;; (set-face-attribute 'default nil :family "roboto-mono")
-  ;; (set-face-attribute 'default nil :family "Noto Sans Mono")
-
+  (set-frame-font "-*-Intel One Mono-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+  (set-face-attribute 'default nil :family "Intel One Mono" :height 135)
   ;; TODO: setup monospaced font
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
@@ -2025,6 +2023,15 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
            :forceInspect nil))))
 #+END_SRC
 
+** Html
+
+#+BEGIN_SRC elisp
+(leaf web-mode
+  ;; TODO: web-strict-mode?
+  ;; TODO: use for JS?
+  :mode ((("\\.html?\\'") . web-mode)))
+#+END_SRC
+
 ** Idris
 
 #+BEGIN_SRC elisp
@@ -2363,6 +2370,47 @@ Toolings (TODO: move):
                      :open     #'tab-bar-select-tab-by-name
                      :items    #'(lambda () (mapcar #'(lambda (tab) (cdr (assq 'name tab))) (tab-bar-tabs))))
                'append))
+#+END_SRC
+
+** consult-font
+
+https://github.com/minad/consult/pull/1248
+
+#+BEGIN_SRC elisp
+(with-eval-after-load 'consult
+  (defcustom consult-fonts nil
+    "List of fonts (symbols or regexps) to be presented for selection.
+nil shows all available fonts."
+    :type '(repeat (choice symbol regexp)))
+
+  (defun consult-font (font)
+    "Set the default frame font to FONT from available fonts.
+
+The command supports previewing the currently selected font."
+    (interactive
+     (list
+      (let* ((regexp (consult--regexp-filter
+                      (mapcar (lambda (x) (if (stringp x) x (format "\\`%s\\'" x)))
+                              consult-fonts)))
+             (avail-fonts (seq-filter
+                           (lambda (x) (string-match-p regexp x))
+                           (x-list-fonts "*")))
+             (current-font (frame-parameter nil 'font)))
+        (consult--read
+         avail-fonts
+         :prompt "Font: "
+         :require-match t
+         :category 'font
+         :history 'consult--font-history
+         :lookup (lambda (selected &rest _)
+                   (or selected current-font))
+         :state (lambda (action font)
+                  (pcase action
+                    ('preview (when font (set-frame-font font)))
+                    ('return (when font (set-frame-font font)))))
+         :default current-font))))
+    (when font
+      (set-frame-font font))))
 #+END_SRC
 
 ** consult-gh
