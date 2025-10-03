@@ -70,6 +70,8 @@ in
       "koekeishiya/formulae/yabai"
       "koekeishiya/formulae/skhd"
       "libvterm"
+      # TODO: limit to mp (separate and merge later)
+      "ios-deploy"
     ];
     casks = [
       "coteditor"

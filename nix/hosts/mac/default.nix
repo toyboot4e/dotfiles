@@ -19,6 +19,10 @@ in
       # macOS packages, etc.
       emacs-lsp-booster
       claude-code
+
+      # TODO: limit to mp (separate and merge later)
+      android-tools
+      android-studio
     ];
 
   home.stateVersion = "25.05";

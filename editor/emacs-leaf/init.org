@@ -722,8 +722,7 @@ Abbreviations (=:ed= and =:so=)
   (interactive)
   (cond ((= 1 (length (funcall tab-bar-tabs-function))) (evil-quit-all))
         ;; last window, not last tab
-        (t (tab-bar-close-tab))
-        ))
+        (t (tab-bar-close-tab))))
 
 ;; [Evil] do not quit Emacs if we have remaning tab[s]
 ;; NOTE: this is not perfect, e.g., when we press `C-w q`
