@@ -79,6 +79,10 @@ in
       "font-hack-nerd-font" # the default font of sketchy bar
       "karabiner-elements"
       "qutebrowser"
+      # TODO: limit to mp (separate and merge later)
+      "android-commandlinetools"
+      "android-platform-tools"
+      "android-studio"
     ];
     extraConfig = ''
       brew "yabai", env: { "SHELL" => "/bin/bash" }
