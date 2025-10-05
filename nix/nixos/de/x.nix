@@ -48,38 +48,9 @@ lib.mkIf useX {
     };
 
     # Keyboard
-    # TODO: consier using `extraLayouts` instead?
     # https://nixos.wiki/wiki/Keyboard_Layout_Customization
-    # xkbModel = "ja106";
-    # xkbOptions = "ctrl:nocaps";
-    xkb = {
-      # setxkbmap -query
-      # setxkbmap jp
-      layout = "jp";
-      model = "ja106";
-      options = "ctrl:nocaps";
-    };
-
-    # Monitors
-    # FIXME: not wokring. consider instead using displayManager.setupCommands or i3 commands
-    xrandrHeads = [
-      {
-        output = "HDMI-0";
-        # TODO: add `DisplaySize` for corret DPI
-        monitorConfig = ''
-          Option "PreferredMode" "1920x1080"
-          Option "Rotate" "left"
-        '';
-      }
-
-      {
-        output = "DP-1";
-        primary = true;
-        monitorConfig = ''
-          Option "RightOf" "HDMI-0"
-          Option "PreferredMode" "5120x2880"
-        '';
-      }
-    ];
+    xkb.layout = "jp";
+    xkbModel = "ja106";
+    xkbOptions = "ctrl:nocaps";
   };
 }

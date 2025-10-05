@@ -111,6 +111,11 @@ in
       vkmark
       steamtinkerlaunch
       simplescreenrecorder
+
+      # password manager
+      bitwarden-desktop
+      bitwarden-cli
+      bitwarden-menu
     ];
 
   # This value determines the Home Manager release that your
