@@ -1,4 +1,4 @@
-sources:
+{ home, sources }:
 {
   pkgs,
   inputs,
@@ -11,8 +11,15 @@ let
   #   inherit plover-flake pkgs sources;
   #   plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
   # };
+  plover-dir =
+    if pkgs.stdenvNoCC.isLinux then
+      ".config/plover"
+    else
+      "Library/Application Support/plover";
 in
 {
+  home.file."${plover-dir}/user.json".text = "{}";
+
   programs.plover = {
     enable = true;
     package = plover-flake.packages.${pkgs.system}.plover-full;

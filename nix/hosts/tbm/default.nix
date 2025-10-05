@@ -1,5 +1,10 @@
 # `home-manager` configuraiton
-{ pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix;
   common-packages = import ../../home-manager/packages.nix pkgs;
@@ -7,7 +12,10 @@ in
 {
   imports = [
     inputs.plover-flake.homeManagerModules.plover
-    (import ../../home-manager/programs/plover sources)
+    (import ../../home-manager/programs/plover {
+      home = config.home;
+      inherit sources;
+    })
     (import ../../home-manager/programs/emacs sources)
     ./desktop.nix
     ./de/x.nix
