@@ -82,7 +82,8 @@ pkgs: with pkgs; [
 
   # browsers
   firefox
-  google-chrome
+  # google-chrome
+  # chromedriver
   # qutebrowser # not available on macOS
 
   # text editors
@@ -145,9 +146,14 @@ pkgs: with pkgs; [
 
   # Python
   python3
+  virtualenv
   # FIXME: use pylsp installed with uv locally
   python3Packages.python-lsp-server
   uv
+  ansible
+
+  # YAML
+  yamlfmt
 
   # monitoring
   ncdu

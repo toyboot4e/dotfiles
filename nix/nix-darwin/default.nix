@@ -63,6 +63,7 @@ in
       "koekeishiya/formulae" # yabai
     ];
     brews = [
+      "awscli"
       # "emacs-plus"
       "FelixKratz/formulae/sketchybar"
       "fontconfig"
@@ -71,7 +72,10 @@ in
       "koekeishiya/formulae/skhd"
       "libvterm"
       # TODO: limit to mp (separate and merge later)
+      "anyenv"
       "ios-deploy"
+      "libmagic"
+      "redis"
     ];
     casks = [
       "coteditor"
@@ -83,6 +87,8 @@ in
       "android-commandlinetools"
       "android-platform-tools"
       "android-studio"
+      "google-chrome"
+      "chromedriver"
     ];
     extraConfig = ''
       brew "yabai", env: { "SHELL" => "/bin/bash" }
