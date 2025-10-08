@@ -72,8 +72,8 @@ cmd + shift - y : open -a 'Typora'
 # cmd + shift - m : open -a 'Mail'
 
 # content viewers
-cmd + shift - p : open -a 'Preview'
-cmd + shift - i : open -a 'Music'         # it used to be [i]Tunes
+# cmd + shift - p : open -a 'Preview'
+# cmd + shift - i : open -a 'Music'         # it used to be [i]Tunes
 # cmd + shift - k : open -a 'mpv'
 # cmd + shift - j : open -a 'QuickTime Player'
 # cmd + shift - e : open -a 'Books'
