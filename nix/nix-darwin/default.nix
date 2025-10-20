@@ -32,7 +32,6 @@ in
   ];
 
   environment.variables.SHELL = "/bin/bash";
-
   environment.variables.EDITOR = "nvim";
 
   fonts.packages = [
@@ -71,22 +70,28 @@ in
       "koekeishiya/formulae/yabai"
       "koekeishiya/formulae/skhd"
       "libvterm"
-      # TODO: limit to mp (separate and merge later)
+      # TODO: limit to mp, on write it in flake.nix
       "anyenv"
       "ios-deploy"
       "libmagic"
       "redis"
+      "grpc"
     ];
     casks = [
       "coteditor"
-      "docker"
+      "docker-desktop"
       "font-hack-nerd-font" # the default font of sketchy bar
+      "gimp"
       "karabiner-elements"
+      "session-manager-plugin"
+      "tableplus"
       "qutebrowser"
       # TODO: limit to mp (separate and merge later)
-      "android-commandlinetools"
-      "android-platform-tools"
+      # "android-commandlinetools"
+      # "android-platform-tools"
       "android-studio"
+      # androidStudioPackages.canary
+      # androidenv.androidPkgs.all.packages.cmdline-tools.v9_0
       "google-chrome"
       "chromedriver"
     ];
@@ -149,6 +154,16 @@ in
         orientation = "bottom";
       };
     };
+  };
+
+  environment.variables = {
+    TERMINAL = "kitty";
+
+    XDG_CACHE_HOME = "\${HOME}/.cache";
+    XDG_CONFIG_HOME = "\${HOME}/.config";
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    XDG_DATA_HOME = "\${HOME}/.local/share";
+    XDG_MUSIC_DIR = "/d/music/bandcamp";
   };
 
   system.stateVersion = 6;

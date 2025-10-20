@@ -14,7 +14,7 @@
         pkgs = import nixpkgs { inherit system; };
         tangleCommand = pkgs.writeShellApplication {
           name = "run-tangle";
-          runtimeInputs = with pkgs; [emacs];
+          runtimeInputs = with pkgs; [ emacs ];
           text = ''
             ./tangle;
           '';

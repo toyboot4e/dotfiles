@@ -1752,6 +1752,15 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   :hook toy/init-adoc-mode)
 #+END_SRC
 
+** CSV
+
+#+BEGIN_SRC elisp
+(leaf csv-mode
+  :config
+  ;; (csv-align-mode)
+  )
+#+END_SRC
+
 ** Dhall
 
 #+BEGIN_SRC elisp
@@ -2274,7 +2283,7 @@ Toolings (TODO: move):
   )
 #+END_SRC
 
-** Type Script
+** TypeScript
 
 #+BEGIN_SRC elisp
 (leaf typescript-mode

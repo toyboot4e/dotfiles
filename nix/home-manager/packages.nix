@@ -8,8 +8,12 @@ pkgs: with pkgs; [
   kitty
   tmux
 
+  # dev env
   direnv
   nix-direnv
+  mise
+
+  # commands
   zoxide
   tealdeer
 
@@ -52,6 +56,7 @@ pkgs: with pkgs; [
 
   # filters
   jq
+  yq-go
   pup
 
   # formatters
