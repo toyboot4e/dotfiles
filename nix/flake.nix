@@ -32,6 +32,8 @@
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos-test";
     # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
+
+    edgepkgs.url = "github:natsukium/edgepkgs";
   };
 
   outputs =
@@ -44,6 +46,7 @@
       emacs-overlay,
       emacs-lsp-booster,
       plover-flake,
+      edgepkgs,
       ...
     }:
     let
@@ -69,6 +72,7 @@
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
                 fenix.overlays.default
+                edgepkgs.overlays.default
               ];
             }
             ./nixos
@@ -137,6 +141,7 @@
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
                 fenix.overlays.default
+                edgepkgs.overlays.default
               ];
             }
 

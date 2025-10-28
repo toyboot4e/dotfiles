@@ -56,11 +56,13 @@ in
       # WARNING: It deletes homebrew packages not installed via Nix
       cleanup = "uninstall";
     };
+
     taps = [
       # "d12frosted/emacs-plus"
       "FelixKratz/formulae" # sketchy bar
       "koekeishiya/formulae" # yabai
     ];
+
     brews = [
       "awscli"
       # "emacs-plus"
@@ -77,6 +79,7 @@ in
       "redis"
       "grpc"
     ];
+
     casks = [
       "coteditor"
       "docker-desktop"
@@ -95,6 +98,7 @@ in
       "google-chrome"
       "chromedriver"
     ];
+
     extraConfig = ''
       brew "yabai", env: { "SHELL" => "/bin/bash" }
       brew "skhd", env: { "SHELL" => "/bin/bash" }

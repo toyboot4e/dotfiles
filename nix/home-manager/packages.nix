@@ -155,7 +155,8 @@ pkgs: with pkgs; [
   # FIXME: use pylsp installed with uv locally
   python3Packages.python-lsp-server
   uv
-  ansible
+  # FIXME: ansible broke build on mp(I forgot where)
+  # ansible
 
   # YAML
   yamlfmt
@@ -183,6 +184,7 @@ pkgs: with pkgs; [
   # CI
   actionlint
   act
+  circleci-cli
 
   # documentation
   ditaa

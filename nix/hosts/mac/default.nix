@@ -18,7 +18,9 @@ in
     ++ [
       # macOS packages, etc.
       emacs-lsp-booster
-      claude-code
+      # claude-code
+      edge.claude-code
+      codex
     ];
 
   home.stateVersion = "25.05";
