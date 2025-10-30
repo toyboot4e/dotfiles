@@ -15,6 +15,7 @@
 #+LINK: yabai https://github.com/koekeishiya/yabai
 #+LINK: karabiner https://karabiner-elements.pqrs.org/
 #+LINK: simple-bar https://github.com/Jean-Tinland/simple-bar
+#+LINK: sketchy-bar https://github.com/FelixKratz/SketchyBar
 #+LINK: uber https://github.com/felixhageloh/uebersicht
 #+LINK: spacebar https://github.com/somdoron/spacebar
 
@@ -47,13 +48,13 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 These are the tools frequently used:
 
-| Terminal | [[kitty][kitty]] with [[tmux][tmux]]                       |
-| Font     | Intel One Mono ([[nerd][nerd]])                 |
-| Editors  | [[evil][Evil]] Emacs and Neovim                 |
-| Shells   | bash and [[fish][fish]]                         |
-| Browsers | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
-| macOS    | [[yabai][yabai]], [[skhd][skhd]], [[simple-bar][simple-bar]] and [[karabiner][karabiner]] |
-| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]] and [[https://github.com/ranger/ranger][ranger]]         |
+| Terminal | [[kitty][kitty]] with [[tmux][tmux]]                                        |
+| Font     | Intel One Mono ([[nerd][nerd]])                                  |
+| Editors  | [[evil][Evil]] Emacs and Neovim                                  |
+| Shells   | bash and [[fish][fish]]                                          |
+| Browsers | [[qb][qutebrowser]], firefox and [[w3m][w3m]]                           |
+| macOS    | [[yabai][yabai]], [[skhd][skhd]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
+| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]] and [[https://github.com/ranger/ranger][ranger]]                          |
 
 [[ghq][ghq]], [[gh][gh]], [[rg][rg]], [[hgrep][hgrep]], [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[delta][delta]], GNU sed, GNU xargs and GNU =rename=.
 
