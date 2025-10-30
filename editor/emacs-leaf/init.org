@@ -1073,13 +1073,11 @@ Easy motion style jump.
 ** Blamer
 
 #+BEGIN_SRC elisp
-;; (leaf blamer
-;;     :ensure nil
-;;     :straight (blamer :type git :host github :repo "Artawower/blamer.el")
-;;     :custom ((blamer-idle-time . 0.3)
-;;              (blamer-min-offset . 70))
-;;     :custom-face (blamer-face \`
-;;                               ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
+(leaf blamer
+  :custom ((blamer-idle-time . 0.3)
+           (blamer-min-offset . 70))
+  :custom-face (blamer-face \`
+                            ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
 #+END_SRC
 
 ** Centaur-tabs
@@ -4244,7 +4242,7 @@ TODO: merge
   " gb" #'consult-line
   ;; in all buffer
   ;; " gB" #'
-  " gr" (lambda () (interactive) (consult-grep "." " . "))
+  " gr" (lambda () (interactive) (consult-ripgrep "." " . "))
   " gR" #'toy/proj-grep)
 
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)

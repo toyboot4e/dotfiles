@@ -16,10 +16,10 @@
     autostash = true # auto pop stash after rebasing
 
 [filter "lfs"]
-   required = true
-   clean = git-lfs clean -- %f
-   smudge = git-lfs smudge --skip -- %f
-   process = git-lfs filter-process --skip
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
 
 [user]
     name = toyboot4e
@@ -114,7 +114,7 @@
     show = delta
 
 [interactive]
-   diffFilter = delta --color-only
+    diffFilter = delta --color-only
 
 [diff]
     algorithm = histogram
@@ -142,8 +142,8 @@
 #     root=/d/ghq
 
 [merge]
-	conflictStyle = diff3
+    conflictStyle = diff3
 
 [url "git@gist.github.com:"]
-     pushinsteadOf = https://gist.github.com/toyboot4e/
+    pushinsteadOf = https://gist.github.com/toyboot4e/
 
