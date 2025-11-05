@@ -42,7 +42,7 @@ cmd - space     : yabai -m window --toggle float
 # first class applications
 # cmd + shift - z : open -a 'Finder'
 cmd + shift - x : open -a 'Kitty'
-cmd + shift - c : open -a 'CotEditor'
+# cmd + shift - c : open -a 'CotEditor'
 
 # agenda
 # cmd + shift - s : open -a 'Visual Studio Code'

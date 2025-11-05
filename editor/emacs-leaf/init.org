@@ -1846,6 +1846,12 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 (leaf flycheck-yamllint)
 #+END_SRC
 
+** YAML (Ansible)
+
+#+BEGIN_SRC elisp
+(leaf ansible)
+#+END_SRC
+
 * Spell checker
 
 ** Jinx
