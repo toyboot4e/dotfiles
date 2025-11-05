@@ -4,6 +4,10 @@
 #+LINK: evil https://github.com/emacs-evil/evil
 #+LINK: leaf https://github.com/conao3/leaf.el
 
+- TODO: use the modern keymap-set
+  https://pxaka.tokyo/blog/2025/0222-replace-define-key-with-keymap-set/
+- TODO: use the modern advice
+
 * Introduction
 
 This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
@@ -1429,6 +1433,11 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
 	 (setf docker-command "podman"
            docker-compose-command "podman-compose"
            docker-container-tramp-method "podman"))))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf dockerfile-mode)
+(leaf docker-compose-mode)
 #+END_SRC
 
 ** Editor config
@@ -4254,6 +4263,15 @@ TODO: merge
 (define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
 (define-key minibuffer-local-map (kbd "\C-r") #'evil-paste-from-register)
+
+;; NOTE; alt + backspace is enough for macOS. Same for other OSes? If not, let's set it up.
+;; (defun my-minibuffer-up-directory ()
+;;   "Go up one directory in the minibuffer prompt."
+;;   (interactive)
+;;   (let ((current-input (minibuffer-contents)))
+;;     (delete-region (minibuffer-prompt-end) (point-max))
+;;     (insert (expand-file-name ".." (file-name-directory current-input)))))
+;; (define-key minibuffer-local-map (kbd "C-l") 'my-minibuffer-up-directory)
 
 (with-eval-after-load 'vertico
   ;; TODO: recenter-top-bottom for vertico buffer
