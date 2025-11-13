@@ -2075,6 +2075,12 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 
 ** JavaScript
 
+#+BEGIN_SRC elisp
+(leaf javascript-mode
+  :ensure nil
+  :custom (js-indent-level . 2))
+#+END_SRC
+
 ** Koka
 
 #+BEGIN_SRC elisp
