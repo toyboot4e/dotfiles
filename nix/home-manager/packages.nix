@@ -181,6 +181,7 @@ pkgs: with pkgs; [
   # Image processing
   # --------------------------------------------------------------------------------
 
+  ffmpeg
   imagemagick
   ghostscript
 
