@@ -4270,14 +4270,9 @@ TODO: merge
 (define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
 (define-key minibuffer-local-map (kbd "\C-r") #'evil-paste-from-register)
 
-;; NOTE; alt + backspace is enough for macOS. Same for other OSes? If not, let's set it up.
-;; (defun my-minibuffer-up-directory ()
-;;   "Go up one directory in the minibuffer prompt."
-;;   (interactive)
-;;   (let ((current-input (minibuffer-contents)))
-;;     (delete-region (minibuffer-prompt-end) (point-max))
-;;     (insert (expand-file-name ".." (file-name-directory current-input)))))
-;; (define-key minibuffer-local-map (kbd "C-l") 'my-minibuffer-up-directory)
+;; NOTE: The default key bindings for going up directory are `M-backspace' and `C-backspace', and
+;; they don't work well. `M-backspace' is delete on macOS and `C-backspace' is interpreted as `C-h'
+(define-key minibuffer-local-map (kbd "\C-w") #'backward-kill-word)
 
 (with-eval-after-load 'vertico
   ;; TODO: recenter-top-bottom for vertico buffer
