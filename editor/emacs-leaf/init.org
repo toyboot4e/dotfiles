@@ -2985,6 +2985,65 @@ FIXME
         (when pub-dir (cd default-dir))))))
 #+END_SRC
 
+** ox-qmd
+
+Qiita Markdown support.
+
+#+BEGIN_SRC elisp
+(leaf ox-qmd
+  :commands (org-qiita-export-buffer-to-book)
+  :config
+  (defun qmd2-template-tags ()
+    (let ((tags (or (mapcar #'substring-no-properties (org-get-tags))
+                    "")))
+      (string-join
+       (mapcar (lambda (s) (format "\"%s\"" s)) tags)
+       ",")))
+
+  ;; Markdown file template for `@qiita/qiita-cli'
+  (defun qmd2-template (contents info)
+    (let* ((title (or (substring-no-properties (car (plist-get info :title))) ""))
+           (tags (qmd2-template-tags)))
+      (concat
+       "---\n"
+       "title: \"" title "\"\n"
+       "tags: [" tags "]\n"
+       "private: false\n"
+       "updated_at: \"\"\n"
+       "id: null\n"
+       "organization_url_name: null\n"
+       "slide: false\n"
+       "---\n\n"
+       contents)))
+
+  (org-export-define-derived-backend 'qmd2 'qmd
+    :options-alist
+    '((:title "TITLE" nil nil t)
+      (:tags "TAGS" nil nil space))
+    :translate-alist '((template . qmd2-template)))
+
+  (defun org-qmd2-export-to-markdown (&optional async subtreep visible-only)
+    (interactive)
+    (let ((outfile (org-export-output-file-name ".md" subtreep)))
+      (org-export-to-file 'qmd2 outfile async subtreep visible-only)))
+
+  (defun org-qiita-export-buffer-to-book (&optional org-dir)
+    "Runs subtree export to each level 1 heading, respecting `#+BOOK_DIR'."
+    (interactive)
+    (require 'ox-qmd)
+    (let* ((default-dir default-directory)
+           (pub-dir (car (cdr (car (org-collect-keywords '("BOOK_DIR")))))))
+      (cd pub-dir)
+      (unwind-protect
+          (org-map-entries
+           (lambda ()
+             (let ((exports (org-entry-get nil "EXPORT_FILE_NAME")))
+               (when exports
+                 (org-qmd2-export-to-markdown nil t))))
+           "LEVEL=1")
+        (cd default-dir)))))
+#+END_SRC
+
 ** org-nix-shell
 
 #+BEGIN_SRC elisp
@@ -3212,7 +3271,8 @@ FIXME
   ;; " os" #'org-roam-db-sync
   ;; " ota" #'org-roam-tag-add
   ;; " otm" #'org-roam-tag-remove
-  " oz" #'org-zenn-export-buffer-to-book)
+  " oz" #'org-zenn-export-buffer-to-book
+  " oq" #'org-qiita-export-buffer-to-book)
 #+END_SRC
 
 ** org-re-reveal
