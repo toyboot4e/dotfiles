@@ -23,11 +23,12 @@
 
     # Font packages TODO: Add more fonts
     packages = with pkgs; [
+      intel-one-mono
       nerd-fonts.intone-mono
       # nerd-fonts.sauce-code-pro
       noto-fonts
       noto-fonts-cjk-sans
-      # font-awesome
+      font-awesome
       # vistafonts roboto-mono
       # intel-one-mono
       # monoid pango
@@ -36,22 +37,19 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        # TODO: use SourceCodePro?
         serif = [ "noto-fonts-cjk-sans" ];
         sansSerif = [ "noto-fonts-cjk-sans" ];
-        # "IntoneMono Nerd Font"
         monospace = [
           "intel-one-mono"
-          "noto-sans-font-cjk"
+          "noto-fonts-sans-mono"
         ];
       };
 
-      # FIXME: seems to be not wokring
       antialias = true;
       hinting = {
         enable = true;
-        style = "full"; # no difference?
-        autohint = true; # no difference?
+        style = "full";
+        autohint = true;
       };
     };
   };

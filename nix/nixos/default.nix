@@ -28,7 +28,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vimHugeX
+    vim-full
     xclip
     wget
     curl

@@ -101,7 +101,6 @@
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
-      ovmf.enable = true;
     };
     # https://www.reddit.com/r/NixOS/comments/190qrpt/is_there_a_declarative_way_to_run_sudo_virsh/
     # $ sudo dirsh net-start default
