@@ -132,21 +132,21 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 TODO: Switch to elpaca
 
 #+BEGIN_SRC elisp
-;; (setopt straight-vc-git-default-protocol 'ssh)
+(setopt straight-vc-git-default-protocol 'ssh)
 
-;; (progn ;; `straight.el'
-;;     (defvar bootstrap-version)
-;;     (let ((bootstrap-file
-;;            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;;           (bootstrap-version 5))
-;;         (unless (file-exists-p bootstrap-file)
-;;             (with-current-buffer
-;;                     (url-retrieve-synchronously
-;;                      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;;                      'silent 'inhibit-cookies)
-;;                 (goto-char (point-max))
-;;                 (eval-print-last-sexp)))
-;;         (load bootstrap-file nil 'nomessage)))
+(progn ;; `straight.el'
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+        (load bootstrap-file nil 'nomessage)))
 #+END_SRC
 
 ** leaf
@@ -2998,6 +2998,7 @@ Qiita Markdown support.
 #+BEGIN_SRC elisp
 (leaf ox-qmd
   :commands (org-qiita-export-buffer-to-book)
+  :straight (ox-qmd :type git :host github :repo "toyboot4e/ox-qmd")
   :config
   (defun qmd2-template-tags ()
     (let ((tags (or (mapcar #'substring-no-properties (org-get-tags))
@@ -3026,7 +3027,8 @@ Qiita Markdown support.
     :options-alist
     '((:title "TITLE" nil nil t)
       (:tags "TAGS" nil nil space))
-    :translate-alist '((template . qmd2-template)))
+    :translate-alist
+    '((template . qmd2-template)))
 
   (defun org-qmd2-export-to-markdown (&optional async subtreep visible-only)
     (interactive)
