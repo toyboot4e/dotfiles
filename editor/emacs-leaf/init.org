@@ -2595,6 +2595,12 @@ https://github.com/armindarvish/consult-gh
 (leaf embark
   :doc "Context menu in minibufffers"
   :url "https://github.com/oantolin/embark"
+  :custom
+  ((embark-prompter . #'embark-completing-read-prompter)
+   (embark-indicators .
+      (embark-minimal-indicator  ; default is embark-mixed-indicator
+       embark-highlight-indicator
+       embark-isearch-highlight-indicator)))
   :bind
   (:minibuffer-local-map
    (("C-s" . embark-act)
@@ -2610,7 +2616,7 @@ https://github.com/armindarvish/consult-gh
     ;; what was it? it's too old now
     ;; (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
     ;; (vertico-multiform-mode)
-    (define-key vertico-map (kbd "C-s") #'embark-act))
+    (keymap-set vertico-map "C-s" #'embark-act))
 
   :init
   (setopt prefix-help-command #'embark-prefix-help-command)
