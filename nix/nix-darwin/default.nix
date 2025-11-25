@@ -83,6 +83,7 @@ in
     casks = [
       "coteditor"
       "docker-desktop"
+      "drawio"
       "font-hack-nerd-font" # the default font of sketchy bar
       "gimp"
       "karabiner-elements"

@@ -116,6 +116,7 @@ in
       # sxhkd
 
       # GUI
+      drawio
       vkmark
       steamtinkerlaunch
       simplescreenrecorder
