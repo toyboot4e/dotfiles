@@ -3067,6 +3067,24 @@ Qiita Markdown support.
   :hook (org-mode-hook . org-nix-shell-mode))
 #+END_SRC
 
+** Minimum org-mode PDF output
+
+Add the followings to the org file header:
+
+#+BEGIN_SRC latex
+,#+LATEX_COMPILER: lualatex
+,#+LATEX_HEADER: \usepackage{luatexja}
+,#+LATEX_HEADER: \usepackage{luatexja-fontspec}
+,#+LATEX_HEADER: \usepackage[haranoaji]{luatexja-preset}
+#+END_SRC
+
+** ox-typst
+
+#+BEGIN_SRC emacs-lisp
+(leaf ox-typst
+  :after org)
+#+END_SRC
+
 ** org-preview-html
 
 #+BEGIN_SRC elisp
