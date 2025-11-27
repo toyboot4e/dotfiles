@@ -1639,7 +1639,7 @@ FIXME: Not working under Evil
     (add-hook 'before-save-hook #'toy/cpp-on-save))
 
   :defer-config
-  (keymap-set evil-normal-state-map " l" lsp-command-map)
+  (define-key evil-normal-state-map " l" lsp-command-map)
   (evil-define-key 'normal lsp-mode-map
     "K" #'lsp-describe-thing-at-point))
 #+END_SRC
@@ -2491,7 +2491,7 @@ https://github.com/armindarvish/consult-gh
 (leaf consult-lsp
   :after (consult lsp)
   :config
-  (keymap-set lsp-mode-map "<remap> xref-find-apropos" #'consult-lsp-symbols))
+  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 #+END_SRC
 
 ** vertico
