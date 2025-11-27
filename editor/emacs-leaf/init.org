@@ -297,8 +297,8 @@ TODO: Switch to elpaca
 
   ;; Use mouse wheel for scrolling
   ;; TODO: do not map it to a specific command.
-  (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
-  (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+  (keymap-set global-map "<mouse-4>" 'scroll-down-line)
+  (keymap-set global-map "<mouse-5>" 'scroll-up-line))
 #+END_SRC
 
 *** Scroll like vim
@@ -437,8 +437,8 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
   ;; TODO:
   ;; (leaf evil-textobj-entire
   ;;   :config
-  ;;   (define-key evil-outer-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer)
-  ;;   (define-key evil-inner-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer))
+  ;;   (keymap-set evil-outer-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer)
+  ;;   (keymap-set evil-inner-text-objects-map evil-textobj-entire-key 'evil-entire-entire-buffer))
 
   ;; FIXME: deduplicate
   ;; (setq-default evil-surround-pairs-alist
@@ -452,8 +452,8 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
                (evil-select-paren ,start-regex ,end-regex beg end type count nil))
            (evil-define-text-object ,outer-name (count &optional beg end type)
                (evil-select-paren ,start-regex ,end-regex beg end type count t))
-           (define-key evil-inner-text-objects-map ,key #',inner-name)
-           (define-key evil-outer-text-objects-map ,key #',outer-name))))
+           (keymap-set evil-inner-text-objects-map ,key #',inner-name)
+           (keymap-set evil-outer-text-objects-map ,key #',outer-name))))
 
   (define-and-bind-quoted-text-object "atsymbol" "@" "@" "@")
   (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
@@ -578,17 +578,17 @@ Typical combo is =gxia=.
   :doc "Add `a'rgument text object"
   :config
   ;; bind evil-args text objects
-  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+  (keymap-set evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (keymap-set evil-outer-text-objects-map "a" 'evil-outer-arg)
 
   ;; bind evil-forward/backward-args
-  (define-key evil-normal-state-map "L" 'evil-forward-arg)
-  (define-key evil-normal-state-map "H" 'evil-backward-arg)
-  (define-key evil-motion-state-map "L" 'evil-forward-arg)
-  (define-key evil-motion-state-map "H" 'evil-backward-arg)
+  (keymap-set evil-normal-state-map "L" 'evil-forward-arg)
+  (keymap-set evil-normal-state-map "H" 'evil-backward-arg)
+  (keymap-set evil-motion-state-map "L" 'evil-forward-arg)
+  (keymap-set evil-motion-state-map "H" 'evil-backward-arg)
 
   ;; bind evil-jump-out-args
-  ;; (define-key evil-normal-state-map "K" 'evil-jump-out-args)
+  ;; (keymap-set evil-normal-state-map "K" 'evil-jump-out-args)
   )
 #+END_SRC
 
@@ -1042,9 +1042,7 @@ TODO
 (leaf macrostep
   :doc "interactive macro expander"
   :config
-  (define-key emacs-lisp-mode-map
-              (kbd "C-c e")
-              'macrostep-expand))
+  (keymap-set emacs-lisp-mode-map "C-c e" 'macrostep-expand))
 #+END_SRC
 
 * View / navigation
@@ -1641,7 +1639,7 @@ FIXME: Not working under Evil
     (add-hook 'before-save-hook #'toy/cpp-on-save))
 
   :defer-config
-  (define-key evil-normal-state-map " l" lsp-command-map)
+  (keymap-set evil-normal-state-map " l" lsp-command-map)
   (evil-define-key 'normal lsp-mode-map
     "K" #'lsp-describe-thing-at-point))
 #+END_SRC
@@ -1678,13 +1676,13 @@ FIXME: Not working under Evil
   :custom-face (hl-line quote
                         ((t
                           (:background "#458588"))))
-  :defer-config (evil-define-key 'normal lsp-ui-imenu-mode-map
-                  (kbd "TAB")
-                  #'lsp-ui-imenu--view
-                  (kbd "RET")
-                  #'lsp-ui-imenu--visit) (advice-add 'lsp-ui-imenu--visit :after
-                  (lambda (&rest _)
-                    (toy/smart-recenter))))
+  :defer-config
+  (evil-define-key 'normal lsp-ui-imenu-mode-map
+    (kbd "TAB") #'lsp-ui-imenu--view
+    (kbd "RET") #'lsp-ui-imenu--visit)
+  (advice-add 'lsp-ui-imenu--visit :after
+              (lambda (&rest _)
+                (toy/smart-recenter))))
 #+END_SRC
 
 ** Prettier
@@ -2379,7 +2377,7 @@ Toolings (TODO: move):
     (setopt consult-find-command "fd --color=never --full-path ARG OPTS"))
 
   ;; `which-key` alternative
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+  ;; (keymap-set consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
   ;; detect project root with `projectile'
   (autoload 'projectile-project-root "projectile")
@@ -2493,7 +2491,7 @@ https://github.com/armindarvish/consult-gh
 (leaf consult-lsp
   :after (consult lsp)
   :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
+  (keymap-set lsp-mode-map "<remap> xref-find-apropos" #'consult-lsp-symbols))
 #+END_SRC
 
 ** vertico
@@ -3721,8 +3719,8 @@ Note that this hack is ill-designed often causes other issues. Fix it.
       (evil-replace-state-p) (evil-visual-state-p)))
 
 (defun toy/smart-esc-tr (_)
-  (if (toy/do-tr-esc) (kbd "ESC") (kbd "C-g")))
-(define-key key-translation-map (kbd "ESC") #'toy/smart-esc-tr)
+  (if (toy/do-tr-esc) "ESC" "C-g"))
+(keymap-set key-translation-map "ESC" #'toy/smart-esc-tr)
 #+END_SRC
 
 *** Vertical f/F
@@ -3763,14 +3761,14 @@ Cannot be repated though.
   :motion evil-forward-char
   (interactive "<R><x>")
   (evil-delete beg end type ?_))
-(define-key evil-normal-state-map "x" 'toy/null-x)
+(keymap-set evil-normal-state-map "x" 'toy/null-x)
 
 ;; `s' -> `"_s' (use `d' to copy to the register)
 (evil-define-operator toy/null-s (beg end type register)
   :motion evil-forward-char
   (interactive "<R><x>")
   (evil-change beg end type ?_))
-(define-key evil-normal-state-map "s" 'toy/null-s)
+(keymap-set evil-normal-state-map "s" 'toy/null-s)
 
 ;; more generic helper: https://github.com/syl20bnr/spacemacs/issues/6977#issuecomment-24^4014379
 #+END_SRC
@@ -3788,7 +3786,7 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
   ;; works anyways
   (evil-use-register "_")
   (evil-delete-line beg end type ?_))
-(define-key evil-normal-state-map "X" 'toy/null-X)
+(keymap-set evil-normal-state-map "X" 'toy/null-X)
 #+END_SRC
 
 *** Center cursor on search
@@ -3829,15 +3827,15 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 
 #+BEGIN_SRC elisp
 ;; TODO: why can't use evil-define-key?
-(define-key evil-ex-completion-map "\C-f" 'forward-char)
-(define-key evil-ex-completion-map "\C-b" 'backward-char)
-(define-key evil-ex-completion-map "\C-a" 'move-beginning-of-line)
-(define-key evil-ex-completion-map "\C-e" 'move-end-of-line)
+(keymap-set evil-ex-completion-map "C-f" 'forward-char)
+(keymap-set evil-ex-completion-map "C-b" 'backward-char)
+(keymap-set evil-ex-completion-map "C-a" 'move-beginning-of-line)
+(keymap-set evil-ex-completion-map "C-e" 'move-end-of-line)
 
-(define-key evil-ex-completion-map "\C-d" 'evil-delete-char)
-(define-key evil-ex-completion-map "\C-h" 'evil-delete-backward-char)
-(define-key evil-ex-completion-map "\C-k" 'evil-delete-line)
-(define-key evil-ex-completion-map "\C-u" 'toy/backward-kill-line)
+(keymap-set evil-ex-completion-map "C-d" 'evil-delete-char)
+(keymap-set evil-ex-completion-map "C-h" 'evil-delete-backward-char)
+(keymap-set evil-ex-completion-map "C-k" 'evil-delete-line)
+(keymap-set evil-ex-completion-map "C-u" 'toy/backward-kill-line)
 #+END_SRC
 
 *** Insert mode
@@ -3986,8 +3984,8 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 *** Japanese
 
 #+BEGIN_SRC elisp
-(define-key evil-read-key-map (kbd "C-j") (kbd "、"))
-(define-key evil-read-key-map (kbd "C-l") (kbd "。"))
+(keymap-set evil-read-key-map "C-j" "、")
+(keymap-set evil-read-key-map "C-l" "。")
 #+END_SRC
 
 *** Magit
@@ -4360,21 +4358,21 @@ TODO: merge
   " gr" (lambda () (interactive) (consult-ripgrep "." " . "))
   " gR" #'toy/proj-grep)
 
-(define-key minibuffer-local-map (kbd "\C-a") #'evil-first-non-blank)
-(define-key minibuffer-local-map (kbd "\C-e") #'end-of-line)
-(define-key minibuffer-local-map (kbd "\C-r") #'evil-paste-from-register)
+(keymap-set minibuffer-local-map "C-a" #'evil-first-non-blank)
+(keymap-set minibuffer-local-map "C-e" #'end-of-line)
+(keymap-set minibuffer-local-map "C-r" #'evil-paste-from-register)
 
 ;; NOTE: The default key bindings for going up directory are `M-backspace' and `C-backspace', and
 ;; they don't work well. `M-backspace' is delete on macOS and `C-backspace' is interpreted as `C-h'
-(define-key minibuffer-local-map (kbd "\C-w") #'backward-kill-word)
+(keymap-set minibuffer-local-map "C-w" #'backward-kill-word)
 
 (with-eval-after-load 'vertico
   ;; TODO: recenter-top-bottom for vertico buffer
-  (define-key vertico-map (kbd "\C-o") #'other-window)
-  (define-key vertico-map (kbd "\C-u") #'vertico-scroll-down)
-  (define-key vertico-map (kbd "\C-d") #'vertico-scroll-up)
+  (keymap-set vertico-map "C-o" #'other-window)
+  (keymap-set vertico-map "C-u" #'vertico-scroll-down)
+  (keymap-set vertico-map "C-d" #'vertico-scroll-up)
   ;; TODO: use isearch forward?
-  (define-key vertico-map (kbd "\C-r") #'evil-paste-from-register))
+  (keymap-set vertico-map "C-r" #'evil-paste-from-register))
 #+END_SRC
 
 * Misc
@@ -4506,9 +4504,7 @@ TODO: merge
   :custom ((which-key-idle-delay . 0.01)
            (which-key-idle-secondary-delay . 0.01))
   :config
-  (define-key help-map
-              (kbd "M")
-              'which-key-show-major-mode)
+  (keymap-set help-map "M" 'which-key-show-major-mode)
   (which-key-mode))
 #+END_SRC
 
