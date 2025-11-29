@@ -57,9 +57,8 @@
         nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
     in
     {
-      # user-independent settings are here:
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
-      packages.default = forAllSystems (pkgs: inputs.fenix.packages.${pkgs.system}.default.toolchain);
+      packages.default = forAllSystems (pkgs: inputs.fenix.packages.${pkgs.stdenv.hostPlatform.system}.default.toolchain);
 
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         specialArgs = {
