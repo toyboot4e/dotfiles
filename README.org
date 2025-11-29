@@ -7,6 +7,7 @@
 #+LINK: nerd https://github.com/ryanoasis/nerd-fonts
 #+LINK: evil https://github.com/emacs-evil/evil
 #+LINK: fish https://fishshell.com/
+#+LINK: juts https://github.com/casey/just
 
 #+LINK: qb https://qutebrowser.org/
 #+LINK: w3m http://w3m.sourceforge.net/
@@ -48,13 +49,16 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 These are the tools frequently used:
 
-| Terminal | [[kitty][kitty]] with [[tmux][tmux]]                                        |
-| Font     | Intel One Mono ([[nerd][nerd]])                                  |
-| Editors  | [[evil][Evil]] Emacs and Neovim                                  |
-| Shells   | bash and [[fish][fish]]                                          |
-| Browsers | [[qb][qutebrowser]], firefox and [[w3m][w3m]]                           |
-| macOS    | [[yabai][yabai]], [[skhd][skhd]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
-| Linux    | X11, [[i3][i3]], [[flameshot][flameshot]] and [[https://github.com/ranger/ranger][ranger]]                          |
+| Item        | What I use                            |
+|-------------+---------------------------------------|
+| Terminal    | [[kitty][kitty]] with [[tmux][tmux]]                       |
+| Font        | Intel One Mono ([[nerd][nerd]])                 |
+| Editors     | [[evil][Evil]] Emacs and Neovim                 |
+| Shells      | bash and [[fish][fish]]                         |
+| Browsers    | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
+| Task runner | [[just][just]]                                  |
+| macOS       | [[yabai][yabai]], [[skhd][skhd]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
+| Linux       | X11, [[i3][i3]], [[flameshot][flameshot]] and [[https://github.com/ranger/ranger][ranger]]         |
 
 [[ghq][ghq]], [[gh][gh]], [[rg][rg]], [[hgrep][hgrep]], [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[delta][delta]], GNU sed, GNU xargs and GNU =rename=.
 
