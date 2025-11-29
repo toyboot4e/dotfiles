@@ -5,8 +5,10 @@ let
 in
 {
   # networking.hostName = host;
+  nixpkgs.hostPlatform = "aarch64-darwin"; # FIXME: take it from somewhere..
+  # nixpkgs.hostPlatform = forAllSystems(pkgs: pkgs.system);
   nixpkgs.config.allowUnfree = true;
-  stdenv.platform.system.primaryUser = host;
+  system.primaryUser = host;
 
   nix = {
     settings = {
