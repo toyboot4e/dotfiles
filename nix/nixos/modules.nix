@@ -61,11 +61,12 @@
   # Bluetooth
   services.blueman.enable = true;
 
+  # ollama takes a while to build
   # ollama: https://wiki.nixos.org/wiki/Ollama
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
-  };
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "cuda";
+  # };
 
   hardware.bluetooth = {
     enable = true;
