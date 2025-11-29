@@ -13,7 +13,7 @@ pkgs.python3Packages.buildPythonPackage {
   pname = source.pname;
   inherit (source) src;
   inherit (source) version;
-  buildInputs = [ plover-flake.packages.${pkgs.system}.plover ];
+  buildInputs = [ plover-flake.packages.${pkgs.stdenv.hostPlatform.system}.plover ];
 
   # Force setuptools directory structure. Or I could fork though.
   format = "setuptools";

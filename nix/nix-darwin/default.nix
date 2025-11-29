@@ -6,7 +6,7 @@ in
 {
   # networking.hostName = host;
   nixpkgs.config.allowUnfree = true;
-  system.primaryUser = host;
+  stdenv.platform.system.primaryUser = host;
 
   nix = {
     settings = {

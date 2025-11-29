@@ -22,7 +22,7 @@ in
 
   programs.plover = {
     enable = true;
-    package = plover-flake.packages.${pkgs.system}.plover-full;
+    package = plover-flake.packages.${pkgs.stdenv.hostPlatform.system}.plover-full;
 
     # plover.cfg
     settings = {
