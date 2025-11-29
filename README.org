@@ -51,7 +51,7 @@ These are the tools frequently used:
 
 | Item         | What I use                            |
 |--------------+---------------------------------------|
-| Terminal     | [[kitty][kitty]] with [[tmux][tmux]]                       |
+| Terminals    | [[kitty][kitty]] with [[tmux][tmux]]                       |
 | Fonts        | Intel One Mono ([[nerd][nerd]])                 |
 | Editors      | [[evil][Evil]] Emacs and Neovim                 |
 | Shells       | bash and [[fish][fish]]                         |
