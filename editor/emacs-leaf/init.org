@@ -127,28 +127,6 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 * Boot strapping
 
-** straight
-
-TODO: Switch to elpaca
-
-#+BEGIN_SRC elisp
-(setopt straight-vc-git-default-protocol 'ssh)
-
-(progn ;; `straight.el'
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-        (load bootstrap-file nil 'nomessage)))
-#+END_SRC
-
 ** leaf
 
 #+BEGIN_SRC elisp
@@ -1480,7 +1458,7 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
 (leaf justl)
 #+END_SRC
 
-** Magit + Forge + Diffstatic
+** Git
 
 *** Magit
 
@@ -1830,7 +1808,7 @@ TODO
 #+BEGIN_SRC elisp
 (leaf typst-ts-mode
   :after lsp-mode
-  :vc (:url "meow_king/typst-ts-mode")
+  ;; :vc (:url "https://github.com/meow_king/typst-ts-mode")
   :custom
   (typst-ts-mode-watch-options . "--open")
   :hook
@@ -2691,7 +2669,7 @@ FIXME
 #+BEGIN_SRC elisp
 (leaf corfu-terminal
   :if (version< emacs-version "27.1")
-  :vc (:url "https://codeberg.org/akib/emacs-corfu-terminal")
+  ;; :vc (:url "https://codeberg.org/akib/emacs-corfu-terminal")
   :config
   (unless (display-graphic-p)
     (corfu-terminal-mode +1)))
@@ -3004,7 +2982,8 @@ Qiita Markdown support.
 #+BEGIN_SRC elisp
 (leaf ox-qmd
   :commands (org-qiita-export-buffer-to-book)
-  :straight (ox-qmd :type git :host github :repo "toyboot4e/ox-qmd")
+  :vc (:url "https://github.com/toyboot4e/ox-qmd")
+  :ensure nil
   :config
   (defun qmd2-template-tags ()
     (let ((tags (or (mapcar #'substring-no-properties (org-get-tags))
@@ -3080,6 +3059,8 @@ Add the followings to the org file header:
 
 #+BEGIN_SRC emacs-lisp
 (leaf ox-typst
+  :vc (:url "https://github.com/toyboot4e/ox-typst")
+  :ensure nil
   :after org)
 #+END_SRC
 
