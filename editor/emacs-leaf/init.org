@@ -2326,19 +2326,19 @@ Toolings (TODO: move):
 ;;                           '(wgsl-mode)
 ;;                           :server-id 'wgsl))))
 #+END_SRC
+
 * Minadwares
 
 ** consult
 
 #+BEGIN_SRC elisp
 (leaf consult
-  ;; Required if we don't use default UI (like when using `vertico`)
-  ;; :hook (completion-list-mode-hook . consult-preview-at-point-mode)
-
+  ;; Enable automatic preview at point in the *Completions* buffer.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
   :custom
   ((consult-preview-raw-size . 1024000)
    (consult-preview-key  . "C-l")
-   (consult-narrow-key   . "<")
+   ;; (consult-preview-key  . "any")
    (consult-async-min-input . 2)
    (register-preview-delay . 0)
    (register-preview-function . #'consult-register-format)
@@ -2349,10 +2349,60 @@ Toolings (TODO: move):
   ;; adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
 
+  (progn ;; Preview with `find-file'
+    ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
+    (setq read-file-name-function #'consult-find-file-with-preview)
+    (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+      (interactive)
+      (require 'consult)
+      (let ((default-directory (or dir default-directory))
+            (minibuffer-completing-file-name t))
+        (consult--read #'read-file-name-internal
+                       :state (consult--file-state)
+                       :prompt prompt
+                       :initial initial
+                       :require-match mustmatch
+                       :predicate pred))))
+
+  (progn ;; FIXME: This is from wiki, but is it working?
+    (define-key minibuffer-local-map "C-l" #'my-embark-preview)
+    (defun my-embark-preview ()
+      "Previews candidate in vertico buffer, unless it's a consult command"
+      (interactive)
+      (unless (bound-and-true-p consult--preview-function)
+        (save-selected-window
+          (let ((embark-quit-after-action nil))
+            (embark-dwim))))))
+
   :config
   ;; use `fd`
   (when (executable-find "fd")
     (setopt consult-find-command "fd --color=never --full-path ARG OPTS"))
+
+  (progn ;; `find-file' -> `consult-ripgrep'
+    (defun my/consult-ripgrep-from-find-file ()
+      (interactive)
+      (if (minibufferp)
+          (let ((cwd (file-name-directory (minibuffer-contents))))
+            (consult-ripgrep cwd ". "))
+        (user-error "Not in a minibuffer")))
+
+    ;; Bind to `C-c r':
+    (keymap-set minibuffer-mode-map
+                "C-c g"
+                #'my/consult-ripgrep-from-find-file))
+
+  (progn ;; `consult-ripgrep' -> `find-file'
+    (defun my/find-file-from-consult-ripgrep ()
+      (interactive)
+      (require 'consult)
+      (let ((dir default-directory))
+        (message dir)
+        (consult-find-file-with-preview "Find file: " "/" nil nil dir)))
+
+    (with-eval-after-load 'consult
+      (keymap-set minibuffer-mode-map "C-c f" #'my/find-file-from-consult-ripgrep)))
+
 
   ;; `which-key` alternative
   ;; (keymap-set consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
@@ -2577,40 +2627,21 @@ https://github.com/armindarvish/consult-gh
 
 #+BEGIN_SRC elisp
 (leaf embark
-  :doc "Context menu in minibufffers"
   :url "https://github.com/oantolin/embark"
   :custom
-  ((embark-prompter . #'embark-completing-read-prompter)
+  (;; (embark-prompter . #'embark-completing-read-prompter)
    (embark-indicators .
-      (embark-minimal-indicator  ; default is embark-mixed-indicator
-       embark-highlight-indicator
-       embark-isearch-highlight-indicator)))
+                      (embark-verbose-indicator  ; default is embark-mixed-indicator
+                       embark-highlight-indicator
+                       embark-isearch-highlight-indicator))
+   )
   :bind
-  (:minibuffer-local-map
-   (("C-s" . embark-act)
-    ;; alternative for `describe-bindings'
-    ("C-h B" . embark-bindings)))
-  :bind
-  (("C-s" . embark-act) ;; not works on terminal
-   ;; alternative for `describe-bindings'
-   ("C-h B" . embark-bindings))
-
-  :config
-  (with-eval-after-load 'vertico
-    ;; what was it? it's too old now
-    ;; (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
-    ;; (vertico-multiform-mode)
-    (keymap-set vertico-map "C-s" #'embark-act))
-
+  (("C-h B" . embark-bindings)
+   ("C-h K" . embark-bindings-in-keymap))
   :init
-  (setopt prefix-help-command #'embark-prefix-help-command)
-
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+  ;; Somehow I have to put it here
+  (keymap-set minibuffer-mode-map "C-s" #'embark-act)
+  )
 #+END_SRC
 
 ** embark-consult
@@ -4294,8 +4325,20 @@ TODO: merge
   " V" (lambda () (interactive) (when (toy/vF) (toy/smart-recenter)))
 
   " a" #'aidermacs-transient-menu
-  " ff" (_cd (call-interactively #'find-file))
+  ;; " ff" (lambda () (interactive) (consult-find-file-with-preview default-directory))
+  ;; " ff" (_cd find-file)
+  ;; " ff" (_cd (call-interactively #'find-file))
+  " ff"
+  (lambda ()
+    (interactive)
+    ;; (consult-find-file-with-preview "Find file: " "/" nil nil default-directory))
+    (consult-find-file-with-preview "Find file: " "/" nil nil default-directory))
+
   " fF" #'toy/proj-find
+  " fO" (lambda ()
+          (interactive)
+          (let ((default-directory (concat org-directory "/")))
+            (call-interactively #'find-file)))
   " fb" #'consult-buffer
   " fB" #'consult-buffer-other-window
   ;; " fB" #'org-switchb
@@ -4362,9 +4405,9 @@ TODO: merge
 
 #+BEGIN_SRC elisp
 (leaf helpful
-  :bind ([remap describe-command]
-         . helpful-command) ([remap describe-key]
-         . helpful-key)
+  :bind
+  ([remap describe-command] . helpful-command)
+  ([remap describe-key] . helpful-key)
   :after evil
   :init
   (evil-define-key 'normal helpful-mode-map "q" #'kill-current-buffer)
