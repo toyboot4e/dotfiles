@@ -1675,7 +1675,9 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   :hook (css-mode-hook . prettier-mode))
 #+END_SRC
 
-** Tree Sit
+** Tree Sitter packages
+
+*** Tree Sit
 
 #+BEGIN_SRC elisp
 (leaf treesit-auto
@@ -1687,7 +1689,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   )
 #+END_SRC
 
-** Tree Sitter
+*** Tree Sitter
 
 #+BEGIN_SRC elisp
 (leaf tree-sitter
@@ -1706,6 +1708,21 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   (with-eval-after-load 'typescript-tsx-mode
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))))
+#+END_SRC
+
+*** ts-docstr
+
+TODO: docstring treesitter
+
+#+BEGIN_SRC elisp
+;; (leaf msgu
+;;   :ensure nil
+;;   :vs (:url "https://github.com/jcs-elpa/msgu"))
+
+;; (leaf ts-docstr
+;;   :ensure nil
+;;   :vc (:url "https://github.com/emacs-vs/ts-docstr")
+;;   :after msgu)
 #+END_SRC
 
 ** Vue
