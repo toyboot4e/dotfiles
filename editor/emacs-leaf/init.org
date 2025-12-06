@@ -2366,14 +2366,17 @@ Toolings (TODO: move):
   ;; adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
 
-  (progn ;; Preview with `find-file'
+  (progn ;; `find-file' with Consult preview
+    ;; Original:
     ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
     (setq read-file-name-function #'consult-find-file-with-preview)
     (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
       (interactive)
       (require 'consult)
-      (let ((default-directory (or dir default-directory))
-            (minibuffer-completing-file-name t))
+      (let* ((default-directory (or dir default-directory))
+             (minibuffer-completing-file-name t)
+             ;; Use the current directory as initial input if none provided
+             (initial (or initial (abbreviate-file-name default-directory))))
         (consult--read #'read-file-name-internal
                        :state (consult--file-state)
                        :prompt prompt
@@ -2381,48 +2384,84 @@ Toolings (TODO: move):
                        :require-match mustmatch
                        :predicate pred))))
 
-  (progn ;; FIXME: This is from wiki, but is it working?
-    (define-key minibuffer-local-map "C-l" #'my-embark-preview)
-    (defun my-embark-preview ()
-      "Previews candidate in vertico buffer, unless it's a consult command"
-      (interactive)
-      (unless (bound-and-true-p consult--preview-function)
-        (save-selected-window
-          (let ((embark-quit-after-action nil))
-            (embark-dwim))))))
-
   :config
+  ;; Show line numbers in preview
+  (add-to-list 'consult-preview-allowed-hooks 'global-display-line-numbers-mode)
+
   ;; use `fd`
   (when (executable-find "fd")
     (setopt consult-find-command "fd --color=never --full-path ARG OPTS"))
 
-  (progn ;; `find-file' -> `consult-ripgrep'
-    (defun my/consult-ripgrep-from-find-file ()
-      (interactive)
-      (if (minibufferp)
-          (let ((cwd (file-name-directory (minibuffer-contents))))
-            (consult-ripgrep cwd ". "))
-        (user-error "Not in a minibuffer")))
+  ;;   (defmacro my/with-abort-minibuffer (&rest body)
+  ;;     "Utility function for unwinding the minibuffer and calling a function, while not nesting a call
+  ;; stack, keeping `this-comman' clean."
+  ;;     `(if (minibufferp)
+  ;;          (progn
+  ;;            (run-at-time 0 nil (lambda () ,@body))
+  ;;            (abort-recursive-edit))
+  ;;        (user-error "Not in a minibuffer")))
 
-    ;; Bind to `C-c r':
-    (keymap-set minibuffer-mode-map
-                "C-c g"
-                #'my/consult-ripgrep-from-find-file))
+  ;;   (progn ;; `find-file' -> `consult-ripgrep'
+  ;;     (defun my/consult-ripgrep-from-find-file ()
+  ;;       (interactive)
+  ;;       (let ((dir (file-name-directory (minibuffer-contents))))
+  ;;         (my/with-abort-minibuffer
+  ;;          (consult-ripgrep dir ". "))))
+  ;;     ;; (keymap-set minibuffer-mode-map "C-c g" #'my/consult-ripgrep-from-find-file)
+  ;;     )
 
-  (progn ;; `consult-ripgrep' -> `find-file'
-    (defun my/find-file-from-consult-ripgrep ()
-      (interactive)
-      (require 'consult)
-      (let ((dir default-directory))
-        (message dir)
-        (consult-find-file-with-preview "Find file: " "/" nil nil dir)))
+  ;;   (progn ;; `consult-ripgrep' -> `find-file'
+  ;;     (defun my/find-file-from-consult-ripgrep ()
+  ;;       (interactive)
+  ;;       (let ((dir (abbreviate-file-name default-directory)))
+  ;;         (my/with-abort-minibuffer
+  ;;          (consult-find-file-with-preview "Find file: " "/" nil nil dir))))
+  ;;     ;; (keymap-set minibuffer-mode-map "C-c f" #'my/find-file-from-consult-ripgrep)
+  ;;     )
 
-    (with-eval-after-load 'consult
-      (keymap-set minibuffer-mode-map "C-c f" #'my/find-file-from-consult-ripgrep)))
+  (require 'embark)
+  (defun prt ()
+    (interactive)
+    (message "%s" embark--command))
+  ;; (keymap-set minibuffer-mode-map "C-c e" #'prt)
 
+  (progn ;; `find-file' via `embark-become' with CWD text
+    (defun my-embark-become-prepend-default-dir (orig-fun command input)
+      "Prepend default-directory to INPUT when COMMAND is file-related."
+      (if (and (memq command '(find-file find-file-other-window
+                                         find-file-other-frame find-file-literally))
+               (file-name-as-directory default-directory)
+               (not (string-prefix-p (expand-file-name default-directory)
+                                     (expand-file-name input))))
+          (funcall orig-fun command (expand-file-name input default-directory))
+        (funcall orig-fun command input)))
 
-  ;; `which-key` alternative
-  ;; (keymap-set consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+    ;; (defun my-embark-become-prepend-default-dir (orig-fun command input)
+    ;;   "Prepend default-directory to INPUT when COMMAND is file-related."
+    ;;   (if (and (memq command '(find-file find-file-other-window
+    ;;                                      find-file-other-frame find-file-literally))
+    ;;            default-directory
+    ;;            (not (string-prefix-p (expand-file-name default-directory)
+    ;;                                  (expand-file-name input))))
+    ;;       (let ((dir (file-name-as-directory default-directory)))
+    ;;         (funcall orig-fun command (expand-file-name input dir)))
+    ;;     (funcall orig-fun command input)))
+
+    (progn ;; Show full path in `find-file' after `embark-become'
+      (defun my-embark-become-prepend-default-dir (orig-fun command input)
+        "Prepend default-directory to INPUT when COMMAND is file-related."
+        (if (and (memq command '(find-file find-file-other-window
+                                           find-file-other-frame find-file-literally))
+                 (not (string-prefix-p (expand-file-name default-directory)
+                                       (expand-file-name input))))
+            (let ((dir-with-slash (file-name-as-directory default-directory)))
+              (if (equal input "")
+                  (funcall orig-fun command dir-with-slash)
+                (funcall orig-fun command (expand-file-name input dir-with-slash))))
+          (funcall orig-fun command input)))
+
+      (advice-add 'embark--become-command :around
+                  #'my-embark-become-prepend-default-dir)))
 
   ;; detect project root with `projectile'
   (autoload 'projectile-project-root "projectile")
@@ -2645,20 +2684,60 @@ https://github.com/armindarvish/consult-gh
 #+BEGIN_SRC elisp
 (leaf embark
   :url "https://github.com/oantolin/embark"
-  :custom
-  (;; (embark-prompter . #'embark-completing-read-prompter)
-   (embark-indicators .
-                      (embark-verbose-indicator  ; default is embark-mixed-indicator
-                       embark-highlight-indicator
-                       embark-isearch-highlight-indicator))
-   )
   :bind
   (("C-h B" . embark-bindings)
    ("C-h K" . embark-bindings-in-keymap))
   :init
-  ;; Somehow I have to put it here
+  ;; Somehow I have to put it in `:init'
   (keymap-set minibuffer-mode-map "C-s" #'embark-act)
+  :custom
+  (embark-quit-after-action . nil)
   )
+#+END_SRC
+
+*** Which-key integration with =embark=
+
+From Wiki:
+
+#+BEGIN_SRC elisp
+(with-eval-after-load 'embark
+  (defun embark-which-key-indicator ()
+    "An embark indicator that displays keymaps using which-key.
+  The which-key help message will show the type and value of the
+  current target followed by an ellipsis if there are further
+  targets."
+    (lambda (&optional keymap targets prefix)
+      (if (null keymap)
+          (which-key--hide-popup-ignore-command)
+        (which-key--show-keymap
+         (if (eq (plist-get (car targets) :type) 'embark-become)
+             "Become"
+           (format "Act on %s '%s'%s"
+                   (plist-get (car targets) :type)
+                   (embark--truncate-target (plist-get (car targets) :target))
+                   (if (cdr targets) "…" "")))
+         (if prefix
+             (pcase (lookup-key keymap prefix 'accept-default)
+               ((and (pred keymapp) km) km)
+               (_ (key-binding prefix 'accept-default)))
+           keymap)
+         nil nil t (lambda (binding)
+                     (not (string-suffix-p "-argument" (cdr binding))))))))
+
+  (setq embark-indicators
+    '(embark-which-key-indicator
+      embark-highlight-indicator
+      embark-isearch-highlight-indicator))
+
+  (defun embark-hide-which-key-indicator (fn &rest args)
+    "Hide the which-key indicator immediately when using the completing-read prompter."
+    (which-key--hide-popup-ignore-command)
+    (let ((embark-indicators
+           (remq #'embark-which-key-indicator embark-indicators)))
+        (apply fn args)))
+
+  (advice-add #'embark-completing-read-prompter
+              :around #'embark-hide-which-key-indicator))
 #+END_SRC
 
 ** embark-consult
@@ -4345,11 +4424,7 @@ TODO: merge
   ;; " ff" (lambda () (interactive) (consult-find-file-with-preview default-directory))
   ;; " ff" (_cd find-file)
   ;; " ff" (_cd (call-interactively #'find-file))
-  " ff"
-  (lambda ()
-    (interactive)
-    ;; (consult-find-file-with-preview "Find file: " "/" nil nil default-directory))
-    (consult-find-file-with-preview "Find file: " "/" nil nil default-directory))
+  " ff" #'find-file
 
   " fF" #'toy/proj-find
   " fO" (lambda ()
@@ -4394,9 +4469,11 @@ TODO: merge
 #+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
   " gb" #'consult-line
-  ;; in all buffer
-  ;; " gB" #'
-  " gr" (lambda () (interactive) (consult-ripgrep "." " . "))
+  " gr"
+  (lambda ()
+    (interactive)
+    (let ((this-command 'consult-ripgrep))
+      (consult-ripgrep "." " . ")))
   " gR" #'toy/proj-grep)
 
 (keymap-set minibuffer-local-map "C-a" #'evil-first-non-blank)
