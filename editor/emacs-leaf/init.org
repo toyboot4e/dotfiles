@@ -1078,7 +1078,72 @@ https://www.emacswiki.org/emacs/BookmarkPlus
   :custom
   ((bookmark-save-flag . 1)
    (bookmark-watch-bookmark-file . 'silent)
-   (bookmark-use-automatic-names . t)))
+   (bookmark-use-automatic-names . t)
+   (bmkp-propertize-bookmark-names-flag . t)))
+#+END_SRC
+
+*** Project-like name
+
+#+BEGIN_SRC emacs-lisp
+(defun my/project-like-name ()
+  (file-name-sans-extension
+   (file-name-nondirectory
+    (directory-file-name
+     (or (vc-git-root default-directory)
+         (directory-file-name default-directory)
+         (buffer-name))))))
+#+END_SRC
+
+*** =consult= for bookmark tags
+
+#+BEGIN_SRC elisp
+(defun consult-bookmark-tags (&optional prompt default-tag allow-new-p)
+  (interactive)
+  (require 'bookmark+)
+  (let ((tags (bmkp-tags-list nil t)))
+    (completing-read
+     (or prompt "Tags: ")
+     tags
+     nil  ; No predicate
+     (not allow-new-p)  ; Require match if new tags not allowed
+     nil  ; No initial input
+     nil  ; No hist
+     default-tag)))
+
+(defun consult-bookmark-tags-with-default (&optional prompt allow-new-p)
+  "`consult-bookmark-tags' with `<project>/' as the default tag name."
+  (consult-bookmark-tags prompt (concat (my/project-like-name) "/") allow-new-p))
+#+END_SRC
+
+*** Automatic tags
+
+#+BEGIN_SRC elisp
+(defvar my/bookmark-auto-tag nil)
+#+END_SRC
+
+Create a bookmark with the auto tag:
+
+#+BEGIN_SRC elisp
+(defun my/bookmark-set ()
+  "Create a bookmark at point with automatic file-based naming and auto tag."
+  (interactive)
+  (let ((bookmark-name (my/project-like-name))
+        (tag-name (or my/bookmark-auto-tag (consult-bookmark-tags-with-default "Tag: " t))))
+    (let ((inhibit-message t))
+      (bookmark-set bookmark-name nil t))
+    (message "Bookmark created: %s (tag: %s)" bookmark-name tag-name)))
+#+END_SRC
+
+Change the auto tag with =consult=:
+
+#+BEGIN_SRC elisp
+(defun my/bookmark-set-auto-tag (new-tag)
+  "Sets `my/bookmark-auto-tag' with `consult'."
+  (interactive
+   (list (consult-bookmark-tags-with-default "Tag: " t)))
+
+  (setq my/bookmark-auto-tag (if (string= new-tag "") nil new-tag))
+  (message "New auto tag: %s" my/bookmark-auto-tag))
 #+END_SRC
 
 ** Centaur-tabs
