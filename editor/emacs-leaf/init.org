@@ -482,7 +482,8 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
   :custom (evil-collection-magit-use-z-for-folds . t)
   :config
   (evil-collection-init
-   '(calendar
+   '(bookmark
+     calendar
      consult
      corfu
      dired
@@ -1064,6 +1065,20 @@ Easy motion style jump.
            (blamer-min-offset . 70))
   :custom-face (blamer-face \`
                             ((t :foreground "#7a88cf" :background nil :height 140 :italic t))))
+#+END_SRC
+
+** Bookmark+
+
+https://www.emacswiki.org/emacs/BookmarkPlus
+
+#+BEGIN_SRC emacs-lisp
+(leaf bookmark+
+  :ensure nil
+  :vc (:url "https://github.com/emacsmirror/bookmark-plus")
+  :custom
+  ((bookmark-save-flag . 1)
+   (bookmark-watch-bookmark-file . 'silent)
+   (bookmark-use-automatic-names . t)))
 #+END_SRC
 
 ** Centaur-tabs
@@ -1723,7 +1738,7 @@ TODO: docstring treesitter
 #+BEGIN_SRC elisp
 ;; (leaf msgu
 ;;   :ensure nil
-;;   :vs (:url "https://github.com/jcs-elpa/msgu"))
+;;   :vc (:url "https://github.com/jcs-elpa/msgu"))
 
 ;; (leaf ts-docstr
 ;;   :ensure nil
@@ -4438,7 +4453,8 @@ TODO: merge
           (let ((default-directory (concat org-directory "/")))
             (call-interactively #'find-file)))
   " fb" #'consult-buffer
-  " fB" #'consult-buffer-other-window
+  ;; " fB" #'consult-buffer-other-window
+  " fB" #'consult-bookmark
   ;; " fB" #'org-switchb
 
   " fr" #'consult-recentf
@@ -4460,6 +4476,10 @@ TODO: merge
   " fG" #'consult-ghq-find
   " fD" #'consult-dir
   " fE" #'consult-flycheck
+
+  ;;; Bookmarks
+  " bb" #'consult-bookmarks
+  " bf" #'bmkp-file-jump
 
   ;; evil
   ;; " fm" #'consult-evil-marks
