@@ -1146,6 +1146,27 @@ Change the auto tag with =consult=:
   (message "New auto tag: %s" my/bookmark-auto-tag))
 #+END_SRC
 
+*** =consult-bookmark-with-tags=
+
+#+BEGIN_SRC elisp
+(defvar consult--source-bookmark
+  `(:name "Bookmark"
+          :narrow   ?m
+          :category bookmark
+          :face     consult-bookmark
+          :history  bookmark-history
+          :items    ,(lambda ()
+                       (mapcar (lambda (bookmark)
+                                 (propertize bookmark
+                                             'bookmark bookmark))
+                               (bookmark-all-names)))
+          :annotate ,(lambda (cand)
+                       (when-let ((bookmark (get-text-property 0 'bookmark cand))
+                                  (tags (bmkp-get-tags bookmark)))
+                         (format " %s" (mapconcat #'identity tags ", "))))
+          :action   ,#'consult--bookmark-action))
+#+END_SRC
+
 ** Centaur-tabs
 
 #+BEGIN_SRC elisp
@@ -3605,17 +3626,17 @@ Add the followings to the org file header:
 ;;     :init
 ;;     ;; (setopt browse-url-browser-function 'eww-browse-url)
 ;;     (setopt eww-search-prefix "http://www.google.com/search?q=")
-;; 
+;;
 ;;     (defun eww-wiki (text)
 ;;         "Function used to search wikipedia for the given text."
 ;;         (interactive (list (read-string "Wiki for: ")))
 ;;         (eww (format "https://en.m.wikipedia.org/wiki/Special:Search?search=%s"
 ;;                      (url-encode-url text))))
-;; 
+;;
 ;;     :config
 ;;     ;; (add-hook 'eww-after-render-hook 'ha/eww-rerender-pages)
 ;;     ;; (add-hook 'eww-mode 'ace-link-mode)
-;; 
+;;
 ;;     ;; :bind (("C-c w w" . eww)
 ;;     ;;        ("C-c w i" . eww-wiki)
 ;;     ;;        ("C-c w l" . eww-follow-link))
@@ -4543,8 +4564,11 @@ TODO: merge
   " fE" #'consult-flycheck
 
   ;;; Bookmarks
-  " bb" #'consult-bookmarks
-  " bf" #'bmkp-file-jump
+  " bb" #'consult-bookmark
+  (kbd "SPC b RET") #'my/bookmark-set
+  " bt" #'my/bookmark-set-auto-tag
+  " bf" #'bmkp-file-this-dir-jump ;; TODO: project jump
+  " bF" #'bmkp-file-jump
 
   ;; evil
   ;; " fm" #'consult-evil-marks
@@ -4844,4 +4868,3 @@ embark
 Flakes
 - Flakes for nix-direnv
 - Flakes for Emacs?
-
