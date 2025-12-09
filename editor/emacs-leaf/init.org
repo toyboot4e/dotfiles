@@ -2362,7 +2362,7 @@ Toolings (TODO: move):
   ((consult-preview-raw-size . 1024000)
    (consult-preview-key  . "C-l")
    ;; (consult-preview-key  . "any")
-   (consult-async-min-input . 2)
+   (consult-async-min-input . 0)
    (register-preview-delay . 0)
    (register-preview-function . #'consult-register-format)
    (xref-show-xrefs-function . #'consult-xref)
