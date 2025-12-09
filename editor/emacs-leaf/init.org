@@ -340,6 +340,12 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
 (require 'uniquify)
 #+END_SRC
 
+*** Dired with single buffer
+
+#+BEGIN_SRC elisp
+(setf dired-kill-when-opening-new-dired-buffer t)
+#+END_SRC
+
 * Evil
 
 ** Evil
