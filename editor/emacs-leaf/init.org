@@ -515,11 +515,11 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
       "zz" #'evil-scroll-line-to-center
       "z-" #'evil-scroll-line-to-bottom
       "za" #'magit-section-toggle
+      "zm" #'magit-section-show-level-2
+      "C-c C-u" #'magit-section-up
       (kbd "Tab") #'magit-section-toggle
-      (kbd "z RET")
-      #'evil-scroll-line-to-top
-      (kbd "SPC RET")
-      #'magit-diff-visit-worktree-file-other-window)
+      (kbd "z RET") #'evil-scroll-line-to-top
+      (kbd "SPC RET") #'magit-diff-visit-worktree-file-other-window)
     (evil-define-key 'normal git-rebase-mode-map
       "C-j" #'git-rebase-move-line-down
       "C-u" #'git-rebase-move-line-up)
@@ -531,10 +531,10 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
     ;;             (lambda (&rest _)
     ;;                 (evil-scroll-line-to-top
     ;;                  (line-number-at-pos))))
-    (advice-add 'magit-section-forward-sibling :after
-                (lambda (&rest _)
-                  (evil-scroll-line-to-top
-                   (line-number-at-pos))))
+    ;; (advice-add 'magit-section-forward-sibling :after
+    ;;             (lambda (&rest _)
+    ;;               (evil-scroll-line-to-top
+    ;;                (line-number-at-pos))))
     ;; (advice-add 'magit-section-backward-sibling :after
     ;;             (lambda (&rest _)
     ;;                 (evil-scroll-line-to-top
