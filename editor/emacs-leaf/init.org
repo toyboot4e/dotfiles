@@ -1079,19 +1079,23 @@ https://www.emacswiki.org/emacs/BookmarkPlus
   ((bookmark-save-flag . 1)
    (bookmark-watch-bookmark-file . 'silent)
    (bookmark-use-automatic-names . t)
-   (bmkp-propertize-bookmark-names-flag . t)))
+   ;; (bmkp-propertize-bookmark-names-flag . t) ;; This is extremely slow
+   ))
 #+END_SRC
 
 *** Project-like name
 
 #+BEGIN_SRC emacs-lisp
 (defun my/project-like-name ()
-  (file-name-sans-extension
-   (file-name-nondirectory
-    (directory-file-name
-     (or (vc-git-root default-directory)
-         (directory-file-name default-directory)
-         (buffer-name))))))
+  (file-name-nondirectory
+   (directory-file-name
+    (or (vc-git-root default-directory)
+        (directory-file-name default-directory)
+        (buffer-name)))))
+
+(defun my/get-default-bookmark-name ()
+  (let* ((root (vc-git-root default-directory)))
+    (file-relative-name (buffer-file-name) root)))
 #+END_SRC
 
 *** =consult= for bookmark tags
@@ -1106,9 +1110,10 @@ https://www.emacswiki.org/emacs/BookmarkPlus
      tags
      nil  ; No predicate
      (not allow-new-p)  ; Require match if new tags not allowed
-     nil  ; No initial input
+     default-tag ; initial input
      nil  ; No hist
-     default-tag)))
+     default-tag ; default (fallback) value
+     )))
 
 (defun consult-bookmark-tags-with-default (&optional prompt allow-new-p)
   "`consult-bookmark-tags' with `<project>/' as the default tag name."
@@ -1121,16 +1126,17 @@ https://www.emacswiki.org/emacs/BookmarkPlus
 (defvar my/bookmark-auto-tag nil)
 #+END_SRC
 
-Create a bookmark with the auto tag:
+Create a bookmark and set the auto tag:
 
 #+BEGIN_SRC elisp
 (defun my/bookmark-set ()
   "Create a bookmark at point with automatic file-based naming and auto tag."
   (interactive)
-  (let ((bookmark-name (my/project-like-name))
+  (let ((bookmark-name (my/get-default-bookmark-name))
         (tag-name (or my/bookmark-auto-tag (consult-bookmark-tags-with-default "Tag: " t))))
     (let ((inhibit-message t))
-      (bookmark-set bookmark-name nil t))
+      (bookmark-set bookmark-name nil t)
+      (bmkp-add-tags bookmark-name `(,tag-name)))
     (message "Bookmark created: %s (tag: %s)" bookmark-name tag-name)))
 #+END_SRC
 
