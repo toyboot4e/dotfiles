@@ -147,3 +147,5 @@
 [url "git@gist.github.com:"]
     pushinsteadOf = https://gist.github.com/toyboot4e/
 
+[push]
+    autoSetupRemote = true
