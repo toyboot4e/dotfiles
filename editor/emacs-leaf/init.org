@@ -1136,7 +1136,8 @@ Create a bookmark and set the auto tag:
         (tag-name (or my/bookmark-auto-tag (consult-bookmark-tags-with-default "Tag: " t))))
     (let ((inhibit-message t))
       (bookmark-set bookmark-name nil t)
-      (bmkp-add-tags bookmark-name `(,tag-name)))
+      (bmkp-add-tags bookmark-name `(,tag-name))
+      (bmkp-maybe-save-bookmarks))
     (message "Bookmark created: %s (tag: %s)" bookmark-name tag-name)))
 #+END_SRC
 
@@ -1155,23 +1156,63 @@ Change the auto tag with =consult=:
 *** =consult-bookmark-with-tags=
 
 #+BEGIN_SRC elisp
-(defvar consult--source-bookmark
-  `(:name "Bookmark"
-          :narrow   ?m
-          :category bookmark
-          :face     consult-bookmark
-          :history  bookmark-history
-          :items    ,(lambda ()
-                       (mapcar (lambda (bookmark)
-                                 (propertize bookmark
-                                             'bookmark bookmark))
-                               (bookmark-all-names)))
-          :annotate ,(lambda (cand)
-                       (when-let ((bookmark (get-text-property 0 'bookmark cand))
-                                  (tags (bmkp-get-tags bookmark)))
-                         (format " %s" (mapconcat #'identity tags ", "))))
-          :action   ,#'consult--bookmark-action))
+;; Icons are embedded by directly calling `nerd-icons.el'
+(defun my/consult--bookmark-candidates ()
+  "Return bookmark candidates."
+  (require 'bookmark+)
+  (bookmark-maybe-load-default-file)
+  (cl-loop for bm in bookmark-alist collect
+           (let* ((name (car bm))
+                  (tags (bmkp-get-tags bm))
+                  (line-content (let ((filename (bookmark-get-filename bm))
+                                      (pos (bookmark-get-position bm)))
+                                  (cond
+                                   ((and filename pos (file-exists-p filename) (not (file-directory-p filename)))
+                                    (with-temp-buffer
+                                      (insert-file-contents filename)
+                                      (goto-char pos)
+                                      (string-trim (thing-at-point 'line t))))
+                                   ((and filename (file-directory-p filename))
+                                    (format "[Directory: %s]" (file-name-nondirectory filename)))
+                                   (filename
+                                    (format "[File: %s]" (file-name-nondirectory filename)))
+                                   (t "[Buffer]"))))
+                  (tags-str (if tags
+                                (propertize (mapconcat #'identity tags ", ") 'face 'consult-key)
+                              ""))
+                  ;; We're embedding nerd icon here..
+                  (display-name (format "%-30s %-20s %s" (concat (nerd-icons-icon-for-file name) " " name) tags-str
+                                        (propertize (or line-content "") 'face 'completions-annotations))))
+             (propertize display-name
+                         'consult--candidate name))))
+
+(defun my/consult-bookmark-with-tags (name)
+  "`consult-bookmark' with another candidates definition"
+  (interactive
+   (list
+    (require 'consult)
+    (let ((narrow (cl-loop for (x y . _) in consult-bookmark-narrow collect (cons x y))))
+      (consult--read
+       (my/consult--bookmark-candidates)
+       :prompt "Bookmark: "
+       :state (consult--bookmark-preview)
+       :category 'bookmark
+       :history 'bookmark-history
+       :initial (or my/bookmark-auto-tag "")
+       ;; Add default names to future history.
+       ;; Ignore errors such that `consult-bookmark' can be used in
+       ;; buffers which are not backed by a file.
+       :add-history (ignore-errors (bookmark-prop-get (bookmark-make-record) 'defaults))
+       :group (consult--type-group narrow)
+       :narrow (consult--type-narrow narrow)
+       :lookup #'consult--lookup-candidate))))
+  (bookmark-maybe-load-default-file)
+  (if (assoc name bookmark-alist)
+      (bookmark-jump name)
+    (bookmark-set name)))
 #+END_SRC
+
+- TODO: Persistent the
 
 ** Centaur-tabs
 
@@ -1335,7 +1376,7 @@ Change the auto tag with =consult=:
 ;;      ;; https://github.com/jdtsmith/indent-bars/wiki/indent%E2%80%90bars-config-Wiki#tree-sitter-config
 ;;      (indent-bars-treesit-scope
 ;;       . '((haskell function_definition class_definition for_statement if_statement with_statement while_statement))))
-;; 
+;;
 ;;     ;; It breaks tree-sitter highlight
 ;;     ;; :hook (prog-mode-hook . indent-bars-mode)
 ;;     :config
@@ -1635,6 +1676,12 @@ FIXME: Not working under Evil
                           "D" #'difftastic-magit-show)
               (keymap-set magit-blame-read-only-mode-map
                           "S" #'difftastic-magit-show))))
+#+END_SRC
+
+*** ghq
+
+#+BEGIN_SRC elisp
+(leaf ghq)
 #+END_SRC
 
 ** LSP mode
@@ -2749,7 +2796,7 @@ https://github.com/armindarvish/consult-gh
 ;;     (cons
 ;;      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
 ;;      (lambda (str) (orderless--highlight input t str))))
-;; 
+;;
 ;; ;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
 ;; (setopt consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
@@ -4209,7 +4256,7 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 (keymap-set evil-read-key-map "C-l" "。")
 #+END_SRC
 
-*** Magit
+*** Magit bindings
 
 #+BEGIN_SRC elisp
 ;; open magit in the full frame
@@ -4570,7 +4617,7 @@ TODO: merge
   " fE" #'consult-flycheck
 
   ;;; Bookmarks
-  " bb" #'consult-bookmark
+  " bb" #'my/consult-bookmark-with-tags
   (kbd "SPC b RET") #'my/bookmark-set
   " bt" #'my/bookmark-set-auto-tag
   " bf" #'bmkp-file-this-dir-jump ;; TODO: project jump
