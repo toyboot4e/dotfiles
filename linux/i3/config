@@ -83,12 +83,12 @@ for_window [class="executor"] floating enable
 # for_window [class="dropdown-terminal"] floating enable, resize set 1920 1080, move position center
 
 # 3840x2160
-# for_window [class="dropdown-terminal"] floating enable, resize set 2880 1620, move position center
-# for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
+for_window [class="dropdown-terminal"] floating enable, resize set 2880 1620, move position center
+for_window [title="dropdown-emacs"] floating enable, resize set 2880 1620, move position center
 
 # 5120x2880
-for_window [class="dropdown-terminal"] floating enable, resize set 3840 2160, move position center
-for_window [title="dropdown-emacs"] floating enable, resize set 3840 2160, move position center
+# for_window [class="dropdown-terminal"] floating enable, resize set 3840 2160, move position center
+# for_window [title="dropdown-emacs"] floating enable, resize set 3840 2160, move position center
 
 # --------------------------------------------------------------------------------
 # i3bar
