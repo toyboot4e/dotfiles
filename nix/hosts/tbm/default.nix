@@ -100,6 +100,7 @@ in
       # https://github.com/red-data-tools/YouPlot
 
       blender
+      gimp
       # cider
 
       # kicad-small
