@@ -91,7 +91,8 @@
     sub = submodule
 
     t   = tag
-    w   = whatchanged
+    w   = worktree
+    wl  = worktree list
 
     ########################################
     # hub
