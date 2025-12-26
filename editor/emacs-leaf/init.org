@@ -1087,6 +1087,7 @@ https://www.emacswiki.org/emacs/BookmarkPlus
 
 #+BEGIN_SRC emacs-lisp
 (defun my/project-like-name ()
+  "git root name or a fallback"
   (file-name-nondirectory
    (directory-file-name
     (or (vc-git-root default-directory)
@@ -1094,8 +1095,10 @@ https://www.emacswiki.org/emacs/BookmarkPlus
         (buffer-name)))))
 
 (defun my/get-default-bookmark-name ()
-  (let* ((root (vc-git-root default-directory)))
-    (file-relative-name (buffer-file-name) root)))
+  "dir/file.exe:line"
+  (let* ((root (vc-git-root default-directory))
+         (line (line-number-at-pos)))
+    (format "%s:%d" (file-relative-name (buffer-file-name) root) line)))
 #+END_SRC
 
 *** =consult= for bookmark tags
@@ -4856,11 +4859,39 @@ TODO: merge
   ;;     :straight (smyx-theme :type git :host github :repo "tacit7/smyx"))
   (leaf smyx-theme
     :vc (:url "https://github.com/tacit7/smyx")
-    :ensure nil)
+    :ensure nil
+    :config
+    (require 'smyx-theme))
+
   (load-theme 'doom-opera t)
-  ;; I wonder whye `require` is required
-  (require 'smyx-theme)
-  (load-theme 'smyx t))
+  (load-theme 'smyx t)
+
+  (defun toy/set-transparent-background-on-tty ()
+    (interactive)
+
+    (defun my-fix-default-bg (&rest _)
+      (interactive)
+      (set-face-background 'default "unspecified-bg" (selected-frame)))
+    (my-fix-default-bg)
+    (advice-add 'set-face-background :after
+                (lambda (face &rest _)
+                  (when (eq face 'default)
+                    (my-fix-default-bg))))
+
+    ;; NOT WORKING?
+    (defun my-strip-bg (&rest _)
+      (mapc
+       (lambda (face)
+         (when (facep face)
+           (set-face-attribute face nil :background 'unspecified)))
+       (face-list)))
+    (add-hook 'after-load-theme-hook #'my-strip-bg)
+    (add-hook 'after-change-major-mode-hook #'my-strip-bg)
+
+    ;; (defun my-strip-overlay-bg ()
+    ;;   (remove-overlays nil nil 'face nil))
+    ;; (add-hook 'org-mode-hook #'my-strip-overlay-bg)
+    )
 #+END_SRC
 
 #+BEGIN_SRC elisp
