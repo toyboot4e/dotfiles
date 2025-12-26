@@ -26,7 +26,16 @@ source "$HOME/dotfiles/shell/fish/root_comp.fish"
 set -x SHELL (which fish)
 
 # --------------------------------------------------------------------------------
+# fisher
+# --------------------------------------------------------------------------------
+
+if functions -q fzf_configure_bindings
+    fzf_configure_bindings --directory=\co
+end
+
+# --------------------------------------------------------------------------------
 # OS-dependent
+# --------------------------------------------------------------------------------
 
 if test (uname) = Darwin
     function refresh_audio
@@ -39,9 +48,11 @@ end
 
 # --------------------------------------------------------------------------------
 # Setup
+# --------------------------------------------------------------------------------
 
 # ----------------------------------------
 # PATHS
+# ----------------------------------------
 
 # run `~/dotfiles/shell/fish/user_path.fish` once to set universal paths
 
@@ -58,6 +69,7 @@ end
 
 # ----------------------------------------
 # META UTILS
+# ----------------------------------------
 
 function _alias
     if ! command -sq $argv[1]
@@ -74,6 +86,7 @@ end
 
 # ----------------------------------------
 # VARIABLES
+# ----------------------------------------
 
 set HISTCONTROL ignoredups
 
@@ -104,9 +117,11 @@ _alias brew bs 'brew services'
 
 # --------------------------------------------------------------------------------
 # COMMANDS/ALIASES
+# --------------------------------------------------------------------------------
 
 # ----------------------------------------
 # Application
+# ----------------------------------------
 
 # Now it's moved to `~/bin` so that it works in any shell
 # if test -x /Applications/qutebrowser.app/Contents/MacOS/qutebrowser
@@ -115,6 +130,7 @@ _alias brew bs 'brew services'
 
 # ----------------------------------------
 # I/O
+# ----------------------------------------
 
 _alias pbcopy pc
 
@@ -138,6 +154,7 @@ _alias rg rgl 'rg -p "argv" | less -iNMR'
 
 # ----------------------------------------
 # FILE OPERATION
+# ----------------------------------------
 
 if command -sq rename
     # better --dry-run output for `rename`
@@ -153,6 +170,7 @@ end
 
 # ----------------------------------------
 # TOOLS
+# ----------------------------------------
 
 _alias tealdeer tldr
 
@@ -173,6 +191,7 @@ _alias w3m w 'w3m -B'
 
 # ----------------------------------------
 # EDITOR
+# ----------------------------------------
 
 if command -sq nvim
     alias n nvim
@@ -187,6 +206,7 @@ end
 
 # ----------------------------------------
 # PROGRAMMING
+# ----------------------------------------
 
 # if command -sq cargo
 #     alias c cargo
@@ -238,6 +258,7 @@ _alias ruby 1rb 'ruby -e'
 
 # ----------------------------------------
 # NAVIGATION
+# ----------------------------------------
 
 function mkcd
     if mkdir -p "$argv"
@@ -274,6 +295,7 @@ end
 
 # ----------------------------------------
 # CONTENT
+# ----------------------------------------
 
 _alias asciidoctor adoc
 _alias asciidoctor-pdf adoc-pdf
@@ -334,6 +356,7 @@ end
 
 # ----------------------------------------
 # Converters
+# ----------------------------------------
 
 # reads the content of a docx file, which is a zipped file
 function word
@@ -351,6 +374,7 @@ _alias xml-to-json-fast xml2yaml 'yq r (xml2json)'
 
 # ----------------------------------------
 # FORMATTERS
+# ----------------------------------------
 
 function deansi
     gsed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g'
