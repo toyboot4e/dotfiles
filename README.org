@@ -2,6 +2,7 @@
 #+LINK: hm https://github.com/nix-community/home-manager
 #+LINK: brew https://brew.sh/
 
+#+LINK: alacritty https://alacritty.org/
 #+LINK: kitty https://sw.kovidgoyal.net/kitty/
 #+LINK: tmux https://github.com/tmux/tmux
 #+LINK: nerd https://github.com/ryanoasis/nerd-fonts
@@ -21,6 +22,7 @@
 #+LINK: spacebar https://github.com/somdoron/spacebar
 
 #+LINK: i3 https://github.com/i3/i3
+#+LINK: sxhkd https://github.com/baskerville/sxhkd
 #+LINK: flameshot https://github.com/flameshot-org/flameshot
 
 #+LINK: ghq https://github.com/x-motemen/ghq
@@ -51,9 +53,9 @@ These are the tools frequently used:
 
 | Item         | What I use                            |
 |--------------+---------------------------------------|
-| Terminals    | [[kitty][kitty]] with [[tmux][tmux]]                       |
-| Fonts        | Intel One Mono ([[nerd][nerd]])                 |
-| Editors      | [[evil][Evil]] Emacs and Neovim                 |
+| Terminals    | [[alacritty]] or [[kitty][kitty]] with [[tmux][tmux]]          |
+| Fonts        | Intel One Mono ([[nerd][nerd font]])            |
+| Editors      | [[evil][Evil]] Emacs                            |
 | Shells       | bash and [[fish][fish]]                         |
 | Browsers     | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
 | Task runners | [[just][just]]                                  |
@@ -61,7 +63,7 @@ These are the tools frequently used:
 | Grep         | [[rg][rg]], [[hgrep][hgrep]]                             |
 | File         | [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[https://github.com/ranger/ranger][ranger]]         |
 | macOS        | [[yabai][yabai]], [[skhd][skhd]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
-| Linux        | X11, [[i3][i3]], [[flameshot][flameshot]]                    |
+| Linux        | X11, [[i3][i3]], [[sxhkd]], [[flameshot][flameshot]]             |
 | Misc         | GNU sed, GNU =rename=                   |
 
 ** Installations
