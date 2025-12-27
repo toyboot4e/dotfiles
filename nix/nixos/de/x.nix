@@ -12,6 +12,13 @@ lib.mkIf useX {
   # TODO: needed?
   environment.pathsToLink = [ "/libexec" ];
 
+  # For transparent windows:
+  services.picom = {
+    enable = true;
+    backend = "glx";
+    vSync = true;
+  };
+
   services.displayManager.defaultSession = "none+i3";
   services.xserver = {
     enable = true;

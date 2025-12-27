@@ -60,7 +60,6 @@ in
       xfce.thunar
 
       # devbox
-      # skk-dicts
       # geekbench
       # meson
       ninja
