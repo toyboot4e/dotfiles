@@ -6,6 +6,7 @@ pkgs: with pkgs; [
 
   # terminal
   kitty
+  warp
   tmux
 
   # dev env

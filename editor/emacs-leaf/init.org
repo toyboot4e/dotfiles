@@ -4869,29 +4869,53 @@ TODO: merge
   (defun toy/set-transparent-background-on-tty ()
     (interactive)
 
+    ;; Preserve backround color of these faces:
+    (defconst my-bg-keep-faces
+      '(region
+        secondary-selection
+        isearch
+        lazy-highlight
+        hl-line
+        minibuffer-prompt
+
+        ;; TODO: ignore git gutter?
+        ;; TODO: ignore magit hunks
+
+        ;; minibuffer selection
+        icomplete-selected-match
+        vertico-current))
+
+    ;; [1] frame / default face anchor
+    (defun my-strip-bg (&rest _)
+      (mapc
+       (lambda (face)
+         (when (and (facep face)
+                    (not (memq face my-bg-keep-faces)))
+           (set-face-attribute face nil :background 'unspecified)))
+       (face-list)))
+
+    ;; [2] Keep default background transparent (per-face pollution cleanup)
     (defun my-fix-default-bg (&rest _)
-      (interactive)
       (set-face-background 'default "unspecified-bg" (selected-frame)))
+
     (my-fix-default-bg)
+    (add-hook 'after-load-theme-hook #'my-fix-default-bg)
+
     (advice-add 'set-face-background :after
                 (lambda (face &rest _)
                   (when (eq face 'default)
                     (my-fix-default-bg))))
 
-    ;; NOT WORKING?
-    (defun my-strip-bg (&rest _)
-      (mapc
-       (lambda (face)
-         (when (facep face)
-           (set-face-attribute face nil :background 'unspecified)))
-       (face-list)))
     (add-hook 'after-load-theme-hook #'my-strip-bg)
     (add-hook 'after-change-major-mode-hook #'my-strip-bg)
 
-    ;; (defun my-strip-overlay-bg ()
-    ;;   (remove-overlays nil nil 'face nil))
-    ;; (add-hook 'org-mode-hook #'my-strip-overlay-bg)
+    ;; Set vertico color
+    (set-face-attribute 'vertico-current nil
+                        :background "#448888" ;; TODO: Choose better color
+                        :extend t)
+
     )
+  (toy/set-transparent-background-on-tty))
 #+END_SRC
 
 #+BEGIN_SRC elisp
