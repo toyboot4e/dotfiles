@@ -8,3 +8,27 @@ opacity = 0.5
 
 [general]
 live_config_reload = true
+
+[colors.cursor]
+cursor = "#8fee96"
+text = "#000000" # optional
+
+[colors.normal]
+black   = "#2f2f2f" # color0
+red     = "#d75f5f" # color1
+green   = "#d4d232" # color2
+yellow  = "#af865a" # color3
+blue    = "#22c3a1" # color4
+magenta = "#775759" # color5
+cyan    = "#84edb9" # color6
+white   = "#c0b18b" # color7
+
+[colors.bright]
+black   = "#555555" # color8
+red     = "#d75f5f" # color9
+green   = "#8fee96" # color10
+yellow  = "#cd950c" # color11
+blue    = "#458588" # color12
+magenta = "#775759" # color13
+cyan    = "#84edb9" # color14
+white   = "#d8d8d8" # color15
