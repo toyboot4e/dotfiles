@@ -1312,6 +1312,28 @@ Change the auto tag with =consult=:
   :emacs>= 27.1)
 #+END_SRC
 
+** [[https://github.com/protesilaos/spacious-padding][=spacious-padding=]]
+
+#+BEGIN_SRC elisp
+(leaf spacious-padding
+  :config
+  (setq spacious-padding-widths
+        '( :internal-border-width 0
+           :header-line-width 0
+           :mode-line-width 0
+           :tab-width 0
+           :right-divider-width 0
+           :scroll-bar-width 0))
+
+  (setq spacious-padding-subtle-frame-lines
+        '( :mode-line-active spacious-padding-line-active
+           :mode-line-inactive spacious-padding-line-inactive
+           :header-line-active spacious-padding-line-active
+           :header-line-inactive spacious-padding-line-inactive))
+
+  (spacious-padding-mode +1))
+#+END_SRC
+
 ** Doom Modeline + Minions
 
 #+BEGIN_SRC elisp
