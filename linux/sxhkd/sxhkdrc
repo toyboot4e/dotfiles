@@ -14,7 +14,7 @@
 
 # Toggle specific floating applications:
 super + shift + Return
-  x11-pad --class 'dropdown-terminal' ' kitty --class="dropdown-terminal"'
+  x11-pad --class 'dropdown-terminal' 'alacritty --class="dropdown-terminal"'
 
 super + shift + e
   x11-pad --title 'dropdown-emacs' 'emacs --init-directory ~/dotfiles/editor/emacs-leaf --title "dropdown-emacs"'
@@ -55,7 +55,7 @@ super + d
   rofi -modi drun,run -show drun -font 'hack 20'
 
 super + Return
-  exec kitty
+  exec alacritty
 
 # --------------------------------------------------------------------------------
 # Windowing

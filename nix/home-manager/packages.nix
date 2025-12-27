@@ -6,8 +6,7 @@ pkgs: with pkgs; [
 
   # terminal
   kitty
-  warp
-  tmux
+  alacritty
 
   # dev env
   direnv
