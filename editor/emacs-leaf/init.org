@@ -2512,7 +2512,7 @@ Toolings (TODO: move):
 
 (leaf sqlite-mode-extras
   :url "https://github.com/xenodium/sqlite-mode-extras"
-  :hook ((sqlite-mode-hook . sqlite-extras-minor-mode)))
+  :hook (sqlite-mode-hook . sqlite-extras-minor-mode))
 #+END_SRC
 
 ** Vim
@@ -3051,22 +3051,6 @@ FIXME
     (corfu-terminal-mode +1)))
 #+END_SRC
 
-** kind-icon
-
-#+BEGIN_SRC elisp
-;; (leaf kind-icon
-;;     :url "https://github.com/jdtsmith/kind-icon"
-;;     ;; :custom (kind-icon-default-face . 'corfu-default)
-;;     :config
-;;     ;; FIXME: void?
-;;     ;; (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
-;;     (add-hook 'my-completion-ui-mode-hook
-;;    	          (lambda ()
-;;    	              (setopt completion-in-region-function
-;;    		                  (kind-icon-enhance-completion
-;;    		                   completion-in-region-function)))))
-#+END_SRC
-
 ** nerd-icons-corfu
 
 #+BEGIN_SRC elisp
@@ -3420,6 +3404,16 @@ Qiita Markdown support.
   :hook (org-mode-hook . org-nix-shell-mode))
 #+END_SRC
 
+** org-include-inline
+
+#+BEGIN_SRC elisp
+(leaf org-include-inline
+  :ensure nil
+  :after org
+  :vc (:url "https://github.com/yibie/org-include-inline")
+  :hook (org-mode-hook . org-include-inline-mode))
+#+END_SRC
+
 ** Minimum org-mode PDF output
 
 Add the followings to the org file header:
@@ -3551,17 +3545,20 @@ Add the followings to the org file header:
 (with-eval-after-load 'org-babel
   (setopt haskell-process-type 'cabal-script)
   (org-babel-do-load-languages
-   'org-babel-load-languages '((ditaa . t)
-                               (mermaid . t)
-                               (plantuml . t)
-                               (dot . t)
-                               (haskell . t)
-                               (shell . t)
-                               (bash . t)
-                               (sqlite . t)
-                               ;; FIXME: export yaml..
-                               (yaml . t)
-                               )))
+   'org-babel-load-languages
+   '((ditaa . t)
+     (mermaid . t)
+     (plantuml . t)
+     (dot . t)
+     (haskell . t)
+     (shell . t)
+     (bash . t)
+     (sql . t)
+     (sqlite . t)
+     ;; FIXME: export yaml..
+     (yaml . t)
+     (python . t)
+     )))
 #+END_SRC
 
 ** math-preview
@@ -4050,7 +4047,7 @@ Note that this hack is ill-designed often causes other issues. Fix it.
   (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
     (when (= (point) (point-max))
       ;; FIXME: ignoring aider
-      (unless (string-match-p (regexp-quote "aider") (buffer-name))
+      (unless (string-match-p (regexp-quote "SQL") (buffer-name))
         (forward-line -1)))))
 ;; FIXME: 'post-command-hook is too generic.
 (add-hook 'post-command-hook (_fn (toy/disable-cursor-at-eof)))
@@ -4232,33 +4229,17 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
   )
 #+END_SRC
 
-** g
+** =browse-at-remote=
 
 #+BEGIN_SRC elisp
-;; https://gist.github.com/dotemacs/9a0433341e75e01461c9
-(defun toy/parse-url (url)
-  "convert a git remote location as a HTTP URL"
-  (if (string-match "^http" url)
-      url
-    (replace-regexp-in-string "\\(.*\\)@\\(.*\\):\\(.*\\)\\(\\.git?\\)"
-                              "https://\\2/\\3"
-                              url)))
-
-(defun toy/magit-open-repo ()
-  "open remote repo URL"
-  (interactive)
-  ;; FIXME: `magit-get' is not there
-  (let ((url (magit-get "remote" "origin" "url")))
-    (progn
-      (browse-url (toy/parse-url url))
-      (message "opening repo %s" url))))
+(leaf browse-at-remote)
 
 ;; TODO: replace with `embark'
 ;; TODO: store local/upstream for org mode etc.
 (evil-define-key 'normal 'toy/global-mode-map
   ;; open link
   "gB" #'browse-url
-  "gR" #'toy/magit-open-repo)
+  "gR" #'browse-at-remote)
 #+END_SRC
 
 ** Leaders
@@ -4487,29 +4468,100 @@ TODO: merge all
               (save-buffer)))
 #+END_SRC
 
-** SKK
+** SKK (ddskk)
+
+https://ddskk.readthedocs.io/
+
+#+BEGIN_SRC sh
+$ curl -L 'https://skk-dev.github.io/dict/SKK-JISYO.L.gz'
+$ gunzip SKK-JISYO.L.gz
+
+$ git clone git@github.com:skk-dev/ddskk
+#+END_SRC
 
 #+BEGIN_SRC elisp
-;; https://ddskk.readthedocs.io/
+(leaf ddskk
+  ;; :ensure nil
+  :vc (:url "https://github.com/skk-dev/ddskk")
+  :bind
+  (("C-x C-j" . skk-mode)
+   ("C-x j" . skk-auto-fill-mode)
+   ("C-x t" . skk-tutorial))
 
-;; In Nix, I install `emacsPackages.ddskk' and `skk-dicts'.
-;; (require 'ddskk)
+  :init
+  (setq skk-large-jisyo (concat user-emacs-directory "SKK-JISYO.L"))
+  (setq skk-tut-file (concat user-emacs-directory "ddskk/etc/SKK.tut"))
 
-;; TODO: git-gutter alternative (forgot the name)
+  (defun skktut-prev-question ()
+    (interactive)
+    (skktut-skip-question -1))
 
-;; Start `skk-mode' with `C-x j'
-;; (require 'skk-autoloads)
-;; (global-set-key "\C-x\C-j" 'skk-mode)
-;; (global-set-key "\C-xj" 'skk-auto-fill-mode)
-;; (global-set-key "\C-xt" 'skk-tutorial)
+  (defadvice skk-tutorial (after add-prev-key-binding activate)
+    (keymap-set (current-local-map) "C-x p" #'skktut-prev-question)
+    (keymap-set (current-local-map) "C-x <RET>" #'consult-skk-tutorial))
 
-;; q    skk-toggle-kana         「かなモード」と「カナモード」間をトグル切り替えする
-;; l    skk-latin-mode          「かなモード」又は「カナモード」から「アスキーモード」へ
-;; L    skk-jisx0208-latin-mode 「かなモード」又は「カナモード」から「全英モード」へ
-;; C-j  skk-kakutei             「アスキーモード」又は「全英モード」から「かなモード」へ
+  :config
+  (require 'ddskk-autoloads)
 
-;; Q
-;; 再変換
+  ;; (load-file "~/.skk") ;; generate by home-manager on NixOS
+  ;; (setopt default-input-method "japanese-skk")
+  ;; skk-kakutei key binding
+  ;; (assoc 'ddskk load-history)
+  )
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(defun consult-skk-tutorial ()
+  "Select and jump to a specific SKK tutorial problem using consult."
+  (interactive)
+  (require 'consult)
+  (let ((tut-file (skk-tut-find-tut-file skk-tut-file))
+        (problems nil))
+    (unless (file-exists-p tut-file)
+      (error "Tutorial file not found: %s" tut-file))
+
+    ;; Set problems
+    (with-temp-buffer
+      (insert-file-contents tut-file)
+      (goto-char (point-min))
+      (let ((problem-num 0))
+        (while (re-search-forward "^----$" nil t)
+          (setq problem-num (1+ problem-num))
+          (next-line)
+          (while (looking-at-p "\\s-*;;")
+            ;; Ignore ;; lines
+            (forward-line 1))
+          (let ((title (buffer-substring (line-beginning-position) (line-end-position))))
+            (push `(,problem-num ,(format "%d %s" problem-num title))
+                  problems)))))
+
+    (pop problems) ;; discard the last one
+    (setq problems (reverse problems))
+
+    ;; consult
+    (when problems
+      (let* ((candidates (mapcar #'cdr problems))
+             (selection (consult--read
+                         candidates
+                         :prompt "SKK Tutorial Problem: "
+                         :require-match t
+                         :category 'consult-skk-tutorial
+                         :sort nil)))
+        (let ((entry (cl-find selection problems
+                              :key #'cadr
+                              :test #'string=)))
+          (when entry
+            (skktut-get-question-page (car entry))))))))
+#+END_SRC
+
+| key | command                 | description                                              |
+|-----+-------------------------+----------------------------------------------------------|
+| =q=   | =skk-toggle-kana=         | 「かなモード」と「カナモード」間をトグル切り替えする     |
+| =l=   | =skk-latin-mode=          | 「かなモード」又は「カナモード」から「アスキーモード」へ |
+| =L=   | =skk-jisx0208-latin-mode= | 「かなモード」又は「カナモード」から「全英モード」へ     |
+| =C-j= | =skk-kakutei=             | 「アスキーモード」又は「全英モード」から「かなモード」へ |
+
+- Q: 再変換
 
 ;; 変換箇所について
 
@@ -4524,10 +4576,6 @@ TODO: merge all
 ;; / から始めることでアルファベットを変換対象にできる (Greak/greek など)
 ;; \ から始めることで
 
-;; (setopt default-input-method "japanese-skk")
-
-;; skk-kakutei key binding
-#+END_SRC
 
 ** Toggle comments
 
@@ -4752,6 +4800,19 @@ TODO: merge
 
 * Misc
 
+** w3m
+
+#+BEGIN_SRC elisp
+(leaf emacs-w3m
+  :ensure nil
+  :custom
+  ((w3m-default-display-inline-images . t)
+   ;; (w3m-treat-image-size . nil)
+   (w3m-resize-images . t)
+   (w3m-resize-image-scale . 25)
+   ))
+#+END_SRC
+
 ** helpful
 
 #+BEGIN_SRC elisp
@@ -4811,6 +4872,32 @@ TODO: merge
 
 #+BEGIN_SRC elisp
 (leaf git-modes)
+#+END_SRC
+
+** Statistics
+
+#+BEGIN_SRC elisp
+(leaf proced
+  :ensure nil
+  :custom
+  ((proced-auto-update-flag . t)
+   (proced-enable-color-flag . t)
+   (proced-show-remote-processes . t))
+  :config
+  (setq proced-format
+      '((user 10 right)
+        (pid 7 right)
+        (pcpu 5 right)
+        (pmem 5 right)
+        (start 16 left)
+        (comm 80 left)
+        (state 5 left))))
+
+(leaf proced-narrow
+  :after proced
+  :commands proced-narrow
+  :config
+  (keymap-set proced-mode-map "C-j" #'proced-narrow))
 #+END_SRC
 
 ** Google Translate
@@ -4929,6 +5016,42 @@ TODO: merge
                            :embedding-model "llama3.1:8b")))))
 #+END_SRC
 
+* Gaming Emacs
+
+** nyan-mode
+
+#+BEGIN_SRC elisp
+;; (leaf nyan-mode
+;;   :config
+;;   (nyan-mode))
+#+END_SRC
+
+** parrot
+
+#+BEGIN_SRC elisp
+;; (leaf parrot
+;;   :custom
+;;   ((nyan-animate-nyancat . t)
+;;    (parrot-num-rotations . nil))
+;;   :config
+;;   (parrot-mode))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf beacon
+  :config
+  (beacon-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+;; (leaf zone-rainbow
+;;   :after zone
+;;   :config
+;;   (setq zone-programs (vconcat [zone-rainbow] zone-programs)))
+#+END_SRC
+
+** Demo
+
 * At the end
 
 #+BEGIN_SRC elisp
@@ -5030,35 +5153,3 @@ TODO: merge
 #+BEGIN_SRC elisp
 ;;; init.el ends here
 #+END_SRC
-
-* TODOs
-
-Remove defadvice
-
-Multi cursor
-
-Better editing experience
-- Create corfu key binding
-- Better tempel key mappings
-- How to check specfic mappings for mode
-
-Neotree key bindings like org-mode
-- C-c C-n
-- C-c C-p
-
-Delayed async-like loading
-- for dotfiles
-- for org-mode
-- for haskell
-- for rust
-
-Terminal
-- Fix Japanese font on tmux (fontconfig for tmux?)
-
-embark
-- put grep result into a buffer
-- remove which-key
-
-Flakes
-- Flakes for nix-direnv
-- Flakes for Emacs?
