@@ -47,6 +47,10 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 [[./readme/nixos.png]]
 
+I'm intested in transparent terminals thesedays:
+
+[[./readme/macos-transparent-terminal.png]]
+
 ** List
 
 These are the tools frequently used:
