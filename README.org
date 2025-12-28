@@ -39,7 +39,7 @@
 
 * dotfiles
 
-This is a set of Nix-based configuration files for NixOS and macOS.
+This is a set configuration files for NixOS and macOS.
 
 ** Colors
 
@@ -47,7 +47,7 @@ I followed the cool [[https://github.com/koekeishiya/dotfiles][dotfiles]] for co
 
 [[./readme/nixos.png]]
 
-I'm intested in transparent terminals thesedays:
+I'm interested in transparent terminals thesedays:
 
 [[./readme/macos-transparent-terminal.png]]
 
