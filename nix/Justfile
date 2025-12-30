@@ -36,19 +36,18 @@ fetch:
 [private]
 alias f := fetch
 
-# updates the whole NixOS system (tbm)
-tbm:
-    sudo nixos-rebuild --flake .#tbm switch
+switch:
+    #!/usr/bin/env bash -euE
+    host="$(whoami)"
+    if [ $(uname) = Darwin ] ; then
+        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host switch
+        just yabai
+    else
+        sudo nixos-rebuild --flake .#$host switch
+    fi
 
-# updates the whole macOS system (1: mac mini)
-mac:
-    sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mac switch
-    just yabai
-
-# updates the whole macOS system (2: macbook air)
-mp:
-    sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#mp switch
-    just yabai
+[private]
+alias s := switch
 
 # sets up yabai with script addition (SIP needs to be disabled)
 yabai:
