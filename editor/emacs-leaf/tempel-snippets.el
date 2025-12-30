@@ -166,13 +166,9 @@ deriving via (Acc `U.As` AccRepr) instance G.Vector U.Vector Acc
 
 instance U.Unbox Acc")
 
-(modInt
-"{- ORMOLU_DISABLE -}
-type MyModulo = (998244353 :: Nat) -- (1_000_000_007 :: Nat)
-type MyModInt = ModInt MyModulo ; myMod :: Int ; myMod = fromInteger $ natVal' @MyModulo proxy# ; {-# INLINE modInt #-} ; modInt :: Int -> MyModInt ; modInt = ModInt . (`rem` myMod) ;
-{- ORMOLU_ENABLE -}")
-
-(rh "type RH' = RH HashInt MyModulo ;")
+(modInt "{-# INLINE modInt #-}
+modInt :: Int -> MI.ModInt 998244353
+modInt = M.new")
 
 (quickcheck
 "propQC :: QC.Gen QC.Property

@@ -2034,7 +2034,7 @@ TODO: docstring treesitter
   :after evil
   :custom
   ((markdown-command . "multimarkdown")
-   (markdown-hide-markup . t)
+   ;; (markdown-hide-markup . t)
    ;; TODO: Do it for org-ai only
    (markdown-fontify-code-blocks-natively . t))
   :config
@@ -5029,18 +5029,18 @@ TODO: merge
 ** parrot
 
 #+BEGIN_SRC elisp
+(leaf beacon
+  :config
+  (beacon-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC elisp
 ;; (leaf parrot
 ;;   :custom
 ;;   ((nyan-animate-nyancat . t)
 ;;    (parrot-num-rotations . nil))
 ;;   :config
 ;;   (parrot-mode))
-#+END_SRC
-
-#+BEGIN_SRC elisp
-(leaf beacon
-  :config
-  (beacon-mode 1))
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -5089,6 +5089,40 @@ TODO: merge
 
         ;; TODO: ignore git gutter?
         ;; TODO: ignore magit hunks
+
+        ;; diff-hl (TODO: regex match)
+        diff-hl-insert
+        diff-hl-delete
+        diff-hl-change
+        diff-hl-unknown
+        diff-hl-ignored
+
+        ;; beacon
+
+        ;; magit
+        magit-diff-added-highlight
+        magit-diff-removed-highlight
+        magit-diff-added-refined
+        magit-diff-removed-refined
+        magit-diff-context
+        magit-diff-hunk-heading
+        magit-diff-hunk-heading-highlight
+        magit-section-heading
+        magit-section-highlight
+        magit-header-line
+        magit-branch-local
+        magit-branch-remote
+        magit-branch-current
+        magit-tag
+        magit-hash
+        magit-log-author
+        magit-log-date
+        magit-log-graph
+        magit-process-ok
+        magit-process-ng
+        magit-popup-heading
+        magit-popup-key
+        magit-popup-option-value
 
         ;; minibuffer selection
         icomplete-selected-match

@@ -37,7 +37,7 @@ fetch:
 alias f := fetch
 
 switch:
-    #!/usr/bin/env bash -euE
+    #!/usr/bin/env -S bash -euE
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
         sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host switch

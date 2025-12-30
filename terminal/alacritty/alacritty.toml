@@ -1,5 +1,5 @@
 [font]
-size = 13
+size = 14
 normal = { family = "Intel One Mono", style = "Regular" }
 
 [window]
@@ -9,9 +9,17 @@ opacity = 0.5
 [general]
 live_config_reload = true
 
+[colors.primary]
+foreground = "#c0b18b"
+background = "#202020"
+
+[colors.selection]
+text = "#2f2f2f"
+background = "#d75f5f"
+
 [colors.cursor]
 cursor = "#8fee96"
-text = "#000000" # optional
+text = "#202020"
 
 [colors.normal]
 black   = "#2f2f2f" # color0

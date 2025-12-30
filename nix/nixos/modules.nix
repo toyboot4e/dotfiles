@@ -16,6 +16,10 @@
     # permitRootLogin = "yes";
   };
 
+  users.users.tbm.openssh.authorizedKeys.keys = [
+    # TODO: add SSH keys
+  ];
+
   # # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
   # xdg.portal = {
   #   enable = true;
