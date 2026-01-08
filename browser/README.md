@@ -4,8 +4,10 @@ qutebrowser is my choice.
 
 ## Firefox
 
-- In `about:config`, set `toolkit.legacyUserProfileCustomizations.stylesheets`: `true`
-- Place `userChrome.css` in the proper path:
+- `about:config`
+  - `toolkit.legacyUserProfileCustomizations.stylesheets`: `true`
+  - `sidebar.revamp`: `false` for hiding sidebar icons
+- Place a symlink to `userChrome.css` in the proper path:
   - Linux: `~/.mozilla/firefox/*.default/chrome`
   - macOS: `~/Library/Application Support/Firefox/Profiles/*.default/chrome`
 - [Vimium-FF](https://addons.mozilla.org/ja/firefox/addon/vimium-ff/)
