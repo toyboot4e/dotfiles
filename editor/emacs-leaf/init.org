@@ -2565,7 +2565,11 @@ Toolings (TODO: move):
   :custom (typescript-indent-level . 2)
   :hook (typescript-mode-hook . lsp-deferred)
   :config
+  ;; FIXME: Set them for these to target buffer only
+  (setq lsp-eslint-format t)
   (setq lsp-eslint-auto-fix-on-save t)
+  (setq lsp-eslint-multi-root t)
+  ;; (setq lsp-eslint-fix-all-problem-type "explicit")
   ;; (add-to-list 'lsp-language-id-configuration '("eslint\\.config\\..js" . "eslint"))
   :defer-config
   ;; FIXME: not set
