@@ -37,7 +37,8 @@ in
   environment.variables.EDITOR = "nvim";
 
   fonts.packages = [
-    pkgs.intel-one-mono
+    # pkgs.intel-one-mono
+    pkgs.nerd-fonts.intone-mono
 
     # Because Kitty has builtin Nerd Font, we should use vanilla fonts:
     # https://sw.kovidgoyal.net/kitty/faq/#kitty-is-not-able-to-use-my-favorite-font

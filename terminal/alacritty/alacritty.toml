@@ -1,6 +1,7 @@
 [font]
 size = 14
-normal = { family = "Intel One Mono", style = "Regular" }
+# normal = { family = "Intel One Mono", style = "Regular" }
+normal = { family = "IntoneMono Nerd Font", style = "Regular" }
 
 [window]
 decorations = "none"
