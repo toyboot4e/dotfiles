@@ -1676,6 +1676,8 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
   ((html-mode-hook . emmet-mode)
    (web-mode-hook . emmet-mode)
    (css-mode-hook . emmet-mode)
+   (javascript-mode-hook . emmet-mode)
+   (typescript-mode-hook . emmet-mode)
    (typescript-tsx-mode-hook . emmet-mode)
    (vue-mode-hook . emmet-mode)))
 #+END_SRC
@@ -1989,22 +1991,8 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   ;; TODO: need this check?
   (with-eval-after-load 'typescript-tsx-mode
     (tree-sitter-require 'tsx)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(ts-tsx-mode . tsx))
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))))
-#+END_SRC
-
-*** ts-docstr
-
-TODO: docstring treesitter
-
-#+BEGIN_SRC elisp
-(leaf msgu
-  :ensure nil
-  :vc (:url "https://github.com/jcs-elpa/msgu"))
-
-(leaf ts-docstr
-  :ensure nil
-  :vc (:url "https://github.com/emacs-vs/ts-docstr")
-  :after msgu)
 #+END_SRC
 
 ** Vue
@@ -4806,17 +4794,20 @@ TODO: merge
   )
 #+END_SRC
 
-** Grep
+** Grep/Git
 
 #+BEGIN_SRC elisp
 (evil-define-key 'normal 'toy/global-mode-map
-  " gb" #'consult-line
   " gr"
   (lambda ()
     (interactive)
     (let ((this-command 'consult-ripgrep))
       (consult-ripgrep "." " . ")))
-  " gR" #'toy/proj-grep)
+  " gR" #'toy/proj-grep
+  " gf" #'magit-log-buffer-file
+  " gb" #'magit-blame-echo
+  " gq" #'magit-blame-quit
+  " gl" #'blamer-mode)
 
 (keymap-set minibuffer-local-map "C-a" #'evil-first-non-blank)
 (keymap-set minibuffer-local-map "C-e" #'end-of-line)
