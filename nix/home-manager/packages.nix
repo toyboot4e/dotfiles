@@ -7,6 +7,7 @@ pkgs: with pkgs; [
   # terminal
   kitty
   alacritty
+  tmux
 
   # dev env
   direnv
@@ -60,7 +61,12 @@ pkgs: with pkgs; [
   pup
 
   # formatters
+  biome
   nodePackages.prettier
+  nodePackages.eslint
+
+  # general linters
+  codebook
 
   # encoding
   nkf

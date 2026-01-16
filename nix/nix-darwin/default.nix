@@ -84,14 +84,19 @@ in
     ];
 
     casks = [
+      "alacritty"
       "coteditor"
+      "discord"
       "docker-desktop"
       "drawio"
+      "firefox"
       "font-hack-nerd-font" # the default font of sketchy bar
       "gimp"
       "karabiner-elements"
       "session-manager-plugin"
+      "slack"
       "tableplus"
+      "qt-creator"
       "qutebrowser"
       # TODO: limit to mp (separate and merge later)
       # "android-commandlinetools"
