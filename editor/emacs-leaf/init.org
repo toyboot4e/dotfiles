@@ -245,8 +245,8 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 
 #+BEGIN_SRC elisp
 (when (display-graphic-p)
-  (set-frame-font "-*-Intel One Mono-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1")
-  (set-face-attribute 'default nil :family "Intel One Mono" :height 135)
+  (set-frame-font "IntoneMono Nerd Font")
+  (set-face-attribute 'default nil :family "IntoneMono Nerd Font" :height 135)
   ;; TODO: setup monospaced font
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
@@ -1730,7 +1730,18 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
     "z-" #'evil-scroll-line-to-bottom
     "zb" #'evil-scroll-line-to-bottom
     (kbd "z RET") #'evil-scroll-line-to-top
-    "zt" #'evil-scroll-line-to-top))
+    "zt" #'evil-scroll-line-to-top)
+
+  ;; Side-by-side magit blame
+  ;; https://github.com/magit/magit/issues/2717#issuecomment-2165837070
+  ;; (setq magit-blame-styles  
+  ;;        '((margin  
+  ;;           (margin-width . 42)  
+  ;;           (margin-format . ("%C %c %s %f"))  ; %s moved to end (before %f)  
+  ;;           (margin-face . magit-blame-margin)  
+  ;;           (margin-body-face . magit-blame-dimmed)  
+  ;;           (show-message . t))))
+  )
 #+END_SRC
 
 #+BEGIN_SRC elisp
@@ -1773,7 +1784,7 @@ FIXME: Not working under Evil
 (leaf ghq)
 #+END_SRC
 
-** LSP mode
+** lsp-mode
 
 #+BEGIN_SRC elisp
 (leaf lsp-mode
@@ -1871,7 +1882,27 @@ FIXME: Not working under Evil
     "K" #'lsp-describe-thing-at-point))
 #+END_SRC
 
-** LSP UI
+** lsp-biome
+
+#+BEGIN_SRC elisp
+(leaf lsp-biome
+  :ensure nil
+  :vc (:url "https://github.com/cxa/lsp-biome" :rev :newest))
+
+;; Format on save with biome. TODO: support prettier/eslint
+;; https://zenn.dev/craneduck/articles/3c0da51d4767d5
+(leaf reformatter
+  :config
+  (reformatter-define biome-format
+    ;; NOTE: It requires `biome` to be in path
+    :program "biome"
+    :args `("format" "--stdin-file-path" ,(buffer-file-name))
+    :lighter " BiomeFmt")
+  (add-hook 'typescript-mode-hook 'biome-format-on-save-mode)
+  (add-hook 'js-mode-hook 'biome-format-on-save-mode))
+#+END_SRC
+
+** lsp-ui
 
 #+BEGIN_SRC elisp
 (leaf lsp-ui
@@ -1920,8 +1951,10 @@ FIXME: Not working under Evil
 Maybe use `dir-locals.el' or similars rather than to hooks:
 https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per-directory"
   :custom (prettier-inline-errors-flag . t)
-  :hook (typescript-mode-hook . prettier-mode)
-  :hook (css-mode-hook . prettier-mode))
+  ;; TODO: enable only when configuration file is detected
+  ;; :hook (typescript-mode-hook . prettier-mode)
+  ;; :hook (css-mode-hook . prettier-mode)
+  )
 #+END_SRC
 
 ** Tree Sitter packages
@@ -1964,14 +1997,14 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 TODO: docstring treesitter
 
 #+BEGIN_SRC elisp
-;; (leaf msgu
-;;   :ensure nil
-;;   :vc (:url "https://github.com/jcs-elpa/msgu"))
+(leaf msgu
+  :ensure nil
+  :vc (:url "https://github.com/jcs-elpa/msgu"))
 
-;; (leaf ts-docstr
-;;   :ensure nil
-;;   :vc (:url "https://github.com/emacs-vs/ts-docstr")
-;;   :after msgu)
+(leaf ts-docstr
+  :ensure nil
+  :vc (:url "https://github.com/emacs-vs/ts-docstr")
+  :after msgu)
 #+END_SRC
 
 ** Vue
@@ -2562,18 +2595,18 @@ Toolings (TODO: move):
     "Major mode for editing TSX files.")
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-tsx-mode))
   (add-to-list 'auto-mode-alist '("\\.eslintrc.cjs\\'" . typescript-ts-mode))
-  :custom (typescript-indent-level . 2)
-  :hook (typescript-mode-hook . lsp-deferred)
+  :custom
+  ((typescript-indent-level . 2)
+   (lsp-eslint-multi-root . t))
+  :hook
+  ((typescript-mode-hook . lsp-deferred)
+   (typescript-mode-hook . my/ts-hook))
   :config
-  ;; FIXME: Set them for these to target buffer only
-  (setq lsp-eslint-format t)
-  (setq lsp-eslint-auto-fix-on-save t)
-  (setq lsp-eslint-multi-root t)
-  ;; (setq lsp-eslint-fix-all-problem-type "explicit")
-  ;; (add-to-list 'lsp-language-id-configuration '("eslint\\.config\\..js" . "eslint"))
-  :defer-config
-  ;; FIXME: not set
-  (setq-local lsp-format-buffer-on-save t))
+  (defun my/ts-hook ()
+    (interactive)
+    ;; using reformatter for biome instead
+    ;; (setq-local lsp-format-buffer-on-save t)
+    ))
 #+END_SRC
 
 ** WGSL
