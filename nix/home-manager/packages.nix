@@ -77,7 +77,7 @@ pkgs: with pkgs; [
 
   # nix
   nil # Nix LSP: https://github.com/oxalica/nil
-  nixfmt-rfc-style
+  nixfmt
   nix-search-tv
   nvfetcher
   rippkgs

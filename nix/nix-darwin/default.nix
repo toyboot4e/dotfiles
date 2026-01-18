@@ -50,6 +50,8 @@ in
   # TODO: can we use home-manager?
   programs.bash.enable = true;
   programs.fish.enable = true;
+  # workaround: https://github.com/nix-community/home-manager/issues/8435
+  programs.fish.useBabelfish = true;
 
   # NOTE: Homebrew itself has to be installed manually
   homebrew = {
