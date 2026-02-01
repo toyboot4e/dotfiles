@@ -1,10 +1,10 @@
 # `configdata.yaml` contains default key mappings. As of today, it's at:
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
-is_4k = False
+is_4k = True
 correct_dpi = True
 force_dark_theme = False
-tab_width = 200
+tab_width = 300
 DL_VIDEO_DIR="~/Resources/videos"
 
 def scaled(x):
@@ -22,12 +22,9 @@ def text_scaled(x):
     return 1.0 * x
 
 if is_4k:
-    # DEFAULT_ZOOM=scaled(75)
-    DEFAULT_ZOOM=scaled(75)
-    # c.fonts.default_size = "18pt"
-    # TAB_FONT_SIZE=18
-    c.fonts.default_size = "12pt"
-    TAB_FONT_SIZE=14
+    DEFAULT_ZOOM=scaled(175)
+    c.fonts.default_size = "18pt"
+    TAB_FONT_SIZE=18
 else:
     DEFAULT_ZOOM=scaled(100)
     c.fonts.default_size = "16pt"
@@ -283,4 +280,10 @@ c.colors.tabs.pinned.even.bg = bg
 # c.colors.tabs.pinned.selected.odd.bg = '#202020'
 # c.colors.tabs.pinned.selected.even.fg = '#d5c4a1'
 # c.colors.tabs.pinned.selected.even.bg = '#202020'
+
+# --------------------------------------------------------------------------------
+# Userscripts
+# --------------------------------------------------------------------------------
+
+# https://github.com/qutebrowser/qutebrowser/blob/main/misc/userscripts
 

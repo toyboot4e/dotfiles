@@ -168,7 +168,7 @@ instance U.Unbox Acc")
 
 (modInt "{-# INLINE modInt #-}
 modInt :: Int -> MI.ModInt 998244353
-modInt = M.new")
+modInt = MI.new")
 
 (quickcheck
 "propQC :: QC.Gen QC.Property
