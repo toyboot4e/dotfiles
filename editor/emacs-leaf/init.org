@@ -1198,13 +1198,14 @@ Easy motion style jump.
 (leaf doom-modeline
   :url "https://github.com/seagle0128/doom-modeline"
   :after nerd-icons
-  :custom ((doom-modeline-icon . t)
-           (doom-modeline-major-mode-icon . t)
-           (doom-modeline-modal . t)
-           (doom-modeline-buffer-encoding)
-           (doom-modeline-percent-position)
-           (doom-modeline-total-line-number . t)
-           (doom-modeline-buffer-file-name-style quote truncate-upto-project))
+  :custom
+  (;; (doom-modeline-icon . t) ;; why error here?
+   (doom-modeline-major-mode-icon . t)
+   (doom-modeline-modal . t)
+   (doom-modeline-buffer-encoding)
+   (doom-modeline-percent-position)
+   (doom-modeline-total-line-number . t)
+   (doom-modeline-buffer-file-name-style quote truncate-upto-project))
   :config
   ;; Show ln and cl (nerd-icons)
   (setq doom-modeline-position-column-line-format
@@ -1383,23 +1384,15 @@ Easy motion style jump.
 #+BEGIN_SRC elisp
 (leaf nerd-icons
   :leaf-defer nil
+  :custom
+  (magit-format-file-function . #'magit-format-file-nerd-icons)
   :config
   (leaf nerd-icons-completion
     :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
     :config
     (nerd-icons-completion-mode))
   (leaf nerd-icons-dired
-    :hook (dired-mode-hook . nerd-icons-dired-mode))
-  ;; (leaf magit-file-icons
-  ;;     :after magit
-  ;;     ;; TODO: remove straight after upstream change
-  ;;     ;; :straight (magit-file-icons :type git :host github :repo "gekoke/magit-file-icons")
-  ;;     :hook (magit-status-mode-hook . magit-file-icons-mode)
-  ;;     :custom
-  ;;     (magit-file-icons-enable-diff-file-section-icons . t)
-  ;;     (magit-file-icons-enable-untracked-icons . t)
-  ;;     (magit-file-icons-enable-diffstat-icons . t))
-  )
+    :hook (dired-mode-hook . nerd-icons-dired-mode)))
 #+END_SRC
 
 ** olivetti
