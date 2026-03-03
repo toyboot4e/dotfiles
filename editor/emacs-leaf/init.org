@@ -4676,6 +4676,14 @@ TODO: merge
   (keymap-set vertico-map "C-r" #'evil-paste-from-register))
 #+END_SRC
 
+** Window commands
+
+#+BEGIN_SRC elisp
+(with-eval-after-load 'evil
+  (define-key evil-window-map (kbd "g d")
+    #'xref-find-definitions-other-window))
+#+END_SRC
+
 * Misc
 
 ** w3m
