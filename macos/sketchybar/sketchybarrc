@@ -7,7 +7,14 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # https://felixkratz.github.io/SketchyBar/config/bar
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=34 blur_radius=30 color=0x40000000
+# black
+# sketchybar --bar position=top height=34 blur_radius=30 color=0x40000000
+
+# gray
+# sketchybar --bar position=top height=34 blur_radius=30 color=0x40ffffff
+
+# mint
+sketchybar --bar position=top height=34 blur_radius=30 color=0xFFABDBDB
 
 # Items
 # https://felixkratz.github.io/SketchyBar/config/items
@@ -73,3 +80,6 @@ done
 
 # Force all scripts to run the first time (never do this in a script)
 sketchybar --update
+
+# Enable hot reloading
+sketchybar --hotreload true

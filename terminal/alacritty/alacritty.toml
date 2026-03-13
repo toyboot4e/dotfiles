@@ -5,39 +5,76 @@ normal = { family = "IntoneMono Nerd Font", style = "Regular" }
 
 [window]
 decorations = "none"
-opacity = 0.5
+# opacity = 0.5
+opacity = 1.0
 
 [general]
 live_config_reload = true
 
+# dichromacy-like colors
+
 [colors.primary]
-foreground = "#c0b18b"
-background = "#202020"
+foreground = "#000000" # fg
+background = "#ffffff" # bg
 
 [colors.selection]
-text = "#2f2f2f"
-background = "#d75f5f"
+text       = "#000000" # fg
+background = "#f8ec59" # yellow (region)
 
 [colors.cursor]
-cursor = "#8fee96"
-text = "#202020"
+# cursor = "#4d9cc9" # blue (lightened)
+cursor = "#7ab8d9" # blue (lightened)
+text   = "#ffffff" # bg
 
 [colors.normal]
-black   = "#2f2f2f" # color0
-red     = "#d75f5f" # color1
-green   = "#d4d232" # color2
-yellow  = "#af865a" # color3
-blue    = "#22c3a1" # color4
-magenta = "#775759" # color5
-cyan    = "#84edb9" # color6
-white   = "#c0b18b" # color7
+black   = "#000000" # fg        (color0)
+red     = "#d55e00" # vermillion (color1)
+green   = "#009e73" # bluegreen  (color2)
+yellow  = "#e69f00" # orange — yellow (#f8ec59) is invisible on white (color3)
+blue    = "#0072b2" # blue       (color4)
+magenta = "#cc79a7" # redpurple  (color5)
+cyan    = "#56b4e9" # skyblue    (color6)
+white   = "#848ea9" # grey       (color7)
 
 [colors.bright]
-black   = "#555555" # color8
-red     = "#d75f5f" # color9
-green   = "#8fee96" # color10
-yellow  = "#cd950c" # color11
-blue    = "#458588" # color12
-magenta = "#775759" # color13
-cyan    = "#84edb9" # color14
-white   = "#d8d8d8" # color15
+black   = "#383a42" # fg-alt      (color8)
+red     = "#d55e00" # vermillion  (color9)
+green   = "#007b5a" # teal        (color10)
+yellow  = "#e69f00" # orange      (color11)
+blue    = "#005282" # dark-blue   (color12)
+magenta = "#b5608e" # violet      (color13)
+cyan    = "#2a8cbf" # dark-cyan   (color14)
+white   = "#555555" # base5       (color15)
+# koekeishiya-style
+#
+# [colors.primary]
+# foreground = "#c0b18b"
+# background = "#202020"
+# 
+# [colors.selection]
+# text = "#2f2f2f"
+# background = "#d75f5f"
+# 
+# [colors.cursor]
+# cursor = "#8fee96"
+# text = "#202020"
+# 
+# [colors.normal]
+# black   = "#2f2f2f" # color0
+# red     = "#d75f5f" # color1
+# green   = "#d4d232" # color2
+# yellow  = "#af865a" # color3
+# blue    = "#22c3a1" # color4
+# magenta = "#775759" # color5
+# cyan    = "#84edb9" # color6
+# white   = "#c0b18b" # color7
+#
+# [colors.bright]
+# black   = "#555555" # color8
+# red     = "#d75f5f" # color9
+# green   = "#8fee96" # color10
+# yellow  = "#cd950c" # color11
+# blue    = "#458588" # color12
+# magenta = "#775759" # color13
+# cyan    = "#84edb9" # color14
+# white   = "#d8d8d8" # color15
