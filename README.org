@@ -51,6 +51,10 @@ I'm interested in transparent terminals thesedays:
 
 [[./readme/macos-transparent-terminal.png]]
 
+I'm also interested in light themes:
+
+[[./readme/macos-light.png]]
+
 ** List
 
 These are the tools frequently used:
