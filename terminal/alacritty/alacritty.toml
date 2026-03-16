@@ -15,7 +15,7 @@ live_config_reload = true
 
 [colors.primary]
 foreground = "#000000" # fg
-background = "#fefefe" # bg
+background = "#fafafa" # bg
 
 [colors.selection]
 text       = "#000000" # fg
@@ -24,7 +24,7 @@ background = "#f8ec59" # yellow (region)
 [colors.cursor]
 # cursor = "#4d9cc9" # blue (lightened)
 cursor = "#7ab8d9" # blue (lightened)
-text   = "#fefefe" # bg
+text   = "#fafafa" # bg
 
 [colors.normal]
 black   = "#000000" # fg        (color0)

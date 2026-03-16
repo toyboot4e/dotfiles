@@ -28,7 +28,7 @@ Can be an integer to determine the exact padding."
   :background-mode 'light
 
   ;; name        default   256       16
-  ((bg         '("#fefefe" "white"   "white"        ))
+  ((bg         '("#fafafa" "white"   "white"        ))
    (bg-alt     '("#f7f7f7" "#f7f7f7" "white"        ))
    (base0      '("#f7f7f7" "#f7f7f7" "white"        ))
    (base1      '("#efefef" "#efefef" "brightblack"  ))
