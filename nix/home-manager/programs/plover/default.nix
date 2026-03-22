@@ -12,19 +12,23 @@ let
   #   plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
   # };
   plover-dir =
-    if pkgs.stdenvNoCC.isLinux then
-      ".config/plover"
-    else
-      "Library/Application Support/plover";
+    if pkgs.stdenvNoCC.isLinux then ".config/plover" else "Library/Application Support/plover";
 in
 {
   # rm "$HOME/.config/plover/plover.cfg"
   # rm "$HOME/.config/Open Steno Project/Plover.conf"
   home.file."${plover-dir}/user.json".text = "{}";
 
+  imports = [
+    plover-flake.homeManagerModules.plover
+  ];
+
   programs.plover = {
     enable = true;
-    package = plover-flake.packages.${pkgs.stdenv.hostPlatform.system}.plover-full;
+    # package = plover-flake.packages.${pkgs.stdenv.hostPlatform.system}.plover-full;
+    package = plover-flake.packages.${pkgs.stdenv.hostPlatform.system}.plover-full.overrideAttrs (
+      old: { }
+    );
 
     # plover.cfg
     settings = {

@@ -11,7 +11,6 @@ let
 in
 {
   imports = [
-    inputs.plover-flake.homeManagerModules.plover
     (import ../../home-manager/programs/plover {
       home = config.home;
       inherit sources;
@@ -36,26 +35,25 @@ in
     ++ [
       emacs-lsp-booster
 
-      appimage-run
-      aider-chat
+      # appimage-run
+      # aider-chat
 
       obs-studio
-      xdot
+      # xdot
 
       # pwn
-      checksec
+      # checksec
       # pwndbg
 
       # Translation
-      poedit
+      # poedit
 
       # online-judge-tools
       # my-pkgs.online-judge-verify-helper
 
-      arandr
-      bluetuith
-      blueberry
-      nemo
+      # arandr
+      # bluetuith
+      # nemo
       nautilus
       xfce.thunar
 
@@ -117,9 +115,9 @@ in
 
       # GUI
       drawio
-      vkmark
-      steamtinkerlaunch
-      simplescreenrecorder
+      # vkmark
+      # steamtinkerlaunch
+      # simplescreenrecorder
 
       # password manager
       bitwarden-desktop

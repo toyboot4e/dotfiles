@@ -11,8 +11,6 @@ in
 {
   imports = [
     (import ../../home-manager/programs/emacs sources)
-
-    inputs.plover-flake.homeManagerModules.plover
     (import ../../home-manager/programs/plover {
       home = config.home;
       inherit sources;
