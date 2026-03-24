@@ -4247,6 +4247,10 @@ TODO: merge all
 (evil-define-key 'insert 'global
   "\C-s" (_fn (evil-force-normal-state)
               (save-buffer)))
+
+(evil-define-key 'replace 'global
+  "\C-s" (_fn (evil-force-normal-state)
+              (save-buffer)))
 #+END_SRC
 
 ** SKK (ddskk)
@@ -4277,9 +4281,10 @@ $ git clone git@github.com:skk-dev/ddskk
     (interactive)
     (skktut-skip-question -1))
 
-  (defadvice skk-tutorial (after add-prev-key-binding activate)
+  (defun my-skk-tutorial-after (&rest _)
     (keymap-set (current-local-map) "C-x p" #'skktut-prev-question)
     (keymap-set (current-local-map) "C-x <RET>" #'consult-skk-tutorial))
+  (advice-add 'skk-tutorial :after #'my-skk-tutorial-after)
 
   :config
   (require 'ddskk-autoloads)
