@@ -8,9 +8,9 @@
   # i18n.defaultLocale = "en_US.UTF-8";
   console = {
     # font = "Lat2-Terminus16";
-    # keyMap = "us";
+    keyMap = "us";
     # useXkbConfig = true; # use xkbOptions in tty.
-    keyMap = "jp106";
+    # keyMap = "jp106";
     earlySetup = true;
     packages = with pkgs; [ terminus_font ];
     font = "ter-u14n";

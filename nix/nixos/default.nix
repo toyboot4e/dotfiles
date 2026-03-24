@@ -38,8 +38,8 @@
     mlocate
     vulkan-tools
 
-    xorg.xdpyinfo
-    xorg.xev
+    xdpyinfo
+    xev
     pavucontrol
     sysstat
     yad

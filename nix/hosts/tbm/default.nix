@@ -55,7 +55,7 @@ in
       # bluetuith
       # nemo
       nautilus
-      xfce.thunar
+      thunar
 
       # devbox
       # geekbench

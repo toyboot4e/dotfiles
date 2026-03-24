@@ -59,7 +59,7 @@ lib.mkIf useX {
     # xkb.layout = "jp";
     # xkbModel = "ja106";
     xkb.layout = "us";
-    xkbOptions = "ctrl:nocaps";
+    xkb.options = "ctrl:nocaps";
   };
   console.keyMap = "us";
 }
