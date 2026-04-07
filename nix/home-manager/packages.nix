@@ -62,8 +62,8 @@ pkgs: with pkgs; [
 
   # formatters
   biome
-  nodePackages.prettier
-  nodePackages.eslint
+  prettier
+  eslint
 
   # general linters
   codebook
@@ -118,7 +118,7 @@ pkgs: with pkgs; [
   # C
   cmake
   gcc
-  gdb
+  # gdb
 
   # Go
   go
@@ -151,6 +151,7 @@ pkgs: with pkgs; [
     "rust-src"
     "rustc"
     "rustfmt"
+    "rust-analyzer"
   ])
 
   # Python
@@ -174,7 +175,7 @@ pkgs: with pkgs; [
   # --------------------------------------------------------------------------------
 
   # Tex
-  texlive.combined.scheme-full
+  texlive.combined.scheme-small
   minify
   # mdbook
 

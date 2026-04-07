@@ -39,6 +39,7 @@ in
   fonts.packages = [
     # pkgs.intel-one-mono
     pkgs.nerd-fonts.intone-mono
+    pkgs.qmk
 
     # Because Kitty has builtin Nerd Font, we should use vanilla fonts:
     # https://sw.kovidgoyal.net/kitty/faq/#kitty-is-not-able-to-use-my-favorite-font
@@ -70,6 +71,7 @@ in
 
     brews = [
       "awscli"
+      "bun"
       # "emacs-plus"
       "FelixKratz/formulae/sketchybar"
       "fontconfig"

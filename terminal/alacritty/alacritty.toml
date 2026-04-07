@@ -78,3 +78,8 @@ white   = "#555555" # base5       (color15)
 # magenta = "#775759" # color13
 # cyan    = "#84edb9" # color14
 # white   = "#d8d8d8" # color15
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
