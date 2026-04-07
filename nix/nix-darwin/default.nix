@@ -67,11 +67,12 @@ in
       # "d12frosted/emacs-plus"
       "FelixKratz/formulae" # sketchy bar
       "koekeishiya/formulae" # yabai
+      "oven-sh/bun" # bun
     ];
 
     brews = [
       "awscli"
-      "bun"
+      "oven-sh/bun/bun"
       # "emacs-plus"
       "FelixKratz/formulae/sketchybar"
       "fontconfig"
@@ -113,8 +114,8 @@ in
     ];
 
     extraConfig = ''
-      brew "yabai", env: { "SHELL" => "/bin/bash" }
-      brew "skhd", env: { "SHELL" => "/bin/bash" }
+      brew "yabai", env: { SHELL: "/bin/bash" }
+      brew "skhd", env: { SHELL: "/bin/bash" }
     '';
   };
 
