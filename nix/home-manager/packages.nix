@@ -12,7 +12,7 @@ pkgs: with pkgs; [
   # dev env
   direnv
   nix-direnv
-  mise
+  # mise
 
   # commands
   zoxide
@@ -34,7 +34,7 @@ pkgs: with pkgs; [
 
   # build tools
   gnumake
-  hyperfine
+  # hyperfine
   just
   watchexec
 
@@ -66,7 +66,7 @@ pkgs: with pkgs; [
   eslint
 
   # general linters
-  codebook
+  # codebook
 
   # encoding
   nkf
@@ -78,10 +78,10 @@ pkgs: with pkgs; [
   # nix
   nil # Nix LSP: https://github.com/oxalica/nil
   nixfmt
-  nix-search-tv
+  # nix-search-tv
   nvfetcher
   rippkgs
-  television
+  # television
 
   # ascii art
   cmatrix
@@ -109,7 +109,7 @@ pkgs: with pkgs; [
   zoom-us
 
   # drawing
-  inkscape
+  # inkscape
 
   # --------------------------------------------------------------------------------
   # Languages

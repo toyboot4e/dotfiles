@@ -61,3 +61,8 @@ alias y := yabai
 rm:
     rm ~/Library/'Application Support'/plover/plover.cfg
 
+gcroots:
+    ls /nix/var/nix/gcroots/auto/
+
+remove-gcroots:
+    sudo rm /nix/var/nix/gcroots/auto/*
