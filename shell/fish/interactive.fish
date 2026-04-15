@@ -40,8 +40,8 @@ end
 if command -sq fzf
     fzf --fish | source
     # Overwrite the default tab completion with fzf:
-    bind \t fzf-completion
-    bind -M insert \t fzf-completion
+    bind \t fish_complete_git_root
+    bind -M insert \t fish_complete_git_root
 end
 
 # --------------------------------------------------------------------------------
@@ -105,6 +105,9 @@ set -x RUST_BACKTRACE 1
 # set -x RUST_LOG DEBUG
 
 function fish_title
+    if set -q TMUX_CUSTOM_PANE_TITLE
+        return
+    end
     set process (printf "$_")
     set cwd (pwd | sed "s@^$HOME@~@g")
     echo "$process $cwd"
@@ -302,6 +305,7 @@ _alias z ze 'z -e'
 # see `functions/f.fish` for more commands
 if command -sq fzf
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
+    set -x FZF_DEFAULT_OPTS '--bind=ctrl-u:half-page-up,ctrl-d:half-page-down'
 end
 
 # ----------------------------------------
