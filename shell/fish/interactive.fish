@@ -33,6 +33,14 @@ if functions -q fzf_configure_bindings
     fzf_configure_bindings --directory=\co
 end
 
+# fzf tab completion
+if command -sq fzf
+    fzf --fish | source
+    # Overwrite the default tab completion with fzf:
+    bind \t fzf-completion
+    bind -M insert \t fzf-completion
+end
+
 # --------------------------------------------------------------------------------
 # OS-dependent
 # --------------------------------------------------------------------------------
