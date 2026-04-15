@@ -17,6 +17,9 @@ if command -sq zoxide
     zoxide init fish | source
 end
 
+# Prevent Ctrl+D from closing the shell
+bind \cd delete-char
+
 alias reload "source $HOME/.config/fish/config.fish"
 
 # my packages
@@ -30,7 +33,7 @@ set -x SHELL (which fish)
 # --------------------------------------------------------------------------------
 
 if functions -q fzf_configure_bindings
-    fzf_configure_bindings --directory=\co
+    fzf_configure_bindings --directory=\co --git_log=\cx --git_status=\cs --processes= --variables=
 end
 
 # fzf tab completion
