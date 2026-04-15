@@ -102,7 +102,7 @@ in
       "slack"
       "tableplus"
       "qt-creator"
-      "qutebrowser"
+      # "qutebrowser"
       # TODO: limit to mp (separate and merge later)
       # "android-commandlinetools"
       # "android-platform-tools"
@@ -111,6 +111,7 @@ in
       # androidenv.androidPkgs.all.packages.cmdline-tools.v9_0
       "google-chrome"
       "chromedriver"
+      "claude-code"
     ];
 
     extraConfig = ''

@@ -5,7 +5,7 @@ pkgs: with pkgs; [
   # --------------------------------------------------------------------------------
 
   # terminal
-  kitty
+  # kitty
   alacritty
   tmux
 
@@ -156,7 +156,6 @@ pkgs: with pkgs; [
 
   # Python
   python3
-  virtualenv
   # FIXME: use pylsp installed with uv locally
   python3Packages.python-lsp-server
   uv

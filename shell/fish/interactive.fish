@@ -305,7 +305,7 @@ _alias z ze 'z -e'
 # see `functions/f.fish` for more commands
 if command -sq fzf
     set -x FZF_DEFAULT_COMMAND 'fd --type f'
-    set -x FZF_DEFAULT_OPTS '--bind=ctrl-u:half-page-up,ctrl-d:half-page-down'
+    set -x FZF_DEFAULT_OPTS '--cycle --bind=ctrl-u:half-page-up,ctrl-d:half-page-down'
 end
 
 # ----------------------------------------
