@@ -3,22 +3,36 @@
   pkgs,
   ...
 }:
+let
+  sshKeys = import ../ssh-keys.nix;
+in
 {
   # Enable the OpenSSH daemon.
   programs.ssh.startAgent = true;
   services.openssh = {
     enable = true;
-    # On NixOS 23.05, duplicate key?:
-    # settings = {
-    #   passwordAuthentication = false;
-    #   kbdInteractiveAuthentication = false;
-    # };
-    # permitRootLogin = "yes";
+    openFirewall = false; # we restrict to LAN below
   };
 
-  users.users.tbm.openssh.authorizedKeys.keys = [
-    # TODO: add SSH keys
-  ];
+  # Only allow SSH from local network
+  networking.firewall.extraCommands = ''
+    iptables -A nixos-fw -p tcp --dport 22 -s 192.168.0.0/16 -j nixos-fw-accept
+    iptables -A nixos-fw -p tcp --dport 22 -s 10.0.0.0/8 -j nixos-fw-accept
+    iptables -A nixos-fw -p tcp --dport 22 -j nixos-fw-drop
+  '';
+
+  users.users.tbm.openssh.authorizedKeys.keys =
+    builtins.filter (k: k != sshKeys.tbm) (builtins.attrValues sshKeys);
+
+  # mDNS: discover and be discovered as `tbm.local` on the LAN
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+    };
+  };
 
   # # https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak
   # xdg.portal = {

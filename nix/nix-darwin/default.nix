@@ -120,10 +120,20 @@ in
     '';
   };
 
+  # SSH: allow remote login from other machines on the LAN
+  services.openssh.enable = true;
+
   users.knownUsers = [ host ];
   users.users.${host} = {
     shell = pkgs.fish;
     uid = 501;
+    openssh.authorizedKeys.keys =
+      let
+        sshKeys = import ../ssh-keys.nix;
+        allKeys = builtins.attrValues sshKeys;
+      in
+      # authorize every key except the host's own
+      builtins.filter (k: k != sshKeys.${host}) allKeys;
   };
 
   # TODO: really need this?
