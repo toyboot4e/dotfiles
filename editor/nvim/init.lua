@@ -366,11 +366,15 @@ require("lazy").setup({
 },
 
 {
-  -- 'hukl/Smyck-Color-Scheme',
-  'dim13/smyck.vim',
+  -- 'dim13/smyck.vim',
+  'navarasu/onedark.nvim',
   -- lazy = false,
   config = function()
-    vim.cmd("colorscheme smyck")
+    -- vim.cmd("colorscheme smyck")
+    require('onedark').setup {
+      style = 'darker'
+    }
+    require('onedark').load()
   end,
 },
 

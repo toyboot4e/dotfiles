@@ -1,0 +1,15 @@
+{
+  "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "onedark.nvim": { "branch": "master", "commit": "df4792accde9db0043121f32628bcf8e645d9aea" },
+  "orgmode": { "branch": "master", "commit": "ad5d652d2bb82ee2d609d4a6ee8fc2114cdcb8fd" },
+  "plenary.nvim": { "branch": "master", "commit": "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
+  "plover-tapey-tape.nvim": { "branch": "master", "commit": "638717e03dc86019665df8a5dbaab2ed692933de" },
+  "plover-vim": { "branch": "main", "commit": "41fafb375e5108f88a90c8755cb7183954a378e6" },
+  "plover-vim-tutor": { "branch": "master", "commit": "90dc2a9e7c61f658a71bb0e0344e17c1ba56c866" },
+  "telescope-orgmode.nvim": { "branch": "main", "commit": "c5203783e954faefd8fa685b69f8218434a2bb16" },
+  "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
+  "vim-fern": { "branch": "main", "commit": "88f6d81c2d2348cbfb3120931ce72268195859c6" },
+  "vim-fern-renderer-nerdfont": { "branch": "master", "commit": "325629c68eb543229715b68920fbcb92b206beb6" },
+  "vim-nerdfont": { "branch": "master", "commit": "3605ba4ba4dc0295f5eb400506fd05b451df3e1f" },
+  "vim-tanakh": { "branch": "master", "commit": "ad7a35c74e5c9e338acff6cf247e4f0597e4e5b3" }
+}
