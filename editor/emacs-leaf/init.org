@@ -4158,6 +4158,7 @@ As in https://zenn.dev/vim_jp/articles/43d021f461f3a4
 ;; open magit in the full frame
 (defun toy/magit-frame ()
   (interactive)
+  (require 'magit)
   (let ((magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
     (ignore magit-display-buffer-function)
     (magit)))
