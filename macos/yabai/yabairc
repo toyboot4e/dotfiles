@@ -56,5 +56,8 @@ yabai -m config --space 6 top_padding 34
 # builtin display
 yabai -m config --space 9 top_padding 0
 
+# float Emacs
+yabai -m rule --add app="Emacs" manage=off
+
 echo "yabai configuration loaded.."
 
