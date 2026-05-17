@@ -57,9 +57,14 @@ yabai:
 [private]
 alias y := yabai
 
-# remove `plover.cfg` for macOS
+# remove `plover.cfg` to avoid home-manager conflict
 rm:
-    rm ~/Library/'Application Support'/plover/plover.cfg
+    #!/usr/bin/env -S bash -euE
+    if [ $(uname) = Darwin ] ; then
+        rm ~/Library/'Application Support'/plover/plover.cfg
+    else
+        rm ~/.config/plover/plover.cfg
+    fi
 
 gcroots:
     ls /nix/var/nix/gcroots/auto/
