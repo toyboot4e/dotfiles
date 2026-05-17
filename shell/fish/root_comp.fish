@@ -22,6 +22,6 @@ function fish_complete_git_root
     if test (count $candidates) -le 1
         commandline -f complete
     else
-        fzf_complete
+        fzf-completion
     end
 end
