@@ -1249,12 +1249,14 @@ Easy motion style jump.
   :after evil
   :after projectile
   :commands (neotree-quick-look)
-  :init
-  (setopt neo-theme 'nerd-icons)
-  :custom ((neo-window-position quote right)
-           (neo-window-width . toy/sidebar-width)
-           (neo-window-fixed-size)
-           (neo-show-hidden-files . t))
+  :custom
+  ((neo-theme . 'nerd-icons)
+   (neo-confirm-create-file . #'always)
+   (neo-confirm-create-directory . #'always)
+   (neo-window-position quote right)
+   (neo-window-width . toy/sidebar-width)
+   (neo-window-fixed-size)
+   (neo-show-hidden-files . t))
   :hook (neo-after-create-hook . my-neotree-setup)
   :init
   (defun my-neotree-setup (&rest _)
@@ -1281,14 +1283,57 @@ Easy motion style jump.
     "q" #'neotree-hide
     (kbd "TAB")
     'neotree-stretch-toggle)
+
   :defer-config
   (defun neo-path--shorten (path length)
     "Override `neotree' header string"
     (file-name-nondirectory
      (directory-file-name path)))
+
+  ;; Update cursor position after up-node
   (advice-add 'neotree-select-up-node :after
               (lambda (&rest _)
-                (evil-first-non-blank))))
+                (evil-first-non-blank)))
+
+  ;; Fix: `read-file-name-function' implementations (e.g. consult) may visit
+  ;; the selected file and switch the current buffer. Use `read-file-name-default'
+  ;; since we are specifying a path to create, not opening an existing file.
+  ;; Also ensure buffer operations run in the neotree buffer.
+  (defun neotree-create-node (filename)
+    "Create a file or directory use specified FILENAME in current node."
+    (interactive
+     (let* ((current-dir (neo-buffer--get-filename-current-line neo-buffer--start-node))
+            (current-dir (neo-path--match-path-directory current-dir))
+            (read-file-name-function #'read-file-name-default)
+            (filename (read-file-name "Filename:" current-dir)))
+       (if (file-directory-p filename)
+           (setq filename (concat filename "/")))
+       (list filename)))
+    (catch 'rlt
+      (let ((is-file nil))
+        (when (= (length filename) 0)
+          (throw 'rlt nil))
+        (setq is-file (not (equal (substring filename -1) "/")))
+        (when (file-exists-p filename)
+          (message "File %S already exists." filename)
+          (throw 'rlt nil))
+        (when (and is-file
+                   (funcall neo-confirm-create-file
+                            (format "Do you want to create file %S ?" filename)))
+          (mkdir (substring filename 0 (+ 1 (cl-position ?/ filename :from-end t))) t)
+          (write-region "" nil filename)
+          (with-current-buffer (neo-global--get-buffer)
+            (neo-buffer--save-cursor-pos filename)
+            (neo-buffer--refresh nil))
+          (if neo-create-file-auto-open
+              (find-file-other-window filename)))
+        (when (and (not is-file)
+                   (funcall neo-confirm-create-directory
+                            (format "Do you want to create directory %S?" filename)))
+          (mkdir filename t)
+          (with-current-buffer (neo-global--get-buffer)
+            (neo-buffer--save-cursor-pos filename)
+            (neo-buffer--refresh nil)))))))
 #+END_SRC
 
 ** nerd-icons
