@@ -156,6 +156,7 @@ pkgs: with pkgs; [
 
   # Python
   python3
+  ty
   # FIXME: use pylsp installed with uv locally
   python3Packages.python-lsp-server
   uv
