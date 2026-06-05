@@ -2546,9 +2546,13 @@ Toolings (TODO: move):
       (advice-add 'embark--become-command :around
                   #'my-embark-become-prepend-default-dir)))
 
-  ;; detect project root with `projectile'
-  (autoload 'projectile-project-root "projectile")
-  (setopt consult-project-root-function (lambda (_) (projectile-project-root)))
+  ;; Project root
+  (setq consult-project-function
+        (lambda (_)
+          ;; expand-file-name?
+          (or (vc-root-dir)
+              (project-root proj)
+              default-directory)))
 
   :defer-config
   ;; TODO: how can I use it like org-switchb
@@ -4546,12 +4550,12 @@ TODO: merge
 (defun toy/proj-find ()
   "Find a file from project files."
   (interactive)
-  (consult-fd (projectile-project-root) ". "))
+  (consult-fd (consult--project-root) ". "))
 
 (defun toy/proj-grep ()
   "Find a file from project files."
   (interactive)
-  (consult-ripgrep (projectile-project-root) " . "))
+  (consult-ripgrep (consult--project-root) " . "))
 
 (evil-define-key 'normal 'toy/global-mode-map
   " v" (lambda () (interactive) (when (toy/vf) (toy/smart-recenter)))
