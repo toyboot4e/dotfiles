@@ -34,6 +34,9 @@
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
 
     edgepkgs.url = "github:natsukium/edgepkgs";
+
+    # https://github.com/ryoppippi/nix-claude-code
+    nix-claude-code.url = "github:ryoppippi/nix-claude-code";
   };
 
   outputs =
@@ -47,6 +50,7 @@
       emacs-lsp-booster,
       plover-flake,
       edgepkgs,
+      nix-claude-code,
       ...
     }:
     let
@@ -71,7 +75,16 @@
               emacs-lsp-booster.overlays.default
               fenix.overlays.default
               edgepkgs.overlays.default
+              nix-claude-code.overlays.default
             ];
+
+            # https://github.com/ryoppippi/nix-claude-code
+            nix.settings = {
+              extra-substituters = [ "https://ryoppippi.cachix.org" ];
+              extra-trusted-public-keys = [
+                "ryoppippi.cachix.org-1:b2LbtWNvJeL/qb1B6TYOMK+apaCps4SCbzlPRfSQIms="
+              ];
+            };
           }
           ./nixos
 

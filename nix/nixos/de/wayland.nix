@@ -8,9 +8,9 @@
 lib.mkIf (!useX) {
   # Hyperland
   # https://wiki.hypr.land/Nix/Hyprland-on-NixOS/
-  # programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
 
-  # Sway
+  # For Sway:
   # https://wiki.nixos.org/wiki/Sway
   environment.systemPackages = with pkgs; [
     grim # screenshot functionality
@@ -21,8 +21,6 @@ lib.mkIf (!useX) {
 
   # For Electron and Chromium: https://nixos.wiki/wiki/Wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  services.displayManager.defaultSession = "sway";
 
   services.greetd = {
     enable = true;
@@ -35,12 +33,14 @@ lib.mkIf (!useX) {
     };
   };
 
+  services.displayManager.defaultSession = "sway";
   programs.sway = {
     enable = true;
     xwayland.enable = true;
     wrapperFeatures.gtk = true;
   };
 
+  # For plover:
   services.udev.extraRules = ''
     KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
   '';

@@ -35,6 +35,9 @@ in
     ++ [
       emacs-lsp-booster
 
+      # ryoppippi/nix-claude-code
+      claude-code-fhs
+
       # appimage-run
       # aider-chat
 
@@ -123,6 +126,10 @@ in
       bitwarden-desktop
       bitwarden-cli
       bitwarden-menu
+
+      # CI
+      pinact
+      zizmor
     ];
 
   # This value determines the Home Manager release that your

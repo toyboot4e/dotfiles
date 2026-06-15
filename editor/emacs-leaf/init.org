@@ -2371,7 +2371,7 @@ Toolings (TODO: move):
   (defun toy/on-rust-mode nil
     (interactive)
     (visual-line-mode)
-    (setopt fill-column 100)
+    (setq-local fill-column 100)
     (turn-on-auto-fill))
 
   ;; (defun toy/on-save-rust ()
