@@ -123,7 +123,7 @@ in
       # simplescreenrecorder
 
       # password manager
-      bitwarden-desktop
+      # bitwarden-desktop
       bitwarden-cli
       bitwarden-menu
 
