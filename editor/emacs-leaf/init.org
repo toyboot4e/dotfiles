@@ -1413,13 +1413,6 @@ Easy motion style jump.
 ;;     not appropriate in some cases like terminals."
 ;;     (setq-local evil-move-cursor-back nil))
 ;;   (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay))
-
-(leaf aidermacs
-  ;; :bind (("C-c a" . aidermacs-transient-menu))
-  :hook (aidermacs-minor-mode-hook . turn-off-evil-mode)
-  :custom
-  ((aidermacs-use-architect-mode . t)
-   (aidermacs-default-model . "gpt-4.1-mini")))
 #+END_SRC
 
 ** CMake
@@ -1608,6 +1601,7 @@ FIXME: Not working under Evil
            (lsp-enable-symbol-highlighting)
            (lsp-headerline-breadcrumb-enable)
            (lsp-modeline-diagnostics-scope . :workspace)
+           (lsp-enable-file-watchers . nil)
            ;; This is for `emacs-lsp-booster'.
            ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#use-plists-for-deserialization
            (lsp-use-plists . toy/use-plists)
@@ -1634,7 +1628,7 @@ FIXME: Not working under Evil
     (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
 
   :init
-  (when toy/use-plists ;; `emacs-lsp-booster'
+  (progn
     (defun lsp-booster--advice-json-parse (old-fn &rest args)
       "Try to parse bytecode instead of json."
       (or
@@ -1654,7 +1648,6 @@ FIXME: Not working under Evil
       (let ((orig-result (funcall old-fn cmd test?)))
         (if (and (not test?)                             ;; for check lsp-server-present?
                  (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-                 lsp-use-plists
                  (not (functionp 'json-rpc-connection))  ;; native json-rpc
                  (executable-find "emacs-lsp-booster"))
             (progn
@@ -3578,15 +3571,15 @@ Add the followings to the org file header:
 ** elfeed
 
 #+BEGIN_SRC elisp
-(leaf elfeed
-  :url "https://github.com/skeeto/elfeed"
-  ;; `y`: yank URL, `b`: browse in GUI browser
-  ;; `r`: mark as read, `u`: mark as unread
-  :hook (emacs-startup-hook . (lambda () (run-at-time 5 5 'elfeed-update)))
-  :custom
-  (elfeed-feeds .
-                '(("https://matklad.github.io/feed.xml" fun)
-                  ("https://github.com/online-judge-tools/verification-helper/releases.atom" maintain))))
+;; (leaf elfeed
+;;   :url "https://github.com/skeeto/elfeed"
+;;   ;; `y`: yank URL, `b`: browse in GUI browser
+;;   ;; `r`: mark as read, `u`: mark as unread
+;;   :hook (emacs-startup-hook . (lambda () (run-at-time 5 5 'elfeed-update)))
+;;   :custom
+;;   (elfeed-feeds .
+;;                 '(("https://matklad.github.io/feed.xml" fun)
+;;                   ("https://github.com/online-judge-tools/verification-helper/releases.atom" maintain))))
 
 #+END_SRC
 
@@ -3885,7 +3878,6 @@ Note that this hack is ill-designed often causes other issues. Fix it.
   ;; FIXME: line number works in all the situations: in an empty buffer, in the Evil commnd line
   (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
     (when (= (point) (point-max))
-      ;; FIXME: ignoring aider
       (unless (string-match-p (regexp-quote "SQL") (buffer-name))
         (forward-line -1)))))
 ;; FIXME: 'post-command-hook is too generic.
@@ -4561,7 +4553,6 @@ TODO: merge
   " v" (lambda () (interactive) (when (toy/vf) (toy/smart-recenter)))
   " V" (lambda () (interactive) (when (toy/vF) (toy/smart-recenter)))
 
-  " a" #'aidermacs-transient-menu
   ;; " ff" (lambda () (interactive) (consult-find-file-with-preview default-directory))
   ;; " ff" (_cd find-file)
   ;; " ff" (_cd (call-interactively #'find-file))

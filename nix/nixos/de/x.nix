@@ -28,6 +28,11 @@ lib.mkIf useX {
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
     exportConfiguration = true;
 
+    # reduce teardown/flash
+    deviceSection = ''
+      Option "TearFree" "true"
+    '';
+
     desktopManager = { };
 
     # FIXME: enable Nvidia only when the device is found
