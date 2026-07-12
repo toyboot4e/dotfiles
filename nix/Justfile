@@ -49,14 +49,14 @@ switch:
 [private]
 alias s := switch
 
-reboot:
+boot:
     #!/usr/bin/env -S bash -euE
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
-        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host switch
+        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host boot
         just yabai
     else
-        sudo nixos-rebuild --flake .#$host reboot
+        sudo nixos-rebuild --flake .#$host boot
     fi
 
 # sets up yabai with script addition (SIP needs to be disabled)
@@ -75,6 +75,15 @@ rm:
     else
         rm ~/.config/plover/plover.cfg
     fi
+
+vm:
+    #!/usr/bin/env -S bash
+    nixos-rebuild build-vm --flake .#"$(whoami)"
+    just run-vm
+
+run-vm:
+    #!/usr/bin/env -S bash
+    ./result/bin/run-"$(whoami)"-vm
 
 gcroots:
     ls /nix/var/nix/gcroots/auto/

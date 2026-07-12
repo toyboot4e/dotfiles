@@ -50,6 +50,9 @@ for_window [class="^floating$"] floating enable
 # for_window [class="firefox" title="Open"] floating enable, resize set 1920 1080, move position center
 # for_window [class="firefox" title="open"] floating enable, resize set 1920 1080, move position center
 
+floating_maximum_size 1280 x 720
+for_window [floating] move position center
+
 # dragon (`xdragon` on nixpkgs)
 for_window [class="Dragon"] sticky enable
 

@@ -59,7 +59,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+set $term alacritty
 
 ### Output configuration
 #
@@ -98,7 +98,7 @@ output * bg /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_19
 #
 
 input type:keyboard {
-  xkb_layout "jp"
+  xkb_layout "us"
 }
 
 # You can also configure each device individually.
