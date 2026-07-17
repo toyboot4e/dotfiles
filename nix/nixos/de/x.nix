@@ -5,6 +5,9 @@
   pkgs,
   ...
 }:
+let
+  xDpi = 163;
+in
 lib.mkIf useX {
   # X11 + i3
   # https://nixos.wiki/wiki/I3
@@ -22,8 +25,12 @@ lib.mkIf useX {
   services.displayManager.defaultSession = "none+i3";
   services.xserver = {
     enable = true;
-    dpi = 163;
-    # dpi = 326;
+    dpi = xDpi;
+
+    # Most tools respect `Xft.dpi`:
+    displayManager.sessionCommands = ''
+      echo "Xft.dpi: ${toString xDpi}" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+    '';
 
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
     exportConfiguration = true;
@@ -66,5 +73,9 @@ lib.mkIf useX {
     xkb.layout = "us";
     xkb.options = "ctrl:nocaps";
   };
+
+  # Thanks to Xft.dpi, 1 is good:
+  environment.sessionVariables.QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+
   console.keyMap = "us";
 }

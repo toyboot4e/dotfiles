@@ -42,8 +42,6 @@
       "\${XDG_BIN_HOME}"
     ];
 
-    # any change?
-    # https://github.com/NixOS/nixpkgs/issues/367836
-    QT_QPA_PLATFORM = "xcb";
+    # QT_QPA_PLATFORM = "wayland;xcb";
   };
 }
