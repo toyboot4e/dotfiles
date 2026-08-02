@@ -1652,7 +1652,11 @@ FIXME: Not working under Evil
                  (executable-find "emacs-lsp-booster"))
             (progn
               (message "Using emacs-lsp-booster for %s!" orig-result)
-              (cons "emacs-lsp-booster" orig-result))
+              ;; The default `--json-object-type' is `plist', which must match `lsp-use-plists':
+              (append (list "emacs-lsp-booster"
+                            "--json-object-type" (if (bound-and-true-p lsp-use-plists) "plist" "hashtable")
+                            "--")
+                      orig-result) )
           orig-result)))
     (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
 
