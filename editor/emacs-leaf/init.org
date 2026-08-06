@@ -1509,7 +1509,9 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
   ((magit-log-section-commit-count . 15)
    (magit-refresh-status-buffer . nil)
    (dired-vc-rename-file . t)
-   (magit-diff-refine-hunk . 'all))
+   ;; TODO: which is better?
+   ;; (magit-diff-refine-hunk . 'all)
+   (magit-diff-refine-hunk . 't))
   :config
   (defun magit-rev-format (format &optional rev args)
     "lighter magit revision format"
@@ -2548,7 +2550,8 @@ Toolings (TODO: move):
         (lambda (_)
           ;; expand-file-name?
           (or (vc-root-dir)
-              (project-root proj)
+              (when-let ((proj (project-current)))
+                (project-root proj))
               default-directory)))
 
   :defer-config
@@ -4776,7 +4779,7 @@ TODO: merge
     (pdf-outline-imenu-enable)
     )
   :hook  (doc-view-mode-hook . toy/on-pdf-view))
-    #+END_SRC
+#+END_SRC
 
 ** Persistant scratch
 
@@ -5007,9 +5010,8 @@ TODO: merge
     ;; Set vertico color
     (set-face-attribute 'vertico-current nil
                         :background "#448888" ;; TODO: Choose better color
-                        :extend t)
+                        :extend t))
 
-    )
   (toy/set-transparent-background-on-tty))
 #+END_SRC
 
