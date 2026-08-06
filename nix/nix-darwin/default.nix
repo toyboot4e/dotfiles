@@ -111,12 +111,13 @@ in
       # androidenv.androidPkgs.all.packages.cmdline-tools.v9_0
       "google-chrome"
       "chromedriver"
-      "claude-code"
+      "claude-code@latest"
+      "1password-cli"
     ];
 
     extraConfig = ''
-      brew "yabai", env: { SHELL: "/bin/bash" }
-      brew "skhd", env: { SHELL: "/bin/bash" }
+      brew "koekeishiya/formulae/yabai", env: { SHELL: "/bin/bash" }
+      brew "koekeishiya/formulae/skhd", env: { SHELL: "/bin/bash" }
     '';
   };
 

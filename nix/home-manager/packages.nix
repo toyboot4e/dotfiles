@@ -135,8 +135,7 @@ pkgs: with pkgs; [
   # JS
   # deno
   nodejs
-  volta
-  yarn
+  ni
 
   # OCaml
   # ocaml
