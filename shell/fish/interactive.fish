@@ -280,6 +280,10 @@ function mkcd
     end
 end
 
+function cr --description 'cd to git worktree root'
+    cd (git rev-parse --show-toplevel)
+end
+
 alias pd prevd
 alias nd nextd
 alias hd dirh
