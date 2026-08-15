@@ -1,10 +1,12 @@
 # `configdata.yaml` contains default key mappings. As of today, it's at:
 # https://github.com/qutebrowser/qutebrowser/blob/98fe159f99a7dae0c4b04969d1b0e03c9cef0a1c/qutebrowser/config/configdata.yml#L2803
 
-is_4k = True
+# qt does right
+is_4k = False
 correct_dpi = True
+
 force_dark_theme = False
-tab_width = 300
+tab_width = 200
 DL_VIDEO_DIR="~/Resources/videos"
 
 def scaled(x):
@@ -21,14 +23,14 @@ def scaled(x):
 def text_scaled(x):
     return 1.0 * x
 
-if is_4k:
+if is_4k and not correct_api:
     DEFAULT_ZOOM=scaled(175)
     c.fonts.default_size = "18pt"
     TAB_FONT_SIZE=18
 else:
     DEFAULT_ZOOM=scaled(100)
-    c.fonts.default_size = "16pt"
-    TAB_FONT_SIZE=18
+    c.fonts.default_size = "12pt"
+    TAB_FONT_SIZE=12
 
 config.load_autoconfig(False)
 
@@ -234,52 +236,61 @@ config.bind('u', ':scroll-page 0 -0.5')
 #         }
 # })
 
-c.colors.completion.fg = '#d5c4a1'
-c.colors.completion.odd.bg = '#333333'
-c.colors.completion.even.bg = '#202020'
-c.colors.completion.item.selected.bg = '#8fee96'
-c.colors.completion.item.selected.border.top = '#151515'
-c.colors.completion.item.selected.border.bottom = '#151515'
-c.colors.completion.match.fg = '#d75f5f'
+# c.colors.completion.fg = '#d5c4a1'
+# c.colors.completion.odd.bg = '#333333'
+# c.colors.completion.even.bg = '#202020'
+# c.colors.completion.item.selected.bg = '#8fee96'
+# c.colors.completion.item.selected.border.top = '#151515'
+# c.colors.completion.item.selected.border.bottom = '#151515'
+# c.colors.completion.match.fg = '#d75f5f'
+# 
+# c.colors.downloads.bar.bg = '#202020'
+# 
+# c.colors.statusbar.normal.fg = '#d5c4a1'
+# c.colors.statusbar.normal.bg = '#202020'
+# c.colors.statusbar.command.fg = '#d4c5a1'
+# c.colors.statusbar.command.bg = '#202020'
+# 
+# c.colors.statusbar.url.fg = '#d5c4a1'
+# c.colors.statusbar.url.error.fg = '#d75f5f'
+# c.colors.statusbar.url.success.http.fg = '#84edb9'
+# c.colors.statusbar.url.success.https.fg = '#8fee96'
+# c.colors.statusbar.url.warn.fg = '#cd950c'
+# 
+# c.colors.tabs.bar.bg = '#202020'
+# c.colors.tabs.odd.fg = '#707070'
+# c.colors.tabs.odd.bg = '#202020'
+# c.colors.tabs.even.fg = '#707070'
+# c.colors.tabs.even.bg = '#202020'
+# 
+# c.colors.tabs.selected.odd.fg = '#d5c4a1'
+# c.colors.tabs.selected.odd.bg = '#202020'
+# c.colors.tabs.selected.even.fg = '#d5c4a1'
+# c.colors.tabs.selected.even.bg = '#202020'
+# 
+# c.fonts.tabs.selected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
+# c.fonts.tabs.unselected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
+# 
+# bg = '#051515'
+# c.colors.tabs.pinned.odd.fg = '#B9770E'
+# c.colors.tabs.pinned.odd.bg = bg
+# c.colors.tabs.pinned.even.fg = '#B9770E'
+# c.colors.tabs.pinned.even.bg = bg
 
-c.colors.downloads.bar.bg = '#202020'
+# # https://github.com/catppuccin/qutebrowser
+# import os
+# from urllib.request import urlopen
+# 
+# if not os.path.exists(config.configdir / "theme.py"):
+#     theme = "https://raw.githubusercontent.com/catppuccin/qutebrowser/main/setup.py"
+#     with urlopen(theme) as themehtml:
+#         with open(config.configdir / "theme.py", "a") as file:
+#             file.writelines(themehtml.read().decode("utf-8"))
+# 
+# if os.path.exists(config.configdir / "theme.py"):
+#     import theme
+#     theme.setup(c, 'latte', True)
 
-c.colors.statusbar.normal.fg = '#d5c4a1'
-c.colors.statusbar.normal.bg = '#202020'
-c.colors.statusbar.command.fg = '#d4c5a1'
-c.colors.statusbar.command.bg = '#202020'
-
-c.colors.statusbar.url.fg = '#d5c4a1'
-c.colors.statusbar.url.error.fg = '#d75f5f'
-c.colors.statusbar.url.success.http.fg = '#84edb9'
-c.colors.statusbar.url.success.https.fg = '#8fee96'
-c.colors.statusbar.url.warn.fg = '#cd950c'
-
-c.colors.tabs.bar.bg = '#202020'
-c.colors.tabs.odd.fg = '#707070'
-c.colors.tabs.odd.bg = '#202020'
-c.colors.tabs.even.fg = '#707070'
-c.colors.tabs.even.bg = '#202020'
-
-c.colors.tabs.selected.odd.fg = '#d5c4a1'
-c.colors.tabs.selected.odd.bg = '#202020'
-c.colors.tabs.selected.even.fg = '#d5c4a1'
-c.colors.tabs.selected.even.bg = '#202020'
-
-c.fonts.tabs.selected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
-c.fonts.tabs.unselected = f"{TAB_FONT_SIZE}pt fantasque sans mono"
-
-bg = '#051515'
-c.colors.tabs.pinned.odd.fg = '#B9770E'
-c.colors.tabs.pinned.odd.bg = bg
-c.colors.tabs.pinned.even.fg = '#B9770E'
-c.colors.tabs.pinned.even.bg = bg
-
-# c.colors.tabs.pinned.selected.bg = '#D4AC0D'
-# c.colors.tabs.pinned.selected.odd.fg = '#d5c4a1'
-# c.colors.tabs.pinned.selected.odd.bg = '#202020'
-# c.colors.tabs.pinned.selected.even.fg = '#d5c4a1'
-# c.colors.tabs.pinned.selected.even.bg = '#202020'
 
 # --------------------------------------------------------------------------------
 # Userscripts
