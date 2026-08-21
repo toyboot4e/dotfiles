@@ -289,9 +289,9 @@ alias nd nextd
 alias hd dirh
 
 if command -sq eza
-    alias e 'eza -F'
-    alias ea 'eza -aF'
-    alias el 'eza -alF'
+    alias e 'eza -F auto'
+    alias ea 'eza -aF auto'
+    alias el 'eza -alF auto'
     alias et 'eza -T'
 end
 
