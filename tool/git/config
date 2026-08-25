@@ -1,5 +1,3 @@
-# using fzf to browse commits: https://junegunn.kr/2015/03/browsing-git-commits-with-fzf
-
 [core]
     quotePath = false
     # unicode compability between Mac and Linux
@@ -150,5 +148,6 @@
 
 [push]
     autoSetupRemote = true
+
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+    insteadOf = https://github.com/
