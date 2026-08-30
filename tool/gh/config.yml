@@ -1,0 +1,10 @@
+git_protocol: ssh
+editor:
+prompt: enabled
+pager:
+aliases:
+    co: pr checkout
+    new: repo create --source=. --remote=origin --push --private
+http_unix_socket:
+browser:
+version: "1"

@@ -28,7 +28,7 @@ _mkdir() {
     fi
 }
 
-_mkdir ~/.config/{fish,git,qutebrowser,vim,nvim,coc}
+_mkdir ~/.config/{fish,git,gh,qutebrowser,vim,nvim,coc}
 _mkdir ~/.w3m
 
 _link() {
@@ -60,6 +60,7 @@ _link terminal/kitty                 ~/.config/kitty
 _link tool/git/config                ~/.config/git/config
 _link tool/tmux/.tmux.conf           ~/.config/tmux.conf
 _link tool/mpv                       ~/.config/mpv
+_link tool/gh/config.yml             ~/.config/gh/config.yml
 
 # shells
 _link shell/bash/.bashrc             ~/.bashrc
