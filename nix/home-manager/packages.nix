@@ -174,7 +174,7 @@ pkgs: with pkgs; [
   # --------------------------------------------------------------------------------
 
   # Tex
-  texlive.combined.scheme-small
+  texliveSmall
   minify
   # mdbook
 

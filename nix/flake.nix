@@ -54,7 +54,7 @@
       ...
     }:
     let
-      useX = true; # or Wayland
+      useX = true;
       # https://isabelroses.com/blog/im-not-mad-im-disappointed/
       forAllSystems =
         f:

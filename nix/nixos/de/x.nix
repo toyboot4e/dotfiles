@@ -29,7 +29,7 @@ lib.mkIf useX {
 
     # Most tools respect `Xft.dpi`:
     displayManager.sessionCommands = ''
-      echo "Xft.dpi: ${toString xDpi}" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+      echo "Xft.dpi: ${toString xDpi}" | ${pkgs.xrdb}/bin/xrdb -merge
     '';
 
     # output the configuration file to `/etc/X11/xorg.conf` so that I can see it easily:
