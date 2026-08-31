@@ -11,8 +11,28 @@ COLOR_OK=0xff606060
 COLOR_WARN=0xffb58900
 COLOR_BAD=0xffdc322f
 
+# Each window carries its own color, so session and week live in separate items.
+SESSION_ITEM=claude_usage
+WEEK_ITEM=claude_usage_week
+
+color_for() {
+  if [ "$1" -ge 90 ]; then
+    printf '%s' "$COLOR_BAD"
+  elif [ "$1" -ge 75 ]; then
+    printf '%s' "$COLOR_WARN"
+  else
+    printf '%s' "$COLOR_OK"
+  fi
+}
+
 render() {
-  sketchybar --set "$NAME" icon="$ICON" label="$1" label.color="$2"
+  sketchybar --set "$SESSION_ITEM" icon="$ICON" label="$1" label.color="$2" \
+             --set "$WEEK_ITEM" label="$3" label.color="$4"
+}
+
+unavailable() {
+  render "n/a" "$COLOR_BAD" "" "$COLOR_BAD"
+  exit 0
 }
 
 token="$(security find-generic-password -s 'Claude Code-credentials' -w 2>/dev/null \
@@ -30,30 +50,21 @@ if [ -n "$token" ]; then
   fi
 fi
 
-if [ ! -s "$CACHE" ]; then
-  render "n/a" "$COLOR_BAD"
-  exit 0
-fi
+[ -s "$CACHE" ] || unavailable
 
 read -r session week <<<"$(jq -r '
   [(.five_hour.utilization // -1), (.seven_day.utilization // -1)]
   | map(round) | @tsv' "$CACHE")"
 
 # A stale cache is still worth showing, so failure here means malformed JSON.
-if [ -z "${session:-}" ] || [ "$session" = "-1" ]; then
-  render "n/a" "$COLOR_BAD"
-  exit 0
-fi
+[ -n "${session:-}" ] && [ "$session" != "-1" ] || unavailable
 
-worst="$session"
-[ "$week" -gt "$worst" ] 2>/dev/null && worst="$week"
-
-if [ "$worst" -ge 90 ]; then
-  color="$COLOR_BAD"
-elif [ "$worst" -ge 75 ]; then
-  color="$COLOR_WARN"
+if [ -n "${week:-}" ] && [ "$week" != "-1" ]; then
+  week_label="W ${week}%"
+  week_color="$(color_for "$week")"
 else
-  color="$COLOR_OK"
+  week_label="W n/a"
+  week_color="$COLOR_BAD"
 fi
 
-render "S ${session}% W ${week}%" "$color"
+render "S ${session}%" "$(color_for "$session")" "$week_label" "$week_color"

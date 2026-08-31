@@ -80,8 +80,10 @@ sketchybar --add item clock right \
            --set memory update_freq=30 script="$PLUGIN_DIR/memory.sh" \
            --add item disk right \
            --set disk update_freq=600 script="$PLUGIN_DIR/disk.sh" \
+           --add item claude_usage_week right \
+           --set claude_usage_week icon.drawing=off label.padding_left=0 \
            --add item claude_usage right \
-           --set claude_usage update_freq=60 script="$PLUGIN_DIR/claude_usage.sh"
+           --set claude_usage update_freq=60 label.padding_right=0 script="$PLUGIN_DIR/claude_usage.sh"
 
 # Show sketchybar in every display
 for display in $(sketchybar --query displays); do
