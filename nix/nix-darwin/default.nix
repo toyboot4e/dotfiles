@@ -180,6 +180,7 @@ in
       };
       dock = {
         autohide = true;
+        mru-spaces = false; # don't reorder (Most Recently Used spaces)
         show-recents = false;
         orientation = "bottom";
       };
