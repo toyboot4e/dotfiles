@@ -41,20 +41,14 @@ yabai -m config window_opacity               off
 # yabai -m config normal_window_opacity        0.8
 
 
-# Top padding for custom bar application (simplebar or sketchybar)
-yabai -m display 1 --label "builtin"
-yabai -m display 2 --label "external"
+# Top padding for non-builtin displays
+yabai -m signal --add event=display_added action="$HOME/dotfiles/macos/yabai/top-padding.sh"
+yabai -m signal --add event=display_removed action="$HOME/dotfiles/macos/yabai/top-padding.sh"
+yabai -m signal --add event=space_created action="$HOME/dotfiles/macos/yabai/top-padding.sh"
+"$HOME/dotfiles/macos/yabai/top-padding.sh"
 
-# external display
-yabai -m config --space 1 top_padding 34
-yabai -m config --space 2 top_padding 34
-yabai -m config --space 3 top_padding 34
-yabai -m config --space 4 top_padding 34
-yabai -m config --space 5 top_padding 34
-yabai -m config --space 6 top_padding 34
-
-# builtin display
-yabai -m config --space 9 top_padding 0
+# TODO: no layout in display 2
+# yabai -m rule --add space=2 manage=off
 
 # float Emacs
 yabai -m rule --add app="Emacs" manage=off
