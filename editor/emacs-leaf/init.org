@@ -135,9 +135,22 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
    'package-archives '(("nongnu" . "https://elpa.nongnu.org/nongnu/")
                        ;; ("org" . "https://orgmode.org/elpa/")
                        ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")
-                       ("elpa" . "https://elpa.gnu.org/packages/")))
+                       ("gnu" . "https://elpa.gnu.org/packages/")))
   (package-initialize)
+
+  ;; Single package missing results in re-downloads of the entire archive.
+  ;; Trust the cache for a day instead.
+  (defvar toy/package-refresh-interval (* 24 60 60))
+  (defun toy/package-refresh-throttle (orig &rest args)
+    (let ((f (expand-file-name "archives/melpa/archive-contents" package-user-dir)))
+      (if (and (not (called-interactively-p 'any))
+               (file-exists-p f)
+               (< (float-time (time-since (file-attribute-modification-time
+                                           (file-attributes f))))
+                  toy/package-refresh-interval))
+          (message "package-refresh-contents: skipped (cache is fresh)")
+        (apply orig args))))
+  (advice-add 'package-refresh-contents :around #'toy/package-refresh-throttle)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
@@ -1018,8 +1031,10 @@ TODO
 (leaf auto-package-update
   :custom ((auto-package-update-delete-old-versions . t)
            (auto-package-update-interval . 7))
-  :config
-  (auto-package-update-maybe))
+  :init
+  ;; `auto-package-update-maybe' blocks startup once the interval has passed
+  (add-hook 'emacs-startup-hook
+            (lambda () (run-with-idle-timer 5 nil #'auto-package-update-maybe))))
 #+END_SRC
 
 ** Clipboard
@@ -1340,16 +1355,16 @@ Easy motion style jump.
 
 #+BEGIN_SRC elisp
 (leaf nerd-icons
-  :leaf-defer nil
   :custom
-  (magit-format-file-function . #'magit-format-file-nerd-icons)
+  (magit-format-file-function . #'magit-format-file-nerd-icons))
+
+(leaf nerd-icons-completion
+  :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
   :config
-  (leaf nerd-icons-completion
-    :hook (marginalia-mode-hook . nerd-icons-completion-marginalia-setup)
-    :config
-    (nerd-icons-completion-mode))
-  (leaf nerd-icons-dired
-    :hook (dired-mode-hook . nerd-icons-dired-mode)))
+  (nerd-icons-completion-mode))
+
+(leaf nerd-icons-dired
+  :hook (dired-mode-hook . nerd-icons-dired-mode))
 #+END_SRC
 
 ** olivetti
@@ -1449,7 +1464,6 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
 
 #+BEGIN_SRC elisp
 (leaf dockerfile-mode)
-(leaf docker-compose-mode)
 #+END_SRC
 
 ** Editor config
@@ -1559,20 +1573,20 @@ https://www.rahuljuliato.com/posts/emacs-docker-podman
 FIXME: Not working under Evil
 
 #+BEGIN_SRC elisp
-(leaf difftastic
-  :config
-  (with-eval-after-load
-      'magit-diff
-    (transient-append-suffix 'magit-diff '(-1 -1)
-      [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
-       ("S" "Difftastic show" difftastic-magit-show)]))
-
-  (add-hook 'magit-blame-read-only-mode-hook
-            (lambda ()
-              (keymap-set magit-blame-read-only-mode-map
-                          "D" #'difftastic-magit-show)
-              (keymap-set magit-blame-read-only-mode-map
-                          "S" #'difftastic-magit-show))))
+;; (leaf difftastic
+;;   :config
+;;   (with-eval-after-load
+;;       'magit-diff
+;;     (transient-append-suffix 'magit-diff '(-1 -1)
+;;       [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
+;;        ("S" "Difftastic show" difftastic-magit-show)]))
+;; 
+;;   (add-hook 'magit-blame-read-only-mode-hook
+;;             (lambda ()
+;;               (keymap-set magit-blame-read-only-mode-map
+;;                           "D" #'difftastic-magit-show)
+;;               (keymap-set magit-blame-read-only-mode-map
+;;                           "S" #'difftastic-magit-show))))
 #+END_SRC
 
 *** ghq
@@ -1778,15 +1792,17 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 (leaf tree-sitter
   :doc "Incremental parsing system"
   :url "https://github.com/emacs-tree-sitter/elisp-tree-sitter"
-  :config
-  (global-tree-sitter-mode)
+  :init
+  (add-hook 'emacs-startup-hook
+            (lambda () (run-with-idle-timer 0.5 nil #'global-tree-sitter-mode)))
+  :defer-config
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 #+END_SRC
 
 #+BEGIN_SRC elisp
 (leaf tree-sitter-langs
   :after tree-sitter
-  :config
+  :defer-config
   ;; TODO: need this check?
   (with-eval-after-load 'typescript-tsx-mode
     (tree-sitter-require 'tsx)
@@ -1798,8 +1814,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
 
 #+BEGIN_SRC elisp
 (leaf vue-mode
-  :config
-  (add-hook 'vue-mode-hook #'lsp-deferred))
+  :hook (vue-mode-hook . lsp-deferred))
 #+END_SRC
 
 * Markup languages
@@ -3541,7 +3556,7 @@ Add the followings to the org file header:
   ;; :custom (org-ai-default-chat-model . "gpt-4o-mini")
   :custom (org-ai-default-chat-model . "gpt-4o")
   ;; :custom (org-ai-default-chat-model . "gpt-5")
-  :init
+  :defer-config
   (org-ai-global-mode))
 #+END_SRC
 
@@ -4845,7 +4860,7 @@ TODO: merge
   ((ellama-language . "Japanese")
    (ellama-naming-scheme . 'ellama-generate-name-by-llm))
 
-  :config
+  :defer-config
   ;; TODO: leaf
   (require 'llm-ollama)
   (setopt ellama-provider (make-llm-ollama
