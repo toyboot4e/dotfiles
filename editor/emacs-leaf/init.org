@@ -185,10 +185,10 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 ;; Set up `PATH` and `exec-path`
 (dolist (dir (list "/sbin" "/usr/sbin" "/bin" "/usr/bin" "/opt/local/bin" "/sw/bin"
                    "~/.cargo/bin"
-                   ;; "~/.idris2/bin"
-                   "~/.nix-profile/bin"
                    "/usr/local/bin"
                    "~/bin"
+                   "~/.nix-profile/bin"
+                   (concat "/etc/profiles/per-user/" (user-login-name) "/bin")
                    "/run/current-system/sw/bin"
                    ))
   (when (and (file-exists-p dir) (not (member dir exec-path)))
@@ -301,7 +301,8 @@ https://github.com/eval-exec/neomacs
           neomacs-cursor-motion-enabled nil
           neomacs-cursor-size-transition-enabled nil
           neomacs-buffer-transition-enabled nil
-          neomacs-scroll-transition-enabled nil))
+          neomacs-scroll-transition-enabled nil)
+  (setopt neomacs-effect-cursor-color-cycle '(:enabled nil)))
 #+END_SRC
 
 ** Window divider
@@ -309,6 +310,7 @@ https://github.com/eval-exec/neomacs
 Delete the border characers
 
 #+BEGIN_SRC elisp
+(require 'disp-table)
 (set-display-table-slot standard-display-table
                         'vertical-border
                         (make-glyph-code ?\s))
