@@ -52,19 +52,38 @@ fi
 
 [ -s "$CACHE" ] || unavailable
 
-read -r session week <<<"$(jq -r '
-  [(.five_hour.utilization // -1), (.seven_day.utilization // -1)]
-  | map(round) | @tsv' "$CACHE")"
+read -r session week session_reset week_reset <<<"$(jq -r '
+  def epoch: if . == null then -1
+             else (sub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z") | fromdateiso8601)
+             end;
+  [(.five_hour.utilization // -1 | round),
+   (.seven_day.utilization // -1 | round),
+   (.five_hour.resets_at | epoch),
+   (.seven_day.resets_at | epoch)]
+  | @tsv' "$CACHE")"
+
+# The cache may be stale, so countdowns are derived from the reset timestamps.
+now="$(date +%s)"
+remaining_for() {
+  [ "${1:--1}" != "-1" ] || return 0
+  local left=$(($1 - now))
+  [ "$left" -gt 0 ] || return 0
+  if [ "$left" -ge 86400 ]; then
+    printf ' %dd%dh' $((left / 86400)) $(((left % 86400) / 3600))
+  else
+    printf ' %dh%dm' $((left / 3600)) $(((left % 3600) / 60))
+  fi
+}
 
 # A stale cache is still worth showing, so failure here means malformed JSON.
 [ -n "${session:-}" ] && [ "$session" != "-1" ] || unavailable
 
 if [ -n "${week:-}" ] && [ "$week" != "-1" ]; then
-  week_label="W ${week}%"
+  week_label="W ${week}%$(remaining_for "$week_reset")"
   week_color="$(color_for "$week")"
 else
   week_label="W n/a"
   week_color="$COLOR_BAD"
 fi
 
-render "S ${session}%" "$(color_for "$session")" "$week_label" "$week_color"
+render "S ${session}%$(remaining_for "$session_reset")" "$(color_for "$session")" "$week_label" "$week_color"
