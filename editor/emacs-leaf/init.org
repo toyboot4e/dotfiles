@@ -290,6 +290,20 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
   (keymap-set global-map "<mouse-5>" 'scroll-up-line))
 #+END_SRC
 
+** Neomacs
+
+https://github.com/eval-exec/neomacs
+
+#+BEGIN_SRC elisp
+(when (fboundp 'neomacs-effect-schema)
+  (require 'neomacs-effects)
+  (setopt neomacs-window-animations-off t
+          neomacs-cursor-motion-enabled nil
+          neomacs-cursor-size-transition-enabled nil
+          neomacs-buffer-transition-enabled nil
+          neomacs-scroll-transition-enabled nil))
+#+END_SRC
+
 ** Window divider
 
 Delete the border characers
