@@ -238,6 +238,14 @@ if command -sq just
     alias j just
 end
 
+if command -sq mise
+    alias m mise
+
+    function mr --wraps 'mise run'
+        mise run $argv
+    end
+end
+
 if command -sq colordiff
     function d
         # recursive, unified context (+6 lines), 

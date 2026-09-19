@@ -54,3 +54,14 @@ if test -f /opt/homebrew/bin/brew
   eval "$(/opt/homebrew/bin/brew shellenv)"
 end
 
+# bun
+# set --export BUN_INSTALL "$HOME/.bun"
+# set --export PATH $BUN_INSTALL/bin $PATH
+
+# vite-plus
+# source "$HOME/.vite-plus/env.fish"
+
+# mise
+if command -sq mise
+    mise activate fish | source
+end

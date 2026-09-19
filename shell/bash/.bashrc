@@ -173,6 +173,11 @@ _alias asciidoctor adoc
 # --------------------------------------------------------------------------------
 # End
 
+# Homebrew
+if [ -f /opt/homebrew/bin/brew ] ; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # direnv
 if command -v "direnv" > /dev/null ; then
     eval "$(direnv hook bash)"
@@ -190,3 +195,11 @@ fi
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# vite-plus
+# . "$HOME/.vite-plus/env"
+
+# mise
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+fi
