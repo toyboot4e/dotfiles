@@ -1724,6 +1724,14 @@ FIXME: Not working under Evil
   :ensure nil
   :vc (:url "https://github.com/cxa/lsp-biome" :rev :newest))
 
+(defun toy/nearest-marker (files)
+  "Deepest ancestor directory of the current file holding one of FILES."
+  (when buffer-file-name
+    (car (sort (delq nil
+                     (mapcar (lambda (f) (locate-dominating-file buffer-file-name f))
+                             files))
+               (lambda (a b) (> (length a) (length b)))))))
+
 ;; Format on save with biome. TODO: support prettier/eslint
 ;; https://zenn.dev/craneduck/articles/3c0da51d4767d5
 (leaf reformatter
@@ -1733,8 +1741,13 @@ FIXME: Not working under Evil
     :program "biome"
     :args `("format" "--stdin-file-path" ,(buffer-file-name))
     :lighter " BiomeFmt")
-  (add-hook 'typescript-mode-hook 'biome-format-on-save-mode)
-  (add-hook 'js-mode-hook 'biome-format-on-save-mode))
+
+  (defun toy/biome-format-on-save-maybe ()
+    (when (toy/nearest-marker '("biome.json" "biome.jsonc"))
+      (biome-format-on-save-mode)))
+
+  (add-hook 'typescript-mode-hook 'toy/biome-format-on-save-maybe)
+  (add-hook 'js-mode-hook 'toy/biome-format-on-save-maybe))
 #+END_SRC
 
 ** lsp-ui
