@@ -340,8 +340,8 @@ Delete the border characers
 *** Sync buffers with the storage
 
 #+BEGIN_SRC elisp
-(setopt auto-revert-interval 1.0
-        auto-revert-check-vc-info nil)
+(setopt auto-revert-interval 3.0
+        auto-revert-check-vc-info t)
 (global-auto-revert-mode)
 #+END_SRC
 
@@ -1190,6 +1190,15 @@ Easy motion style jump.
   (defun toy/on-diff-hl ()
     (unless (display-graphic-p) (diff-hl-margin-mode))
     (diff-hl-flydiff-mode))
+  (defun toy/diff-hl-refresh-on-focus ()
+    (when (frame-focus-state)
+      (dolist (win (window-list-1 nil 'nomini t))
+        (with-current-buffer (window-buffer win)
+          (when (and buffer-file-name diff-hl-mode)
+            (vc-refresh-state)
+            (diff-hl-update))))))
+  (add-function :after after-focus-change-function
+                #'toy/diff-hl-refresh-on-focus)
   :hook
   ((magit-post-refresh-hook . diff-hl-magit-post-refresh)
    (diff-hl-mode-hook . toy/on-diff-hl)))
