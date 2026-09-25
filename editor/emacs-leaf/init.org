@@ -2446,14 +2446,28 @@ Toolings (TODO: move):
   ((typescript-indent-level . 2)
    (lsp-eslint-multi-root . t))
   :hook
-  ((typescript-mode-hook . lsp-deferred)
-   (typescript-mode-hook . my/ts-hook))
+  ((typescript-mode-hook . my/ts-hook))
   :config
+  ;; TODO: clean it up, or use an existing utility
+  (defun my/ts-deno-p ()
+    (let ((deno (toy/nearest-marker '("deno.json" "deno.jsonc" "deno.lock")))
+          (node (toy/nearest-marker '("package.json" "node_modules"))))
+      (and deno (or (null node) (>= (length deno) (length node))))))
+
+  (defun my/ts--clients-matching (regexp)
+    (seq-filter (lambda (id) (string-match-p regexp (symbol-name id)))
+                (hash-table-keys lsp-clients)))
+
   (defun my/ts-hook ()
     (interactive)
-    ;; using reformatter for biome instead
-    ;; (setq-local lsp-format-buffer-on-save t)
-    ))
+    (setq-local lsp-disabled-clients
+                (append lsp-disabled-clients
+                        (if (my/ts-deno-p)
+                            (append '(ts-ls eslint) (my/ts--clients-matching "biome"))
+                          '(deno-ls))
+                        (unless (toy/nearest-marker '("biome.json" "biome.jsonc"))
+                          (my/ts--clients-matching "biome"))))
+    (lsp-deferred)))
 #+END_SRC
 
 ** WGSL
