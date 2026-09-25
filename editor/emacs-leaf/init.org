@@ -163,6 +163,9 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
   (leaf leaf-keywords
     :config
     (leaf-keywords-init)))
+
+(eval-when-compile
+  (require 'evil))
 #+END_SRC
 
 ** =PATH= and =exec-path=
@@ -466,16 +469,17 @@ https://www.reddit.com/r/emacs/comments/b2lokk/recenter_saved_place/
   ;; (setq-default evil-surround-pairs-alist
   ;;               (push '(?~ . ("==" . "==")) evil-surround-pairs-alist))
   ;; this macro was copied from here: https://stackoverflow.com/a/22418983/4921402
-  (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
-    (let ((inner-name (make-symbol (concat "evil-inner-" name)))
-          (outer-name (make-symbol (concat "evil-a-" name))))
+  (eval-and-compile
+    (defmacro define-and-bind-quoted-text-object (name key start-regex end-regex)
+      (let ((inner-name (make-symbol (concat "evil-inner-" name)))
+            (outer-name (make-symbol (concat "evil-a-" name))))
         `(progn
            (evil-define-text-object ,inner-name (count &optional beg end type)
-               (evil-select-paren ,start-regex ,end-regex beg end type count nil))
+             (evil-select-paren ,start-regex ,end-regex beg end type count nil))
            (evil-define-text-object ,outer-name (count &optional beg end type)
-               (evil-select-paren ,start-regex ,end-regex beg end type count t))
+             (evil-select-paren ,start-regex ,end-regex beg end type count t))
            (keymap-set evil-inner-text-objects-map ,key #',inner-name)
-           (keymap-set evil-outer-text-objects-map ,key #',outer-name))))
+           (keymap-set evil-outer-text-objects-map ,key #',outer-name)))))
 
   (define-and-bind-quoted-text-object "atsymbol" "@" "@" "@")
   (define-and-bind-quoted-text-object "pipe" "|" "|" "|")
