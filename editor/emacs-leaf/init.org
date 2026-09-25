@@ -2293,6 +2293,9 @@ Toolings (TODO: move):
    ((python-mode-hook . lsp-deferred)
     ;; (python-mode-hook . python-ts-mode)
     ))
+
+;; I got a lot of error somehow
+(setq python-shell-completion-native-enable nil)
 #+END_SRC
 
 #+BEGIN_SRC elisp
