@@ -1291,12 +1291,12 @@ Easy motion style jump.
    (neo-window-position quote right)
    (neo-window-width . toy/sidebar-width)
    (neo-window-fixed-size)
-   (neo-show-hidden-files . t))
+   (neo-show-hidden-files . t)
+   (whitespace-global-modes . '(not neotree-mode)))
   :hook (neo-after-create-hook . my-neotree-setup)
   :init
   (defun my-neotree-setup (&rest _)
-    (display-line-numbers-mode -1)
-    (whitespace-mode -1))
+    (display-line-numbers-mode -1))
   :config
   (setopt neo-buffer-name "@tree")
   (evil-define-key 'normal neotree-mode-map
