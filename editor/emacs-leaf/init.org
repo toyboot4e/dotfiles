@@ -2225,11 +2225,208 @@ Thanks: `https://www.masteringemacs.org/article/executing-shell-commands-emacs'"
 ** Koka
 
 #+BEGIN_SRC elisp
-;; (leaf koka-mode
-;;     :ensure nil
-;;     :load-path `,(concat user-emacs-directory "straight/repos/koka/support/emacs/")
-;;     :straight (koka-mode :type git :host github :repo "koka-lang/koka")
-;;     :require t)
+(leaf koka-mode
+  :ensure nil
+  :vc (:url "https://github.com/koka-lang/koka" :lisp-dir "support/emacs" :rev :newest)
+  :hook (koka-mode-hook . lsp-deferred)
+  :init
+  (defun toy/koka-mode ()
+    "Open a Koka file in `koka-ts-mode', or in `koka-mode' without a grammar."
+    (interactive)
+    (require 'koka-mode)
+    (if (and (require 'treesit nil t)
+             (treesit-ready-p 'koka t)
+             (fboundp 'koka-ts-mode))
+        (koka-ts-mode)
+      (koka-mode)))
+  (add-to-list 'auto-mode-alist '("\\.kk\\'" . toy/koka-mode))
+
+  :defer-config
+  ;; The language server is the compiler itself (Koka >= 2.4, `nixpkgs#koka').
+  (with-eval-after-load 'lsp-mode
+    (dolist (mode '(koka-mode koka-ts-mode))
+      (add-to-list 'lsp-language-id-configuration (cons mode "koka")))
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection
+                       (lambda ()
+                         `("koka" "--language-server" "--lsstdio"
+                           ,@(when (bound-and-true-p koka-lsp-extra-args)
+                               koka-lsp-extra-args))))
+      :major-modes '(koka-mode koka-ts-mode)
+      :activation-fn (lsp-activate-on "koka")
+      :priority -1
+      :server-id 'koka))))
+#+END_SRC
+
+#+BEGIN_SRC elisp
+(leaf koka-ts-mode
+  :doc "Tree-sitter powered `koka-mode', selected by `toy/koka-mode'"
+  :ensure nil
+  :after koka-mode
+  :config
+  (when (require 'treesit nil t)
+    (add-to-list 'treesit-language-source-alist
+                 '(koka "https://github.com/mtoohey31/tree-sitter-koka"))
+
+    (when (treesit-ready-p 'koka t)
+      (defvar koka-ts-mode-indent-offset 2)
+
+      (defvar koka-ts-mode--keywords
+        '("abstract" "alias" "as" "behind" "co" "con" "control" "ctl" "effect"
+          "elif" "else" "extend" "extern" "fbip" "final" "finally" "fip" "fn"
+          "forall" "fun" "handle" "handler" "if" "import" "in" "include" "infix"
+          "infixl" "infixr" "initially" "inject" "inline" "linear" "mask" "match"
+          "module" "named" "noinline" "open" "other" "override" "pub" "public"
+          "raw" "rawctl" "rcontrol" "rec" "ref" "reference" "return" "scoped"
+          "some" "struct" "tail" "then" "type" "val" "value" "var" "with"))
+
+      (defvar koka-ts-mode--font-lock-settings
+        (treesit-font-lock-rules
+         :language 'koka
+         :feature 'comment
+         '([(linecomment) (blockcomment)] @font-lock-comment-face)
+
+         :language 'koka
+         :feature 'definition
+         '((fundecl (funid (identifier [(varid) (idop)] @font-lock-function-name-face)))
+           (puredecl (funid (identifier [(varid) (idop)] @font-lock-function-name-face)))
+           (operation (identifier [(varid) (idop)] @font-lock-function-name-face))
+           ([(puredecl) (decl)]
+            (binder (identifier [(varid) (idop)] @font-lock-variable-name-face)))
+           (paramid (identifier (varid) @font-lock-variable-name-face))
+           (pparameter (pattern (identifier (varid) @font-lock-variable-name-face))))
+
+         :language 'koka
+         :feature 'keyword
+         `([,@koka-ts-mode--keywords (externtarget)] @font-lock-keyword-face)
+
+         :language 'koka
+         :feature 'string
+         '([(string) (char)] @font-lock-string-face
+           (escape) @font-lock-escape-face)
+
+         :language 'koka
+         :feature 'number
+         '([(int) (float)] @font-lock-number-face)
+
+         :language 'koka
+         :feature 'type
+         '((typecon (varid) @font-lock-type-face)
+           (tbinder (varid) @font-lock-type-face)
+           (typeid (varid) @font-lock-type-face)
+           (typedecl "effect" (varid) @font-lock-type-face)
+           [(conid) (qconid)] @font-lock-type-face)
+
+         :language 'koka
+         :feature 'module
+         '((modulepath (varid) @font-lock-constant-face)
+           (qvarid (qid) @font-lock-constant-face))
+
+         :language 'koka
+         :feature 'function
+         '((appexpr
+            field: (atom (qidentifier [(qvarid) (qidop)
+                                       (identifier [(varid) (idop)])]
+                                      @font-lock-function-call-face)))
+           (appexpr
+            function: (appexpr (atom (qidentifier [(qvarid) (qidop)
+                                                   (identifier [(varid) (idop)])]
+                                                  @font-lock-function-call-face)))
+            ["(" (block) (fnexpr)]))
+
+         :language 'koka
+         :feature 'variable
+         '((varid) @font-lock-variable-use-face)
+
+         :language 'koka
+         :feature 'operator
+         '(["!" "~" "=" ":=" (idop) (op) (qidop)] @font-lock-operator-face)
+
+         :language 'koka
+         :feature 'delimiter
+         '(["," "->" "." ":" "::" "<-" ";"] @font-lock-delimiter-face)
+
+         :language 'koka
+         :feature 'bracket
+         '(["<" ">" "(" ")" "[" "]" "{" "}"] @font-lock-bracket-face)))
+
+      (defconst koka-ts-mode--layout-lists
+        (rx bos (or "statements" "operations" "opclauses" "matchrules") eos)
+        "Nodes whose children are laid out one per line by Koka's layout rule.")
+
+      (defun koka-ts-mode--in-error-p (_node parent _bol &rest _)
+        "Non-nil when PARENT is inside a region the parser could not parse."
+        (treesit-parent-until parent
+                              (lambda (n) (equal (treesit-node-type n) "ERROR"))
+                              t))
+
+      (defun koka-ts-mode--first-item (_node parent _bol &rest _)
+        "Position of the first item of PARENT, skipping the layout whitespace.
+  An implicit block starts right after its opener, so the node itself
+  begins on the previous line."
+        (when-let* ((first (treesit-node-child parent 0)))
+          (save-excursion
+            (goto-char (treesit-node-start first))
+            (skip-chars-forward " \t\n")
+            (point))))
+
+      (defun koka-ts-mode--after-first-item-p (_node parent bol &rest _)
+        "Non-nil for a PARENT item that follows the one opening the level."
+        (and parent
+             (string-match-p koka-ts-mode--layout-lists (treesit-node-type parent))
+             (when-let* ((pos (koka-ts-mode--first-item nil parent bol)))
+               (< pos bol))))
+
+      (defun koka-ts-mode--closing-p (_node _parent bol &rest _)
+        "Non-nil when the line at BOL starts with a closing bracket."
+        (save-excursion (goto-char bol) (looking-at-p "[ \t]*[]})]")))
+
+      (defvar koka-ts-mode--indent-rules
+        `((koka
+           ;; Leave unparsable regions alone rather than mangle them.
+           (koka-ts-mode--in-error-p no-indent 0)
+           ;; Never reflow the body of a block comment.
+           ((parent-is "blockcomment") no-indent 0)
+           (koka-ts-mode--closing-p standalone-parent 0)
+           ((parent-is "program") column-0 0)
+           ;; Comments above a `module' header are not part of its body.
+           ((parent-is "moduledecl") column-0 0)
+           ;; Koka's layout rule makes the opening brace implicit, so the block
+           ;; node starts on the line above: line up with its first item.
+           (koka-ts-mode--after-first-item-p koka-ts-mode--first-item 0)
+           ((parent-is ,(rx (or "statements" "operations" "opclauses" "matchrules"
+                                "block" "funbody" "opdecls" "handlerexpr" "opclausex"
+                                "matchexpr" "matchrule" "typedecl" "externdecl"
+                                "atom" "appexpr")))
+            standalone-parent koka-ts-mode-indent-offset)
+           ;; Anything else keeps the indentation it has.
+           (catch-all no-indent 0))))
+
+      (defun koka-ts-mode--defun-name (node)
+        "Return the name of the Koka declaration NODE."
+        (treesit-node-text
+         (treesit-search-subtree node (rx bos (or "varid" "idop" "conid") eos) nil nil 4)
+         t))
+
+      (define-derived-mode koka-ts-mode koka-mode "Koka[ts]"
+        "Major mode for Koka, powered by tree-sitter."
+        (when (treesit-ready-p 'koka)
+          (treesit-parser-create 'koka)
+          (setq-local treesit-font-lock-settings koka-ts-mode--font-lock-settings
+                      treesit-font-lock-feature-list
+                      '((comment definition)
+                        (keyword string)
+                        (number type module function variable escape)
+                        (operator delimiter bracket))
+                      treesit-simple-indent-rules koka-ts-mode--indent-rules
+                      treesit-defun-type-regexp
+                      (rx bos (or "fundecl" "puredecl" "typedecl") eos)
+                      treesit-defun-name-function #'koka-ts-mode--defun-name
+                      treesit-simple-imenu-settings
+                      `(("Type" ,(rx bos "typedecl" eos) nil nil)
+                        ("Definition" ,(rx bos (or "fundecl" "puredecl") eos) nil nil)))
+          (treesit-major-mode-setup))))))
 #+END_SRC
 
 ** Lua
