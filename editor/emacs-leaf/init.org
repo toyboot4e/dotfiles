@@ -2505,6 +2505,28 @@ Toolings (TODO: move):
   (flycheck-inline-mode t))
 #+END_SRC
 
+** Pkl
+
+#+BEGIN_SRC elisp
+(leaf pkl-mode
+  :doc "`pkl-lsp' is a jar; put a `pkl-lsp' wrapper (`java -jar pkl-lsp.jar') on PATH"
+  :init
+  (defun toy/pkl-lsp-maybe ()
+    (when (executable-find "pkl-lsp")
+      (lsp-deferred)))
+  :hook (pkl-mode-hook . toy/pkl-lsp-maybe)
+  :defer-config
+  (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(pkl-mode . "pkl"))
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection "pkl-lsp")
+      :major-modes '(pkl-mode)
+      :activation-fn (lsp-activate-on "pkl")
+      :priority -1
+      :server-id 'pkl-lsp))))
+#+END_SRC
+
 ** Python
 
 #+BEGIN_SRC elisp
