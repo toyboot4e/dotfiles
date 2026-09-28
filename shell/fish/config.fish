@@ -51,7 +51,7 @@ end
 
 # Homebrew
 if test -f /opt/homebrew/bin/brew
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  /opt/homebrew/bin/brew shellenv fish | source
 end
 
 # bun
@@ -61,7 +61,8 @@ end
 # vite-plus
 # source "$HOME/.vite-plus/env.fish"
 
-# mise
+# mise (installed by `curl https://mise.run | sh`)
+fish_add_path --global $HOME/.local/bin
 if command -sq mise
     mise activate fish | source
 end
