@@ -1860,7 +1860,7 @@ https://github.com/jscheid/prettier.el?tab=readme-ov-file#enabling-per-file--per
   :after tree-sitter
   :defer-config
   ;; TODO: need this check?
-  (with-eval-after-load 'typescript-tsx-mode
+  (with-eval-after-load 'typescript-mode
     (tree-sitter-require 'tsx)
     (add-to-list 'tree-sitter-major-mode-language-alist '(ts-tsx-mode . tsx))
     (add-to-list 'tree-sitter-major-mode-language-alist '(typescript-tsx-mode . tsx))))
@@ -2680,6 +2680,7 @@ Toolings (TODO: move):
 
   (defun my/ts-hook ()
     (interactive)
+    (require 'lsp-mode)
     (setq-local lsp-disabled-clients
                 (append lsp-disabled-clients
                         (if (my/ts-deno-p)
