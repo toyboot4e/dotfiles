@@ -190,6 +190,7 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
                    "~/.cargo/bin"
                    "/usr/local/bin"
                    "~/bin"
+                   "~/.local/bin"
                    "~/.nix-profile/bin"
                    (concat "/etc/profiles/per-user/" (user-login-name) "/bin")
                    "/run/current-system/sw/bin"
