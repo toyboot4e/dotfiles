@@ -68,6 +68,8 @@ in
       "FelixKratz/formulae" # sketchy bar
       "koekeishiya/formulae" # yabai
       "oven-sh/bun" # bun
+      "nikitabobko/tap" # aerospace
+      "mediosz/tap" # swipeaerospace
     ];
 
     brews = [
@@ -90,6 +92,8 @@ in
 
     casks = [
       "alacritty"
+      "nikitabobko/tap/aerospace"
+      "mediosz/tap/swipeaerospace"
       "coteditor"
       "discord"
       "docker-desktop"
@@ -171,9 +175,39 @@ in
   #   '';
   # };
 
+  launchd.user.agents.swipeaerospace.serviceConfig = {
+    ProgramArguments = [ "/usr/bin/open" "-a" "SwipeAeroSpace" ];
+    RunAtLoad = true;
+  };
+
+  # Dock reads the -currentHost copy of trackpad gestures, which `system.defaults` can't write
+  system.activationScripts.postActivation.text = ''
+    sudo -u ${host} defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
+    sudo -u ${host} defaults -currentHost write -g com.apple.trackpad.threeFingerVertSwipeGesture -int 0
+  '';
+
   system = {
     defaults = {
-      NSGlobalDomain.AppleShowAllExtensions = true;
+      NSGlobalDomain = {
+        AppleShowAllExtensions = true;
+        NSAutomaticWindowAnimationsEnabled = false;
+        NSWindowResizeTime = 0.001;
+      };
+      universalaccess.reduceMotion = false;
+      # 3-finger horizontal swipe is taken by SwipeAeroSpace
+      trackpad.TrackpadThreeFingerHorizSwipeGesture = 0;
+      trackpad.TrackpadThreeFingerVertSwipeGesture = 0;
+      CustomUserPreferences."com.apple.dock".showMissionControlGestureEnabled = false;
+      # "Switch to Desktop 1-9" (ctrl-1..9): leave these keys to AeroSpace
+      CustomUserPreferences."com.apple.symbolichotkeys".AppleSymbolicHotKeys =
+        builtins.listToAttrs (
+          map (id: {
+            name = toString id;
+            value.enabled = false;
+          }) (builtins.genList (i: 118 + i) 9)
+        );
+      # AeroSpace parks hidden windows at a monitor corner; per-display Spaces let them leak onto neighbors
+      spaces.spans-displays = true;
       finder = {
         AppleShowAllFiles = true;
         AppleShowAllExtensions = true;
@@ -183,6 +217,7 @@ in
         mru-spaces = false; # don't reorder (Most Recently Used spaces)
         show-recents = false;
         orientation = "bottom";
+        expose-group-apps = true;
       };
     };
   };

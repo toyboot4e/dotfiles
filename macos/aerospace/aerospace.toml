@@ -1,0 +1,114 @@
+# ~/.config/aerospace/aerospace.toml
+#
+# https://nikitabobko.github.io/AeroSpace/guide
+
+config-version = 2
+
+start-at-login = true
+
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = []
+automatically-unhide-macos-hidden-apps = false
+
+exec-on-workspace-change = ['/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+[exec.env-vars]
+PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+
+[gaps]
+inner.horizontal = 0
+inner.vertical   = 0
+outer.left       = 0
+outer.right      = 0
+outer.bottom     = 0
+# sketchybar is only shown on external displays
+outer.top        = [{ monitor.'built-in' = 0 }, 34]
+
+[[on-window-detected]]
+if.app-id = 'org.gnu.Emacs'
+run = 'layout floating'
+
+[mode.main.binding]
+# meta
+cmd-shift-r = 'reload-config'
+cmd-shift-f = 'fullscreen'
+cmd-space   = 'layout floating tiling'
+
+# application launcher
+cmd-shift-x = 'exec-and-forget open -a Kitty'
+cmd-shift-w = 'exec-and-forget open -a Kindle'
+cmd-shift-n = 'exec-and-forget open -a Numbers'
+cmd-shift-a = 'exec-and-forget open -a Firefox'
+cmd-shift-q = 'exec-and-forget open -a Qutebrowser'
+cmd-shift-l = 'exec-and-forget open -a "Google Chrome"'
+cmd-shift-e = 'exec-and-forget open -a Emacs'
+cmd-shift-t = 'exec-and-forget open -a Tiled'
+cmd-shift-y = 'exec-and-forget open -a Typora'
+
+# window/focus
+cmd-left  = 'focus left'
+cmd-down  = 'focus down'
+cmd-up    = 'focus up'
+cmd-right = 'focus right'
+
+# workspace/focus
+cmd-1 = 'workspace 1'
+cmd-2 = 'workspace 2'
+cmd-3 = 'workspace 3'
+cmd-4 = 'workspace 4'
+cmd-5 = 'workspace 5'
+cmd-6 = 'workspace 6'
+cmd-7 = 'workspace 7'
+cmd-8 = 'workspace 8'
+cmd-9 = 'workspace 9'
+
+ctrl-1 = 'workspace 1'
+ctrl-2 = 'workspace 2'
+ctrl-3 = 'workspace 3'
+ctrl-4 = 'workspace 4'
+ctrl-5 = 'workspace 5'
+ctrl-6 = 'workspace 6'
+ctrl-7 = 'workspace 7'
+ctrl-8 = 'workspace 8'
+ctrl-9 = 'workspace 9'
+
+# window/swap
+cmd-shift-left  = 'move left'
+cmd-shift-down  = 'move down'
+cmd-shift-up    = 'move up'
+cmd-shift-right = 'move right'
+
+# workspace/move to monitor
+ctrl-cmd-left  = 'move-workspace-to-monitor --wrap-around prev'
+ctrl-cmd-right = 'move-workspace-to-monitor --wrap-around next'
+
+# window/send to workspace
+cmd-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+cmd-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+cmd-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+cmd-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+cmd-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+cmd-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+cmd-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+cmd-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+cmd-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+
+# window/tree
+alt-e       = 'layout horizontal vertical'
+alt-shift-r = 'layout tiles accordion'
+
+# window/resize
+alt-0       = 'balance-sizes'
+alt-shift-w = 'resize height -26'
+alt-shift-s = 'resize height +26'
+alt-shift-a = 'resize width -24'
+alt-shift-d = 'resize width +24'

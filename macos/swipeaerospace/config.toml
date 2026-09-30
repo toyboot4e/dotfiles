@@ -1,0 +1,9 @@
+# ~/.config/swipeareospace/config.toml
+# https://github.com/MediosZ/SwipeAeroSpace
+
+fingers = "Three"
+natural = true
+wrap = false
+skip-empty = false
+multiSwipe = false
+swipeUpOverview = true
