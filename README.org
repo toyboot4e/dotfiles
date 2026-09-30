@@ -15,6 +15,8 @@
 
 #+LINK: skhd https://github.com/koekeishiya/skhd
 #+LINK: yabai https://github.com/koekeishiya/yabai
+#+LINK: aerospace https://github.com/nikitabobko/AeroSpace
+#+LINK: swipeaerospace https://github.com/MediosZ/SwipeAeroSpace
 #+LINK: karabiner https://karabiner-elements.pqrs.org/
 #+LINK: simple-bar https://github.com/Jean-Tinland/simple-bar
 #+LINK: sketchy-bar https://github.com/FelixKratz/SketchyBar
@@ -59,20 +61,20 @@ I'm also interested in light themes:
 
 These are the tools frequently used:
 
-| Item         | What I use                            |
-|--------------+---------------------------------------|
-| Terminals    | [[alacritty]] or [[kitty][kitty]] with [[tmux][tmux]]          |
-| Fonts        | Intel One Mono ([[nerd][nerd font]])            |
-| Editors      | [[evil][Evil]] Emacs                            |
-| Shells       | bash and [[fish][fish]]                         |
-| Browsers     | [[qb][qutebrowser]], firefox and [[w3m][w3m]]          |
-| Task runners | [[just][just]]                                  |
-| Git          | [[ghq][ghq]], [[gh][gh]], [[delta][delta]]                        |
-| Grep         | [[rg][rg]], [[hgrep][hgrep]]                             |
-| File         | [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[https://github.com/ranger/ranger][ranger]]         |
-| macOS        | [[yabai][yabai]], [[skhd][skhd]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
-| Linux        | X11, [[i3][i3]], [[sxhkd]], [[flameshot][flameshot]]             |
-| Misc         | GNU sed, GNU =rename=                   |
+| Item         | What I use                                          |
+|--------------+-----------------------------------------------------|
+| Terminals    | [[alacritty]] or [[kitty][kitty]] with [[tmux][tmux]]                        |
+| Fonts        | Intel One Mono ([[nerd][nerd font]])                          |
+| Editors      | [[evil][Evil]] Emacs                                          |
+| Shells       | bash and [[fish][fish]]                                       |
+| Browsers     | [[qb][qutebrowser]], firefox and [[w3m][w3m]]                        |
+| Task runners | [[just][just]]                                                |
+| Git          | [[ghq][ghq]], [[gh][gh]], [[delta][delta]]                                      |
+| Grep         | [[rg][rg]], [[hgrep][hgrep]]                                           |
+| File         | [[fd][fd]], [[as-tree][as-tree]], [[bat][bat]], [[eza][eza]], [[https://github.com/ranger/ranger][ranger]]                       |
+| macOS        | [[aerospace][AeroSpace]], [[swipeaerospace][SwipeAeroSpace]], [[sketchy-bar][SketchyBar]] and [[karabiner][karabiner]] |
+| Linux        | X11, [[i3][i3]], [[sxhkd]], [[flameshot][flameshot]]                           |
+| Misc         | GNU sed, GNU =rename=                                 |
 
 ** Installations
 
