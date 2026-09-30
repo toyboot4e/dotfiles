@@ -151,3 +151,16 @@
 
 [url "git@github.com:"]
     insteadOf = https://github.com/
+
+[gpg]
+    format = ssh
+
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
+
+# per-machine settings such as `user.signingkey`
+[include]
+    path = ~/.gitconfig.local
