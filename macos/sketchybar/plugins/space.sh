@@ -1,11 +1,9 @@
 #!/bin/sh
 
 # $1: the workspace this item represents
-# $FOCUSED_WORKSPACE: sent by `exec-on-workspace-change` in aerospace.toml
+# Highlights the workspace visible on this item's display, not only the focused one.
 
-focused="${FOCUSED_WORKSPACE:-$(aerospace list-workspaces --focused)}"
-
-if [ "$1" = "$focused" ]; then
+if aerospace list-workspaces --monitor all --visible | grep -qx "$1"; then
   sketchybar --set "$NAME" background.drawing=on
 else
   sketchybar --set "$NAME" background.drawing=off

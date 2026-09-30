@@ -38,22 +38,28 @@ sketchybar --default "${default[@]}"
 
 sketchybar --add event aerospace_workspace_change
 
-for sid in 1 2 3 4 5 6 7 8 9
+# One row per display; names must match ws.sh and aerospace.toml
+for display in 1 2
 do
-  space=(
-    icon="$sid"
-    icon.padding_left=7
-    icon.padding_right=7
-    background.color=0x40ffffff
-    background.corner_radius=5
-    background.height=25
-    label.drawing=off
-    script="$PLUGIN_DIR/space.sh $sid"
-    click_script="aerospace workspace $sid"
-  )
-  sketchybar --add item space."$sid" left \
-             --subscribe space."$sid" aerospace_workspace_change \
-             --set space."$sid" "${space[@]}"
+  for sid in 1 2 3 4 5 6 7 8 9
+  do
+    if [ "$display" = 1 ]; then ws="$sid"; else ws="$display-$sid"; fi
+    space=(
+      display="$display"
+      icon="$sid"
+      icon.padding_left=7
+      icon.padding_right=7
+      background.color=0x40ffffff
+      background.corner_radius=5
+      background.height=25
+      label.drawing=off
+      script="$PLUGIN_DIR/space.sh $ws"
+      click_script="aerospace workspace $ws"
+    )
+    sketchybar --add item space."$ws" left \
+               --subscribe space."$ws" aerospace_workspace_change \
+               --set space."$ws" "${space[@]}"
+  done
 done
 
 # Left items
