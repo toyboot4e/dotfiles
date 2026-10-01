@@ -198,14 +198,31 @@ in
       trackpad.TrackpadThreeFingerHorizSwipeGesture = 0;
       trackpad.TrackpadThreeFingerVertSwipeGesture = 0;
       CustomUserPreferences."com.apple.dock".showMissionControlGestureEnabled = false;
-      # "Switch to Desktop 1-9" (ctrl-1..9): leave these keys to AeroSpace
+      # Leave these keys to AeroSpace: "Switch to Desktop 1-9" (ctrl-1..9),
+      # Spotlight (cmd-space) and Finder search (cmd-alt-space)
       CustomUserPreferences."com.apple.symbolichotkeys".AppleSymbolicHotKeys =
         builtins.listToAttrs (
           map (id: {
             name = toString id;
             value.enabled = false;
           }) (builtins.genList (i: 118 + i) 9)
-        );
+        )
+        // {
+          "64" = {
+            enabled = false;
+            value = {
+              parameters = [ 32 49 1048576 ];
+              type = "standard";
+            };
+          };
+          "65" = {
+            enabled = false;
+            value = {
+              parameters = [ 32 49 1572864 ];
+              type = "standard";
+            };
+          };
+        };
       # AeroSpace parks hidden windows at a monitor corner; per-display Spaces let them leak onto neighbors
       spaces.spans-displays = true;
       finder = {
