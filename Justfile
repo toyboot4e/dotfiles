@@ -1,6 +1,8 @@
 # Just a task runner
 # <https://github.com/casey/just>
 
+set working-directory := 'nix'
+
 # shows this help message
 help:
     @just -l
