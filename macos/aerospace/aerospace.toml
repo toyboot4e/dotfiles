@@ -42,6 +42,7 @@ run = 'layout floating'
 cmd-shift-r = 'reload-config'
 cmd-shift-f = 'fullscreen'
 cmd-space   = 'layout floating tiling'
+cmd-h       = 'exec-and-forget ~/.config/aerospace/hide.sh'
 
 # application launcher
 cmd-shift-x = 'exec-and-forget open -a Kitty'
