@@ -55,7 +55,6 @@ boot:
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
         sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host boot
-        # just yabai
     else
         sudo nixos-rebuild --flake .#$host boot
     fi
@@ -76,14 +75,6 @@ link:
 
 [private]
 alias l := link
-
-# sets up yabai with script addition (SIP needs to be disabled)
-yabai:
-    yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-    sudo yabai --load-sa
-
-[private]
-alias y := yabai
 
 # remove `plover.cfg` to avoid home-manager conflict
 rm:

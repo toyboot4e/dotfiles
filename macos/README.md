@@ -1,3 +1,6 @@
 # macOS
 
-[yabai](https://github.com/koekeishiya/yabai) needs manual configuration. See: [Disabling System Integrity Protection](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection).
+- [AeroSpace](https://github.com/nikitabobko/AeroSpace)
+- [SwipeAeroSpace](https://github.com/MediosZ/SwipeAeroSpace)
+- [SketchyBar](https://github.com/FelixKratz/SketchyBar)
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/)

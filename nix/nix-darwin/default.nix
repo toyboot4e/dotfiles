@@ -66,7 +66,6 @@ in
     taps = [
       # "d12frosted/emacs-plus"
       "FelixKratz/formulae" # sketchy bar
-      "koekeishiya/formulae" # yabai
       "oven-sh/bun" # bun
       "nikitabobko/tap" # aerospace
       "mediosz/tap" # swipeaerospace
@@ -79,8 +78,6 @@ in
       "FelixKratz/formulae/sketchybar"
       "fontconfig"
       "ghcup"
-      "koekeishiya/formulae/yabai"
-      "koekeishiya/formulae/skhd"
       "libvterm"
       # TODO: limit to mp, on write it in flake.nix
       "anyenv"
@@ -118,11 +115,6 @@ in
       "claude-code@latest"
       "1password-cli"
     ];
-
-    extraConfig = ''
-      brew "koekeishiya/formulae/yabai", env: { SHELL: "/bin/bash" }
-      brew "koekeishiya/formulae/skhd", env: { SHELL: "/bin/bash" }
-    '';
   };
 
   # SSH: allow remote login from other machines on the LAN
@@ -143,8 +135,6 @@ in
 
   # TODO: really need this?
   environment.systemPackages = with pkgs; [
-    # skhd
-    # yabai
   ];
 
   # https://github.com/nix-darwin/nix-darwin/issues/1041
@@ -160,19 +150,6 @@ in
   #
   #     dontFixup = true;
   #   });
-  # };
-
-  # services.skhd.enable = true;
-  # services.yabai = {
-  #   enable = true;
-  #   package = pkgs.yabai;
-  #   enableScriptingAddition = true;
-  #   extraConfig = ''
-  #     # sudo yabai --load-sa
-  #     # yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-  #     sudo yabai
-  #     yabai -m signal --add event=dock_did_restart action="sudo yabai"
-  #   '';
   # };
 
   launchd.user.agents.swipeaerospace.serviceConfig = {
