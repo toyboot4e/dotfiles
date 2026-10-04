@@ -92,6 +92,10 @@ cmd-shift-right = 'move right'
 ctrl-cmd-left  = 'move-workspace-to-monitor --wrap-around prev'
 ctrl-cmd-right = 'move-workspace-to-monitor --wrap-around next'
 
+# window/move to monitor
+ctrl-cmd-shift-left  = 'move-node-to-monitor --focus-follows-window --wrap-around prev'
+ctrl-cmd-shift-right = 'move-node-to-monitor --focus-follows-window --wrap-around next'
+
 # window/send to workspace
 cmd-shift-1 = 'exec-and-forget ~/.config/aerospace/ws.sh move 1'
 cmd-shift-2 = 'exec-and-forget ~/.config/aerospace/ws.sh move 2'
