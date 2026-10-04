@@ -43,7 +43,6 @@ switch:
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
         sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host switch
-        just yabai
     else
         sudo nixos-rebuild --flake .#$host switch
     fi
@@ -56,7 +55,7 @@ boot:
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
         sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host boot
-        just yabai
+        # just yabai
     else
         sudo nixos-rebuild --flake .#$host boot
     fi
