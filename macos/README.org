@@ -1,4 +1,0 @@
-* macOS
-
-[[https://github.com/koekeishiya/yabai][yabai]] needs manual configuration. See: [[https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection][Disabling System Integrity Protection]].
-

@@ -1,10 +1,9 @@
-* Editors
+# Editors
 
-** Emacs
+## Emacs
 
 Evil Emacs is my editor.
 
-** Vim/NeoVim/VSCode
+## Vim/NeoVim/VSCode
 
 My configuration files are outdated.
-

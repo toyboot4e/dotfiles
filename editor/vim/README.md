@@ -1,4 +1,3 @@
-* Vim
+# Vim
 
 It's almost plain Vim since I removed all the obsolute settings.
-
