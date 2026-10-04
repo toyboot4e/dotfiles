@@ -1,15 +1,13 @@
 # fish
 
-## fisher
+## Plugins
 
-I could set up homebrew, but it requires let Nix manage `config.fish`. Instead I'm installing plugins manually:
+Plugins are installed by home-manager (`nix/home-manager/programs/fish`). It generates `~/.config/fish/config.fish` to source this directory's `config.fish`.
 
-```sh
-$ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-$ fisher install decors/fish-ghq # ctrl + g
-$ fisher install PatrickF1/fzf.fish
-$ fzf_configure_bindings --directory=\co # cmd + o
-```
+- [bass](https://github.com/edc/bass)
+- [foreign-env](https://github.com/oh-my-fish/plugin-foreign-env)
+- [fzf.fish](https://github.com/PatrickF1/fzf.fish)
+- [fish-ghq](https://github.com/decors/fish-ghq)
 
 ## Path
 

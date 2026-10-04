@@ -18,6 +18,11 @@ src.git = "https://github.com/0rax/fish-bd"
 src.branch = "master"
 fetch.github = "0rax/fish-bd"
 
+[fish-ghq]
+src.git = "https://github.com/decors/fish-ghq"
+src.branch = "master"
+fetch.github = "decors/fish-ghq"
+
 [fish-nix-completions]
 src.git = "https://github.com/kidonng/nix-completions.fish"
 src.branch = "master"

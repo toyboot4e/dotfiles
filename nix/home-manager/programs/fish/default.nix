@@ -1,25 +1,30 @@
-{ sources, pkgs }:
-let
-  pkgNames = [
-    # most fish plugins are not on nixkgs, so:
-    "fish-bd" # bd command
-    "fish-ghq" # ctrl + g
-    "fish-nix-completions"
-    "fish-nix-env"
-    "fish-z" # z command
-  ];
-in
+sources:
+{ config, pkgs, ... }:
 {
   programs.fish = {
     enable = true;
-    # FIXME: broken
-    # plugins = map
-    #    (name:
-    #    { name = sources.${name}.pname;
-    #      src = sources.${name}.src;
-    #    })
-    #    pkgNames;
+    plugins =
+      map
+        (p: {
+          name = p.pname;
+          inherit (p) src;
+        })
+        (
+          with pkgs.fishPlugins;
+          [
+            bass
+            foreign-env
+            fzf-fish
+          ]
+        )
+      ++ [
+        {
+          name = "fish-ghq";
+          inherit (sources.fish-ghq) src;
+        }
+      ];
+    shellInit = ''
+      source ${config.home.homeDirectory}/dotfiles/shell/fish/config.fish
+    '';
   };
-
-  xdg.configFile."fish/config.fish".source = ../../../../shell/fish/config.fish;
 }

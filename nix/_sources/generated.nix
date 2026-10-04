@@ -30,6 +30,18 @@
     };
     date = "2022-03-04";
   };
+  fish-ghq = {
+    pname = "fish-ghq";
+    version = "cafaaabe63c124bf0714f89ec715cfe9ece87fa2";
+    src = fetchFromGitHub {
+      owner = "decors";
+      repo = "fish-ghq";
+      rev = "cafaaabe63c124bf0714f89ec715cfe9ece87fa2";
+      fetchSubmodules = false;
+      sha256 = "sha256-6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=";
+    };
+    date = "2021-07-16";
+  };
   fish-nix-completions = {
     pname = "fish-nix-completions";
     version = "cd8a43bed96e0acc02228bc77502be8ba5fa0548";

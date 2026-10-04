@@ -1,6 +1,6 @@
 {
     "emacs-smyx": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2024-09-14",
         "extract": null,
         "name": "emacs-smyx",
@@ -21,7 +21,7 @@
         "version": "ce6dc4b1c25ff8c1d6c9b9015e0199355c46be4d"
     },
     "fish-bd": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2022-03-04",
         "extract": null,
         "name": "fish-bd",
@@ -41,8 +41,29 @@
         },
         "version": "ab686e028bfe95fa561a4f4e57840e36902d4d7d"
     },
+    "fish-ghq": {
+        "cargoLock": null,
+        "date": "2021-07-16",
+        "extract": null,
+        "name": "fish-ghq",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "decors",
+            "repo": "fish-ghq",
+            "rev": "cafaaabe63c124bf0714f89ec715cfe9ece87fa2",
+            "sha256": "sha256-6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "cafaaabe63c124bf0714f89ec715cfe9ece87fa2"
+    },
     "fish-nix-completions": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2022-08-18",
         "extract": null,
         "name": "fish-nix-completions",
@@ -63,7 +84,7 @@
         "version": "cd8a43bed96e0acc02228bc77502be8ba5fa0548"
     },
     "fish-nix-env": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2021-11-29",
         "extract": null,
         "name": "fish-nix-env",
@@ -84,7 +105,7 @@
         "version": "7b65bd228429e852c8fdfa07601159130a818cfa"
     },
     "fish-z": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-02-13",
         "extract": null,
         "name": "fish-z",
@@ -105,7 +126,7 @@
         "version": "067e867debee59aee231e789fc4631f80fa5788e"
     },
     "plover-harri-numbers": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-06-09",
         "extract": null,
         "name": "plover-harri-numbers",

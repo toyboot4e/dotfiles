@@ -6,12 +6,13 @@
   ...
 }:
 let
-  sources = pkgs.callPackage ../../_sources/generated.nix;
+  sources = pkgs.callPackage ../../_sources/generated.nix { };
   common-packages = import ../../home-manager/packages.nix pkgs;
 in
 {
   imports = [
     ../../home-manager/links.nix
+    (import ../../home-manager/programs/fish sources)
     (import ../../home-manager/programs/plover {
       home = config.home;
       inherit sources;

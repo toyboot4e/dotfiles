@@ -32,7 +32,9 @@ in
     {
       "alacritty" = link "terminal/alacritty";
       "kitty" = link "terminal/kitty";
-      "fish" = link "shell/fish";
+      "fish/functions" = link "shell/fish/functions";
+      "fish/completions" = link "shell/fish/completions";
+      "fish/conf.d/fish_frozen_theme.fish" = link "shell/fish/conf.d/fish_frozen_theme.fish";
       "tmux" = link "tool/tmux";
       "git" = link "tool/git";
       "gh" = link "tool/gh";

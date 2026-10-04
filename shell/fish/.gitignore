@@ -1,5 +1,2 @@
-completions/
-conf.d/
-functions/
-fish_variables
-fish_plugins
+completions/bun.fish
+completions/copilot.fish
