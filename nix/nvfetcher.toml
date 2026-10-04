@@ -38,3 +38,17 @@ src.git = "https://github.com/jethrokuan/z"
 src.branch = "master"
 fetch.github = "jethrokuan/z"
 
+[mpv-file-browser]
+src.git = "https://github.com/CogentRedTester/mpv-file-browser"
+src.branch = "master"
+fetch.github = "CogentRedTester/mpv-file-browser"
+
+[mpv-bookmarker]
+src.git = "https://github.com/NurioHin/mpv-bookmarker"
+src.branch = "master"
+fetch.github = "NurioHin/mpv-bookmarker"
+
+[mpv-zenyd-scripts]
+src.git = "https://github.com/zenyd/mpv-scripts"
+src.branch = "master"
+fetch.github = "zenyd/mpv-scripts"

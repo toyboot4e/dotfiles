@@ -12,6 +12,7 @@ in
   imports = [
     ../../home-manager/links.nix
     (import ../../home-manager/programs/fish sources)
+    (import ../../home-manager/programs/mpv sources)
     (import ../../home-manager/programs/emacs sources)
     (import ../../home-manager/programs/plover {
       home = config.home;

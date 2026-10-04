@@ -125,6 +125,69 @@
         },
         "version": "067e867debee59aee231e789fc4631f80fa5788e"
     },
+    "mpv-bookmarker": {
+        "cargoLock": null,
+        "date": "2020-09-21",
+        "extract": null,
+        "name": "mpv-bookmarker",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "NurioHin",
+            "repo": "mpv-bookmarker",
+            "rev": "aef6a1a64de57a97df0c7a396ea3f9b959f487ad",
+            "sha256": "sha256-Q4b4q+J/6UFGbzTsRgGLOE+vGrVuqLKZ3KQ4kxEci8s=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "aef6a1a64de57a97df0c7a396ea3f9b959f487ad"
+    },
+    "mpv-file-browser": {
+        "cargoLock": null,
+        "date": "2026-03-27",
+        "extract": null,
+        "name": "mpv-file-browser",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "CogentRedTester",
+            "repo": "mpv-file-browser",
+            "rev": "e07ab168fbba24063cd81c9b6f3fb8b85d5fe24d",
+            "sha256": "sha256-zCDBxsGC7THQ2k0qDkjOq4TZm4thI2yk57a3i9PRCAs=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "e07ab168fbba24063cd81c9b6f3fb8b85d5fe24d"
+    },
+    "mpv-zenyd-scripts": {
+        "cargoLock": null,
+        "date": "2025-12-06",
+        "extract": null,
+        "name": "mpv-zenyd-scripts",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "zenyd",
+            "repo": "mpv-scripts",
+            "rev": "62f4bb313c6cb6366672e78dea940e9da8fec84a",
+            "sha256": "sha256-9gO+GkNoGsxAbMRrBWu0FfXEQtyTmHivlaxlYLpV2YM=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "62f4bb313c6cb6366672e78dea940e9da8fec84a"
+    },
     "plover-harri-numbers": {
         "cargoLock": null,
         "date": "2025-06-09",

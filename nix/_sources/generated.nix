@@ -78,6 +78,42 @@
     };
     date = "2025-02-13";
   };
+  mpv-bookmarker = {
+    pname = "mpv-bookmarker";
+    version = "aef6a1a64de57a97df0c7a396ea3f9b959f487ad";
+    src = fetchFromGitHub {
+      owner = "NurioHin";
+      repo = "mpv-bookmarker";
+      rev = "aef6a1a64de57a97df0c7a396ea3f9b959f487ad";
+      fetchSubmodules = false;
+      sha256 = "sha256-Q4b4q+J/6UFGbzTsRgGLOE+vGrVuqLKZ3KQ4kxEci8s=";
+    };
+    date = "2020-09-21";
+  };
+  mpv-file-browser = {
+    pname = "mpv-file-browser";
+    version = "e07ab168fbba24063cd81c9b6f3fb8b85d5fe24d";
+    src = fetchFromGitHub {
+      owner = "CogentRedTester";
+      repo = "mpv-file-browser";
+      rev = "e07ab168fbba24063cd81c9b6f3fb8b85d5fe24d";
+      fetchSubmodules = false;
+      sha256 = "sha256-zCDBxsGC7THQ2k0qDkjOq4TZm4thI2yk57a3i9PRCAs=";
+    };
+    date = "2026-03-27";
+  };
+  mpv-zenyd-scripts = {
+    pname = "mpv-zenyd-scripts";
+    version = "62f4bb313c6cb6366672e78dea940e9da8fec84a";
+    src = fetchFromGitHub {
+      owner = "zenyd";
+      repo = "mpv-scripts";
+      rev = "62f4bb313c6cb6366672e78dea940e9da8fec84a";
+      fetchSubmodules = false;
+      sha256 = "sha256-9gO+GkNoGsxAbMRrBWu0FfXEQtyTmHivlaxlYLpV2YM=";
+    };
+    date = "2025-12-06";
+  };
   plover-harri-numbers = {
     pname = "plover-harri-numbers";
     version = "5a890fc2877dba3fd2a0e690ceed7492dcc93388";

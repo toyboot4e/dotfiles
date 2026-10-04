@@ -100,9 +100,6 @@ pkgs: with pkgs; [
   # text editors
   vscode
 
-  # movies
-  mpv
-
   # SNS
   discord
   slack
