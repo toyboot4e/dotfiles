@@ -4,7 +4,7 @@
   ...
 }:
 let
-  sshKeys = import ../ssh-keys.nix;
+  sshKeys = import ../../ssh-keys.nix;
 in
 {
   # Enable the OpenSSH daemon.

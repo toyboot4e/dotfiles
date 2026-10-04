@@ -1,7 +1,7 @@
 host:
 { pkgs, ... }:
 let
-  sources = pkgs.callPackage ../_sources/generated.nix { };
+  sources = pkgs.callPackage ../../_sources/generated.nix { };
 in
 {
   # networking.hostName = host;
@@ -126,7 +126,7 @@ in
     uid = 501;
     openssh.authorizedKeys.keys =
       let
-        sshKeys = import ../ssh-keys.nix;
+        sshKeys = import ../../ssh-keys.nix;
         allKeys = builtins.attrValues sshKeys;
       in
       # authorize every key except the host's own

@@ -88,7 +88,7 @@
               ];
             };
           }
-          ./nixos
+          ./nix/nixos
 
           home-manager.nixosModules.home-manager
           {
@@ -99,7 +99,7 @@
               inherit inputs useX;
             };
 
-            home-manager.users.tbm = import ./hosts/tbm;
+            home-manager.users.tbm = import ./nix/hosts/tbm;
           }
         ];
       };
@@ -118,7 +118,7 @@
             ];
           }
 
-          (import ./nix-darwin "mac")
+          (import ./nix/nix-darwin "mac")
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
@@ -128,7 +128,7 @@
               inherit inputs;
             };
 
-            home-manager.users.mac = import ./hosts/mac;
+            home-manager.users.mac = import ./nix/hosts/mac;
           }
         ];
       };
@@ -148,7 +148,7 @@
             ];
           }
 
-          (import ./nix-darwin "mp")
+          (import ./nix/nix-darwin "mp")
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
@@ -158,7 +158,7 @@
               inherit inputs;
             };
 
-            home-manager.users.mp = import ./hosts/mac;
+            home-manager.users.mp = import ./nix/hosts/mac;
           }
         ];
       };

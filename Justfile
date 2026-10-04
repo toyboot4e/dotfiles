@@ -1,8 +1,6 @@
 # Just a task runner
 # <https://github.com/casey/just>
 
-set working-directory := 'nix'
-
 # shows this help message
 help:
     @just -l
@@ -12,7 +10,7 @@ alias h := help
 
 # formats the nix files
 format:
-    nix fmt .
+    nix fmt flake.nix ssh-keys.nix _sources nix
 
 [private]
 alias fmt := format
