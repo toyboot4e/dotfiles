@@ -1,6 +1,6 @@
 # dotfiles
 
-This is a set configuration files for NixOS and macOS.
+My configuration files for NixOS and macOS.
 
 ## Colors
 
