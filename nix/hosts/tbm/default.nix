@@ -11,6 +11,7 @@ let
 in
 {
   imports = [
+    ../../home-manager/links.nix
     (import ../../home-manager/programs/plover {
       home = config.home;
       inherit sources;

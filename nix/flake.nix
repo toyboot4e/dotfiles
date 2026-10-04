@@ -62,7 +62,9 @@
     in
     {
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
-      packages.default = forAllSystems (pkgs: inputs.fenix.packages.${pkgs.stdenv.hostPlatform.system}.default.toolchain);
+      packages.default = forAllSystems (
+        pkgs: inputs.fenix.packages.${pkgs.stdenv.hostPlatform.system}.default.toolchain
+      );
 
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -92,6 +94,7 @@
           {
             home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
               inherit inputs useX;
             };
@@ -120,6 +123,7 @@
           {
             home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };
@@ -149,6 +153,7 @@
           {
             home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-backup";
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };

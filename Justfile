@@ -60,6 +60,23 @@ boot:
         sudo nixos-rebuild --flake .#$host boot
     fi
 
+# activates home-manager only (symlinks, etc.) without the system switch
+link:
+    #!/usr/bin/env -S bash -euE
+    host="$(whoami)"
+    if [ $(uname) = Darwin ] ; then
+        kind=darwinConfigurations
+    else
+        kind=nixosConfigurations
+    fi
+    config=".#$kind.$host.config.home-manager"
+    out="$(nix build --no-link --print-out-paths "$config.users.$host.home.activationPackage")"
+    # Normally exported by the nix-darwin/NixOS activation, which this bypasses
+    HOME_MANAGER_BACKUP_EXT="$(nix eval --raw "$config.backupFileExtension")" "$out/activate"
+
+[private]
+alias l := link
+
 # sets up yabai with script addition (SIP needs to be disabled)
 yabai:
     yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
