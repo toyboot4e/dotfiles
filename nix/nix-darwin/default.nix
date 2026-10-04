@@ -153,7 +153,11 @@ in
   # };
 
   launchd.user.agents.swipeaerospace.serviceConfig = {
-    ProgramArguments = [ "/usr/bin/open" "-a" "SwipeAeroSpace" ];
+    ProgramArguments = [
+      "/usr/bin/open"
+      "-a"
+      "SwipeAeroSpace"
+    ];
     RunAtLoad = true;
   };
 
@@ -167,6 +171,7 @@ in
     defaults = {
       NSGlobalDomain = {
         AppleShowAllExtensions = true;
+        AppleEnableSwipeNavigateWithScrolls = false;
         NSAutomaticWindowAnimationsEnabled = false;
         NSWindowResizeTime = 0.001;
       };
@@ -176,7 +181,8 @@ in
       trackpad.TrackpadThreeFingerVertSwipeGesture = 0;
       CustomUserPreferences."com.apple.dock".showMissionControlGestureEnabled = false;
       # Leave these keys to AeroSpace: "Switch to Desktop 1-9" (ctrl-1..9),
-      # Spotlight (cmd-space) and Finder search (cmd-alt-space)
+      # Spotlight (cmd-space) and Finder search (cmd-alt-space).
+      # nix-darwin overwrites this whole dict, so shortcuts set in System Settings are lost on switch
       CustomUserPreferences."com.apple.symbolichotkeys".AppleSymbolicHotKeys =
         builtins.listToAttrs (
           map (id: {
@@ -188,14 +194,34 @@ in
           "64" = {
             enabled = false;
             value = {
-              parameters = [ 32 49 1048576 ];
+              parameters = [
+                32
+                49
+                1048576
+              ];
               type = "standard";
             };
           };
           "65" = {
             enabled = false;
             value = {
-              parameters = [ 32 49 1572864 ];
+              parameters = [
+                32
+                49
+                1572864
+              ];
+              type = "standard";
+            };
+          };
+          # Apps (formerly Launchpad): cmd-e
+          "160" = {
+            enabled = true;
+            value = {
+              parameters = [
+                101
+                14
+                1048576
+              ];
               type = "standard";
             };
           };
