@@ -1,10 +1,17 @@
 #!/bin/sh
 
-# $1: the workspace this item represents
-# Highlights the workspace visible on this item's display, not only the focused one.
+# Highlights the workspaces visible on any display with one AeroSpace query and one SketchyBar call.
 
-if aerospace list-workspaces --monitor all --visible | grep -qx "$1"; then
-  sketchybar --set "$NAME" background.drawing=on
-else
-  sketchybar --set "$NAME" background.drawing=off
-fi
+visible=$(aerospace list-workspaces --monitor all --visible) || exit
+
+args=""
+for display in 1 2; do
+  for sid in 1 2 3 4 5 6 7 8 9; do
+    if [ "$display" = 1 ]; then ws="$sid"; else ws="$display-$sid"; fi
+    if printf '%s\n' "$visible" | grep -qx "$ws"; then on=on; else on=off; fi
+    args="$args --set space.$ws background.drawing=$on"
+  done
+done
+
+# shellcheck disable=SC2086
+sketchybar $args

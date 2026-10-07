@@ -53,14 +53,16 @@ do
       background.corner_radius=5
       background.height=25
       label.drawing=off
-      script="$PLUGIN_DIR/space.sh $ws"
       click_script="aerospace workspace $ws"
     )
     sketchybar --add item space."$ws" left \
-               --subscribe space."$ws" aerospace_workspace_change \
                --set space."$ws" "${space[@]}"
   done
 done
+
+sketchybar --add item spaces left \
+           --set spaces drawing=off script="$PLUGIN_DIR/space.sh" \
+           --subscribe spaces aerospace_workspace_change
 
 sketchybar --add item space_displays left \
            --set space_displays drawing=off script="$PLUGIN_DIR/space_displays.sh" \
