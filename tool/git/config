@@ -3,7 +3,6 @@
     # unicode compability between Mac and Linux
     precomposeunicode = true
     editor = vim -u ~/dotfiles/editor/vim/mini.vim
-    excludesfile = ~/.gitignore_global
     # enable cash return at the end of lines
     # whitespace = cr-at-eol
 
@@ -12,12 +11,6 @@
 
 [rebase]
     autostash = true # auto pop stash after rebasing
-
-[filter "lfs"]
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
 
 [user]
     name = toyboot4e
@@ -91,12 +84,6 @@
     t   = tag
     w   = worktree
     wl  = worktree list
-
-    ########################################
-    # hub
-
-    url = "! _f() { hub browse --url ; } ; _f"
-    new = "! _f() { hub create -p && git push -u origin main ; } ; _f"
 
     ########################################
     # custom commands
