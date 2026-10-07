@@ -62,6 +62,10 @@ do
   done
 done
 
+sketchybar --add item space_displays left \
+           --set space_displays drawing=off script="$PLUGIN_DIR/space_displays.sh" \
+           --subscribe space_displays display_change
+
 # Left items
 sketchybar --add item chevron left \
            --set chevron icon= label.drawing=off \
