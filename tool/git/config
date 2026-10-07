@@ -101,19 +101,16 @@
     ########################################
     # custom commands
 
-    root = "git rev-parse --show-toplevel"
-    exe = "git config --global alias.exec '!exec '"
+    root = rev-parse --show-toplevel
+    exe = "config --global alias.exec '!exec '"
     # partial add
-    p = "! _f() { git add -N \"$1\" git add -p ; } ; _f"
+    p = "! _f() { git add -N \"$1\" && git add -p \"$1\" ; } ; _f"
     rename = "! _f() { git mv \"$1\"{,/../\"$2\"} ; } ; _f"
 
 [pager]
     log  = nl -v 0 | less -iMRX
     diff = delta
     show = delta
-
-[interactive]
-    diffFilter = delta --color-only
 
 [diff]
     algorithm = histogram
