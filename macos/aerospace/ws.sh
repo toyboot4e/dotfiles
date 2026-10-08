@@ -1,9 +1,13 @@
 #!/bin/sh
 # usage: ws.sh focus|move N
-# Monitor 1 owns workspaces 1..9, monitor M>1 owns M-1..M-9 (see aerospace.toml).
+# The main monitor owns workspaces 1..9 and the other one 2-1..2-9 (see aerospace.toml),
+# so N resolves within the focused monitor's group.
 
-m=$(aerospace list-monitors --focused --format '%{monitor-id}')
-if [ "$m" = 1 ]; then ws="$2"; else ws="$m-$2"; fi
+if [ "$(aerospace list-monitors --focused --format '%{monitor-is-main}')" = true ]; then
+  ws="$2"
+else
+  ws="2-$2"
+fi
 
 case "$1" in
   focus) exec aerospace workspace "$ws" ;;
