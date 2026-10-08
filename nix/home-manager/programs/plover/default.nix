@@ -17,7 +17,11 @@ in
 {
   # rm "$HOME/.config/plover/plover.cfg"
   # rm "$HOME/.config/Open Steno Project/Plover.conf"
-  home.file."${plover-dir}/user.json".text = "{}";
+  home.file."${plover-dir}/user.json" =  {
+    text = "{}";
+    force = true;
+  };
+
 
   imports = [
     plover-flake.homeManagerModules.plover
