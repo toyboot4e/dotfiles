@@ -40,7 +40,6 @@ in
       "gh" = link "tool/gh";
       "bat" = link "tool/bat";
       "cargo" = link "tool/cargo";
-      "mise" = link "tool/mise";
       "mpv" = link "tool/mpv";
       "ranger" = link "tool/ranger";
       "vim" = link "editor/vim";

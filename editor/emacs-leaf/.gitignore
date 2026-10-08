@@ -10,3 +10,17 @@ sessions
 tmp
 elisp/tmp
 
+
+# tangled from init.org
+/init.el
+/init.latex
+/init.sh
+
+# runtime state
+eln-cache
+auto-save-list
+/etc
+/var
+/history
+/places
+/recentf

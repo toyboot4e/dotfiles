@@ -1,1 +1,4 @@
 plugins/
+
+# tmux -v logs
+tmux-*.log
