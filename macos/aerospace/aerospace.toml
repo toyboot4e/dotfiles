@@ -6,7 +6,8 @@ config-version = 2
 
 start-at-login = true
 
-persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
+                         's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -128,12 +129,12 @@ alt-shift-d = 'resize width +24'
 7 = 'main'
 8 = 'main'
 9 = 'main'
-2-1 = 'secondary'
-2-2 = 'secondary'
-2-3 = 'secondary'
-2-4 = 'secondary'
-2-5 = 'secondary'
-2-6 = 'secondary'
-2-7 = 'secondary'
-2-8 = 'secondary'
-2-9 = 'secondary'
+s1 = 'secondary'
+s2 = 'secondary'
+s3 = 'secondary'
+s4 = 'secondary'
+s5 = 'secondary'
+s6 = 'secondary'
+s7 = 'secondary'
+s8 = 'secondary'
+s9 = 'secondary'

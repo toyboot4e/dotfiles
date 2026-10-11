@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Shows workspaces 1..9 on the main display and 2-1..2-9 on the other one.
-# With a single display left, windows of 2-1..2-9 merge into 1..9.
+# Shows workspaces 1..9 on the main display and s1..s9 on the other one.
+# With a single display left, windows of s1..s9 merge into 1..9.
 
 # display_change can arrive before AeroSpace has noticed the new monitor set
 sleep 1
@@ -15,9 +15,9 @@ args=""
 for sid in 1 2 3 4 5 6 7 8 9; do
   args="$args --set space.$sid display=$primary"
   if [ -n "$secondary" ]; then
-    args="$args --set space.2-$sid display=$secondary drawing=on"
+    args="$args --set space.s$sid display=$secondary drawing=on"
   else
-    args="$args --set space.2-$sid drawing=off"
+    args="$args --set space.s$sid drawing=off"
   fi
 done
 # shellcheck disable=SC2086
@@ -28,6 +28,6 @@ sketchybar $args
 aerospace list-windows --all --format '%{window-id} %{workspace}' |
 while read -r id ws; do
   case "$ws" in
-    2-*) aerospace move-node-to-workspace --window-id "$id" "${ws#2-}" ;;
+    s[1-9]) aerospace move-node-to-workspace --window-id "$id" "${ws#s}" ;;
   esac
 done
