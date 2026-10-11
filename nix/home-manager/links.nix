@@ -22,6 +22,11 @@ in
 
     ".w3m" = link "browser/w3m";
 
+    # Only these; the rest of `~/.claude` is state
+    ".claude/CLAUDE.md" = link "tool/claude/CLAUDE.md";
+    ".claude/settings.json" = link "tool/claude/settings.json";
+    ".claude/hooks" = link "tool/claude/hooks";
+
     "${codeUserDir}/settings.json" = link "editor/vscode/settings.json";
     "${codeUserDir}/keybindings.json" = link "editor/vscode/keybindings.json";
 
