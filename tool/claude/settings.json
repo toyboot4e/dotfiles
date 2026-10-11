@@ -49,6 +49,7 @@
   },
   "sandbox": {
     "enabled": true,
+    "failIfUnavailable": true,
     "allowUnsandboxedCommands": false,
     "excludedCommands": [
       "git commit *"
@@ -74,6 +75,36 @@
         "~/.aws/credentials",
         "~/env/secrets",
         "~/.ssh"
+      ],
+      "denyWrite": [
+        "~/dotfiles/tool/git",
+        "~/dotfiles/shell",
+        "~/dotfiles/nix",
+        "~/dotfiles/flake.nix"
+      ]
+    },
+    "credentials": {
+      "files": [
+        { "path": "~/.netrc", "mode": "deny" },
+        { "path": "~/.npmrc", "mode": "deny" },
+        { "path": "~/.git-credentials", "mode": "deny" },
+        { "path": "~/.config/git/credentials", "mode": "deny" },
+        { "path": "~/dotfiles/tool/gh/hosts.yml", "mode": "deny" },
+        { "path": "~/.claude.json", "mode": "deny" },
+        { "path": "~/.claude/.credentials.json", "mode": "deny" }
+      ],
+      "envVars": [
+        { "name": "GH_TOKEN", "mode": "deny" },
+        { "name": "GITHUB_TOKEN", "mode": "deny" },
+        { "name": "GH_ENTERPRISE_TOKEN", "mode": "deny" },
+        { "name": "GITHUB_ENTERPRISE_TOKEN", "mode": "deny" },
+        { "name": "NPM_TOKEN", "mode": "deny" },
+        { "name": "NODE_AUTH_TOKEN", "mode": "deny" },
+        { "name": "AWS_ACCESS_KEY_ID", "mode": "deny" },
+        { "name": "AWS_SECRET_ACCESS_KEY", "mode": "deny" },
+        { "name": "AWS_SESSION_TOKEN", "mode": "deny" },
+        { "name": "ANTHROPIC_API_KEY", "mode": "deny" },
+        { "name": "ANTHROPIC_AUTH_TOKEN", "mode": "deny" }
       ]
     }
   },
