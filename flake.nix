@@ -100,9 +100,9 @@
     in
     {
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
-      packages.default = forAllSystems (
-        pkgs: inputs.fenix.packages.${pkgs.stdenv.hostPlatform.system}.default.toolchain
-      );
+      packages = forAllSystems (pkgs: {
+        default = inputs.fenix.packages.${pkgs.stdenv.hostPlatform.system}.default.toolchain;
+      });
 
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         specialArgs = {
