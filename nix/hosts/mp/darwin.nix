@@ -3,6 +3,10 @@
   homebrew = {
     taps = [ ];
     brews = [ ];
-    casks = [ ];
+    casks = [
+      "android-studio"
+      "chromedriver"
+      "dbeaver-community"
+    ];
   };
 }
