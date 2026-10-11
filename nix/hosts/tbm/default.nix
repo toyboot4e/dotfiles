@@ -11,6 +11,7 @@ in
 {
   imports = [
     ../../home-manager/packages.nix
+    ../../home-manager/packages-rich.nix
     ../../home-manager/links.nix
     (import ../../home-manager/programs/fish sources)
     (import ../../home-manager/programs/mpv sources)

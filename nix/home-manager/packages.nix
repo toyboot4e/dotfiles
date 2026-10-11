@@ -68,10 +68,6 @@
     # encoding
     nkf
 
-    # dotfiles
-    fastfetch
-    xdg-ninja
-
     # nix
     nil # Nix LSP: https://github.com/oxalica/nil
     nixfmt
@@ -98,8 +94,6 @@
     vscode
 
     # SNS
-    discord
-    slack
     zoom-us
 
     # drawing
@@ -114,21 +108,8 @@
     gcc
     # gdb
 
-    # Go
-    go
-
-    # Haskell
-    ghc
-    stack
-    cabal-install
-    haskell-language-server
-    zlib
-    ormolu
-    haskellPackages.implicit-hie
-
     # JS
     # deno
-    nodejs
     ni
 
     # OCaml
@@ -150,9 +131,6 @@
     # Python
     python3
     ty
-    # FIXME: use pylsp installed with uv locally
-    python3Packages.python-lsp-server
-    uv
     # FIXME: ansible broke build on mp(I forgot where)
     # ansible
 
@@ -187,18 +165,12 @@
     # Behind the scenes
     # --------------------------------------------------------------------------------
 
-    # CI
-    actionlint
-    act
-    circleci-cli
-
     # documentation
     ditaa
     gnuplot
     graphviz
     jdk
     mermaid-cli
-    pandoc
     plantuml
   ];
 }
