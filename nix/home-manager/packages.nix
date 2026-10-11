@@ -1,206 +1,209 @@
 # Shared between macOS and NixOS
-pkgs: with pkgs; [
-  # --------------------------------------------------------------------------------
-  # Terminal
-  # --------------------------------------------------------------------------------
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    # --------------------------------------------------------------------------------
+    # Terminal
+    # --------------------------------------------------------------------------------
 
-  # terminal
-  # kitty
-  alacritty
-  tmux
+    # terminal
+    # kitty
+    alacritty
+    tmux
 
-  # dev env
-  direnv
-  nix-direnv
-  # mise
+    # dev env
+    direnv
+    nix-direnv
+    # mise
 
-  # commands
-  zoxide
-  tealdeer
+    # commands
+    zoxide
+    tealdeer
 
-  # text editors
-  neovim
+    # text editors
+    neovim
 
-  # Emacs
-  enchant
-  # emacsPackages.jinx # https://github.com/minad/jinx
-  libtool
+    # Emacs
+    enchant
+    # emacsPackages.jinx # https://github.com/minad/jinx
+    libtool
 
-  git
-  delta
-  diff-so-fancy
-  gh
-  ghq
+    git
+    delta
+    diff-so-fancy
+    gh
+    ghq
 
-  # build tools
-  gnumake
-  # hyperfine
-  just
-  watchexec
+    # build tools
+    gnumake
+    # hyperfine
+    just
+    watchexec
 
-  # --------------------------------------------------------------------------------
-  # CLI tools
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # CLI tools
+    # --------------------------------------------------------------------------------
 
-  # fuzzy finders
-  fzf
+    # fuzzy finders
+    fzf
 
-  # utilities
-  as-tree
-  bat
-  eza
-  fd
-  ranger
-  rename
-  ripgrep
-  tokei
+    # utilities
+    as-tree
+    bat
+    eza
+    fd
+    ranger
+    rename
+    ripgrep
+    tokei
 
-  # filters
-  jq
-  yq-go
-  pup
+    # filters
+    jq
+    yq-go
+    pup
 
-  # formatters
-  biome
-  prettier
-  eslint
+    # formatters
+    biome
+    prettier
+    eslint
 
-  # general linters
-  # codebook
+    # general linters
+    # codebook
 
-  # encoding
-  nkf
+    # encoding
+    nkf
 
-  # dotfiles
-  fastfetch
-  xdg-ninja
+    # dotfiles
+    fastfetch
+    xdg-ninja
 
-  # nix
-  nil # Nix LSP: https://github.com/oxalica/nil
-  nixfmt
-  # nix-search-tv
-  nvfetcher
-  rippkgs
-  # television
+    # nix
+    nil # Nix LSP: https://github.com/oxalica/nil
+    nixfmt
+    # nix-search-tv
+    nvfetcher
+    rippkgs
+    # television
 
-  # ascii art
-  cmatrix
-  figlet
+    # ascii art
+    cmatrix
+    figlet
 
-  # --------------------------------------------------------------------------------
-  # GUI
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # GUI
+    # --------------------------------------------------------------------------------
 
-  # browsers
-  firefox
-  # google-chrome
-  # chromedriver
-  # qutebrowser # not available on macOS
+    # browsers
+    firefox
+    # google-chrome
+    # chromedriver
+    # qutebrowser # not available on macOS
 
-  # text editors
-  vscode
+    # text editors
+    vscode
 
-  # SNS
-  discord
-  slack
-  zoom-us
+    # SNS
+    discord
+    slack
+    zoom-us
 
-  # drawing
-  # inkscape
+    # drawing
+    # inkscape
 
-  # --------------------------------------------------------------------------------
-  # Languages
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # Languages
+    # --------------------------------------------------------------------------------
 
-  # C
-  cmake
-  gcc
-  # gdb
+    # C
+    cmake
+    gcc
+    # gdb
 
-  # Go
-  go
+    # Go
+    go
 
-  # Haskell
-  ghc
-  stack
-  cabal-install
-  haskell-language-server
-  zlib
-  ormolu
-  haskellPackages.implicit-hie
+    # Haskell
+    ghc
+    stack
+    cabal-install
+    haskell-language-server
+    zlib
+    ormolu
+    haskellPackages.implicit-hie
 
-  # JS
-  # deno
-  nodejs
-  ni
+    # JS
+    # deno
+    nodejs
+    ni
 
-  # OCaml
-  # ocaml
-  # opam
-  # dune_3
-  # ocamlPackages.merlin
+    # OCaml
+    # ocaml
+    # opam
+    # dune_3
+    # ocamlPackages.merlin
 
-  # Rust
-  (fenix.complete.withComponents [
-    "cargo"
-    "clippy"
-    "rust-src"
-    "rustc"
-    "rustfmt"
-    "rust-analyzer"
-  ])
+    # Rust
+    (fenix.complete.withComponents [
+      "cargo"
+      "clippy"
+      "rust-src"
+      "rustc"
+      "rustfmt"
+      "rust-analyzer"
+    ])
 
-  # Python
-  python3
-  ty
-  # FIXME: use pylsp installed with uv locally
-  python3Packages.python-lsp-server
-  uv
-  # FIXME: ansible broke build on mp(I forgot where)
-  # ansible
+    # Python
+    python3
+    ty
+    # FIXME: use pylsp installed with uv locally
+    python3Packages.python-lsp-server
+    uv
+    # FIXME: ansible broke build on mp(I forgot where)
+    # ansible
 
-  # YAML
-  yamlfmt
+    # YAML
+    yamlfmt
 
-  # monitoring
-  ncdu
-  gtop
+    # monitoring
+    ncdu
+    gtop
 
-  # --------------------------------------------------------------------------------
-  # Typesetting or SSG
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # Typesetting or SSG
+    # --------------------------------------------------------------------------------
 
-  # Tex
-  texliveSmall
-  minify
-  # mdbook
+    # Tex
+    texliveSmall
+    minify
+    # mdbook
 
-  typst
-  tinymist
+    typst
+    tinymist
 
-  # --------------------------------------------------------------------------------
-  # Image processing
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # Image processing
+    # --------------------------------------------------------------------------------
 
-  ffmpeg
-  imagemagick
-  ghostscript
+    ffmpeg
+    imagemagick
+    ghostscript
 
-  # --------------------------------------------------------------------------------
-  # Behind the scenes
-  # --------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
+    # Behind the scenes
+    # --------------------------------------------------------------------------------
 
-  # CI
-  actionlint
-  act
-  circleci-cli
+    # CI
+    actionlint
+    act
+    circleci-cli
 
-  # documentation
-  ditaa
-  gnuplot
-  graphviz
-  jdk
-  mermaid-cli
-  pandoc
-  plantuml
-]
+    # documentation
+    ditaa
+    gnuplot
+    graphviz
+    jdk
+    mermaid-cli
+    pandoc
+    plantuml
+  ];
+}

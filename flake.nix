@@ -59,6 +59,44 @@
       forAllSystems =
         f:
         nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
+
+      # Base system (`nix/nix-darwin`) + per-user entries (`nix/hosts/<user>`)
+      mkDarwin =
+        {
+          user,
+          extraOverlays ? [ ],
+        }:
+        nix-darwin.lib.darwinSystem {
+          specialArgs = {
+            inherit forAllSystems user;
+          };
+          modules = [
+            {
+              users.users.${user}.home = "/Users/${user}";
+              nixpkgs.overlays = [
+                emacs-overlay.overlay
+                emacs-lsp-booster.overlays.default
+                fenix.overlays.default
+              ]
+              ++ extraOverlays;
+            }
+
+            ./nix/nix-darwin
+            ./nix/hosts/${user}/darwin.nix
+
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "hm-backup";
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+
+              home-manager.users.${user} = import ./nix/hosts/${user}/home.nix;
+            }
+          ];
+        };
     in
     {
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
@@ -104,63 +142,11 @@
         ];
       };
 
-      darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
-        specialArgs = {
-          inherit forAllSystems;
-        };
-        modules = [
-          {
-            users.users.mac.home = "/Users/mac";
-            nixpkgs.overlays = [
-              emacs-overlay.overlay
-              emacs-lsp-booster.overlays.default
-              fenix.overlays.default
-            ];
-          }
+      darwinConfigurations.mac = mkDarwin { user = "mac"; };
 
-          (import ./nix/nix-darwin "mac")
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-
-            home-manager.users.mac = import ./nix/hosts/mac;
-          }
-        ];
-      };
-
-      darwinConfigurations.mp = nix-darwin.lib.darwinSystem {
-        specialArgs = {
-          inherit forAllSystems;
-        };
-        modules = [
-          {
-            users.users.mp.home = "/Users/mp";
-            nixpkgs.overlays = [
-              emacs-overlay.overlay
-              emacs-lsp-booster.overlays.default
-              fenix.overlays.default
-              edgepkgs.overlays.default
-            ];
-          }
-
-          (import ./nix/nix-darwin "mp")
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true; # inherit the system's nixpkgs
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-backup";
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-
-            home-manager.users.mp = import ./nix/hosts/mac;
-          }
-        ];
+      darwinConfigurations.mp = mkDarwin {
+        user = "mp";
+        extraOverlays = [ edgepkgs.overlays.default ];
       };
     };
 }

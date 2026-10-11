@@ -1,5 +1,5 @@
-host:
-{ pkgs, ... }:
+# Base system shared by all the macOS users. Per-user entries go to `nix/hosts/<user>/darwin.nix`
+{ pkgs, user, ... }:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix { };
 in
@@ -8,7 +8,7 @@ in
   nixpkgs.hostPlatform = "aarch64-darwin"; # FIXME: take it from somewhere..
   # nixpkgs.hostPlatform = forAllSystems(pkgs: pkgs.stdenv.hostPlatform.system);
   nixpkgs.config.allowUnfree = true;
-  system.primaryUser = host;
+  system.primaryUser = user;
 
   nix = {
     settings = {
@@ -119,8 +119,8 @@ in
   # SSH: allow remote login from other machines on the LAN
   services.openssh.enable = true;
 
-  users.knownUsers = [ host ];
-  users.users.${host} = {
+  users.knownUsers = [ user ];
+  users.users.${user} = {
     shell = pkgs.fish;
     uid = 501;
     openssh.authorizedKeys.keys =
@@ -129,7 +129,7 @@ in
         allKeys = builtins.attrValues sshKeys;
       in
       # authorize every key except the host's own
-      builtins.filter (k: k != sshKeys.${host}) allKeys;
+      builtins.filter (k: k != sshKeys.${user}) allKeys;
   };
 
   # TODO: really need this?
@@ -162,8 +162,8 @@ in
 
   # Dock reads the -currentHost copy of trackpad gestures, which `system.defaults` can't write
   system.activationScripts.postActivation.text = ''
-    sudo -u ${host} defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
-    sudo -u ${host} defaults -currentHost write -g com.apple.trackpad.threeFingerVertSwipeGesture -int 0
+    sudo -u ${user} defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
+    sudo -u ${user} defaults -currentHost write -g com.apple.trackpad.threeFingerVertSwipeGesture -int 0
   '';
 
   system = {

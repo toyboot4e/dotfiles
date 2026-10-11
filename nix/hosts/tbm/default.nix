@@ -7,10 +7,10 @@
 }:
 let
   sources = pkgs.callPackage ../../../_sources/generated.nix { };
-  common-packages = import ../../home-manager/packages.nix pkgs;
 in
 {
   imports = [
+    ../../home-manager/packages.nix
     ../../home-manager/links.nix
     (import ../../home-manager/programs/fish sources)
     (import ../../home-manager/programs/mpv sources)
@@ -32,108 +32,105 @@ in
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  home.packages =
-    with pkgs;
-    common-packages
-    ++ [
-      emacs-lsp-booster
+  home.packages = with pkgs; [
+    emacs-lsp-booster
 
-      # ryoppippi/nix-claude-code
-      claude-code-fhs
+    # ryoppippi/nix-claude-code
+    claude-code-fhs
 
-      # appimage-run
-      # aider-chat
+    # appimage-run
+    # aider-chat
 
-      obs-studio
-      # xdot
+    obs-studio
+    # xdot
 
-      # pwn
-      # checksec
-      # pwndbg
+    # pwn
+    # checksec
+    # pwndbg
 
-      # Translation
-      # poedit
+    # Translation
+    # poedit
 
-      # online-judge-tools
-      # my-pkgs.online-judge-verify-helper
+    # online-judge-tools
+    # my-pkgs.online-judge-verify-helper
 
-      # arandr
-      # bluetuith
-      # nemo
-      nautilus
-      thunar
+    # arandr
+    # bluetuith
+    # nemo
+    nautilus
+    thunar
 
-      # devbox
-      # geekbench
-      # meson
-      ninja
-      exiftool
-      zip
-      moreutils
+    # devbox
+    # geekbench
+    # meson
+    ninja
+    exiftool
+    zip
+    moreutils
 
-      # Emacs
-      libvterm
+    # Emacs
+    libvterm
 
-      # CPU temperature
-      lm_sensors
+    # CPU temperature
+    lm_sensors
 
-      # goenv
-      # idris2.. using `idris2-pack` instead
-      # https://github.com/stefan-hoeck/idris2-pack
-      # chez
-      # zig
-      # zls
-      # swiPrologWithGui
+    # goenv
+    # idris2.. using `idris2-pack` instead
+    # https://github.com/stefan-hoeck/idris2-pack
+    # chez
+    # zig
+    # zls
+    # swiPrologWithGui
 
-      sway-scratch
+    sway-scratch
 
-      # docker
-      readline
-      rlwrap
-      sqlite-interactive
-      sqlite-web
-      sqlite-utils
-      evince
-      # qpdfview
-      ghostscript
-      pdfarranger
+    # docker
+    readline
+    rlwrap
+    sqlite-interactive
+    sqlite-web
+    sqlite-utils
+    evince
+    # qpdfview
+    ghostscript
+    pdfarranger
 
-      # https://github.com/mkaz/termgraph
-      # python311Packages.termgraph
-      # https://github.com/red-data-tools/YouPlot
+    # https://github.com/mkaz/termgraph
+    # python311Packages.termgraph
+    # https://github.com/red-data-tools/YouPlot
 
-      blender
-      gimp
-      # cider
+    blender
+    gimp
+    # cider
 
-      # kicad-small
-      # qmk
+    # kicad-small
+    # qmk
 
-      # openai-whisper-cpp
-      # (openai-whisper.override { cudaSupport = true; })
-      # whisper-ctranslate2
+    # openai-whisper-cpp
+    # (openai-whisper.override { cudaSupport = true; })
+    # whisper-ctranslate2
 
-      # purescript
-      # ruby
+    # purescript
+    # ruby
 
-      # TODO: replace `sxhkd` package with `sxhkd` service
-      # sxhkd
+    # TODO: replace `sxhkd` package with `sxhkd` service
+    # sxhkd
 
-      # GUI
-      drawio
-      # vkmark
-      # steamtinkerlaunch
-      # simplescreenrecorder
+    # GUI
+    drawio
+    # vkmark
+    # steamtinkerlaunch
+    # simplescreenrecorder
 
-      # password manager
-      # bitwarden-desktop
-      bitwarden-cli
-      bitwarden-menu
+    # password manager
+    # bitwarden-desktop
+    bitwarden-cli
+    bitwarden-menu
 
-      # CI
-      pinact
-      zizmor
-    ];
+    # CI
+    pinact
+    zizmor
+  ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
