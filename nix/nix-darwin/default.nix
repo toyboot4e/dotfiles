@@ -87,32 +87,25 @@ in
     ];
 
     casks = [
+      "1password-cli"
       "alacritty"
-      "nikitabobko/tap/aerospace"
-      "mediosz/tap/swipeaerospace"
+      "claude-code@latest"
       "coteditor"
       "discord"
       "docker-desktop"
       "drawio"
       "firefox"
-      "font-hack-nerd-font" # the default font of sketchy bar
+      "font-hack-nerd-font"
       "gimp"
+      "google-chrome"
       "karabiner-elements"
+      "mediosz/tap/swipeaerospace"
+      "nikitabobko/tap/aerospace"
       "session-manager-plugin"
       "slack"
       "tableplus"
-      "qt-creator"
+      # "qt-creator"
       # "qutebrowser"
-      # TODO: limit to mp (separate and merge later)
-      # "android-commandlinetools"
-      # "android-platform-tools"
-      "android-studio"
-      # androidStudioPackages.canary
-      # androidenv.androidPkgs.all.packages.cmdline-tools.v9_0
-      "google-chrome"
-      "chromedriver"
-      "claude-code@latest"
-      "1password-cli"
     ];
   };
 
@@ -132,24 +125,7 @@ in
       builtins.filter (k: k != sshKeys.${user}) allKeys;
   };
 
-  # TODO: really need this?
-  environment.systemPackages = with pkgs; [
-  ];
-
-  # https://github.com/nix-darwin/nix-darwin/issues/1041
-  # services.karabiner-elements = {
-  #   enable = true;
-  #   package = pkgs.karabiner-elements.overrideAttrs (old: {
-  #     version = "14.13.0";
-  #
-  #     src = pkgs.fetchurl {
-  #       inherit (old.src) url;
-  #       hash = "sha256-gmJwoht/Tfm5qMecmq1N6PSAIfWOqsvuHU8VDJY8bLw=";
-  #     };
-  #
-  #     dontFixup = true;
-  #   });
-  # };
+  # environment.systemPackages = with pkgs; [];
 
   launchd.user.agents.swipeaerospace.serviceConfig = {
     ProgramArguments = [

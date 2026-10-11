@@ -62,11 +62,6 @@
     yq-go
     pup
 
-    # formatters
-    biome
-    prettier
-    eslint
-
     # general linters
     # codebook
 
