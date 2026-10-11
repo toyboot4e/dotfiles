@@ -44,12 +44,14 @@
       "Bash(npm publish:*)"
     ],
     "defaultMode": "auto",
-    "disableBypassPermissionsMode": "disable"
+    "disableBypassPermissionsMode": "disable",
+    "blockReadsOutsideWorkingDirectories": true
   },
   "sandbox": {
     "enabled": true,
     "allowUnsandboxedCommands": false,
     "network": {
+      "strictAllowlist": true,
       "allowedDomains": [
         "github.com",
         "api.github.com",
@@ -60,6 +62,11 @@
       ]
     },
     "filesystem": {
+      "allowRead": [
+        "~/.config/git",
+        "~/dotfiles/tool/git",
+        "~/.gitconfig.local"
+      ],
       "denyRead": [
         "~/.aws/credentials",
         "~/env/secrets",
