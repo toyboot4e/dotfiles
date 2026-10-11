@@ -12,7 +12,7 @@ let
   #   plover-flake-nixpkgs = inputs.plover-flake-nixpkgs;
   # };
   plover-dir =
-    if pkgs.stdenvNoCC.isLinux then ".config/plover" else "Library/Application Support/plover";
+    if pkgs.stdenvNoCC.hostPlatform.isLinux then ".config/plover" else "Library/Application Support/plover";
 in
 {
   # rm "$HOME/.config/plover/plover.cfg"

@@ -9,7 +9,7 @@ let
   # Must be a string, not a path literal; a path would be copied into the store
   root = "${config.home.homeDirectory}/dotfiles";
   link = path: { source = config.lib.file.mkOutOfStoreSymlink "${root}/${path}"; };
-  inherit (pkgs.stdenv) isDarwin isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 
   codeUserDir = if isDarwin then "Library/Application Support/Code/User" else ".config/Code/User";
   qutebrowserDir = if isDarwin then ".qutebrowser" else ".config/qutebrowser";
