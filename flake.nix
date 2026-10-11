@@ -68,7 +68,7 @@
         }:
         nix-darwin.lib.darwinSystem {
           specialArgs = {
-            inherit forAllSystems user;
+            inherit user;
           };
           modules = [
             {
@@ -106,7 +106,7 @@
 
       nixosConfigurations.tbm = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit forAllSystems useX;
+          inherit useX;
         };
         modules = [
           {
