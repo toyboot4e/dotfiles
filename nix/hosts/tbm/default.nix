@@ -28,9 +28,6 @@ in
     ./virtual.nix
   ];
 
-  # FIXME: This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.
-  nixpkgs.config.allowUnfree = true;
-
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   home.packages = with pkgs; [
