@@ -52,6 +52,7 @@ do
       background.color=0x40ffffff
       background.corner_radius=5
       background.height=25
+      background.drawing=off
       label.drawing=off
       click_script="aerospace workspace $ws"
     )

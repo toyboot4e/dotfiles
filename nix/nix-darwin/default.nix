@@ -66,7 +66,7 @@ in
     taps = [
       # "d12frosted/emacs-plus"
       "FelixKratz/formulae" # sketchy bar
-      "oven-sh/bun" # bun
+      "oven-sh/bun"
       "nikitabobko/tap" # aerospace
       "mediosz/tap" # swipeaerospace
     ];
@@ -79,12 +79,11 @@ in
       "fontconfig"
       "ghcup"
       "libvterm"
-      # TODO: limit to mp, on write it in flake.nix
-      "anyenv"
-      "ios-deploy"
-      "libmagic"
-      "redis"
-      "grpc"
+      # # TODO: limit to mp, on write it in flake.nix
+      # "ios-deploy"
+      # "libmagic"
+      # "redis"
+      # "grpc"
     ];
 
     casks = [
