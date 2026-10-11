@@ -12,7 +12,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/.claude/hooks/commit-title-only.py\"",
+            "command": "python3 \"$HOME/.claude/hooks/commit-message-shape.py\"",
             "timeout": 10
           }
         ]
