@@ -59,8 +59,6 @@ in
     enable = true;
     onActivation = {
       autoUpdate = true;
-      # WARNING: It deletes homebrew packages not installed via Nix
-      cleanup = "uninstall";
     };
 
     taps = [
@@ -77,7 +75,6 @@ in
       # "emacs-plus"
       "FelixKratz/formulae/sketchybar"
       "fontconfig"
-      "ghcup"
       "libvterm"
       # # TODO: limit to mp, on write it in flake.nix
       # "ios-deploy"
@@ -91,12 +88,10 @@ in
       "alacritty"
       "claude-code@latest"
       "coteditor"
-      "discord"
       "docker-desktop"
       "drawio"
       "firefox"
       "font-hack-nerd-font"
-      "gimp"
       "google-chrome"
       "karabiner-elements"
       "mediosz/tap/swipeaerospace"
