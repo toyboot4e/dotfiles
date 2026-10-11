@@ -134,9 +134,6 @@
     autoSetupRemote = true
     useForceIfIncludes = true
 
-[url "git@github.com:"]
-    insteadOf = https://github.com/
-
 [gpg]
     format = ssh
 
