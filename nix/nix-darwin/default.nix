@@ -183,6 +183,62 @@ in
               type = "standard";
             };
           };
+          # Screenshots on cmd-alt (cmd-shift-1..9 belongs to AeroSpace); add ctrl to copy instead of save
+          "28" = {
+            enabled = true;
+            value = {
+              parameters = [
+                51
+                20
+                1572864
+              ];
+              type = "standard";
+            };
+          };
+          "29" = {
+            enabled = true;
+            value = {
+              parameters = [
+                51
+                20
+                1835008
+              ];
+              type = "standard";
+            };
+          };
+          "30" = {
+            enabled = true;
+            value = {
+              parameters = [
+                52
+                21
+                1572864
+              ];
+              type = "standard";
+            };
+          };
+          "31" = {
+            enabled = true;
+            value = {
+              parameters = [
+                52
+                21
+                1835008
+              ];
+              type = "standard";
+            };
+          };
+          "184" = {
+            enabled = true;
+            value = {
+              parameters = [
+                53
+                23
+                1572864
+              ];
+              type = "standard";
+            };
+          };
           # Apps (formerly Launchpad): cmd-e
           "160" = {
             enabled = true;
