@@ -1,4 +1,72 @@
 {
+  "model": "opus[1m]",
+  "theme": "light",
+  "autoCompactEnabled": false,
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.envrc)",
+      "Read(**/.ssh)",
+      "Read(./secrets/**)",
+      "Read(./config/credentials.json)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)",
+      "Bash(git add -A:*)",
+      "Bash(git add --all:*)",
+      "Bash(git add .:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh pr reopen:*)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh pr ready:*)",
+      "Bash(gh pr review:*)",
+      "Bash(gh pr lock:*)",
+      "Bash(gh pr unlock:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh release:*)",
+      "Bash(gh issue comment:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh issue edit:*)",
+      "Bash(gh issue close:*)",
+      "Bash(gh issue reopen:*)",
+      "Bash(gh issue delete:*)",
+      "Bash(gh issue lock:*)",
+      "Bash(gh issue unlock:*)",
+      "Bash(gh issue transfer:*)",
+      "Bash(gh issue pin:*)",
+      "Bash(gh issue unpin:*)",
+      "Bash(gh gist:*)",
+      "Bash(npm publish:*)"
+    ],
+    "defaultMode": "auto",
+    "disableBypassPermissionsMode": "disable"
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "api.github.com",
+        "*.githubusercontent.com",
+        "*.npmjs.org",
+        "registry.yarnpkg.com",
+        "pypi.org"
+      ]
+    },
+    "filesystem": {
+      "denyRead": [
+        "~/.aws/credentials",
+        "~/env/secrets",
+        "~/.ssh"
+      ]
+    }
+  },
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "medium"
@@ -6,6 +74,16 @@
   },
   "tui": "fullscreen",
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"{\\\"hookSpecificOutput\\\": {\\\"hookEventName\\\": \\\"UserPromptSubmit\\\", \\\"additionalContext\\\": \\\"Answer in 6 lines or fewer; hard cap 12. No preamble, no recap of my question, no summary of what the diff already shows, no verification recap, no closing notes or next-step offers. Tables and headers only when they genuinely compress. Give depth only when the prompt says detail or long:. These limits apply to chat prose only, never to written artifacts: a commit message is a real subject line summarizing the change and nothing more — no body paragraphs; after the subject only comment lines, a Conflicts: file list, or trailers such as Co-Authored-By (never the first line), and the same goes for PR bodies, docs and code you write. Always print a full list when the list is the answer: merge/rebase conflict files, failing test names, changed files, command output.\\\"}}\""
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
