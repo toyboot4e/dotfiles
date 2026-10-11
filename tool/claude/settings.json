@@ -50,6 +50,9 @@
   "sandbox": {
     "enabled": true,
     "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "git commit *"
+    ],
     "network": {
       "strictAllowlist": true,
       "allowedDomains": [
