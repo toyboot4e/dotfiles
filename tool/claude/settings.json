@@ -41,8 +41,7 @@
       "Bash(npm publish:*)"
     ],
     "defaultMode": "auto",
-    "disableBypassPermissionsMode": "disable",
-    "blockReadsOutsideWorkingDirectories": true
+    "disableBypassPermissionsMode": "disable"
   },
   "model": "opus[1m]",
   "hooks": {
@@ -63,6 +62,23 @@
           {
             "type": "command",
             "command": "python3 \"$HOME/.claude/hooks/commit-message-shape.py\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/commit-trailer.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/commit-trailer.py\"",
             "timeout": 10
           }
         ]
