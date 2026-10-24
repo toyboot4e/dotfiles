@@ -41,13 +41,13 @@ in
       "fish/completions" = link "shell/fish/completions";
       "fish/conf.d/fish_frozen_theme.fish" = link "shell/fish/conf.d/fish_frozen_theme.fish";
       "tmux" = link "tool/tmux";
-      # Per file: the Claude Code sandbox cannot read a symlinked directory
       "git/config" = link "tool/git/config";
       "git/ignore" = link "tool/git/ignore";
       "gh" = link "tool/gh";
       "bat" = link "tool/bat";
       "cargo" = link "tool/cargo";
       "mpv" = link "tool/mpv";
+      "process-compose/settings.yaml" = link "tool/process-compose/settings.yaml";
       "ranger" = link "tool/ranger";
       "vim" = link "editor/vim";
       "nvim" = link "editor/nvim";
