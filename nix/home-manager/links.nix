@@ -36,6 +36,7 @@ in
   xdg.configFile = lib.mkMerge [
     {
       "alacritty" = link "terminal/alacritty";
+      "ghostty" = link "terminal/ghostty";
       "kitty" = link "terminal/kitty";
       "fish/functions" = link "shell/fish/functions";
       "fish/completions" = link "shell/fish/completions";

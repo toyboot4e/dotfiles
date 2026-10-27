@@ -1,0 +1,29 @@
+font-family = IntoneMono Nerd Font Mono
+font-size = 16
+window-decoration = none
+
+background = #fafafa
+foreground = #000000
+cursor-color = #7ab8d9
+cursor-text = #fafafa
+selection-background = #f8ec59
+selection-foreground = #000000
+palette-generate = false
+palette = 0=#000000
+palette = 1=#d55e00
+palette = 2=#009e73
+palette = 3=#e69f00
+palette = 4=#0072b2
+palette = 5=#cc79a7
+palette = 6=#56b4e9
+palette = 7=#848ea9
+palette = 8=#383a42
+palette = 9=#d55e00
+palette = 10=#007b5a
+palette = 11=#e69f00
+palette = 12=#005282
+palette = 13=#b5608e
+palette = 14=#2a8cbf
+palette = 15=#555555
+
+keybind = shift+enter=text:\x1b\r

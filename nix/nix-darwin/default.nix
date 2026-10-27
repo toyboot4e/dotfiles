@@ -91,6 +91,7 @@ in
       "drawio"
       "firefox"
       "font-hack-nerd-font"
+      "ghostty"
       "google-chrome"
       "karabiner-elements"
       "mediosz/tap/swipeaerospace"
