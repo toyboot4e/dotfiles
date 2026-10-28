@@ -1,5 +1,7 @@
 font-family = IntoneMono Nerd Font Mono
 font-size = 16
+font-thicken = true
+font-feature = -calt, -liga, -dlig
 window-decoration = none
 
 background = #fafafa
