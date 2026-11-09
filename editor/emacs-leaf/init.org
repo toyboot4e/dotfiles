@@ -2675,6 +2675,39 @@ Toolings (TODO: move):
   )
 #+END_SRC
 
+** TLA+
+
+#+BEGIN_SRC elisp
+(leaf tla-ts-mode
+  :doc "Grammar: `M-x treesit-install-language-grammar RET tlaplus'"
+  :ensure nil
+  :vc (:url "https://github.com/Davidbrcz/tla-ts-mode" :rev :newest)
+  :mode "\\.tla\\'"
+  :init
+  (with-eval-after-load 'treesit
+    (add-to-list 'treesit-language-source-alist
+                 '(tlaplus "https://github.com/tlaplus-community/tree-sitter-tlaplus")))
+  (defun toy/tla-ts-mode-setup ()
+    (setq-local comment-start "\\* "
+                comment-end ""
+                comment-start-skip "\\(?:\\\\\\*+\\|(\\*+\\)\\s-*"))
+  :hook (tla-ts-mode-hook . toy/tla-ts-mode-setup))
+#+END_SRC
+
+** Quint
+
+#+BEGIN_SRC elisp
+(leaf quint-mode
+  :doc "Server: `M-x lsp-install-server RET quint-language-server' (npm)"
+  :ensure nil
+  :vc (:url "https://github.com/informalsystems/quint" :lisp-dir "editor-plugins/emacs" :rev :newest)
+  :mode "\\.qnt\\'"
+  :hook (quint-mode-hook . lsp-deferred)
+  :config
+  (with-eval-after-load 'lsp-mode
+    (require 'lsp-quint)))
+#+END_SRC
+
 ** TypeScript
 
 #+BEGIN_SRC elisp
