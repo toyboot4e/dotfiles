@@ -1,5 +1,7 @@
 font-family = IntoneMono Nerd Font Mono
-font-size = 16
+# Without it CJK falls back to whatever CoreText picks, which can be a Mincho face
+font-family = Hiragino Sans
+font-size = 14
 font-thicken = true
 font-feature = -calt, -liga, -dlig
 window-decoration = none
