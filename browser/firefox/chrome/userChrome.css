@@ -26,6 +26,12 @@
   display: none;
 }
 
+/* Revamped sidebar: panel ID isn't exposed, so match TST's icon path (Bitwarden uses .png) */
+#sidebar-box:has(#sidebar-switcher-target[style*="/resources/"][style*=".svg"])
+  #sidebar-panel-header {
+  display: none !important;
+}
+
 /* Based on: https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules */
 
 /* Smaller padding left */

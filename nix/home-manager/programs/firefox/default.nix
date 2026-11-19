@@ -22,6 +22,7 @@ in
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "extensions.autoDisableScopes" = 0;
+        "sidebar.position_start" = false;
       };
       extensions = {
         packages = with addons; [
