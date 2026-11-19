@@ -8,6 +8,7 @@
       "ghcup"
     ];
     casks = [
+      "claude"
       "gimp"
     ];
   };
