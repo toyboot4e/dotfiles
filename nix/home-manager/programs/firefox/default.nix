@@ -26,6 +26,7 @@ in
       };
       extensions = {
         packages = with addons; [
+          bitwarden
           tree-style-tab
           vimium
         ];
