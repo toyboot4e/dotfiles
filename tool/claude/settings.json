@@ -203,9 +203,11 @@
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
     }
   },
   "tui": "fullscreen",
-  "theme": "light",
-  "autoCompactEnabled": false
+  "theme": "light"
 }

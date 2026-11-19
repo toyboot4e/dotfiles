@@ -22,7 +22,6 @@
   },
   "[typescript]": {
       "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
   // this should work..
@@ -73,7 +72,7 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   // else
-  "extensions.autoUpdate": true,
+  "extensions.autoUpdate": "on",
 
   // hide tabs
   // ---------
@@ -153,6 +152,8 @@
   // ----
   "rust-analyzer.updates.askBeforeDownload": false,
   "rust-analyzer.inlayHints.maxLength": null,
+
+  "editor.inlayHints.enabled": "off",
 
   // C++
   // ---
@@ -558,5 +559,6 @@
   "haskell.manageHLS": "GHCup",
   "haskell.serverEnvironment": {
     "PATH": "${HOME}/.ghcup/bin:$PATH"
-  }
+  },
+  "workbench.editor.empty.hint": "hidden"
 }

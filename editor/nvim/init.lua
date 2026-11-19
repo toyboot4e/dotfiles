@@ -152,6 +152,18 @@ endif
 
 vim.opt.number = true
 
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function(args)
+    if vim.bo[args.buf].filetype:match("^git") then
+      return
+    end
+    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(args.buf) then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
 vim.api.nvim_create_user_command("SourceConfig", function()
   -- Run the `tangle` command
   local config = vim.fn.stdpath("config")
