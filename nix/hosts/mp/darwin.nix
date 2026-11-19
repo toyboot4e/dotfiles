@@ -7,6 +7,7 @@
       "android-studio"
       "chromedriver"
       "dbeaver-community"
+      "slack"
     ];
   };
 }

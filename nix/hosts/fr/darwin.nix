@@ -8,7 +8,6 @@
       "ghcup"
     ];
     casks = [
-      "discord"
       "gimp"
     ];
   };

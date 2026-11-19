@@ -164,8 +164,9 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
     :config
     (leaf-keywords-init)))
 
+;; Soft: on a fresh `elpa', evil is installed later by `(leaf evil)'
 (eval-when-compile
-  (require 'evil))
+  (require 'evil nil t))
 #+END_SRC
 
 ** =PATH= and =exec-path=

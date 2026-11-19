@@ -3,34 +3,35 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
+    { nixpkgs, ... }:
+    let
+      forAllSystems = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
+    in
     {
-      nixpkgs,
-      flake-utils,
-      ...
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-        };
-        tangleCommand = pkgs.writeShellApplication {
-          name = "tangle-command";
-          runtimeInputs = [ pkgs.emacs ];
-          text = ''
-            emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'
-          '';
-        };
-      in
-      {
-        # nix run .#tangle
-        apps.tangle = flake-utils.lib.mkApp {
-          drv = tangleCommand;
-        };
-      }
-    );
+      # nix run (or nix run .#tangle)
+      apps = forAllSystems (
+        pkgs:
+        let
+          tangleCommand = pkgs.writeShellApplication {
+            name = "tangle-command";
+            runtimeInputs = [ pkgs.emacs ];
+            text = ''
+              emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "init.org")'
+            '';
+          };
+          tangle = {
+            type = "app";
+            program = pkgs.lib.getExe tangleCommand;
+            meta.description = "Tangle init.org into init.el";
+          };
+        in
+        {
+          inherit tangle;
+          default = tangle;
+        }
+      );
+    };
 }

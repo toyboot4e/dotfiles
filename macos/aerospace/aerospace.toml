@@ -4,7 +4,7 @@
 
 config-version = 2
 
-start-at-login = true
+start-at-login = false # use launchd agent in nix-darwin
 
 persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
                          's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']
@@ -23,7 +23,7 @@ exec-on-workspace-change = ['/bin/bash', '-c',
 ]
 
 [exec.env-vars]
-PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+PATH = '/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 
 [gaps]
 inner.horizontal = 0
@@ -38,6 +38,11 @@ outer.top        = [{ monitor.'built-in' = 0 }, 34]
 if.app-id = 'org.gnu.Emacs'
 run = 'layout floating'
 
+# Apps (Launchpad) dismisses itself when AeroSpace tiles/resizes its overlay
+[[on-window-detected]]
+if.app-id = 'com.apple.apps.launcher'
+run = 'layout floating'
+
 [mode.main.binding]
 # meta
 cmd-shift-r = 'reload-config'
@@ -46,6 +51,7 @@ cmd-space   = 'layout floating tiling'
 cmd-h       = 'exec-and-forget ~/.config/aerospace/hide.sh'
 
 # application launcher
+cmd-e       = 'exec-and-forget open -a Apps'
 cmd-shift-x = 'exec-and-forget open -a Kitty'
 cmd-shift-w = 'exec-and-forget open -a Kindle'
 cmd-shift-n = 'exec-and-forget open -a Numbers'

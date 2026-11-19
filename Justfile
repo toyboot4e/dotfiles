@@ -40,7 +40,7 @@ switch:
     #!/usr/bin/env -S bash -euE
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
-        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host switch
+        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host --option sandbox false
     else
         sudo nixos-rebuild --flake .#$host switch
     fi
@@ -52,7 +52,8 @@ boot:
     #!/usr/bin/env -S bash -euE
     host="$(whoami)"
     if [ $(uname) = Darwin ] ; then
-        sudo nix run nix-darwin --extra-experimental-features 'flakes nix-command' -- switch --flake .#$host boot
+        echo 'nix-darwin has no boot; use `just switch`' >&2
+        exit 1
     else
         sudo nixos-rebuild --flake .#$host boot
     fi

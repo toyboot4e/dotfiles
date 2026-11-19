@@ -31,6 +31,7 @@ end
 
 # mise (installed by `curl https://mise.run | sh`)
 fish_add_path --global $HOME/.local/bin
+fish_add_path --global $HOME/toy-scripts
 if command -sq mise
     mise activate fish | source
 end

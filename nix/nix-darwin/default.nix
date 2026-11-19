@@ -62,17 +62,13 @@ in
 
     taps = [
       # "d12frosted/emacs-plus"
-      "FelixKratz/formulae" # sketchy bar
       "oven-sh/bun"
-      "nikitabobko/tap" # aerospace
-      "mediosz/tap" # swipeaerospace
     ];
 
     brews = [
       "awscli"
       "oven-sh/bun/bun"
       # "emacs-plus"
-      "FelixKratz/formulae/sketchybar"
       "fontconfig"
       "libvterm"
       # # TODO: limit to mp, on write it in flake.nix
@@ -84,7 +80,6 @@ in
 
     casks = [
       "1password-cli"
-      "alacritty"
       "claude-code@latest"
       "coteditor"
       "docker-desktop"
@@ -94,10 +89,7 @@ in
       "ghostty"
       "google-chrome"
       "karabiner-elements"
-      "mediosz/tap/swipeaerospace"
-      "nikitabobko/tap/aerospace"
       "session-manager-plugin"
-      "slack"
       "tableplus"
       # "qt-creator"
       # "qutebrowser"
@@ -120,19 +112,34 @@ in
       builtins.filter (k: k != sshKeys.${user}) allKeys;
   };
 
+  power.sleep = {
+    display = 15;
+    computer = 60;
+  };
+
   # environment.systemPackages = with pkgs; [];
+
+  environment.systemPackages = [ pkgs.aerospace ];
+  launchd.user.agents.aerospace.serviceConfig = {
+    ProgramArguments = [ "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
+    KeepAlive = true;
+    RunAtLoad = true;
+  };
+
+  services.sketchybar.enable = true;
+  launchd.user.agents.sketchybar.path = [ "/etc/profiles/per-user/${user}" ];
 
   launchd.user.agents.swipeaerospace.serviceConfig = {
     ProgramArguments = [
       "/usr/bin/open"
-      "-a"
-      "SwipeAeroSpace"
+      "${pkgs.swipeaerospace}/Applications/SwipeAeroSpace.app"
     ];
     RunAtLoad = true;
   };
 
   # Dock reads the -currentHost copy of trackpad gestures, which `system.defaults` can't write
   system.activationScripts.postActivation.text = ''
+    /usr/bin/pmset -b displaysleep 15 sleep 60 lessbright 0
     sudo -u ${user} defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -int 0
     sudo -u ${user} defaults -currentHost write -g com.apple.trackpad.threeFingerVertSwipeGesture -int 0
   '';
@@ -144,6 +151,7 @@ in
         AppleEnableSwipeNavigateWithScrolls = false;
         NSAutomaticWindowAnimationsEnabled = false;
         NSWindowResizeTime = 0.001;
+        _HIHideMenuBar = true;
       };
       universalaccess.reduceMotion = false;
       # 3-finger horizontal swipe is taken by SwipeAeroSpace
@@ -239,24 +247,13 @@ in
               type = "standard";
             };
           };
-          # Apps (formerly Launchpad): cmd-e
-          "160" = {
-            enabled = true;
-            value = {
-              parameters = [
-                101
-                14
-                1048576
-              ];
-              type = "standard";
-            };
-          };
         };
       # AeroSpace parks hidden windows at a monitor corner; per-display Spaces let them leak onto neighbors
       spaces.spans-displays = true;
       finder = {
         AppleShowAllFiles = true;
         AppleShowAllExtensions = true;
+        FXPreferredViewStyle = "clmv";
       };
       dock = {
         autohide = true;
@@ -269,8 +266,6 @@ in
   };
 
   environment.variables = {
-    TERMINAL = "alacritty";
-
     XDG_CACHE_HOME = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
     XDG_BIN_HOME = "\${HOME}/.local/bin";

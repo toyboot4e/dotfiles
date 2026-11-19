@@ -142,7 +142,10 @@
         ];
       };
 
-      darwinConfigurations.mac = mkDarwin { user = "mac"; };
+      darwinConfigurations.fr = mkDarwin {
+        user = "fr";
+        extraOverlays = [ edgepkgs.overlays.default ];
+      };
 
       darwinConfigurations.mp = mkDarwin {
         user = "mp";

@@ -85,7 +85,6 @@
     # --------------------------------------------------------------------------------
 
     # browsers
-    firefox
     # google-chrome
     # chromedriver
     # qutebrowser # not available on macOS

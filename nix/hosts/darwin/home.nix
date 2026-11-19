@@ -28,5 +28,9 @@ in
     # codex
   ];
 
+  # Launchpad and Spotlight skip symlinked apps
+  targets.darwin.linkApps.enable = false;
+  targets.darwin.copyApps.enable = true;
+
   home.stateVersion = "25.05";
 }
