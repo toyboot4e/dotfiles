@@ -26,8 +26,9 @@
   display: none;
 }
 
-/* Revamped sidebar: panel ID isn't exposed, so match TST's icon path (Bitwarden uses .png) */
-#sidebar-box:has(#sidebar-switcher-target[style*="/resources/"][style*=".svg"])
+/* Revamped sidebar: the panel ID isn't exposed on the box, but the View > Sidebar
+ * menuitem of the open panel stays checked even while the menu is closed */
+:root:has(#menubar_menu_treestyletab_piro_sakura_ne_jp-sidebar-action[checked="true"])
   #sidebar-panel-header {
   display: none !important;
 }
