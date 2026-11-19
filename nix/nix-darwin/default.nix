@@ -1,5 +1,11 @@
 # Base system shared by all the macOS users. Per-user entries go to `nix/hosts/<user>/darwin.nix`
-{ pkgs, user, ... }:
+{
+  lib,
+  pkgs,
+  user,
+  firstBoot,
+  ...
+}:
 let
   sources = pkgs.callPackage ../../_sources/generated.nix { };
 in
@@ -120,22 +126,26 @@ in
   # environment.systemPackages = with pkgs; [];
 
   environment.systemPackages = [ pkgs.aerospace ];
-  launchd.user.agents.aerospace.serviceConfig = {
-    ProgramArguments = [ "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
-    KeepAlive = true;
-    RunAtLoad = true;
-  };
-
   services.sketchybar.enable = true;
-  launchd.user.agents.sketchybar.path = [ "/etc/profiles/per-user/${user}" ];
+  launchd.user.agents = lib.mkMerge [
+    { sketchybar.path = [ "/etc/profiles/per-user/${user}" ]; }
 
-  launchd.user.agents.swipeaerospace.serviceConfig = {
-    ProgramArguments = [
-      "/usr/bin/open"
-      "${pkgs.swipeaerospace}/Applications/SwipeAeroSpace.app"
-    ];
-    RunAtLoad = true;
-  };
+    # Started before Accessibility is granted, these can block mouse clicks; see `<user>-first-boot` in flake.nix
+    (lib.mkIf (!firstBoot) {
+      aerospace.serviceConfig = {
+        ProgramArguments = [ "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
+        KeepAlive = true;
+        RunAtLoad = true;
+      };
+      swipeaerospace.serviceConfig = {
+        ProgramArguments = [
+          "/usr/bin/open"
+          "${pkgs.swipeaerospace}/Applications/SwipeAeroSpace.app"
+        ];
+        RunAtLoad = true;
+      };
+    })
+  ];
 
   # Dock reads the -currentHost copy of trackpad gestures, which `system.defaults` can't write
   system.activationScripts.postActivation.text = ''

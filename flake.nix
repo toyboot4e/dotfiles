@@ -70,10 +70,11 @@
         {
           user,
           extraOverlays ? [ ],
+          firstBoot ? false,
         }:
         nix-darwin.lib.darwinSystem {
           specialArgs = {
-            inherit user;
+            inherit user firstBoot;
           };
           modules = [
             {
@@ -147,14 +148,22 @@
         ];
       };
 
-      darwinConfigurations.fr = mkDarwin {
-        user = "fr";
-        extraOverlays = [ edgepkgs.overlays.default ];
-      };
-
-      darwinConfigurations.mp = mkDarwin {
-        user = "mp";
-        extraOverlays = [ edgepkgs.overlays.default ];
-      };
+      # `<user>-first-boot` leaves out input-grabbing agents until Accessibility is granted
+      darwinConfigurations =
+        nixpkgs.lib.concatMapAttrs
+          (user: args: {
+            ${user} = mkDarwin ({ inherit user; } // args);
+            "${user}-first-boot" = mkDarwin (
+              {
+                inherit user;
+                firstBoot = true;
+              }
+              // args
+            );
+          })
+          {
+            fr.extraOverlays = [ edgepkgs.overlays.default ];
+            mp.extraOverlays = [ edgepkgs.overlays.default ];
+          };
     };
 }
