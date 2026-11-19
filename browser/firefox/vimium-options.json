@@ -1,5 +1,4 @@
 {
-  "smoothScroll": false,
   "exclusionRules": [
     {
       "passKeys": "",
@@ -40,5 +39,6 @@
   ],
   "keyMappings": "map ] nextTab\nmap [ previousTab\nmap { moveTabLeft\nmap } moveTabRight",
   "newTabDestination": "browserNewTabPage",
-  "settingsVersion": "2.4.2"
+  "settingsVersion": "2.4.2",
+  "smoothScroll": false
 }

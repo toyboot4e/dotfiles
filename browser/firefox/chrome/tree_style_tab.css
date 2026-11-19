@@ -4,8 +4,10 @@
 /* Compact tabs */
 .tab {
   /* 3840x2160 */
-  /* height: 24px; */
-  /* font-size: 16px; */
+  /*
+  height: 24px;
+  font-size: 12px;
+  */
 
   /* 5120x2880 */
   height: 28px;

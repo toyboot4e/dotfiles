@@ -75,6 +75,10 @@ link:
 [private]
 alias l := link
 
+# pulls live Tree Style Tab and Vimium settings into browser/firefox
+firefox-pull profile="":
+    node browser/firefox/pull.mts {{quote(profile)}}
+
 # remove `plover.cfg` to avoid home-manager conflict
 rm:
     #!/usr/bin/env -S bash -euE

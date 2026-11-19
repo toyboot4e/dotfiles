@@ -32,19 +32,13 @@ in
         ];
         # Seeds storage.local only once per profile; Firefox migrates it into IndexedDB.
         # Vimium reads storage.sync, so restore ../../../../browser/firefox/vimium-options.json
-        # from its options page instead.
+        # from its options page instead. `just firefox-pull` refreshes both from the live profile.
         settings."treestyletab@piro.sakura.ne.jp" = {
           force = true;
-          settings = {
-            autoCollapseExpandSubtreeOnAttach = false;
-            autoCollapseExpandSubtreeOnSelect = false;
-            fixupTreeOnTabVisibilityChanged = true;
-            labelOverflowStyle = "crop";
-            showExpertOptions = true;
+          settings = builtins.fromJSON (builtins.readFile ../../../../browser/firefox/tst-settings.json) // {
+            # Device-local in TST, so absent from the storage.sync data `just firefox-pull` reads
             sidebarPosition = 1;
-            skipCollapsedTabsForTabSwitchingShortcuts = true;
             style = "photon";
-            tabPreviewTooltip = true;
             # Left unversioned so TST's migration moves this into its base64 chunkedUserStyleRules
             userStyleRules = builtins.readFile ../../../../browser/firefox/chrome/tree_style_tab.css;
           };

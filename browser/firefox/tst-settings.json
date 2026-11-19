@@ -1,0 +1,9 @@
+{
+  "autoCollapseExpandSubtreeOnAttach": false,
+  "autoCollapseExpandSubtreeOnSelect": false,
+  "fixupTreeOnTabVisibilityChanged": true,
+  "labelOverflowStyle": "crop",
+  "showExpertOptions": true,
+  "skipCollapsedTabsForTabSwitchingShortcuts": true,
+  "tabPreviewTooltip": true
+}
