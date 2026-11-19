@@ -29,6 +29,19 @@ in
     # codex
   ];
 
+  # Commit signing via `ssh-keygen -Y sign` never triggers `AddKeysToAgent`, so preload
+  # keys whose passphrases were stored with `/usr/bin/ssh-add --apple-use-keychain`
+  launchd.agents.ssh-add-keychain = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "/usr/bin/ssh-add"
+        "--apple-load-keychain"
+      ];
+      RunAtLoad = true;
+    };
+  };
+
   # Launchpad and Spotlight skip symlinked apps
   targets.darwin.linkApps.enable = false;
   targets.darwin.copyApps.enable = true;
