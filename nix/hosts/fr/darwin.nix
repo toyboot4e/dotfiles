@@ -1,4 +1,4 @@
-# nix-darwin entries only for `mac`, on top of `nix/nix-darwin`
+# nix-darwin entries only for `fr`, on top of `nix/nix-darwin`
 {
   homebrew = {
     # WARNING: It deletes homebrew packages not installed via Nix

@@ -1,4 +1,4 @@
-# home-manager entries only for `mac`, on top of `nix/hosts/darwin/home.nix`
+# home-manager entries only for `fr`, on top of `nix/hosts/darwin/home.nix`
 { pkgs, ... }:
 {
   imports = [
