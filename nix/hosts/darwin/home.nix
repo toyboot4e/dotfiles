@@ -11,6 +11,7 @@ in
   imports = [
     ../../home-manager/packages.nix
     ../../home-manager/links.nix
+    ../../home-manager/programs/firefox
     (import ../../home-manager/programs/fish sources)
     (import ../../home-manager/programs/mpv sources)
     (import ../../home-manager/programs/emacs sources)
