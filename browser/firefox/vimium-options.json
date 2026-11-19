@@ -1,0 +1,44 @@
+{
+  "smoothScroll": false,
+  "exclusionRules": [
+    {
+      "passKeys": "",
+      "pattern": "https?://mail.google.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://toyboot4e.github.io/plover-drills"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://sushida.net/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://www.songsterr.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://unityroom.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://karas-typing.214kaedesato.workers.dev/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://karas-typing.214kaedesato.workers.dev/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://englishtest.duolingo.com/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://englishtest.duolingo.com/*"
+    }
+  ],
+  "keyMappings": "map ] nextTab\nmap [ previousTab\nmap { moveTabLeft\nmap } moveTabRight",
+  "newTabDestination": "browserNewTabPage",
+  "settingsVersion": "2.4.2"
+}

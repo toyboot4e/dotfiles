@@ -17,6 +17,11 @@
 
     fenix.url = "github:nix-community/fenix/monthly";
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # https://github.com/nix-community/emacs-overlay
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
