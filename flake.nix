@@ -16,6 +16,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     fenix.url = "github:nix-community/fenix/monthly";
+    fenix.inputs.nixpkgs.follows = "nixpkgs";
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -26,14 +27,17 @@
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      # inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
     # https://github.com/slotThe/emacs-lsp-booster-flake
     emacs-lsp-booster.url = "github:slotThe/emacs-lsp-booster-flake";
+    emacs-lsp-booster.inputs.nixpkgs.follows = "nixpkgs";
 
     # https://github.com/openstenoproject/plover-flake
     plover-flake.url = "github:openstenoproject/plover-flake";
+    plover-flake.inputs.nixpkgs.follows = "nixpkgs";
+    plover-flake.inputs.treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos-test";
     # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
