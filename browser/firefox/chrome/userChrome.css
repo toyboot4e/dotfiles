@@ -26,10 +26,12 @@
   display: none;
 }
 
-/* Revamped sidebar: the panel ID isn't exposed on the box, but the View > Sidebar
- * menuitem of the open panel stays checked even while the menu is closed */
-:root:has(#menubar_menu_treestyletab_piro_sakura_ne_jp-sidebar-action[checked="true"])
-  #sidebar-panel-header {
+/* Revamped sidebar: neither the box nor the header exposes the panel ID, and every
+ * extension panel loads through webext-panels.xhtml, so this also hides
+ * Bitwarden's header */
+#sidebar-panel-header:has(
+    + .sidebar-browser-stack > #sidebar[src="chrome://browser/content/webext-panels.xhtml"]
+  ) {
   display: none !important;
 }
 
