@@ -38,8 +38,6 @@
     # plover-flake.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # plover-flake.url = "github:toyboot4e/plover-flake?ref=macos";
 
-    edgepkgs.url = "github:natsukium/edgepkgs";
-
     # https://github.com/ryoppippi/nix-claude-code
     nix-claude-code.url = "github:ryoppippi/nix-claude-code";
   };
@@ -54,7 +52,6 @@
       emacs-overlay,
       emacs-lsp-booster,
       plover-flake,
-      edgepkgs,
       nix-claude-code,
       ...
     }:
@@ -69,7 +66,6 @@
       mkDarwin =
         {
           user,
-          extraOverlays ? [ ],
           firstBoot ? false,
         }:
         nix-darwin.lib.darwinSystem {
@@ -83,8 +79,7 @@
                 emacs-overlay.overlay
                 emacs-lsp-booster.overlays.default
                 fenix.overlays.default
-              ]
-              ++ extraOverlays;
+              ];
             }
 
             ./nix/nix-darwin
@@ -120,7 +115,6 @@
               emacs-overlay.overlay
               emacs-lsp-booster.overlays.default
               fenix.overlays.default
-              edgepkgs.overlays.default
               nix-claude-code.overlays.default
             ];
 
@@ -162,8 +156,8 @@
             );
           })
           {
-            fr.extraOverlays = [ edgepkgs.overlays.default ];
-            mp.extraOverlays = [ edgepkgs.overlays.default ];
+            fr = { };
+            mp = { };
           };
     };
 }
