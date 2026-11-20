@@ -68,6 +68,8 @@ in
 
     taps = [
       # "d12frosted/emacs-plus"
+      "mediosz/tap"
+      "nikitabobko/tap"
       "oven-sh/bun"
     ];
 
@@ -95,6 +97,8 @@ in
       "ghostty"
       "google-chrome"
       "karabiner-elements"
+      "mediosz/tap/swipeaerospace"
+      "nikitabobko/tap/aerospace"
       "session-manager-plugin"
       "tableplus"
       # "qt-creator"
@@ -125,22 +129,26 @@ in
 
   # environment.systemPackages = with pkgs; [];
 
-  environment.systemPackages = [ pkgs.aerospace ];
   services.sketchybar.enable = true;
   launchd.user.agents = lib.mkMerge [
-    { sketchybar.path = [ "/etc/profiles/per-user/${user}" ]; }
+    {
+      sketchybar.path = [
+        "/etc/profiles/per-user/${user}"
+        "/opt/homebrew/bin"
+      ];
+    }
 
     # Started before Accessibility is granted, these can block mouse clicks; see `<user>-first-boot` in flake.nix
     (lib.mkIf (!firstBoot) {
       aerospace.serviceConfig = {
-        ProgramArguments = [ "${pkgs.aerospace}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
+        ProgramArguments = [ "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ];
         KeepAlive = true;
         RunAtLoad = true;
       };
       swipeaerospace.serviceConfig = {
         ProgramArguments = [
           "/usr/bin/open"
-          "${pkgs.swipeaerospace}/Applications/SwipeAeroSpace.app"
+          "/Applications/SwipeAeroSpace.app"
         ];
         RunAtLoad = true;
       };
