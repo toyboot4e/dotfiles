@@ -58,18 +58,6 @@ cmd-shift-f = 'fullscreen'
 cmd-space   = 'layout floating tiling'
 cmd-h       = 'exec-and-forget ~/.config/aerospace/hide.sh'
 
-# application launcher
-cmd-e       = 'exec-and-forget open -a Apps'
-cmd-shift-x = 'exec-and-forget open -a Kitty'
-cmd-shift-w = 'exec-and-forget open -a Kindle'
-cmd-shift-n = 'exec-and-forget open -a Numbers'
-cmd-shift-a = 'exec-and-forget open -a Firefox'
-cmd-shift-q = 'exec-and-forget open -a Qutebrowser'
-cmd-shift-l = 'exec-and-forget open -a "Google Chrome"'
-cmd-shift-e = 'exec-and-forget open -a Emacs'
-cmd-shift-t = 'exec-and-forget open -a Tiled'
-cmd-shift-y = 'exec-and-forget open -a Typora'
-
 # window/focus
 cmd-left  = 'focus left'
 cmd-down  = 'focus down'
