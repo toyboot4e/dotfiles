@@ -4227,9 +4227,8 @@ Note that this hack is ill-designed often causes other issues. Fix it.
 (defun toy/disable-cursor-at-eof ()
   ;; FIXME: line number works in all the situations: in an empty buffer, in the Evil commnd line
   (unless (or (window-minibuffer-p) (<= (line-number-at-pos) 1))
-    (when (= (point) (point-max))
-      (unless (string-match-p (regexp-quote "SQL") (buffer-name))
-        (forward-line -1)))))
+    (when (and (= (point) (point-max)) (bolp) (not (derived-mode-p 'comint-mode)))
+      (forward-line -1))))
 ;; FIXME: 'post-command-hook is too generic.
 (add-hook 'post-command-hook (_fn (toy/disable-cursor-at-eof)))
 #+END_SRC
