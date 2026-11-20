@@ -88,6 +88,7 @@ in
 
     casks = [
       "1password-cli"
+      "bitwarden"
       "claude-code@latest"
       "coteditor"
       "docker-desktop"
