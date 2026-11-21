@@ -43,6 +43,10 @@ run = 'layout floating'
 if.app-id = 'com.apple.apps.launcher'
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = 'layout floating'
+
 [mode.main.binding]
 # meta
 cmd-shift-r = 'reload-config'
