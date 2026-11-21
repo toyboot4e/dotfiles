@@ -14,6 +14,7 @@ in
     ../../home-manager/programs/firefox
     (import ../../home-manager/programs/fish sources)
     (import ../../home-manager/programs/mpv sources)
+    ../../home-manager/programs/tmux
     (import ../../home-manager/programs/emacs sources)
     (import ../../home-manager/programs/plover {
       home = config.home;
