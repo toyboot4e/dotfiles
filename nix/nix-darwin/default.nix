@@ -21,7 +21,7 @@ in
         "nix-command"
         "flakes"
       ];
-      sandbox = true;
+      sandbox = "relaxed";
     };
 
     optimise.automatic = true;
