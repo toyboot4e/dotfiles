@@ -74,6 +74,7 @@
     lsb = ls-tree -r --name-only
 
     r   = remote
+    rs  = "!git remote set-url origin \"$(git remote get-url origin | sed -E 's#^https://github.com/#git@github.com:#')\""
     rmc = rm --cached
 
     s   = status --short
