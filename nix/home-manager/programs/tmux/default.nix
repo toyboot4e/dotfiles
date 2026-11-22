@@ -31,6 +31,14 @@
     source-file ${config.home.homeDirectory}/dotfiles/tool/tmux/tmux.conf
   '';
 
+  # Generations before 531a406 linked ~/.config/tmux to tool/tmux, so linking
+  # tmux.conf through it would replace the repo's tmux.conf with a self-sourcing link
+  home.activation.unlinkLegacyTmuxDir = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    if [ -L "$HOME/.config/tmux" ]; then
+      run rm "$HOME/.config/tmux"
+    fi
+  '';
+
   # Stable path for the fzf script bindings in tmux.conf and bindings.conf
   xdg.configFile."tmux/plugins/tmux-fzf".source =
     "${pkgs.tmuxPlugins.tmux-fzf}/share/tmux-plugins/tmux-fzf";
