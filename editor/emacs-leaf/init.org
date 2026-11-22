@@ -264,7 +264,7 @@ This is my Emacs configuration based on [[leaf][leaf.el]] and [[evil][evil]].
 #+BEGIN_SRC elisp
 (when (display-graphic-p)
   (set-frame-font "IntoneMono Nerd Font")
-  (set-face-attribute 'default nil :family "IntoneMono Nerd Font" :height 135)
+  (set-face-attribute 'default nil :family "IntoneMono Nerd Font" :height 140)
   ;; TODO: setup monospaced font
   (set-fontset-font (frame-parameter nil 'font)
                     'japanese-jisx0208
