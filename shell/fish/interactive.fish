@@ -198,8 +198,16 @@ _alias gnuplot gp
 
 _alias ranger r
 
-# enables Japanese in tmux
-_alias tmux tmux 'tmux -u'
+if command -sq tmux
+    # -u enables Japanese; bare `tmux` joins session 0 so continuum's restore isn't shadowed by a fresh session
+    function tmux --wraps tmux
+        if test (count $argv) -eq 0
+            command tmux -u new-session -A -s 0
+        else
+            command tmux -u $argv
+        end
+    end
+end
 
 _alias w3m w 'w3m -B'
 
