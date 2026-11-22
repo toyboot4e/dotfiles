@@ -48,6 +48,10 @@ if.app-id = 'com.apple.Music'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.ikmultimedia.productmanager'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-name-regex-substring = '^(MODO (DRUM|BASS)|AmpliTube)'
 run = 'layout floating'
 
