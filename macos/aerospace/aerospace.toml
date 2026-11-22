@@ -57,6 +57,7 @@ cmd-shift-r = 'reload-config'
 cmd-shift-f = 'fullscreen'
 cmd-space   = 'layout floating tiling'
 cmd-h       = 'exec-and-forget ~/.config/aerospace/hide.sh'
+cmd-e       = 'exec-and-forget open -a Apps'
 
 # window/focus
 cmd-left  = 'focus left'
