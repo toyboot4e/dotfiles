@@ -51,6 +51,11 @@ run = 'layout floating'
 if.app-id = 'com.ikmultimedia.productmanager'
 run = 'layout floating'
 
+# Device Hub spins at 100% CPU on a toolbar re-layout loop when tiled as its window opens
+[[on-window-detected]]
+if.app-id = 'com.apple.dt.Devices'
+run = 'layout floating'
+
 [[on-window-detected]]
 if.app-name-regex-substring = '^(MODO (DRUM|BASS)|AmpliTube)'
 run = 'layout floating'
